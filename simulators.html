@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="format-detection" content="telephone=no, date=no, email=no, address=no">
+  <meta name="x-ms-format-detection" content="none">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#FAFAFA">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=(), payment=(), usb=(), bluetooth=(), serial=(), accelerometer=(), gyroscope=(), magnetometer=()">
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="description" content="Free offline BIP39 seed phrase generator, binary encoder, decoder and complete 2048-word dictionary. Convert mnemonic words to 12-bit binary for metal backup.">
+  <meta name="keywords" content="BIP39, seed phrase, mnemonic, binary encoder, crypto backup, bitcoin wallet, seed generator, binary decoder, 2048 wordlist, dot matrix">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="PENGER">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>Interactive Simulators &mdash; PENGER</title>
+</head>
+<body class="page-simulators">
+  <noscript><p style="padding:40px;text-align:center;font-size:16px;">This application requires JavaScript to function.</p></noscript>
+
+  <!-- ===== SHARED HEADER / NAV ===== -->
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo"><img src="PENGER.svg" alt="PENGER" height="20"></a>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="simulators.html" class="nav-link">Simulators</a>
+        <a href="dictionary.html" class="nav-link">Dictionary</a>
+        <a href="guides.html" class="nav-link">Academy</a>
+        <a href="ai-tutor.html" class="nav-link">AI Tutor</a>
+        <button class="nav-link nav-auth-btn" id="authBtn" type="button">Log In</button>
+      </nav>
+      <div class="header-controls">
+        <button class="nav-hamburger" id="navHamburger" type="button" aria-label="Menu" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <main>
+    <nav class="tab-bar" id="tabBar">
+      <button class="tab-btn active" data-tab="generate" type="button">GENERATE</button>
+      <button class="tab-btn" data-tab="decode" type="button">DECODE</button>
+    </nav>
+
+    <!-- ==================== TAB 1: GENERATE ==================== -->
+    <div class="tab-panel active" id="panel-generate">
+
+      <section class="section-intro">
+        <div class="container">
+          <p class="label">[ BIP39 / BINARY ENCODER ]</p>
+          <h1>Seed Phrase Generator</h1>
+          <p class="body-text">Generate a cryptographically random BIP39 seed phrase with proper SHA-256 checksum. Each word index (1&ndash;2048) is encoded as a 12-bit binary value and visualized as a dot matrix for metal backup encoding.</p>
+
+          <div class="dict-example-bar" style="margin-top: 20px;">
+            <div class="dict-example-label">
+              <p>Example:</p>
+              <span class="dict-example-idx">0001</span> = <span class="dict-example-word">Abandon</span>
+            </div>
+            <div class="dict-example-visual">
+              <div class="dict-example-dots-wrap">
+                <div class="dict-example-dots" id="genExampleDots"></div>
+              </div>
+            </div>
+            <p class="dict-example-hint">
+              12-bit index: Hole=1, Blank=0. Read columns top (MSB) &rarr; bottom (LSB).
+            </p>
+          </div>
+
+          <div style="margin-top: 20px;">
+            <p class="label" style="margin-bottom: 8px;">WORD COUNT</p>
+            <div class="pill-group" id="genWordCount">
+              <button class="pill active" data-count="12" type="button">12</button>
+              <button class="pill" data-count="15" type="button">15</button>
+              <button class="pill" data-count="18" type="button">18</button>
+              <button class="pill" data-count="21" type="button">21</button>
+              <button class="pill" data-count="24" type="button">24</button>
+            </div>
+            <div class="info-table" style="margin-top: 12px;">
+              <div class="info-row"><span class="info-key">Entropy</span><span class="info-val" id="genEntropy">128 bits</span></div>
+              <div class="info-row"><span class="info-key">Checksum</span><span class="info-val" id="genChecksum">4 bits</span></div>
+              <div class="info-row"><span class="info-key">Total bits</span><span class="info-val" id="genTotalBits">132 bits (12 &times; 11 + 12 display offset)</span></div>
+              <div class="info-row"><span class="info-key">Plate bits</span><span class="info-val" id="genPlateBits">144 positions (12 &times; 12)</span></div>
+            </div>
+          </div>
+
+          <div class="btn-group">
+            <button class="btn btn-primary" id="generateBtn" type="button">GENERATE SEED</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block result-area" id="genSeedSection" hidden>
+        <div class="container">
+          <p class="label">[ SEED PHRASE ]</p>
+          <div class="seed-output" id="genSeedOutput"></div>
+          <div class="status-line" id="genStatus">GENERATED</div>
+        </div>
+      </section>
+
+      <section class="section-block result-area" id="genWordsSection" hidden>
+        <div class="container">
+          <p class="label">[ WORD TABLE ]</p>
+          <h2>Index / Binary Breakdown</h2>
+          <p class="body-text" style="margin-top: 8px;">Click any row to see the step-by-step binary conversion. The &ldquo;Punch&rdquo; column shows the punch pattern (top &rarr; bottom): filled = punch hole, empty = skip.</p>
+          <div class="word-table" id="genWordTable"></div>
+        </div>
+      </section>
+
+      <section class="section-block result-area" id="genPlateSection" hidden>
+        <div class="container">
+          <p class="label">[ DOT MATRIX ]</p>
+          <h2>Dot Matrix Layout</h2>
+          <p class="body-text" style="margin-top: 8px;">Each column is a word&rsquo;s punch pattern (top &rarr; bottom). Rows = bit weights (2048 down to 1). Filled = punch hole (1). Empty = skip (0).</p>
+          <div id="genPlateContainer"></div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ==================== TAB 2: DECODE ==================== -->
+    <div class="tab-panel" id="panel-decode">
+
+      <section class="section-intro">
+        <div class="container">
+          <p class="label">[ BIP39 / BINARY DECODER ]</p>
+          <h1>Binary Decoder</h1>
+          <p class="body-text">Input binary patterns by clicking dots on the grid. Each column decodes into a BIP39 word in real time. Valid indices are 1&ndash;2048; all zeros (000000000000) and any value &gt;2048 are marked invalid.</p>
+
+          <div class="dict-example-bar" style="margin-top: 20px;">
+            <div class="dict-example-label">
+              <p>Example:</p>
+              <span class="dict-example-idx">0001</span> = <span class="dict-example-word">Abandon</span>
+            </div>
+            <div class="dict-example-visual">
+              <div class="dict-example-dots-wrap">
+                <div class="dict-example-dots" id="decExampleDots"></div>
+              </div>
+            </div>
+            <p class="dict-example-hint">
+              Click the dots in each column to toggle bits. The column header shows the live computed index. Row labels show bit weight and bit number.
+            </p>
+          </div>
+
+          <div style="margin-top: 20px;">
+            <p class="label" style="margin-bottom: 8px;">WORD COUNT</p>
+            <div class="pill-group" id="decWordCount">
+              <button class="pill active" data-count="12" type="button">12</button>
+              <button class="pill" data-count="15" type="button">15</button>
+              <button class="pill" data-count="18" type="button">18</button>
+              <button class="pill" data-count="21" type="button">21</button>
+              <button class="pill" data-count="24" type="button">24</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="label">[ INPUT GRID ]</p>
+          <h2>Click to Toggle Dots</h2>
+          <p class="body-text" style="margin-top: 8px;">Each column is one word&rsquo;s punch pattern (top &rarr; bottom). Click a dot to toggle punch/skip. Rows = bit weights 2048 down to 1. All zeros = invalid.</p>
+
+          <div id="decodeMatrixContainer"></div>
+
+          <div class="btn-group" style="margin-top: 12px;">
+            <button class="btn btn-danger" id="decodeClearBtn" type="button">CLEAR ALL</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="label">[ DECODED RESULT ]</p>
+          <h2>Seed Phrase</h2>
+
+          <div class="decode-seed-output" id="decodeSeedOutput">
+            <span class="seed-word empty-word">waiting for input...</span>
+          </div>
+          <div id="decodeBadge" class="badge partial">WAITING FOR INPUT</div>
+
+          <div class="decode-word-table" id="decodeWordTable"></div>
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <div class="dot-tooltip" id="dotTooltip"></div>
+
+  <!-- ===== AUTH MODAL ===== -->
+  <div class="modal-overlay" id="authOverlay" hidden>
+    <div class="modal" role="dialog" aria-labelledby="authTitle">
+      <div class="modal-header">
+        <h3 id="authTitle">Log In</h3>
+        <button class="modal-close" id="authClose" type="button" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="label" for="authEmail">EMAIL</label>
+          <input type="email" class="form-input" id="authEmail" placeholder="satoshi@example.com">
+        </div>
+        <div class="form-group">
+          <label class="label" for="authPass">PASSWORD</label>
+          <input type="password" class="form-input" id="authPass" placeholder="Enter password">
+        </div>
+        <button class="btn btn-primary" style="width:100%;margin-top:16px;" type="button" disabled>LOG IN (COMING SOON)</button>
+        <p class="meta-text" style="text-align:center;margin-top:12px;">Authentication is not yet available. This is a preview of the upcoming feature.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <span class="footer-brand"><img src="PENGER (1).svg" alt="PENGER" height="16"></span>
+        <span class="meta-text">BIP39 Binary Encoder by PENGER</span>
+      </div>
+      <div class="footer-disclaimer">
+        This tool is for educational and verification purposes. It runs fully offline in your browser &mdash; no data is transmitted. For real wallet backups, always use your hardware wallet's built-in seed generator. Never share your seed phrase with anyone.
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 PENGER</span>
+        <span>OFFLINE / CLIENT-SIDE / NO TRACKING</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING LOG IN -->
+  <button class="login-float" type="button" aria-label="Log In">LOG IN</button>
+
+  <script src="shared.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

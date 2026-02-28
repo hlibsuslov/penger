@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#FAFAFA">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="Anatomy of a Seed Phrase &mdash; Learn how BIP39 mnemonics work, from entropy generation to checksum verification.">
+  <meta name="author" content="PENGER">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>Anatomy of a Seed Phrase &mdash; PENGER Academy</title>
+</head>
+<body>
+  <noscript><p style="padding:40px;text-align:center;font-size:16px;">This application requires JavaScript to function.</p></noscript>
+
+  <!-- ===== SHARED HEADER / NAV ===== -->
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo"><img src="PENGER.svg" alt="PENGER" height="20"></a>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="simulators.html" class="nav-link">Simulators</a>
+        <a href="dictionary.html" class="nav-link">Dictionary</a>
+        <a href="guides.html" class="nav-link">Academy</a>
+        <a href="ai-tutor.html" class="nav-link">AI Tutor</a>
+        <button class="nav-link nav-auth-btn" id="authBtn" type="button">Log In</button>
+      </nav>
+      <div class="header-controls">
+        <button class="nav-hamburger" id="navHamburger" type="button" aria-label="Menu" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <main>
+    <section class="section-intro">
+      <div class="container">
+        <a href="guides.html" class="back-link anim-fade-in">&larr; All Guides</a>
+        <p class="label anim-fade-in">[ GUIDE / SEED PHRASES ]</p>
+        <h1 class="anim-fade-in">Anatomy of a Seed Phrase</h1>
+        <p class="body-text anim-fade-in">Everything you need to know about BIP39 seed phrases &mdash; from entropy generation to final word selection. Choose your level below.</p>
+
+        <div class="level-toggle anim-fade-in" id="levelToggle">
+          <div class="pill-group">
+            <button class="pill active" data-level="beginner" type="button">BEGINNER</button>
+            <button class="pill" data-level="advanced" type="button">ADVANCED</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BEGINNER CONTENT ===== -->
+    <div class="guide-content active" id="guide-beginner">
+      <div class="container">
+        <nav class="guide-toc">
+          <div class="guide-toc-title">In This Section</div>
+          <ol>
+            <li><a href="#b-what-is">What Is a Seed Phrase?</a></li>
+            <li><a href="#b-how-chosen">How Are the Words Chosen?</a></li>
+            <li><a href="#b-order">Why Is Order Important?</a></li>
+          </ol>
+        </nav>
+      </div>
+      <section class="section-block">
+        <div class="container">
+          <h2 id="b-what-is" class="anim-fade-in">What Is a Seed Phrase?</h2>
+          <div class="guide-text anim-fade-in">
+            <p>A seed phrase is a set of <strong>12 to 24 words</strong> that serves as the master backup for your cryptocurrency wallet. These words are selected from a standardized list of 2,048 English words defined by the <strong>BIP39 specification</strong>.</p>
+            <blockquote><p>Think of a seed phrase like the master key to a building. With this single key, you can regenerate every room key (private key) and access every lock (address) in the building.</p></blockquote>
+            <p>Losing this key means losing access to everything inside &mdash; permanently. There is no "forgot password" option in self-custody crypto.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="b-how-chosen" class="anim-fade-in">How Are the Words Chosen?</h2>
+          <div class="guide-text anim-fade-in">
+            <p>Your wallet uses a <strong>cryptographically secure random number generator</strong> (CSPRNG) to produce a sequence of random bits called <em>entropy</em>. This entropy is then processed through a series of steps:</p>
+            <ol>
+              <li>Random entropy is generated (128 bits for 12 words)</li>
+              <li>A <strong>SHA-256 checksum</strong> is calculated and appended</li>
+              <li>The combined bits are split into 11-bit segments</li>
+              <li>Each segment maps to a word from the BIP39 wordlist</li>
+            </ol>
+            <p>Each word corresponds to a specific number between <code>1</code> and <code>2048</code>. The mapping is deterministic &mdash; the same number always produces the same word.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="b-order" class="anim-fade-in">Why Is Order Important?</h2>
+          <div class="guide-text anim-fade-in">
+            <p>The order of your seed words matters. Changing the position of even <strong>one word</strong> creates an entirely different wallet with different keys and addresses.</p>
+            <div class="callout callout-warning">
+              <span class="callout-label">Important</span>
+              Always write your words down in the exact order they appear. Number each word (1, 2, 3&hellip;) to avoid confusion when restoring your wallet later.
+            </div>
+            <p>A 12-word phrase has <code>2048^12</code> possible combinations &mdash; roughly 5.4 &times; 10<sup>39</sup>. Guessing or brute-forcing the correct sequence is computationally infeasible.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== ADVANCED CONTENT ===== -->
+    <div class="guide-content" id="guide-advanced">
+      <div class="container">
+        <nav class="guide-toc">
+          <div class="guide-toc-title">In This Section</div>
+          <ol>
+            <li><a href="#a-entropy">Entropy Sources and CSPRNG</a></li>
+            <li><a href="#a-checksum">SHA-256 Checksum Mechanism</a></li>
+            <li><a href="#a-derivation">From Mnemonic to Master Key</a></li>
+          </ol>
+        </nav>
+      </div>
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-entropy" class="anim-fade-in">Entropy Sources and CSPRNG</h2>
+          <div class="guide-text anim-fade-in">
+            <p>BIP39 seed generation begins with a <strong>cryptographically secure pseudo-random number generator</strong> (CSPRNG). On modern systems, this is typically backed by:</p>
+            <ul>
+              <li><code>/dev/urandom</code> on Linux</li>
+              <li><code>CryptGenRandom</code> on Windows</li>
+              <li>The <code>Web Crypto API</code> in browsers</li>
+            </ul>
+            <p>The entropy length determines the word count: <strong>128 bits</strong> produces 12 words, <strong>160 bits</strong> produces 15 words, and so on up to <strong>256 bits</strong> for 24 words. Each additional 32 bits of entropy adds 3 words and one checksum bit.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-checksum" class="anim-fade-in">SHA-256 Checksum Mechanism</h2>
+          <div class="guide-text anim-fade-in">
+            <p>After generating raw entropy, the system computes a <strong>SHA-256 hash</strong> of the entropy bytes. The first <em>N</em> bits of this hash (where <code>N = entropy_bits / 32</code>) are appended to the entropy as a checksum.</p>
+            <blockquote><p>The checksum serves as an error-detection mechanism. If you mistype or misspell a word during recovery, the checksum will likely fail, alerting you to the error.</p></blockquote>
+            <p>This combined bit string is then divided into 11-bit segments, each mapping to one of the 2,048 BIP39 words.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-derivation" class="anim-fade-in">From Mnemonic to Master Key (BIP32/BIP44)</h2>
+          <div class="guide-text anim-fade-in">
+            <p>The mnemonic phrase is converted to a <strong>512-bit seed</strong> using <code>PBKDF2-HMAC-SHA512</code> with 2,048 iterations. The passphrase <code>"mnemonic"</code> + optional user passphrase is used as the salt.</p>
+            <h3>Derivation Paths</h3>
+            <p>This seed feeds into BIP32 hierarchical deterministic key derivation. The path determines which specific key pair is generated:</p>
+            <ul>
+              <li><code>m/44'/0'/0'/0/0</code> &mdash; Bitcoin (BIP44)</li>
+              <li><code>m/44'/60'/0'/0/0</code> &mdash; Ethereum</li>
+              <li><code>m/84'/0'/0'/0/0</code> &mdash; Bitcoin SegWit (BIP84)</li>
+            </ul>
+            <p>Each path segment narrows down from the master key to a specific account and address index.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== FAQ SECTION ===== -->
+    <section class="section-block faq-section">
+      <div class="container">
+        <p class="label anim-fade-in">[ FREQUENTLY ASKED QUESTIONS ]</p>
+        <h2 class="anim-fade-in">FAQ</h2>
+        <div class="faq-chat anim-fade-in">
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Can I choose my own seed words instead of random ones?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Technically yes, but it is strongly discouraged. Human-chosen words lack the randomness (entropy) needed for security. A predictable pattern could be brute-forced by an attacker far more easily than a truly random sequence. Always use a CSPRNG-backed generator."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Is a 12-word seed phrase secure enough?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="A 12-word phrase provides 128 bits of entropy, which translates to approximately 2^128 possible combinations. This is considered secure against brute-force attacks with current and foreseeable technology. Placeholder for more detailed security analysis."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>What happens if I lose one word from my seed phrase?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="If you lose a single word, recovery is theoretically possible since there are only 2048 candidates for the missing position. However, this requires specialized software and the checksum must validate. Losing two or more words makes recovery exponentially harder. Placeholder for recovery strategies."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Can I split my seed phrase between multiple locations?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Simple splitting (e.g., first 12 words in location A, last 12 in location B) reduces security because each half has less entropy. A better approach is Shamir's Secret Sharing (SLIP39), which creates shares where a threshold number must be combined. Placeholder for split strategies and trade-offs."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Are all 2048 BIP39 words unique enough to avoid confusion?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Yes. The BIP39 English wordlist was carefully curated so that each word is uniquely identifiable by its first four characters. This means &quot;abandon&quot; and &quot;ability&quot; cannot be confused based on a partial reading. Placeholder for wordlist design principles."></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ARTICLE PREVIEWS ===== -->
+    <section class="article-previews">
+      <div class="container">
+        <p class="label">[ READ NEXT ]</p>
+        <h3>Continue Learning</h3>
+        <div class="preview-grid">
+          <a class="preview-card" href="guide-wallet-anatomy.html">
+
+            <h4>Anatomy of a Wallet</h4>
+            <p>How wallets derive keys, manage addresses, and interact with blockchain networks under the hood.</p>
+          </a>
+          <a class="preview-card" href="guide-wallet-comparison.html">
+
+            <h4>Wallet Types Comparison</h4>
+            <p>Hot wallets, cold wallets, hardware devices, multi-sig setups. Compare trade-offs and find the right fit.</p>
+          </a>
+          <a class="preview-card" href="guide-opsec.html">
+
+            <h4>Operational Security (OpSec)</h4>
+            <p>Protect yourself from phishing, social engineering, and physical threats. Practical security habits for crypto holders.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== AUTH MODAL ===== -->
+  <div class="modal-overlay" id="authOverlay" hidden>
+    <div class="modal" role="dialog" aria-labelledby="authTitle">
+      <div class="modal-header">
+        <h3 id="authTitle">Log In</h3>
+        <button class="modal-close" id="authClose" type="button" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="label" for="authEmail">EMAIL</label>
+          <input type="email" class="form-input" id="authEmail" placeholder="satoshi@example.com">
+        </div>
+        <div class="form-group">
+          <label class="label" for="authPass">PASSWORD</label>
+          <input type="password" class="form-input" id="authPass" placeholder="Enter password">
+        </div>
+        <button class="btn btn-primary" style="width:100%;margin-top:16px;" type="button" disabled>LOG IN (COMING SOON)</button>
+        <p class="meta-text" style="text-align:center;margin-top:12px;">Authentication is not yet available.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <span class="footer-brand"><img src="PENGER (1).svg" alt="PENGER" height="16"></span>
+        <span class="meta-text">Self-Custody Tools &amp; Guides</span>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 PENGER</span>
+        <span>OFFLINE / CLIENT-SIDE / NO TRACKING</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING LOG IN -->
+  <button class="login-float" type="button" aria-label="Log In">LOG IN</button>
+
+  <script src="shared.js"></script>
+</body>
+</html>

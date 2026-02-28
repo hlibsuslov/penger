@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#FAFAFA">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="Anatomy of a Wallet &mdash; How cryptocurrency wallets derive keys, manage addresses, and interact with blockchains.">
+  <meta name="author" content="PENGER">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>Anatomy of a Wallet &mdash; PENGER Academy</title>
+</head>
+<body>
+  <noscript><p style="padding:40px;text-align:center;font-size:16px;">This application requires JavaScript to function.</p></noscript>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo"><img src="PENGER.svg" alt="PENGER" height="20"></a>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="simulators.html" class="nav-link">Simulators</a>
+        <a href="dictionary.html" class="nav-link">Dictionary</a>
+        <a href="guides.html" class="nav-link">Academy</a>
+        <a href="ai-tutor.html" class="nav-link">AI Tutor</a>
+        <button class="nav-link nav-auth-btn" id="authBtn" type="button">Log In</button>
+      </nav>
+      <div class="header-controls">
+        <button class="nav-hamburger" id="navHamburger" type="button" aria-label="Menu" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <main>
+    <section class="section-intro">
+      <div class="container">
+        <a href="guides.html" class="back-link anim-fade-in">&larr; All Guides</a>
+        <p class="label anim-fade-in">[ GUIDE / WALLETS ]</p>
+        <h1 class="anim-fade-in">Anatomy of a Wallet</h1>
+        <p class="body-text anim-fade-in">How cryptocurrency wallets work under the hood &mdash; from key derivation to transaction signing.</p>
+
+        <div class="level-toggle anim-fade-in" id="levelToggle">
+          <div class="pill-group">
+            <button class="pill active" data-level="beginner" type="button">BEGINNER</button>
+            <button class="pill" data-level="advanced" type="button">ADVANCED</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BEGINNER ===== -->
+    <div class="guide-content active" id="guide-beginner">
+      <div class="container">
+        <nav class="guide-toc">
+          <div class="guide-toc-title">In This Section</div>
+          <ol>
+            <li><a href="#b-what-wallet">What Is a Crypto Wallet?</a></li>
+            <li><a href="#b-keys">Public Keys vs. Private Keys</a></li>
+            <li><a href="#b-addresses">Addresses and Receiving Funds</a></li>
+          </ol>
+        </nav>
+      </div>
+      <section class="section-block">
+        <div class="container">
+          <h2 class="anim-fade-in" id="b-what-wallet">What Is a Crypto Wallet?</h2>
+          <div class="guide-text anim-fade-in">
+            <p>A cryptocurrency wallet is a tool that stores your <strong>private keys</strong> and allows you to send, receive, and manage digital assets. Despite the name, wallets don't actually store your coins &mdash; those live on the blockchain. Your wallet holds the keys that prove ownership.</p>
+            <p>There are many wallet forms, each with different trade-offs:</p>
+            <ul>
+              <li><strong>Mobile apps</strong> &mdash; convenient, always with you</li>
+              <li><strong>Desktop software</strong> &mdash; more control, larger screen</li>
+              <li><strong>Browser extensions</strong> &mdash; seamless DeFi access</li>
+              <li><strong>Hardware devices</strong> &mdash; maximum security, keys never online</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 class="anim-fade-in" id="b-keys">Public Keys vs. Private Keys</h2>
+          <div class="guide-text anim-fade-in">
+            <p>Every wallet has at least one key pair:</p>
+            <ul>
+              <li><strong>Public key</strong> &mdash; used to receive funds (like an email address)</li>
+              <li><strong>Private key</strong> &mdash; used to authorize spending (like a password)</li>
+            </ul>
+            <p>Anyone can send crypto to your public address, but only the private key holder can move it out.</p>
+            <blockquote><p>Modern HD wallets generate thousands of key pairs from a single seed phrase. One backup protects access to all your addresses across multiple cryptocurrencies.</p></blockquote>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 class="anim-fade-in" id="b-addresses">Addresses and Receiving Funds</h2>
+          <div class="guide-text anim-fade-in">
+            <p>An address is derived from your public key through <strong>hashing and encoding</strong>. For privacy, best practice is to use a new address for each transaction.</p>
+            <div class="callout callout-tip">
+              <span class="callout-label">Best Practice</span>
+              HD wallets handle address generation automatically by producing sequential addresses from the same seed. Never reuse addresses.
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== ADVANCED ===== -->
+    <div class="guide-content" id="guide-advanced">
+      <div class="container">
+        <nav class="guide-toc">
+          <div class="guide-toc-title">In This Section</div>
+          <ol>
+            <li><a href="#a-bip32">BIP32 Hierarchical Deterministic Derivation</a></li>
+            <li><a href="#a-ecdsa">ECDSA and Transaction Signing</a></li>
+            <li><a href="#a-xpub">Extended Public Keys (xpub)</a></li>
+          </ol>
+        </nav>
+      </div>
+      <section class="section-block">
+        <div class="container">
+          <h2 class="anim-fade-in" id="a-bip32">BIP32 Hierarchical Deterministic Derivation</h2>
+          <div class="guide-text anim-fade-in">
+            <p>BIP32 defines a <strong>tree structure</strong> for key derivation. Starting from a master key (derived from the BIP39 seed via PBKDF2), child keys are generated using <code>HMAC-SHA512</code>.</p>
+            <p>Each level in the tree can produce <code>2^31</code> normal child keys and <code>2^31</code> hardened child keys.</p>
+            <blockquote><p>Hardened derivation (indicated by an apostrophe, e.g., <code>m/44'</code>) prevents child key compromise from leaking information about the parent key. This is critical for multi-account security isolation.</p></blockquote>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 class="anim-fade-in" id="a-ecdsa">ECDSA and Transaction Signing</h2>
+          <div class="guide-text anim-fade-in">
+            <p>Bitcoin uses the <strong>secp256k1</strong> elliptic curve for digital signatures. When you send a transaction, your wallet:</p>
+            <ol>
+              <li>Creates a hash of the transaction data</li>
+              <li>Signs it using your <strong>private key</strong></li>
+              <li>Broadcasts the signature with the transaction</li>
+              <li>Network nodes verify against your public key</li>
+            </ol>
+            <p>The fundamental cryptographic primitive is <em>elliptic curve multiplication</em> &mdash; computationally easy in one direction but infeasible to reverse.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 class="anim-fade-in" id="a-xpub">Extended Public Keys (xpub) and Watch-Only</h2>
+          <div class="guide-text anim-fade-in">
+            <p>An <strong>extended public key</strong> (<code>xpub</code>) allows deriving all public child keys without access to the private key. This enables:</p>
+            <ul>
+              <li><strong>Watch-only wallets</strong> &mdash; monitor balances without spending ability</li>
+              <li><strong>Payment servers</strong> &mdash; generate fresh addresses for each customer</li>
+              <li><strong>Auditing</strong> &mdash; third-party balance verification</li>
+            </ul>
+            <div class="callout callout-warning">
+              <span class="callout-label">Security Note</span>
+              Never share your xpub publicly. While it can't spend funds, it reveals your entire transaction history and all addresses.
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== FAQ ===== -->
+    <section class="section-block faq-section">
+      <div class="container">
+        <p class="label anim-fade-in">[ FREQUENTLY ASKED QUESTIONS ]</p>
+        <h2 class="anim-fade-in">FAQ</h2>
+        <div class="faq-chat anim-fade-in">
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Do I need a separate wallet for each cryptocurrency?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Not necessarily. HD wallets supporting BIP44 can derive keys for multiple coin types from a single seed phrase. Each currency uses a different derivation path (e.g., m/44'/0' for Bitcoin, m/44'/60' for Ethereum). Placeholder for multi-coin wallet guidance."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>What happens if my wallet software stops being maintained?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="As long as you have your seed phrase, you can import it into any other BIP39-compatible wallet. Your keys and funds are derived from the seed, not tied to any specific software. Placeholder for wallet migration steps."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Is it safe to share my extended public key (xpub)?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Sharing your xpub allows the recipient to see all past and future addresses and balances for that account. While they cannot spend your funds, it is a significant privacy leak. Only share xpubs with trusted parties like your accountant. Placeholder for xpub privacy considerations."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Can a wallet have multiple seed phrases?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Some wallet software allows managing multiple accounts, each with its own seed. However, each seed independently generates its own key tree. You would need to back up each seed separately. Placeholder for multi-seed management advice."></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ARTICLE PREVIEWS ===== -->
+    <section class="article-previews">
+      <div class="container">
+        <p class="label">[ READ NEXT ]</p>
+        <h3>Continue Learning</h3>
+        <div class="preview-grid">
+          <a class="preview-card" href="guide-seed-anatomy.html">
+
+            <h4>Anatomy of a Seed Phrase</h4>
+            <p>What makes up a BIP39 mnemonic, how entropy and checksums work, and why your 12-24 words matter.</p>
+          </a>
+          <a class="preview-card" href="guide-wallet-comparison.html">
+
+            <h4>Wallet Types Comparison</h4>
+            <p>Hot wallets, cold wallets, hardware devices, multi-sig setups. Compare trade-offs and find the right fit.</p>
+          </a>
+          <a class="preview-card" href="guide-opsec.html">
+
+            <h4>Operational Security (OpSec)</h4>
+            <p>Protect yourself from phishing, social engineering, and physical threats. Practical security habits for crypto holders.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-overlay" id="authOverlay" hidden>
+    <div class="modal" role="dialog" aria-labelledby="authTitle">
+      <div class="modal-header">
+        <h3 id="authTitle">Log In</h3>
+        <button class="modal-close" id="authClose" type="button" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="label" for="authEmail">EMAIL</label>
+          <input type="email" class="form-input" id="authEmail" placeholder="satoshi@example.com">
+        </div>
+        <div class="form-group">
+          <label class="label" for="authPass">PASSWORD</label>
+          <input type="password" class="form-input" id="authPass" placeholder="Enter password">
+        </div>
+        <button class="btn btn-primary" style="width:100%;margin-top:16px;" type="button" disabled>LOG IN (COMING SOON)</button>
+        <p class="meta-text" style="text-align:center;margin-top:12px;">Authentication is not yet available.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <span class="footer-brand"><img src="PENGER (1).svg" alt="PENGER" height="16"></span>
+        <span class="meta-text">Self-Custody Tools &amp; Guides</span>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 PENGER</span>
+        <span>OFFLINE / CLIENT-SIDE / NO TRACKING</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING LOG IN -->
+  <button class="login-float" type="button" aria-label="Log In">LOG IN</button>
+
+  <script src="shared.js"></script>
+</body>
+</html>

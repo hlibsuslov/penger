@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="format-detection" content="telephone=no, date=no, email=no, address=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#FAFAFA">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="AI Tutor &mdash; Learn crypto self-custody interactively with PENGER's guided chat tutor.">
+  <meta name="author" content="PENGER">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>AI Tutor &mdash; PENGER</title>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo"><img src="PENGER.svg" alt="PENGER" height="20"></a>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="simulators.html" class="nav-link">Simulators</a>
+        <a href="dictionary.html" class="nav-link">Dictionary</a>
+        <a href="guides.html" class="nav-link">Academy</a>
+        <a href="ai-tutor.html" class="nav-link">AI Tutor</a>
+        <button class="nav-link nav-auth-btn" id="authBtn" type="button">Log In</button>
+      </nav>
+      <div class="header-controls">
+        <button class="nav-hamburger" id="navHamburger" type="button" aria-label="Menu" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <!-- FLOATING LOG IN -->
+  <button class="login-float" type="button" aria-label="Log In">LOG IN</button>
+
+  <main>
+    <!-- SECTION INTRO -->
+    <section class="section-intro">
+      <div class="container">
+        <p class="label">[ INTERACTIVE LEARNING ]</p>
+        <h1>AI Tutor</h1>
+        <p class="body-text">
+          Learn crypto self-custody step by step. Pick a topic and follow the guided conversation &mdash; the tutor will walk you through key concepts at your own pace.
+        </p>
+      </div>
+    </section>
+
+    <!-- CHAT SECTION -->
+    <section class="section-block" style="border-bottom:none;">
+      <div class="container">
+        <div class="tutor-chat" id="tutorChat">
+          <!-- Messages are rendered here by JS -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- INPUT BAR (fixed at bottom) -->
+  <div class="tutor-input-bar" id="tutorInputBar">
+    <div class="container">
+      <div class="tutor-input-wrap">
+        <input class="tutor-input" id="tutorInput" type="text" placeholder="Ask about wallets, seed phrases, blockchain..." maxlength="1000" autocomplete="off">
+        <button class="tutor-send-btn" id="tutorSendBtn" type="button" disabled aria-label="Send">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== AUTH MODAL ===== -->
+  <div class="modal-overlay" id="authOverlay" hidden>
+    <div class="modal" role="dialog" aria-labelledby="authTitle">
+      <div class="modal-header">
+        <h3 id="authTitle">Log In</h3>
+        <button class="modal-close" id="authClose" type="button" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <button class="btn btn-primary" style="width:100%;margin-top:16px;" type="button" disabled>LOG IN (COMING SOON)</button>
+        <p class="meta-text" style="text-align:center;margin-top:12px;">Authentication is not yet available.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer tutor-footer">
+    <div class="container">
+      <div class="footer-content">
+        <span class="footer-brand"><img src="PENGER (1).svg" alt="PENGER" height="16"></span>
+        <span class="meta-text">Self-Custody Tools &amp; Guides</span>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 PENGER</span>
+        <span>OFFLINE / CLIENT-SIDE / NO TRACKING</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="shared.js"></script>
+  <script>
+  (function () {
+    'use strict';
+
+    /* =========================================================
+       DOM REFS
+       ========================================================= */
+    var chatEl = document.getElementById('tutorChat');
+    var activeTimer = null;
+    var SCENARIOS = null;
+    var history = [];       // breadcrumb: array of scenario keys visited
+    var isTyping = false;   // lock to prevent clicking during typewriter
+
+    /* =========================================================
+       LOAD SCENARIOS FROM EXTERNAL JSON
+       Works both via http:// server and file:// protocol.
+       ========================================================= */
+    function loadScenarios(cb) {
+      /* --- try fetch first (works on http/https) --- */
+      if (window.fetch) {
+        fetch('tutor-scenarios.json')
+          .then(function (r) {
+            if (!r.ok) throw new Error(r.status);
+            return r.json();
+          })
+          .then(function (data) { SCENARIOS = data; cb(null); })
+          .catch(function () { fallbackXHR(cb); });
+        return;
+      }
+      fallbackXHR(cb);
+    }
+
+    function fallbackXHR(cb) {
+      try {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'tutor-scenarios.json', true);
+        xhr.onload = function () {
+          try {
+            SCENARIOS = JSON.parse(xhr.responseText);
+            cb(null);
+          } catch (e) { cb('Failed to parse scenarios.'); }
+        };
+        xhr.onerror = function () { cb('Network error. Open via a local server or use Live Server extension.'); };
+        xhr.send();
+      } catch (e) {
+        cb('Cannot load scenarios via file:// protocol. Please open through a local server (e.g. Live Server).');
+      }
+    }
+
+    /* =========================================================
+       HELPERS
+       ========================================================= */
+    function smoothScroll() {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    function typeText(el, text, cb) {
+      isTyping = true;
+      var chars = text.split('');
+      var idx = 0;
+      var cursor = document.createElement('span');
+      cursor.className = 'tutor-cursor';
+      el.appendChild(cursor);
+
+      // Scroll every N chars instead of every char for smoother experience
+      var scrollCounter = 0;
+
+      activeTimer = setInterval(function () {
+        if (idx >= chars.length) {
+          clearInterval(activeTimer);
+          activeTimer = null;
+          cursor.remove();
+          isTyping = false;
+          if (cb) cb();
+          return;
+        }
+        var ch = chars[idx];
+        if (ch === '\n') {
+          cursor.insertAdjacentHTML('beforebegin', '<br>');
+        } else {
+          cursor.insertAdjacentText('beforebegin', ch);
+        }
+        idx++;
+        scrollCounter++;
+        if (scrollCounter % 5 === 0) smoothScroll();
+      }, 12);
+    }
+
+    /* =========================================================
+       BREADCRUMB
+       ========================================================= */
+    function renderBreadcrumb() {
+      var existing = chatEl.querySelector('.tutor-breadcrumb');
+      if (existing) existing.remove();
+      if (history.length <= 1) return; // don't show on root
+
+      var bc = document.createElement('div');
+      bc.className = 'tutor-breadcrumb';
+
+      var homeBtn = document.createElement('button');
+      homeBtn.type = 'button';
+      homeBtn.className = 'tutor-bc-item tutor-bc-home';
+      homeBtn.textContent = 'Start';
+      homeBtn.addEventListener('click', function () {
+        if (isTyping) return;
+        startChat();
+      });
+      bc.appendChild(homeBtn);
+
+      // Show depth indicator
+      for (var i = 1; i < history.length; i++) {
+        var sep = document.createElement('span');
+        sep.className = 'tutor-bc-sep';
+        sep.textContent = '\u203A';
+        bc.appendChild(sep);
+
+        var label = document.createElement('span');
+        label.className = 'tutor-bc-item';
+        label.textContent = formatBcLabel(history[i]);
+        bc.appendChild(label);
+      }
+
+      chatEl.insertBefore(bc, chatEl.firstChild);
+    }
+
+    function formatBcLabel(key) {
+      // Convert "wallet_intro" -> "Intro", "seed_bip39" -> "BIP39"
+      var parts = key.split('_');
+      var label = parts.length > 1 ? parts.slice(1).join(' ') : parts[0];
+      return label.charAt(0).toUpperCase() + label.slice(1);
+    }
+
+    /* =========================================================
+       RENDER MESSAGES
+       ========================================================= */
+    function addUserMsg(text) {
+      var div = document.createElement('div');
+      div.className = 'tutor-msg user';
+      div.textContent = text;
+      chatEl.appendChild(div);
+      smoothScroll();
+    }
+
+    function addBotMsg(scenarioKey) {
+      if (!SCENARIOS) return;
+      var scene = SCENARIOS[scenarioKey];
+      if (!scene) return;
+
+      // Track history
+      history.push(scenarioKey);
+      chatEl.setAttribute('data-scenario', scenarioKey);
+      renderBreadcrumb();
+
+      // Typing indicator
+      var indicator = document.createElement('div');
+      indicator.className = 'tutor-msg bot tutor-typing-msg';
+      indicator.innerHTML = '<span class="tutor-typing"><span></span><span></span><span></span></span>';
+      chatEl.appendChild(indicator);
+      smoothScroll();
+
+      setTimeout(function () {
+        indicator.remove();
+
+        // Bot bubble
+        var div = document.createElement('div');
+        div.className = 'tutor-msg bot';
+        var textWrap = document.createElement('div');
+        textWrap.className = 'tutor-msg-text';
+        div.appendChild(textWrap);
+        chatEl.appendChild(div);
+        smoothScroll();
+
+        typeText(textWrap, scene.bot, function () {
+          if (scene.options && scene.options.length > 0) {
+            var optWrap = document.createElement('div');
+            optWrap.className = 'tutor-options';
+
+            scene.options.forEach(function (opt) {
+              var btn = document.createElement('button');
+              btn.className = 'tutor-option-btn';
+              btn.type = 'button';
+              btn.textContent = opt.label;
+
+              if (opt.next === 'root') {
+                btn.classList.add('restart');
+                btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="vertical-align:-2px;margin-right:6px;"><path d="M4 12a8 8 0 0 1 13.4-5.9L20 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 4v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 12a8 8 0 0 1-13.4 5.9L4 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 20v-5h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' + opt.label;
+              }
+
+              btn.addEventListener('click', function () {
+                if (isTyping) return;
+
+                optWrap.querySelectorAll('.tutor-option-btn').forEach(function (b) {
+                  b.disabled = true;
+                  if (b !== btn) b.classList.add('dimmed');
+                  else b.classList.add('chosen');
+                });
+
+                if (opt.next === 'root') {
+                  setTimeout(function () { startChat(); }, 300);
+                } else {
+                  addUserMsg(opt.label);
+                  setTimeout(function () { addBotMsg(opt.next); }, 400);
+                }
+              });
+
+              optWrap.appendChild(btn);
+            });
+
+            div.appendChild(optWrap);
+            smoothScroll();
+          }
+        });
+      }, 600);
+    }
+
+    /* =========================================================
+       START / RESET
+       ========================================================= */
+    function startChat() {
+      if (activeTimer) { clearInterval(activeTimer); activeTimer = null; }
+      isTyping = false;
+      history = [];
+      chatEl.innerHTML = '';
+      addBotMsg('root');
+    }
+
+    /* =========================================================
+       ERROR STATE
+       ========================================================= */
+    function showError(msg) {
+      chatEl.innerHTML = '<div class="tutor-msg bot" style="color:var(--error-text);border-color:var(--error-border);">' + msg + ' <button class="tutor-option-btn" onclick="location.reload()" type="button" style="margin-top:10px;">Retry</button></div>';
+    }
+
+    /* =========================================================
+       INIT
+       ========================================================= */
+    loadScenarios(function (err) {
+      if (err) { showError(err); return; }
+      startChat();
+    });
+  })();
+
+  /* =================================================================
+     FREE-TEXT CHAT ENGINE
+     Adds OpenAI-powered free input alongside the scenario system.
+     Communicates with a Cloudflare Worker proxy at TUTOR_API.endpoint.
+     ================================================================= */
+  (function () {
+    'use strict';
+
+    /* === CONFIG === */
+    var TUTOR_API = {
+      endpoint: '/api/chat',
+      maxHistoryMessages: 10,
+      maxInputLength: 1000,
+      retryDelay: 2000,
+    };
+
+    /* === DOM REFS === */
+    var chatEl  = document.getElementById('tutorChat');
+    var inputEl = document.getElementById('tutorInput');
+    var sendBtn = document.getElementById('tutorSendBtn');
+    if (!chatEl || !inputEl || !sendBtn) return;
+
+    /* === STATE === */
+    var conversationHistory = [];
+    var isSending = false;
+
+    /* === CONTEXT BRIDGE ===
+       Read current scenario from data attribute set by scenario IIFE */
+    function getCurrentContext() {
+      return chatEl.getAttribute('data-scenario') || null;
+    }
+
+    /* === MUTATION OBSERVER ===
+       Reset conversation history when scenario engine clears the chat */
+    var observer = new MutationObserver(function () {
+      if (chatEl.childNodes.length === 0 ||
+          (chatEl.childNodes.length <= 2 && chatEl.querySelector('.tutor-breadcrumb'))) {
+        conversationHistory = [];
+      }
+    });
+    observer.observe(chatEl, { childList: true });
+
+    /* === INPUT HANDLING === */
+    function updateSendButton() {
+      var hasText = inputEl.value.trim().length > 0;
+      sendBtn.disabled = !hasText || isSending || !TUTOR_API.endpoint;
+    }
+
+    inputEl.addEventListener('input', updateSendButton);
+    inputEl.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && !e.shiftKey && !sendBtn.disabled) {
+        e.preventDefault();
+        handleSend();
+      }
+    });
+    sendBtn.addEventListener('click', function () {
+      if (!sendBtn.disabled) handleSend();
+    });
+
+    /* === SANITIZE === */
+    function sanitizeInput(text) {
+      text = text.replace(/<[^>]*>/g, '');
+      text = text.replace(/\s{3,}/g, '  ');
+      if (text.length > TUTOR_API.maxInputLength) {
+        text = text.slice(0, TUTOR_API.maxInputLength);
+      }
+      return text.trim();
+    }
+
+    /* === HISTORY TRIM === */
+    function trimHistory() {
+      while (conversationHistory.length > TUTOR_API.maxHistoryMessages) {
+        conversationHistory.shift();
+      }
+    }
+
+    /* === SMOOTH SCROLL === */
+    function smoothScroll() {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    /* === TYPEWRITER (separate instance from scenario engine) === */
+    function typeTextFree(el, text, cb) {
+      var chars = text.split('');
+      var idx = 0;
+      var cursor = document.createElement('span');
+      cursor.className = 'tutor-cursor';
+      el.appendChild(cursor);
+      var scrollCounter = 0;
+
+      var timer = setInterval(function () {
+        if (idx >= chars.length) {
+          clearInterval(timer);
+          cursor.remove();
+          if (cb) cb();
+          return;
+        }
+        var ch = chars[idx];
+        if (ch === '\n') {
+          cursor.insertAdjacentHTML('beforebegin', '<br>');
+        } else {
+          cursor.insertAdjacentText('beforebegin', ch);
+        }
+        idx++;
+        scrollCounter++;
+        if (scrollCounter % 5 === 0) smoothScroll();
+      }, 12);
+    }
+
+    /* === POST-PROCESS FORMATTING === */
+    function postProcessFormatting(el) {
+      var html = el.innerHTML;
+      html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      el.innerHTML = html;
+    }
+
+    /* === TYPING INDICATOR === */
+    function showTypingIndicator() {
+      var div = document.createElement('div');
+      div.className = 'tutor-msg bot tutor-typing-msg';
+      div.innerHTML = '<span class="tutor-typing"><span></span><span></span><span></span></span>';
+      chatEl.appendChild(div);
+      smoothScroll();
+      return div;
+    }
+
+    function removeTypingIndicator(el) {
+      if (el && el.parentNode) el.remove();
+    }
+
+    /* === MESSAGE BUBBLES === */
+    function addFreeUserMsg(text) {
+      var div = document.createElement('div');
+      div.className = 'tutor-msg user';
+      div.textContent = text;
+      chatEl.appendChild(div);
+      smoothScroll();
+    }
+
+    function addFreeBotMsg(text, cb) {
+      var div = document.createElement('div');
+      div.className = 'tutor-msg bot';
+      var textWrap = document.createElement('div');
+      textWrap.className = 'tutor-msg-text';
+      div.appendChild(textWrap);
+      chatEl.appendChild(div);
+      smoothScroll();
+
+      typeTextFree(textWrap, text, function () {
+        postProcessFormatting(textWrap);
+        if (cb) cb();
+      });
+    }
+
+    function addErrorMsg(text) {
+      var div = document.createElement('div');
+      div.className = 'tutor-msg bot tutor-error-msg';
+      div.textContent = text;
+      chatEl.appendChild(div);
+      smoothScroll();
+    }
+
+    /* === API CALL === */
+    function callTutorAPI(messages, context) {
+      var payload = { messages: messages };
+      if (context) payload.context = context;
+
+      return fetch(TUTOR_API.endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      .then(function (res) {
+        if (res.ok) return res.json();
+        if (res.status === 429) throw new Error('You\'re sending messages too fast. Please wait a minute.');
+        if (res.status === 503) throw new Error('AI service is busy. Please try again in a moment.');
+        if (res.status === 400) {
+          return res.json().then(function (d) { throw new Error(d.error || 'Invalid request.'); });
+        }
+        throw new Error('Something went wrong. Please try again.');
+      })
+      .then(function (data) {
+        if (!data.reply) throw new Error('Empty response from AI.');
+        return data.reply;
+      });
+    }
+
+    /* === SEND FLOW === */
+    function handleSend() {
+      var text = sanitizeInput(inputEl.value);
+      if (!text || isSending) return;
+
+      isSending = true;
+      inputEl.value = '';
+      updateSendButton();
+      inputEl.focus();
+
+      var context = getCurrentContext();
+
+      addFreeUserMsg(text);
+      conversationHistory.push({ role: 'user', content: text });
+      trimHistory();
+
+      var typingEl = showTypingIndicator();
+
+      callTutorAPI(conversationHistory, context)
+        .then(function (reply) {
+          removeTypingIndicator(typingEl);
+          addFreeBotMsg(reply, function () {
+            conversationHistory.push({ role: 'assistant', content: reply });
+            trimHistory();
+            isSending = false;
+            updateSendButton();
+          });
+        })
+        .catch(function (err) {
+          removeTypingIndicator(typingEl);
+          addErrorMsg(err.message || 'Connection error. Please try again.');
+          isSending = false;
+          updateSendButton();
+        });
+    }
+
+    /* === INIT === */
+    updateSendButton();
+  })();
+  </script>
+</body>
+</html>

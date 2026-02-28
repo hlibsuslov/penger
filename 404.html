@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="format-detection" content="telephone=no, date=no, email=no, address=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#FAFAFA">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Page not found &mdash; PENGER">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>404 &mdash; PENGER</title>
+  <style>
+    .error-page {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: calc(100vh - var(--header-h) - 140px);
+      text-align: center; padding: 40px 24px;
+    }
+
+    /* ---- binary plate visual ---- */
+    .error-plate {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 4px;
+      width: 100%; max-width: 264px;
+      margin-bottom: 32px;
+      opacity: 0.35;
+    }
+    .error-plate .ebit {
+      aspect-ratio: 1; border-radius: 3px;
+      background: var(--punch-empty);
+      border: 1px solid var(--border-default);
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    .error-plate .ebit.on {
+      background: var(--punch-fill);
+      border-color: var(--punch-fill);
+    }
+
+    /* ---- 404 index ---- */
+    .error-index {
+      font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-dim); margin-bottom: 8px;
+    }
+
+    /* ---- big number ---- */
+    .error-code {
+      font-family: var(--font-mono); font-size: 72px; font-weight: 700;
+      color: var(--text-accent); line-height: 1; margin-bottom: 12px;
+      letter-spacing: -0.03em;
+    }
+    @media (max-width: 520px) { .error-code { font-size: 56px; } }
+
+    /* ---- message ---- */
+    .error-msg {
+      font-family: var(--font-sans); font-size: 15px; line-height: 1.6;
+      color: var(--text-label); max-width: 380px; margin-bottom: 28px;
+    }
+
+    /* ---- binary breakdown ---- */
+    .error-binary {
+      display: flex; gap: 3px; margin-bottom: 24px; justify-content: center;
+    }
+    .error-binary .ebit-label {
+      width: 20px; height: 14px; border-radius: 3px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+    }
+    .error-binary .ebit-label.b1 {
+      background: var(--punch-fill); color: var(--bg-main);
+    }
+    .error-binary .ebit-label.b0 {
+      background: var(--punch-empty); color: var(--text-dim);
+      border: 1px solid var(--border-hover);
+    }
+
+    /* ---- nav links ---- */
+    .error-nav {
+      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+    }
+    .error-nav a {
+      font-family: var(--font-mono); font-size: 12px; font-weight: 600;
+      letter-spacing: 0.02em; text-decoration: none;
+      padding: 10px 20px; border-radius: 4px;
+      border: 1px solid var(--border-default);
+      color: var(--text-label); background: transparent;
+      transition: all 0.15s ease;
+    }
+    .error-nav a:hover {
+      color: var(--text-accent); border-color: var(--border-active);
+      background: var(--bg-surface-hover);
+    }
+    .error-nav a.primary {
+      background: var(--text-accent); color: var(--bg-main);
+      border-color: var(--text-accent);
+    }
+    .error-nav a.primary:hover {
+      background: var(--text-accent-hover);
+    }
+
+    /* ---- punch pattern label ---- */
+    .error-punch-label {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      color: var(--text-dim); margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== SHARED HEADER / NAV ===== -->
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo"><img src="PENGER.svg" alt="PENGER" height="20"></a>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="simulators.html" class="nav-link">Simulators</a>
+        <a href="dictionary.html" class="nav-link">Dictionary</a>
+        <a href="guides.html" class="nav-link">Academy</a>
+        <a href="ai-tutor.html" class="nav-link">AI Tutor</a>
+        <button class="nav-link nav-auth-btn" id="authBtn" type="button">Log In</button>
+      </nav>
+      <div class="header-controls">
+        <button class="nav-hamburger" id="navHamburger" type="button" aria-label="Menu" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <!-- ===== 404 CONTENT ===== -->
+  <main class="error-page" role="main">
+
+    <!-- dot matrix: 4 columns encode 404 (no valid BIP39 word) -->
+    <div class="error-plate" id="errorPlate" aria-hidden="true"></div>
+
+    <p class="error-index">INDEX 0404 &mdash; OUT OF RANGE</p>
+
+    <h1 class="error-code">404</h1>
+
+    <!-- binary representation of 404 -->
+    <p class="error-punch-label">Punch pattern for 404:</p>
+    <div class="error-binary" id="errorBinary"></div>
+
+    <div class="error-nav">
+      <a href="index.html" class="primary">Home</a>
+      <a href="simulators.html">Simulators</a>
+      <a href="dictionary.html">Dictionary</a>
+    </div>
+  </main>
+
+  <!-- ===== AUTH MODAL ===== -->
+  <div class="modal-overlay" id="authOverlay" hidden>
+    <div class="modal" role="dialog" aria-labelledby="authTitle">
+      <div class="modal-header">
+        <h3 id="authTitle">Log In</h3>
+        <button class="modal-close" id="authClose" type="button" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <button class="btn btn-primary" style="width:100%;margin-top:16px;" type="button" disabled>LOG IN (COMING SOON)</button>
+        <p class="meta-text" style="text-align:center;margin-top:12px;">Authentication is not yet available. This is a preview of the upcoming feature.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <span class="footer-brand"><img src="PENGER (1).svg" alt="PENGER" height="16"></span>
+        <span class="meta-text">Self-Custody Tools &amp; Guides</span>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 PENGER</span>
+        <span>OFFLINE / CLIENT-SIDE / NO TRACKING</span>
+      </div>
+    </div>
+  </footer>
+
+  <button class="login-float" type="button" aria-label="Log In">LOG IN</button>
+
+  <script src="shared.js"></script>
+  <script>
+  (function () {
+    'use strict';
+
+    var BINARY_404 = '000110010100'; // 404 in 12-bit binary
+
+    /* ---- render binary badges ---- */
+    var binaryEl = document.getElementById('errorBinary');
+    if (binaryEl) {
+      for (var i = 0; i < BINARY_404.length; i++) {
+        var span = document.createElement('span');
+        span.className = 'ebit-label ' + (BINARY_404[i] === '1' ? 'b1' : 'b0');
+        span.textContent = BINARY_404[i];
+        binaryEl.appendChild(span);
+      }
+    }
+
+    /* ---- render mini plate (12x12 grid, column 1 encodes 404) ---- */
+    var plateEl = document.getElementById('errorPlate');
+    if (plateEl) {
+      // Build a sparse 12x12 matrix
+      // Columns represent "words" — we light up a pattern that spells 404
+      // Using 3 key columns for the 3 digits of 404
+      var cols = 12;
+      var rows = 12;
+      // 4 = 000000000100, 0 = 000000000000, 4 = 000000000100
+      var patterns = [
+        '000110010100', // 404
+        '000000000000', // empty
+        '000110010100', // 404
+        '000000000000', // empty
+        '000000000001', // 1
+        '000000000000', // empty
+        '100000000000', // 2048
+        '000000000000', // empty
+        '000110010100', // 404
+        '000000000000', // empty
+        '000110010100', // 404
+        '000000000000'  // empty
+      ];
+
+      for (var r = 0; r < rows; r++) {
+        for (var c = 0; c < cols; c++) {
+          var dot = document.createElement('div');
+          dot.className = 'ebit' + (patterns[c][r] === '1' ? ' on' : '');
+          plateEl.appendChild(dot);
+        }
+      }
+
+      // Subtle animation: randomly flip dots on/off
+      var allDots = plateEl.querySelectorAll('.ebit');
+      setInterval(function () {
+        var idx = Math.floor(Math.random() * allDots.length);
+        var dot = allDots[idx];
+        if (dot.classList.contains('on')) {
+          dot.classList.remove('on');
+        } else {
+          dot.classList.add('on');
+        }
+      }, 600);
+    }
+  })();
+  </script>
+</body>
+</html>

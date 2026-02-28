@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#FAFAFA">
+  <meta name="referrer" content="no-referrer">
+
+  <!-- ✎ EDIT: Update description for SEO / link previews -->
+  <meta name="description" content="ARTICLE TITLE &mdash; Short description of what this guide covers (120-160 characters).">
+  <meta name="author" content="PENGER">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- ✎ EDIT: Update the <title> tag -->
+  <title>ARTICLE TITLE &mdash; PENGER Academy</title>
+</head>
+<body>
+  <noscript><p style="padding:40px;text-align:center;font-size:16px;">This application requires JavaScript to function.</p></noscript>
+
+  <!-- ===== SHARED HEADER / NAV ===== -->
+  <!-- NOTE: Copy this block exactly into every new guide page. Do not modify. -->
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo"><img src="PENGER.svg" alt="PENGER" height="20"></a>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="simulators.html" class="nav-link">Simulators</a>
+        <a href="dictionary.html" class="nav-link">Dictionary</a>
+        <a href="guides.html" class="nav-link">Academy</a>
+        <a href="ai-tutor.html" class="nav-link">AI Tutor</a>
+        <button class="nav-link nav-auth-btn" id="authBtn" type="button">Log In</button>
+      </nav>
+      <div class="header-controls">
+        <button class="nav-hamburger" id="navHamburger" type="button" aria-label="Menu" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <main>
+
+    <!-- ===== ARTICLE INTRO ===== -->
+    <!-- The intro section contains the back-link, category label, title, subtitle, and level toggle. -->
+    <section class="section-intro">
+      <div class="container">
+        <a href="guides.html" class="back-link anim-fade-in">&larr; All Guides</a>
+
+        <!-- ✎ EDIT: Category label — use format [ GUIDE / TOPIC ] -->
+        <p class="label anim-fade-in">[ GUIDE / TOPIC NAME ]</p>
+
+        <!-- ✎ EDIT: Article title — clear, concise, max ~50 characters -->
+        <h1 class="anim-fade-in">Article Title Here</h1>
+
+        <!-- ✎ EDIT: Short subtitle / description (1-2 sentences) -->
+        <p class="body-text anim-fade-in">One or two sentences summarizing what this guide covers and what the reader will learn. Mention both beginner and advanced depth.</p>
+
+        <!-- Level toggle — always include both levels -->
+        <div class="level-toggle anim-fade-in" id="levelToggle">
+          <div class="pill-group">
+            <button class="pill active" data-level="beginner" type="button">BEGINNER</button>
+            <button class="pill" data-level="advanced" type="button">ADVANCED</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ╔══════════════════════════════════════════════════════════════╗ -->
+    <!-- ║                     BEGINNER CONTENT                        ║ -->
+    <!-- ╚══════════════════════════════════════════════════════════════╝ -->
+    <div class="guide-content active" id="guide-beginner">
+
+      <!-- TABLE OF CONTENTS -->
+      <!-- Every section heading below must have a matching anchor here. -->
+      <!-- Beginner anchors use "b-" prefix; advanced use "a-" prefix.   -->
+      <div class="container">
+        <nav class="guide-toc">
+          <div class="guide-toc-title">In This Section</div>
+          <ol>
+            <!-- ✎ EDIT: Update TOC links to match your section IDs -->
+            <li><a href="#b-section-one">Section One Title</a></li>
+            <li><a href="#b-section-two">Section Two Title</a></li>
+            <li><a href="#b-section-three">Section Three Title</a></li>
+          </ol>
+        </nav>
+      </div>
+
+      <!-- ===== SECTION 1 ===== -->
+      <section class="section-block">
+        <div class="container">
+          <!-- ✎ EDIT: Section heading — must have id matching TOC link -->
+          <h2 id="b-section-one" class="anim-fade-in">Section One Title</h2>
+          <div class="guide-text anim-fade-in">
+
+            <!-- === PARAGRAPH === -->
+            <!-- Standard body text. Use <strong> for key terms, <em> for emphasis. -->
+            <p>Opening paragraph introducing the concept. Use <strong>bold text</strong> for key terms and <em>italic text</em> for emphasis or technical names. Keep paragraphs focused on a single idea.</p>
+
+            <!-- === BLOCKQUOTE === -->
+            <!-- Use for analogies, key insights, or memorable takeaways. -->
+            <blockquote>
+              <p>Blockquotes are for analogies, key insights, or important mental models that help the reader understand the concept. Keep them concise.</p>
+            </blockquote>
+
+            <!-- === INLINE CODE === -->
+            <!-- Use <code> for technical values, commands, or short code snippets inline. -->
+            <p>Reference technical values inline with <code>code formatting</code>. For example, BIP39 uses indices from <code>0</code> to <code>2047</code>.</p>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== SECTION 2 ===== -->
+      <section class="section-block">
+        <div class="container">
+          <h2 id="b-section-two" class="anim-fade-in">Section Two Title</h2>
+          <div class="guide-text anim-fade-in">
+
+            <p>Introductory paragraph for this section.</p>
+
+            <!-- === ORDERED LIST === -->
+            <!-- Use for step-by-step processes or ranked items. -->
+            <ol>
+              <li>First step or item in the process</li>
+              <li>Second step &mdash; use <strong>bold</strong> for key actions</li>
+              <li>Third step with <code>inline code</code> if needed</li>
+              <li>Fourth step concluding the process</li>
+            </ol>
+
+            <!-- === UNORDERED LIST === -->
+            <!-- Use for non-sequential items, features, or options. Rendered with dash markers. -->
+            <ul>
+              <li>First bullet point</li>
+              <li>Second bullet point with <strong>emphasis</strong></li>
+              <li>Third bullet point</li>
+            </ul>
+
+            <p>Closing paragraph that ties the section together.</p>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== SECTION 3 ===== -->
+      <section class="section-block">
+        <div class="container">
+          <h2 id="b-section-three" class="anim-fade-in">Section Three Title</h2>
+          <div class="guide-text anim-fade-in">
+
+            <p>Introduction to this section.</p>
+
+            <!-- === CALLOUT: WARNING === -->
+            <!-- Red left border. Use for security warnings, irreversible actions, critical mistakes. -->
+            <div class="callout callout-warning">
+              <span class="callout-label">Important</span>
+              Warning text about something the reader must not do, or a critical security consideration. Keep it direct and actionable.
+            </div>
+
+            <!-- === CALLOUT: TIP === -->
+            <!-- Dark left border. Use for helpful advice, best practices, pro tips. -->
+            <div class="callout callout-tip">
+              <span class="callout-label">Tip</span>
+              Helpful advice or best practice that improves the reader's workflow or understanding.
+            </div>
+
+            <!-- === CALLOUT: INFO === -->
+            <!-- Gray left border. Use for additional context, background info, definitions. -->
+            <div class="callout callout-info">
+              <span class="callout-label">Note</span>
+              Additional context or background information that supplements the main text without being critical.
+            </div>
+
+            <!-- === SUBHEADING (h3) === -->
+            <!-- Use within a section for logical sub-grouping. Do not create TOC entries for h3. -->
+            <h3>Subsection Title</h3>
+            <p>Content under a subsection heading. Use h3 sparingly &mdash; only when a section genuinely has 2+ distinct sub-topics that benefit from labeling.</p>
+
+            <!-- === HIGHLIGHTED TEXT === -->
+            <!-- Use <mark> for drawing attention to specific key phrases. -->
+            <p>You can also <mark>highlight key phrases</mark> when they need extra visual emphasis beyond bold.</p>
+
+            <!-- === HORIZONTAL RULE === -->
+            <!-- Use to create visual separation between sub-topics within a single section. -->
+            <hr>
+
+            <p>Content after the separator. Use horizontal rules sparingly.</p>
+
+          </div>
+        </div>
+      </section>
+    </div>
+
+
+    <!-- ╔══════════════════════════════════════════════════════════════╗ -->
+    <!-- ║                     ADVANCED CONTENT                        ║ -->
+    <!-- ╚══════════════════════════════════════════════════════════════╝ -->
+    <div class="guide-content" id="guide-advanced">
+
+      <!-- TABLE OF CONTENTS -->
+      <div class="container">
+        <nav class="guide-toc">
+          <div class="guide-toc-title">In This Section</div>
+          <ol>
+            <!-- ✎ EDIT: Update TOC links to match your advanced section IDs -->
+            <li><a href="#a-section-one">Advanced Section One</a></li>
+            <li><a href="#a-section-two">Advanced Section Two</a></li>
+            <li><a href="#a-section-three">Advanced Section Three</a></li>
+          </ol>
+        </nav>
+      </div>
+
+      <!-- ===== ADVANCED SECTION 1 ===== -->
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-section-one" class="anim-fade-in">Advanced Section One</h2>
+          <div class="guide-text anim-fade-in">
+
+            <p>Advanced content goes deeper into technical implementation. Use <strong>precise terminology</strong> and reference specific protocols, algorithms, or standards.</p>
+
+            <!-- === CODE BLOCK === -->
+            <!-- Use <pre><code> for multi-line code, commands, or formatted technical output. -->
+            <pre><code>// Example code block
+m/44'/0'/0'/0/0    &larr; BIP44 derivation path
+m/84'/0'/0'/0/0    &larr; BIP84 (SegWit) path</code></pre>
+
+            <p>After the code block, explain what it demonstrates.</p>
+
+            <ul>
+              <li><code>m/44'</code> &mdash; purpose field (BIP44)</li>
+              <li><code>/0'</code> &mdash; coin type (Bitcoin)</li>
+              <li><code>/0'</code> &mdash; account index</li>
+              <li><code>/0/0</code> &mdash; change flag and address index</li>
+            </ul>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== ADVANCED SECTION 2 ===== -->
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-section-two" class="anim-fade-in">Advanced Section Two</h2>
+          <div class="guide-text anim-fade-in">
+
+            <p>Continue with technical depth. Combine different formatting elements as needed.</p>
+
+            <blockquote>
+              <p>Technical insight or quote that reinforces the advanced concept being explained.</p>
+            </blockquote>
+
+            <h3>Technical Subsection</h3>
+            <p>Detailed explanation of a specific mechanism or algorithm. Use tables, lists, and code as appropriate.</p>
+
+            <div class="callout callout-info">
+              <span class="callout-label">Technical Note</span>
+              Implementation-specific detail that developers or advanced users would find useful. Reference specific RFCs, BIPs, or standards.
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== ADVANCED SECTION 3 ===== -->
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-section-three" class="anim-fade-in">Advanced Section Three</h2>
+          <div class="guide-text anim-fade-in">
+
+            <p>Final advanced section wrapping up the technical content.</p>
+
+            <div class="callout callout-warning">
+              <span class="callout-label">Security Warning</span>
+              Critical technical security consideration that advanced users must be aware of.
+            </div>
+
+            <p>Closing paragraph for the advanced section. Reference related guides or tools within PENGER for continued learning.</p>
+
+          </div>
+        </div>
+      </section>
+    </div>
+
+
+    <!-- ╔══════════════════════════════════════════════════════════════╗ -->
+    <!-- ║                          FAQ                                ║ -->
+    <!-- ╚══════════════════════════════════════════════════════════════╝ -->
+    <!-- FAQ uses a typewriter-reveal animation on answer bubbles.       -->
+    <!-- 3-6 questions is the ideal range. Keep answers 2-4 sentences.   -->
+    <section class="section-block faq-section">
+      <div class="container">
+        <p class="label anim-fade-in">[ FREQUENTLY ASKED QUESTIONS ]</p>
+        <h2 class="anim-fade-in">FAQ</h2>
+        <div class="faq-chat anim-fade-in">
+
+          <!-- ✎ EDIT: Add 3-6 FAQ items. Each follows this pattern: -->
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>First question the reader might ask?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <!-- Answer text goes in the data-text attribute (typewriter effect). -->
+              <!-- Use &quot; for quotes, &amp; for ampersands inside data-text.    -->
+              <div class="faq-bubble" data-text="Clear, concise answer to the question. Keep it 2-4 sentences. Reference specific technical details when relevant."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Second frequently asked question?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Answer to the second question. Be specific and actionable."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Third question about a common misconception?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Answer that clarifies the misconception. Provide the correct understanding."></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ╔══════════════════════════════════════════════════════════════╗ -->
+    <!-- ║                    READ NEXT / PREVIEWS                     ║ -->
+    <!-- ╚══════════════════════════════════════════════════════════════╝ -->
+    <!-- Show 2-3 related guides. Exclude the current guide from the list. -->
+    <section class="article-previews">
+      <div class="container">
+        <p class="label">[ READ NEXT ]</p>
+        <h3>Continue Learning</h3>
+        <div class="preview-grid">
+
+          <!-- ✎ EDIT: Pick 2-3 related guides. Remove the current guide from the list. -->
+          <a class="preview-card" href="guide-seed-anatomy.html">
+            <h4>Anatomy of a Seed Phrase</h4>
+            <p>What is a mnemonic seed phrase, where do the words come from, and why does order matter?</p>
+          </a>
+          <a class="preview-card" href="guide-wallet-anatomy.html">
+            <h4>Anatomy of a Wallet</h4>
+            <p>How wallets derive keys, manage addresses, and interact with blockchain networks under the hood.</p>
+          </a>
+          <a class="preview-card" href="guide-opsec.html">
+            <h4>Operational Security (OpSec)</h4>
+            <p>Protect yourself from phishing, social engineering, and physical threats.</p>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ===== AUTH MODAL ===== -->
+  <!-- NOTE: Copy this block exactly into every new guide page. Do not modify. -->
+  <div class="modal-overlay" id="authOverlay" hidden>
+    <div class="modal" role="dialog" aria-labelledby="authTitle">
+      <div class="modal-header">
+        <h3 id="authTitle">Log In</h3>
+        <button class="modal-close" id="authClose" type="button" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="label" for="authEmail">EMAIL</label>
+          <input type="email" class="form-input" id="authEmail" placeholder="satoshi@example.com">
+        </div>
+        <div class="form-group">
+          <label class="label" for="authPass">PASSWORD</label>
+          <input type="password" class="form-input" id="authPass" placeholder="Enter password">
+        </div>
+        <button class="btn btn-primary" style="width:100%;margin-top:16px;" type="button" disabled>LOG IN (COMING SOON)</button>
+        <p class="meta-text" style="text-align:center;margin-top:12px;">Authentication is not yet available.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===== FOOTER ===== -->
+  <!-- NOTE: Copy this block exactly into every new guide page. Do not modify. -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <span class="footer-brand"><img src="PENGER (1).svg" alt="PENGER" height="16"></span>
+        <span class="meta-text">Self-Custody Tools &amp; Guides</span>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 PENGER</span>
+        <span>OFFLINE / CLIENT-SIDE / NO TRACKING</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING LOG IN -->
+  <button class="login-float" type="button" aria-label="Log In">LOG IN</button>
+
+  <script src="shared.js"></script>
+</body>
+</html>

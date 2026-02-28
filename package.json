@@ -1,0 +1,22 @@
+{
+  "name": "penger",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PENGER — BIP39 Self-Custody Tools & Guides",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.0",
+    "express": "^4.21.0",
+    "express-rate-limit": "^7.4.0",
+    "helmet": "^8.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="format-detection" content="telephone=no, date=no, email=no, address=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#FAFAFA">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="PENGER &mdash; Open-source self-custody tools and guides. BIP39 seed phrase generator, binary encoder, and educational guides for securing your digital assets.">
+  <meta name="author" content="PENGER">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>PENGER &mdash; Self-Custody Tools &amp; Guides</title>
+</head>
+<body>
+  <noscript><p style="padding:40px;text-align:center;font-size:16px;">This application requires JavaScript to function.</p></noscript>
+
+  <!-- ===== SHARED HEADER / NAV ===== -->
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo"><img src="PENGER.svg" alt="PENGER" height="20"></a>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="simulators.html" class="nav-link">Simulators</a>
+        <a href="dictionary.html" class="nav-link">Dictionary</a>
+        <a href="guides.html" class="nav-link">Academy</a>
+        <a href="ai-tutor.html" class="nav-link">AI Tutor</a>
+        <button class="nav-link nav-auth-btn" id="authBtn" type="button">Log In</button>
+      </nav>
+      <div class="header-controls">
+        <button class="nav-hamburger" id="navHamburger" type="button" aria-label="Menu" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <main>
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+      <div class="container">
+        <p class="label">[ SELF-CUSTODY / CRYPTO TOOLS ]</p>
+        <h1 class="hero-title">Your Keys,<br>Your Crypto.</h1>
+        <p class="hero-subtitle">Open-source tools and guides for securing your digital assets. Everything runs offline. No tracking. No accounts required.</p>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <span class="hero-stat-num">2048</span>
+            <span class="hero-stat-label">BIP39 Words</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-num">256</span>
+            <span class="hero-stat-label">Bits Max Entropy</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-num">100%</span>
+            <span class="hero-stat-label">Client-Side</span>
+          </div>
+        </div>
+        <div class="btn-group">
+          <a href="simulators.html" class="btn btn-primary">LAUNCH SIMULATORS</a>
+          <a href="guides.html" class="btn btn-secondary">READ GUIDES</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== INTERACTIVE SIMULATORS ===== -->
+    <section class="section-cards">
+      <div class="container">
+        <p class="label">[ INTERACTIVE SIMULATORS ]</p>
+        <h2 class="anim-fade-in">BIP39 Toolkit</h2>
+        <p class="body-text" style="margin-top: 8px;">Generate, decode, and explore the full BIP39 standard. All tools run entirely in your browser with zero network calls.</p>
+        <div class="card-grid">
+          <a href="simulators.html" class="card">
+            <h3 class="card-title">Seed Phrase Generator</h3>
+            <p class="card-desc">Generate cryptographically random seed phrases with SHA-256 checksums. Supports 12, 15, 18, 21, and 24-word configurations.</p>
+            <span class="card-link">Launch generator &rarr;</span>
+          </a>
+          <a href="simulators.html" class="card">
+            <h3 class="card-title">Binary Decoder</h3>
+            <p class="card-desc">Input binary patterns on an interactive dot matrix grid and decode them to BIP39 words in real time. 12-bit visualization.</p>
+            <span class="card-link">Launch decoder &rarr;</span>
+          </a>
+          <a href="dictionary.html" class="card">
+            <h3 class="card-title">Complete Dictionary</h3>
+            <p class="card-desc">Browse, search and explore all 2048 BIP39 English words. Each entry includes binary breakdown and punch pattern visualization.</p>
+            <span class="card-link">Browse dictionary &rarr;</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== EVERGREEN GUIDES ===== -->
+    <section class="section-cards">
+      <div class="container">
+        <p class="label">[ SELF-CUSTODIAL ACADEMY ]</p>
+        <h2 class="anim-fade-in">Evergreen Guides</h2>
+        <p class="body-text" style="margin-top: 8px;">Comprehensive guides covering self-custody fundamentals. Each guide is available in Beginner and Advanced versions.</p>
+        <div class="card-grid">
+          <a href="guide-seed-anatomy.html" class="card">
+            <h3 class="card-title">Anatomy of a Seed Phrase</h3>
+            <p class="card-desc">Understand what makes up a BIP39 mnemonic, how entropy and checksums work, and why your 12-24 words matter.</p>
+            <span class="card-link">Read guide &rarr;</span>
+          </a>
+          <a href="guide-wallet-anatomy.html" class="card">
+            <h3 class="card-title">Anatomy of a Wallet</h3>
+            <p class="card-desc">How wallets derive keys, manage addresses, and interact with blockchain networks under the hood.</p>
+            <span class="card-link">Read guide &rarr;</span>
+          </a>
+          <a href="guide-wallet-comparison.html" class="card">
+            <h3 class="card-title">Wallet Types Comparison</h3>
+            <p class="card-desc">Hot wallets, cold wallets, hardware devices, multi-sig setups. Compare trade-offs and find the right fit.</p>
+            <span class="card-link">Read guide &rarr;</span>
+          </a>
+          <a href="guide-opsec.html" class="card">
+            <h3 class="card-title">OpSec &mdash; Operational Security</h3>
+            <p class="card-desc">Protect yourself from phishing, social engineering, and physical threats. Practical security habits for crypto holders.</p>
+            <span class="card-link">Read guide &rarr;</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== AUTH MODAL ===== -->
+  <div class="modal-overlay" id="authOverlay" hidden>
+    <div class="modal" role="dialog" aria-labelledby="authTitle">
+      <div class="modal-header">
+        <h3 id="authTitle">Log In</h3>
+        <button class="modal-close" id="authClose" type="button" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="label" for="authEmail">EMAIL</label>
+          <input type="email" class="form-input" id="authEmail" placeholder="satoshi@example.com">
+        </div>
+        <div class="form-group">
+          <label class="label" for="authPass">PASSWORD</label>
+          <input type="password" class="form-input" id="authPass" placeholder="Enter password">
+        </div>
+        <button class="btn btn-primary" style="width:100%;margin-top:16px;" type="button" disabled>LOG IN (COMING SOON)</button>
+        <p class="meta-text" style="text-align:center;margin-top:12px;">Authentication is not yet available. This is a preview of the upcoming feature.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <span class="footer-brand"><img src="PENGER (1).svg" alt="PENGER" height="16"></span>
+        <span class="meta-text">Self-Custody Tools &amp; Guides</span>
+      </div>
+      <div class="footer-disclaimer">
+        This project is for educational purposes. All tools run fully offline in your browser &mdash; no data is transmitted. For real wallet backups, always use your hardware wallet's built-in seed generator. Never share your seed phrase with anyone.
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 PENGER</span>
+        <span>OFFLINE / CLIENT-SIDE / NO TRACKING</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING LOG IN -->
+  <button class="login-float" type="button" aria-label="Log In">LOG IN</button>
+
+  <script src="shared.js"></script>
+</body>
+</html>

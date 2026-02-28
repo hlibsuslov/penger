@@ -1,0 +1,111 @@
+{
+  "root": {
+    "bot": "Hi! I'm your crypto learning assistant. Choose a topic to start a guided lesson.",
+    "options": [
+      { "label": "I want to learn how to use a crypto wallet", "next": "wallet_intro" },
+      { "label": "How does blockchain work?", "next": "blockchain_intro" },
+      { "label": "What is a seed phrase and why does it matter?", "next": "seed_intro" }
+    ]
+  },
+
+  "wallet_intro": {
+    "bot": "A crypto wallet is software (or hardware) that stores your private keys — the secret codes that prove you own your coins. You never actually store crypto \"in\" a wallet; the coins live on the blockchain. The wallet just holds the keys to access them.",
+    "options": [
+      { "label": "What types of wallets exist?", "next": "wallet_types" },
+      { "label": "How do I set up my first wallet?", "next": "wallet_setup" }
+    ]
+  },
+  "wallet_types": {
+    "bot": "There are two main categories:\n\n• Hot wallets — connected to the internet (mobile apps, browser extensions like MetaMask). Convenient for daily use, but more vulnerable to hacks.\n\n• Cold wallets — offline devices (Ledger, Trezor, metal plates). Best for long-term storage of significant amounts. The private key never touches the internet.",
+    "options": [
+      { "label": "Which wallet should a beginner choose?", "next": "wallet_beginner" },
+      { "label": "What is a hardware wallet exactly?", "next": "wallet_hardware" }
+    ]
+  },
+  "wallet_beginner": {
+    "bot": "For learning, start with a reputable hot wallet like MetaMask (browser) or Trust Wallet (mobile). Practice with small amounts first. Once you hold meaningful value, consider a hardware wallet like Ledger Nano or Trezor for secure long-term storage. Never keep large amounts on an exchange — \"not your keys, not your coins.\"",
+    "options": [
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+  "wallet_hardware": {
+    "bot": "A hardware wallet is a dedicated physical device (looks like a USB stick) that generates and stores your private keys in a secure chip. When you sign a transaction, the key never leaves the device — the transaction is signed inside the chip and only the signed result is sent to your computer. This makes it nearly impossible for malware to steal your keys.",
+    "options": [
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+  "wallet_setup": {
+    "bot": "Setting up a wallet typically involves 3 steps:\n\n1. Download the official app or buy a hardware device from the manufacturer.\n2. Create a new wallet — the device generates a random seed phrase (12 or 24 words).\n3. Write down your seed phrase on paper or stamp it on metal. Store it securely offline.\n\nNever screenshot your seed phrase or store it digitally. If someone gets your seed phrase, they can take all your funds.",
+    "options": [
+      { "label": "What if I lose my seed phrase?", "next": "wallet_backup" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+  "wallet_backup": {
+    "bot": "If you lose your seed phrase AND your wallet device breaks, your funds are permanently lost. No one can recover them — there is no \"forgot password\" button in crypto.\n\nBest practices:\n• Write the phrase on paper and store in a fireproof safe.\n• Use a metal backup plate (like what PENGER tools help you create) for fire/water resistance.\n• Consider splitting the phrase across 2–3 secure locations.\n• Never store it on your phone, email, or cloud storage.",
+    "options": [
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "blockchain_intro": {
+    "bot": "A blockchain is a shared digital ledger that records transactions across thousands of computers. Instead of trusting a bank to keep track of who owns what, the network itself maintains the record. Every transaction is grouped into a \"block,\" and blocks are chained together in order — hence \"blockchain.\"",
+    "options": [
+      { "label": "How are blocks created?", "next": "blockchain_blocks" },
+      { "label": "What keeps the network secure?", "next": "blockchain_consensus" }
+    ]
+  },
+  "blockchain_blocks": {
+    "bot": "Roughly every 10 minutes (on Bitcoin), a special node called a \"miner\" collects pending transactions, bundles them into a block, and solves a cryptographic puzzle to earn the right to add that block. This process is called Proof of Work. Each block contains a hash of the previous block, creating an unbreakable chain — changing one old block would require re-doing all subsequent work.",
+    "options": [
+      { "label": "What is a transaction technically?", "next": "blockchain_tx" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+  "blockchain_tx": {
+    "bot": "A transaction is a signed message that says: \"Send X coins from address A to address B.\" You sign it with your private key (proving you own address A), broadcast it to the network, and miners include it in the next block. Once confirmed in a block, it's practically irreversible. The more blocks added after yours (\"confirmations\"), the more secure the transaction becomes.",
+    "options": [
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+  "blockchain_consensus": {
+    "bot": "Consensus mechanisms prevent fraud without a central authority:\n\n• Proof of Work (PoW) — Miners compete to solve math puzzles. Used by Bitcoin. Very secure but energy-intensive.\n\n• Proof of Stake (PoS) — Validators lock up coins as collateral. Used by Ethereum. More energy-efficient, but different trust assumptions.\n\nBoth ensure that no single party can rewrite the ledger without controlling the majority of the network's power or stake.",
+    "options": [
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "seed_intro": {
+    "bot": "A seed phrase (also called a \"mnemonic\" or \"recovery phrase\") is a list of 12 or 24 English words generated from random entropy. It's the master backup of your entire wallet — all your private keys, addresses, and accounts can be mathematically derived from this single phrase. Lose it, and you lose everything. Protect it, and you can recover your wallet on any compatible device.",
+    "options": [
+      { "label": "How does BIP39 encoding work?", "next": "seed_bip39" },
+      { "label": "How do I store my seed phrase safely?", "next": "seed_security" }
+    ]
+  },
+  "seed_bip39": {
+    "bot": "BIP39 is the standard:\n\n1. Your device generates 128–256 bits of random data (entropy).\n2. A SHA-256 checksum is appended (4–8 bits).\n3. The combined bits are split into groups of 11.\n4. Each 11-bit group maps to one of 2048 words in the BIP39 wordlist.\n\nSo 12 words = 128 bits of entropy + 4-bit checksum = 132 bits total. Each word's index (1–2048) has a unique binary representation — that's what the punch patterns on PENGER visualize.",
+    "options": [
+      { "label": "What do the binary punch patterns mean?", "next": "seed_binary" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+  "seed_binary": {
+    "bot": "Each BIP39 word maps to an index (1–2048). That index converts to a 12-bit binary number. On a metal backup plate, each column represents one word, and each row represents a bit weight (2048, 1024, 512... down to 1). A filled dot means \"1\" (punch), an empty dot means \"0\" (skip). Reading top to bottom gives you the binary index, which maps back to the word. You can try this yourself in the Simulators section!",
+    "options": [
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+  "seed_security": {
+    "bot": "Golden rules for seed phrase security:\n\n• Write it down physically — paper at minimum, metal plate for durability.\n• Never type it into a website, email, or messaging app.\n• Never photograph or screenshot it.\n• Store in a fireproof, waterproof location (safe, vault).\n• Consider splitting across multiple locations (e.g., Shamir's Secret Sharing).\n• Test your backup by restoring on a secondary device before storing large funds.",
+    "options": [
+      { "label": "Any tips for long-term backup?", "next": "seed_backup_tips" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+  "seed_backup_tips": {
+    "bot": "For long-term backup:\n\n• Use a stainless steel or titanium plate — resistant to fire (up to 1400°C), water, and corrosion.\n• Stamp or punch each word's binary pattern (not letters) for a compact, language-independent backup.\n• Store in a secure location only you can access.\n• Tell a trusted person WHERE the backup is (not the phrase itself) in case of emergency.\n• Periodically verify your backup is intact and readable.\n\nPENGER's simulator tools help you understand and practice the binary encoding before committing to metal.",
+    "options": [
+      { "label": "Start over", "next": "root" }
+    ]
+  }
+}

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#FAFAFA">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="Wallet Types Comparison &mdash; Hot wallets, cold storage, hardware devices, and multi-sig setups compared.">
+  <meta name="author" content="PENGER">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>Wallet Types Comparison &mdash; PENGER Academy</title>
+</head>
+<body>
+  <noscript><p style="padding:40px;text-align:center;font-size:16px;">This application requires JavaScript to function.</p></noscript>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo"><img src="PENGER.svg" alt="PENGER" height="20"></a>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="simulators.html" class="nav-link">Simulators</a>
+        <a href="dictionary.html" class="nav-link">Dictionary</a>
+        <a href="guides.html" class="nav-link">Academy</a>
+        <a href="ai-tutor.html" class="nav-link">AI Tutor</a>
+        <button class="nav-link nav-auth-btn" id="authBtn" type="button">Log In</button>
+      </nav>
+      <div class="header-controls">
+        <button class="nav-hamburger" id="navHamburger" type="button" aria-label="Menu" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <main>
+    <section class="section-intro">
+      <div class="container">
+        <a href="guides.html" class="back-link anim-fade-in">&larr; All Guides</a>
+        <p class="label anim-fade-in">[ GUIDE / WALLET TYPES ]</p>
+        <h1 class="anim-fade-in">Wallet Types Comparison</h1>
+        <p class="body-text anim-fade-in">Hot wallets, cold storage, hardware devices, multi-sig &mdash; understand the trade-offs and pick the right tool for your needs.</p>
+
+        <div class="level-toggle anim-fade-in" id="levelToggle">
+          <div class="pill-group">
+            <button class="pill active" data-level="beginner" type="button">BEGINNER</button>
+            <button class="pill" data-level="advanced" type="button">ADVANCED</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BEGINNER ===== -->
+    <div class="guide-content active" id="guide-beginner">
+      <div class="container">
+        <nav class="guide-toc">
+          <div class="guide-toc-title">In This Section</div>
+          <ol>
+            <li><a href="#b-hot-cold">Hot Wallets vs. Cold Storage</a></li>
+            <li><a href="#b-hardware">Hardware Wallets</a></li>
+            <li><a href="#b-custody">Custodial vs. Self-Custodial</a></li>
+          </ol>
+        </nav>
+      </div>
+      <section class="section-block">
+        <div class="container">
+          <h2 class="anim-fade-in" id="b-hot-cold">Hot Wallets vs. Cold Storage</h2>
+          <div class="guide-text anim-fade-in">
+            <p><strong>Hot wallets</strong> are connected to the internet &mdash; mobile apps, browser extensions, desktop software. They are convenient for daily transactions but more vulnerable to hacking.</p>
+            <p><strong>Cold storage</strong> keeps your keys completely offline &mdash; hardware wallets, paper wallets, air-gapped computers.</p>
+            <blockquote><p>A common strategy is to keep a small amount in a hot wallet for regular use, while the majority stays in cold storage &mdash; like keeping cash in your pocket while the rest stays in a safe.</p></blockquote>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 class="anim-fade-in" id="b-hardware">Hardware Wallets</h2>
+          <div class="guide-text anim-fade-in">
+            <p>Hardware wallets are dedicated physical devices that store your private keys in a <strong>secure chip</strong>. They sign transactions internally, meaning your keys never leave the device.</p>
+            <h3>How They Work</h3>
+            <ol>
+              <li>A companion app on your computer prepares the transaction</li>
+              <li>The transaction is sent to the hardware device</li>
+              <li>You verify and confirm on the device screen</li>
+              <li>The device signs internally and returns the signature</li>
+              <li>The companion app broadcasts the signed transaction</li>
+            </ol>
+            <div class="callout callout-tip">
+              <span class="callout-label">Tip</span>
+              Popular hardware wallets include Ledger, Trezor, and Keystone. Always buy directly from the manufacturer to avoid tampering.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 class="anim-fade-in" id="b-custody">Custodial vs. Self-Custodial</h2>
+          <div class="guide-text anim-fade-in">
+            <p>With a <strong>custodial wallet</strong> (e.g., exchange accounts), a third party holds your keys. This is convenient but introduces <em>counterparty risk</em>:</p>
+            <ul>
+              <li>The exchange could be hacked</li>
+              <li>The company could go bankrupt</li>
+              <li>Your account could be frozen</li>
+              <li>Withdrawal limits may apply</li>
+            </ul>
+            <p><strong>Self-custodial wallets</strong> give you full control. You hold your keys, you own your assets &mdash; no intermediary can block access.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== ADVANCED ===== -->
+    <div class="guide-content" id="guide-advanced">
+      <div class="container">
+        <nav class="guide-toc">
+          <div class="guide-toc-title">In This Section</div>
+          <ol>
+            <li><a href="#a-multisig">Multi-Signature Wallets</a></li>
+            <li><a href="#a-airgap">Air-Gapped Signing and PSBTs</a></li>
+            <li><a href="#a-mpc">MPC Wallets and Threshold Signatures</a></li>
+          </ol>
+        </nav>
+      </div>
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-multisig" class="anim-fade-in">Multi-Signature (Multi-Sig) Wallets</h2>
+          <div class="guide-text anim-fade-in">
+            <p>Multi-sig wallets require <strong>M-of-N signatures</strong> to authorize a transaction (e.g., 2-of-3). This distributes trust across multiple key holders, eliminating single points of failure.</p>
+            <h3>Common Configurations</h3>
+            <ul>
+              <li><strong>2-of-3</strong> &mdash; personal use (phone + hardware wallet + paper backup)</li>
+              <li><strong>3-of-5</strong> &mdash; organizations with distributed signing authority</li>
+            </ul>
+            <p>Bitcoin supports native multi-sig via <code>P2SH</code> and <code>P2WSH</code> scripts. The trade-off is increased complexity in setup and recovery.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-airgap" class="anim-fade-in">Air-Gapped Signing and PSBTs</h2>
+          <div class="guide-text anim-fade-in">
+            <p>Air-gapped wallets <strong>never connect to a network</strong>. Transactions are transferred using the <code>PSBT</code> format (BIP174):</p>
+            <ol>
+              <li>The watch-only wallet creates an <strong>unsigned PSBT</strong></li>
+              <li>Transfer via QR code or SD card to the air-gapped device</li>
+              <li>The signer adds its signature</li>
+              <li>Transfer back to the watch-only wallet</li>
+              <li>The wallet broadcasts the fully signed transaction</li>
+            </ol>
+            <blockquote><p>Air-gapped signing provides the strongest isolation from network-based attacks. The signing key never exists on a network-connected device.</p></blockquote>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-mpc" class="anim-fade-in">MPC Wallets and Threshold Signatures</h2>
+          <div class="guide-text anim-fade-in">
+            <p><strong>Multi-Party Computation</strong> (MPC) wallets split the key generation and signing process across multiple parties &mdash; no single party ever holds the complete key.</p>
+            <div class="callout callout-info">
+              <span class="callout-label">MPC vs. Multi-Sig</span>
+              Unlike multi-sig, MPC produces standard single-signature transactions on-chain. This reduces fees, improves privacy, and works across blockchains that don't support native multi-sig.
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== FAQ ===== -->
+    <section class="section-block faq-section">
+      <div class="container">
+        <p class="label anim-fade-in">[ FREQUENTLY ASKED QUESTIONS ]</p>
+        <h2 class="anim-fade-in">FAQ</h2>
+        <div class="faq-chat anim-fade-in">
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Which wallet type is best for a beginner?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="For small amounts and learning, a reputable mobile wallet (self-custodial) is a good start. As your holdings grow, upgrade to a hardware wallet for cold storage. The key is to start with self-custody from day one. Placeholder for beginner wallet recommendations."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Can a hardware wallet be hacked?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Physical access attacks (side-channel, fault injection) are theoretically possible but require sophisticated lab equipment and usually physical possession of the device. Supply chain attacks (tampered devices) are a more practical concern. Always buy directly from the manufacturer. Placeholder for hardware security analysis."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Is it safe to keep crypto on an exchange?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text='Exchanges are frequent targets for hackers and have a history of collapses (Mt. Gox, FTX). While convenient for trading, long-term storage on an exchange exposes you to counterparty risk. "Not your keys, not your coins." Placeholder for exchange risk assessment.'></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>How many hardware wallets should I own?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="For a multi-sig setup, you need at least 2-3 devices from different manufacturers. For a single-sig setup, one device plus a properly stored seed phrase backup is sufficient. Having a spare device speeds up recovery if one fails. Placeholder for hardware redundancy strategies."></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ARTICLE PREVIEWS ===== -->
+    <section class="article-previews">
+      <div class="container">
+        <p class="label">[ READ NEXT ]</p>
+        <h3>Continue Learning</h3>
+        <div class="preview-grid">
+          <a class="preview-card" href="guide-seed-anatomy.html">
+
+            <h4>Anatomy of a Seed Phrase</h4>
+            <p>What makes up a BIP39 mnemonic, how entropy and checksums work, and why your 12-24 words matter.</p>
+          </a>
+          <a class="preview-card" href="guide-wallet-anatomy.html">
+
+            <h4>Anatomy of a Wallet</h4>
+            <p>How wallets derive keys, manage addresses, and interact with blockchain networks under the hood.</p>
+          </a>
+          <a class="preview-card" href="guide-opsec.html">
+
+            <h4>Operational Security (OpSec)</h4>
+            <p>Protect yourself from phishing, social engineering, and physical threats. Practical security habits for crypto holders.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-overlay" id="authOverlay" hidden>
+    <div class="modal" role="dialog" aria-labelledby="authTitle">
+      <div class="modal-header">
+        <h3 id="authTitle">Log In</h3>
+        <button class="modal-close" id="authClose" type="button" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="label" for="authEmail">EMAIL</label>
+          <input type="email" class="form-input" id="authEmail" placeholder="satoshi@example.com">
+        </div>
+        <div class="form-group">
+          <label class="label" for="authPass">PASSWORD</label>
+          <input type="password" class="form-input" id="authPass" placeholder="Enter password">
+        </div>
+        <button class="btn btn-primary" style="width:100%;margin-top:16px;" type="button" disabled>LOG IN (COMING SOON)</button>
+        <p class="meta-text" style="text-align:center;margin-top:12px;">Authentication is not yet available.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <span class="footer-brand"><img src="PENGER (1).svg" alt="PENGER" height="16"></span>
+        <span class="meta-text">Self-Custody Tools &amp; Guides</span>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 PENGER</span>
+        <span>OFFLINE / CLIENT-SIDE / NO TRACKING</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING LOG IN -->
+  <button class="login-float" type="button" aria-label="Log In">LOG IN</button>
+
+  <script src="shared.js"></script>
+</body>
+</html>

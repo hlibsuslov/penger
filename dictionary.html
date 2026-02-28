@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#FAFAFA">
+  <title>Dictionary — PENGER</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="page-dictionary">
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo"><img src="PENGER.svg" alt="PENGER" height="20"></a>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="simulators.html" class="nav-link">Simulators</a>
+        <a href="dictionary.html" class="nav-link">Dictionary</a>
+        <a href="guides.html" class="nav-link">Academy</a>
+        <a href="ai-tutor.html" class="nav-link">AI Tutor</a>
+        <button class="nav-link nav-auth-btn" id="authBtn" type="button">Log In</button>
+      </nav>
+      <div class="header-controls">
+        <button class="nav-hamburger" id="navHamburger" type="button" aria-label="Menu" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <!-- FLOATING LOG IN -->
+  <button class="login-float" type="button" aria-label="Log In">LOG IN</button>
+
+  <main>
+    <!-- SECTION INTRO -->
+    <section class="section-intro">
+      <div class="container">
+        <p class="label">[ BIP39 WORD INDEX ]</p>
+        <h1>Dictionary</h1>
+        <p class="body-text">
+          All 2048 words of the BIP39 standard, each mapped to a unique 12-bit index (1&ndash;2048).
+          The index determines the punch pattern (top &rarr; bottom) on a metal backup plate &mdash; filled = punch hole, empty = skip. Click any word to see the full breakdown.
+        </p>
+      </div>
+    </section>
+
+    <!-- PDF DOWNLOAD -->
+    <section class="dict-pdf-section">
+      <div class="container">
+        <button class="dict-pdf-btn" type="button" id="dictPdfBtn">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M10 3v10m0 0l-3.5-3.5M10 13l3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4 15.5h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+          Download PDF
+        </button>
+        <p class="dict-pdf-hint">You can interact with the full BIP39 dictionary offline using the PDF version.</p>
+      </div>
+    </section>
+
+    <!-- DICTIONARY SECTION -->
+    <section class="section-block">
+      <div class="container">
+
+        <!-- EXAMPLE ANIMATION -->
+        <div class="dict-example-bar">
+          <div class="dict-example-label">
+            <strong>How to read an index</strong>
+          </div>
+          <div class="dict-example-label" style="margin-top:1px;">
+            Example: <span class="dict-example-idx">0985</span> = <span class="dict-example-word" id="dictExampleWord" style="margin-top:2px;">inner</span>
+          </div>
+
+          <div class="dict-example-visual">
+            <div class="dict-example-dots-wrap">
+              <div class="dict-example-dots" id="dictExampleDots">
+                <!-- Filled by dictionary.js -->
+              </div>
+            </div>
+          </div>
+
+          <p class="dict-example-hint">
+            Index 0985 in binary code: 1 is strike, 0 is skip. The order from left to right (MSB &rarr; LSB) corresponds to filling the column from top to bottom.
+          </p>
+        </div>
+
+        <!-- SEARCH + COUNT -->
+        <div class="dict-controls">
+          <input
+            type="text"
+            class="dict-search"
+            id="dictSearch"
+            placeholder="Search word or index (e.g. 0985)..."
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="none"
+            spellcheck="false"
+            translate="no"
+          >
+          <span class="dict-count" id="dictCount">2048 / 2048</span>
+        </div>
+
+        <!-- ALPHABET FILTER -->
+        <div class="dict-alpha" id="dictAlpha"></div>
+
+        <!-- WORD LIST -->
+        <div class="dict-list" id="dictList"></div>
+
+        <!-- PAGINATION -->
+        <div class="dict-pagination" id="dictPagination"></div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div>
+          <div class="footer-brand"><img src="PENGER (1).svg" alt="PENGER" height="16"></div>
+          <p class="footer-disclaimer">
+            All operations are performed entirely in your browser. No data is sent to any server. Use responsibly.
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 PENGER</span>
+        <span>100% Client-Side</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- AUTH MODAL -->
+  <div class="modal-overlay" id="authOverlay" hidden>
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Log In</h3>
+        <button class="modal-close" id="authClose" type="button" aria-label="Close">&times;</button>
+      </div>
+      <div class="form-group">
+        <p class="label">Email</p>
+        <input type="email" class="form-input" placeholder="you@example.com" disabled>
+      </div>
+      <div class="form-group">
+        <p class="label">Password</p>
+        <input type="password" class="form-input" placeholder="••••••••" disabled>
+      </div>
+      <button class="btn btn-primary" type="button" disabled style="width:100%;margin-top:8px;">
+        LOG IN (COMING SOON)
+      </button>
+    </div>
+  </div>
+
+  <script src="shared.js"></script>
+  <script src="dictionary.js"></script>
+</body>
+</html>

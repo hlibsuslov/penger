@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#FAFAFA">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="Operational Security (OpSec) &mdash; Threat modeling, physical backup hygiene, and practical security habits for crypto holders.">
+  <meta name="author" content="PENGER">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>Operational Security (OpSec) &mdash; PENGER Academy</title>
+</head>
+<body>
+  <noscript><p style="padding:40px;text-align:center;font-size:16px;">This application requires JavaScript to function.</p></noscript>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo"><img src="PENGER.svg" alt="PENGER" height="20"></a>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="simulators.html" class="nav-link">Simulators</a>
+        <a href="dictionary.html" class="nav-link">Dictionary</a>
+        <a href="guides.html" class="nav-link">Academy</a>
+        <a href="ai-tutor.html" class="nav-link">AI Tutor</a>
+        <button class="nav-link nav-auth-btn" id="authBtn" type="button">Log In</button>
+      </nav>
+      <div class="header-controls">
+        <button class="nav-hamburger" id="navHamburger" type="button" aria-label="Menu" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <main>
+    <section class="section-intro">
+      <div class="container">
+        <a href="guides.html" class="back-link anim-fade-in">&larr; All Guides</a>
+        <p class="label anim-fade-in">[ GUIDE / OPERATIONAL SECURITY ]</p>
+        <h1 class="anim-fade-in">Operational Security (OpSec)</h1>
+        <p class="body-text anim-fade-in">Practical steps to protect your crypto holdings from phishing, social engineering, and physical threats. Your keys are only as safe as your habits.</p>
+
+        <div class="level-toggle anim-fade-in" id="levelToggle">
+          <div class="pill-group">
+            <button class="pill active" data-level="beginner" type="button">BEGINNER</button>
+            <button class="pill" data-level="advanced" type="button">ADVANCED</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BEGINNER ===== -->
+    <div class="guide-content active" id="guide-beginner">
+      <div class="container">
+        <nav class="guide-toc">
+          <div class="guide-toc-title">In This Section</div>
+          <ol>
+            <li><a href="#b-what-opsec">What Is OpSec?</a></li>
+            <li><a href="#b-threats">Threat Modeling Basics</a></li>
+            <li><a href="#b-physical">Physical Security Fundamentals</a></li>
+          </ol>
+        </nav>
+      </div>
+      <section class="section-block">
+        <div class="container">
+          <h2 id="b-what-opsec" class="anim-fade-in">What Is OpSec?</h2>
+          <div class="guide-text anim-fade-in">
+            <p><strong>Operational security</strong> (OpSec) is the practice of protecting sensitive information by identifying and eliminating vulnerabilities before an adversary can exploit them.</p>
+            <p>For crypto holders, OpSec covers three main areas:</p>
+            <ul>
+              <li><strong>Digital security</strong> &mdash; protecting your devices and online accounts</li>
+              <li><strong>Physical security</strong> &mdash; protecting your seed phrase and hardware wallet</li>
+              <li><strong>Social security</strong> &mdash; not revealing information that makes you a target</li>
+            </ul>
+            <blockquote><p>The question is not just "is my wallet secure?" but "who might want my keys, and how might they get them?"</p></blockquote>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="b-threats" class="anim-fade-in">Threat Modeling Basics</h2>
+          <div class="guide-text anim-fade-in">
+            <p>Before implementing security measures, understand <strong>what you're protecting against</strong>. Ask yourself:</p>
+            <ol>
+              <li>Who might want to steal from me?</li>
+              <li>What do they know about me?</li>
+              <li>What methods might they use?</li>
+            </ol>
+            <h3>Common Threat Actors</h3>
+            <ul>
+              <li><strong>Opportunistic hackers</strong> &mdash; scanning for easy targets online</li>
+              <li><strong>Targeted attackers</strong> &mdash; who know you hold significant crypto</li>
+              <li><strong>Phishers</strong> &mdash; sending fake emails or messages to steal credentials</li>
+              <li><strong>Physical attackers</strong> &mdash; who may resort to coercion ($5 wrench attack)</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="b-physical" class="anim-fade-in">Physical Security Fundamentals</h2>
+          <div class="guide-text anim-fade-in">
+            <p>Your seed phrase backup is the <strong>most critical physical item</strong> you own in crypto.</p>
+            <div class="callout callout-warning">
+              <span class="callout-label">Never Do This</span>
+              Never store a photo of your seed phrase on a phone. Never put it in cloud storage. Never type it into any website unless restoring a known-good wallet.
+            </div>
+            <h3>Best Practices</h3>
+            <ul>
+              <li>Store on a <strong>durable medium</strong> (metal plate, laminated paper)</li>
+              <li>Keep in a <strong>secure location</strong> you control (fireproof safe)</li>
+              <li>Use <strong>multiple locations</strong> for resilience against fire, flood, or theft</li>
+              <li>Consider a safety deposit box or trusted location in a different area</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== ADVANCED ===== -->
+    <div class="guide-content" id="guide-advanced">
+      <div class="container">
+        <nav class="guide-toc">
+          <div class="guide-toc-title">In This Section</div>
+          <ol>
+            <li><a href="#a-footprint">Digital Footprint Minimization</a></li>
+            <li><a href="#a-ceremony">Key Ceremony Procedures</a></li>
+            <li><a href="#a-defense">Multi-Layer Defense Strategy</a></li>
+          </ol>
+        </nav>
+      </div>
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-footprint" class="anim-fade-in">Digital Footprint Minimization</h2>
+          <div class="guide-text anim-fade-in">
+            <p>Every piece of public information about your crypto holdings <strong>increases your risk surface</strong>. Key practices:</p>
+            <ul>
+              <li>Never disclose portfolio size on social media or forums</li>
+              <li>Use <strong>separate email addresses</strong> for crypto-related accounts</li>
+              <li>Never reuse passwords across services</li>
+              <li>Use <strong>FIDO2 hardware keys</strong> for 2FA instead of SMS (vulnerable to SIM-swap)</li>
+            </ul>
+            <div class="callout callout-tip">
+              <span class="callout-label">Pro Tip</span>
+              For high-value setups, use a dedicated device only for crypto that never browses general web content. Air-gap your signing device and transfer transactions via QR codes.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-ceremony" class="anim-fade-in">Key Ceremony Procedures</h2>
+          <div class="guide-text anim-fade-in">
+            <p>A <strong>key ceremony</strong> is a deliberate, documented process for generating and storing cryptographic keys. For high-value setups:</p>
+            <ol>
+              <li>Use a <strong>dedicated offline device</strong></li>
+              <li>Verify wallet software integrity (check the checksum)</li>
+              <li>Generate the seed in a <strong>private location</strong> free from cameras</li>
+              <li>Create backups immediately before going online</li>
+              <li>Document the process for heirs or recovery contacts</li>
+            </ol>
+            <blockquote><p>Multi-sig key ceremonies require generating each key independently, on separate hardware, by separate parties. This prevents any single compromise from exposing all signing authority.</p></blockquote>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-defense" class="anim-fade-in">Multi-Layer Defense Strategy</h2>
+          <div class="guide-text anim-fade-in">
+            <p><strong>Defense in depth</strong> applies multiple independent security layers so an attacker must defeat all of them:</p>
+            <ul>
+              <li><strong>Layer 1</strong> &mdash; Device security (full-disk encryption, biometrics, locked BIOS)</li>
+              <li><strong>Layer 2</strong> &mdash; Isolated signing (hardware wallet or air-gapped device)</li>
+              <li><strong>Layer 3</strong> &mdash; Physical backup (metal seed plate in multiple locations)</li>
+              <li><strong>Layer 4</strong> &mdash; Social layer (limiting knowledge of your holdings)</li>
+            </ul>
+            <div class="callout callout-info">
+              <span class="callout-label">The 25th Word</span>
+              A BIP39 passphrase adds an additional layer: even if your seed phrase is physically compromised, the attacker also needs the passphrase. Store it separately from the seed.
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== FAQ ===== -->
+    <section class="section-block faq-section">
+      <div class="container">
+        <p class="label anim-fade-in">[ FREQUENTLY ASKED QUESTIONS ]</p>
+        <h2 class="anim-fade-in">FAQ</h2>
+        <div class="faq-chat anim-fade-in">
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Should I tell people how much crypto I own?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Generally no. Public disclosure of holdings makes you a target for social engineering, phishing, and even physical coercion. The crypto community phrase for this is &quot;don't flash your Bitcoin.&quot; Keep holdings private and only discuss specifics with trusted advisors (lawyer, accountant) under appropriate confidentiality."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Is a password manager safe for storing seed phrases?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Password managers are suitable for account passwords, but storing your seed phrase there is risky. If your master password or device is compromised, your entire seed is exposed. Seed phrases should live on physical media (metal plate, paper) in offline, secure locations — not in any digital form unless encrypted and air-gapped. Placeholder for secure storage alternatives."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>What is a &ldquo;rubber hose&rdquo; attack?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="A rubber hose attack (also called a wrench attack) refers to physical coercion — an attacker forces you to hand over your keys through threats or violence. Multi-sig and decoy wallets (a plausible wallet with a small balance on a different seed or passphrase) are practical countermeasures. Geographic distribution of keys so that no single person holds all signing authority also reduces this risk."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>How often should I test my backups?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Test your seed phrase recovery at least once a year and after any major hardware or software change. Use a fresh device or wallet software, enter only the seed, and verify the first few addresses match your known addresses. Never test recovery on a device that holds live funds — use a dedicated test wallet with minimal value. Placeholder for a step-by-step recovery test checklist."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Is it safe to buy a hardware wallet from a marketplace like Amazon?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Buying from third-party marketplace sellers introduces supply chain risk — the device may have been tampered with before reaching you. Always purchase directly from the manufacturer's official website. When the device arrives, verify the packaging integrity and run the manufacturer's authenticity check before using it. A compromised hardware wallet can steal your funds silently."></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ARTICLE PREVIEWS ===== -->
+    <section class="article-previews">
+      <div class="container">
+        <p class="label">[ READ NEXT ]</p>
+        <h3>Continue Learning</h3>
+        <div class="preview-grid">
+          <a class="preview-card" href="guide-seed-anatomy.html">
+
+            <h4>Anatomy of a Seed Phrase</h4>
+            <p>What makes up a BIP39 mnemonic, how entropy and checksums work, and why your 12-24 words matter.</p>
+          </a>
+          <a class="preview-card" href="guide-wallet-anatomy.html">
+
+            <h4>Anatomy of a Wallet</h4>
+            <p>How wallets derive keys, manage addresses, and interact with blockchain networks under the hood.</p>
+          </a>
+          <a class="preview-card" href="guide-wallet-comparison.html">
+
+            <h4>Wallet Types Comparison</h4>
+            <p>Hot wallets, cold wallets, hardware devices, multi-sig setups. Compare trade-offs and find the right fit.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== AUTH MODAL ===== -->
+  <div class="modal-overlay" id="authOverlay" hidden>
+    <div class="modal" role="dialog" aria-labelledby="authTitle">
+      <div class="modal-header">
+        <h3 id="authTitle">Log In</h3>
+        <button class="modal-close" id="authClose" type="button" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="label" for="authEmail">EMAIL</label>
+          <input type="email" class="form-input" id="authEmail" placeholder="satoshi@example.com">
+        </div>
+        <div class="form-group">
+          <label class="label" for="authPass">PASSWORD</label>
+          <input type="password" class="form-input" id="authPass" placeholder="Enter password">
+        </div>
+        <button class="btn btn-primary" style="width:100%;margin-top:16px;" type="button" disabled>LOG IN (COMING SOON)</button>
+        <p class="meta-text" style="text-align:center;margin-top:12px;">Authentication is not yet available.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <span class="footer-brand"><img src="PENGER (1).svg" alt="PENGER" height="16"></span>
+        <span class="meta-text">Self-Custody Tools &amp; Guides</span>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 PENGER</span>
+        <span>OFFLINE / CLIENT-SIDE / NO TRACKING</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING LOG IN -->
+  <button class="login-float" type="button" aria-label="Log In">LOG IN</button>
+
+  <script src="shared.js"></script>
+</body>
+</html>
