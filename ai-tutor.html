@@ -569,73 +569,124 @@
         });
     }
 
-    /* === MOBILE KEYBOARD HANDLING ===
-       Use the visual viewport height when the keyboard is CLOSED as a
-       stable reference.  On iOS Safari window.innerHeight includes the
-       URL-bar chrome and over-estimates the keyboard offset, which makes
-       the input bar jump too high.  Comparing against the stable visual
-       viewport height gives the true keyboard size. */
+    /* === MOBILE KEYBOARD HANDLING v2 ===
+
+       Architecture overview
+       ---------------------
+       ANDROID Chrome/Firefox: the browser automatically resizes the
+       layout viewport when the soft keyboard opens.  position:fixed
+       elements reposition themselves — zero JS is needed.
+
+       iOS Safari/Chrome: the layout viewport is NEVER resized.
+       position:fixed;bottom:0 stays behind the keyboard.
+       We detect the keyboard via the VisualViewport API and shift the
+       input bar with transform:translateY() — a GPU-composited
+       property that avoids layout recalculation (no thrash).
+
+       Key design decisions
+       --------------------
+       • 150 px threshold separates URL-bar toggle (~50-80 px) from
+         the actual keyboard (~250-340 px).
+       • stableH is updated ONLY when diff ≤ 0 (viewport grew or
+         stayed the same → keyboard is certainly closed).
+       • We listen to 'resize' only — 'scroll' on visualViewport
+         fires during iOS rubber-band / inertial scrolling and
+         causes jitter when used for repositioning.
+       • will-change:transform is set once on init to guarantee the
+         element is promoted to its own compositor layer.
+       • On blur we delay reset by 300 ms to avoid flicker when the
+         user taps another field or the Send button.
+       ============================================================ */
+
     var inputBar = document.getElementById('tutorInputBar');
-    var vvStableH = window.visualViewport
-      ? window.visualViewport.height
-      : window.innerHeight;
+    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+               (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    var isAndroid = /Android/i.test(navigator.userAgent);
 
-    if (inputBar && window.visualViewport) {
-      var rafId = null;
+    /* ---------- iOS-specific keyboard handling ---------- */
+    if (inputBar && isIOS && window.visualViewport) {
 
-      function repositionInputBar() {
-        if (rafId) return;
-        rafId = requestAnimationFrame(function () {
-          rafId = null;
+      var stableH = window.visualViewport.height;
+      var KB_THRESHOLD = 150; // px
+      var pendingRAF = null;
+      var kbOpen = false;
+
+      /* Promote to compositor layer once */
+      inputBar.style.willChange = 'transform';
+
+      function applyKeyboardShift() {
+        if (pendingRAF) return;
+        pendingRAF = requestAnimationFrame(function () {
+          pendingRAF = null;
           var vv = window.visualViewport;
-          var diff = vvStableH - vv.height;
+          var diff = stableH - vv.height;
 
-          if (diff > 100) {
-            /* Keyboard is open — move bar up by keyboard height */
-            inputBar.style.bottom = diff + 'px';
+          if (diff > KB_THRESHOLD) {
+            /* Keyboard IS open */
+            kbOpen = true;
+            inputBar.style.transform = 'translateY(-' + diff + 'px)';
             chatEl.style.paddingBottom =
               (inputBar.offsetHeight + diff + 8) + 'px';
+            smoothScroll();
           } else {
-            /* Keyboard closed or minimal change — reset */
-            vvStableH = vv.height;
-            inputBar.style.bottom = '';
-            chatEl.style.paddingBottom = '';
+            /* Keyboard is closed (or URL-bar toggled) */
+            if (diff <= 0) stableH = vv.height; // viewport grew → update ref
+            if (kbOpen) {
+              kbOpen = false;
+              inputBar.style.transform = '';
+              chatEl.style.paddingBottom = '';
+            }
           }
         });
       }
 
-      window.visualViewport.addEventListener('resize', repositionInputBar);
-      window.visualViewport.addEventListener('scroll', repositionInputBar);
+      /* Only 'resize' — 'scroll' causes iOS rubber-band jitter */
+      window.visualViewport.addEventListener('resize', applyKeyboardShift);
 
-      /* Update reference on orientation change */
+      /* Orientation change: full reset */
       window.addEventListener('orientationchange', function () {
         setTimeout(function () {
-          if (window.visualViewport) vvStableH = window.visualViewport.height;
-        }, 400);
+          if (window.visualViewport) {
+            stableH = window.visualViewport.height;
+            kbOpen = false;
+            inputBar.style.transform = '';
+            chatEl.style.paddingBottom = '';
+          }
+        }, 500);
+      });
+
+      /* Focus: give iOS time to open keyboard, then scroll */
+      inputEl.addEventListener('focus', function () {
+        setTimeout(function () {
+          applyKeyboardShift();
+          smoothScroll();
+        }, 300);
+      });
+
+      /* Blur: delay reset so tapping Send doesn't flicker */
+      inputEl.addEventListener('blur', function () {
+        setTimeout(function () {
+          if (document.activeElement !== inputEl) {
+            kbOpen = false;
+            inputBar.style.transform = '';
+            chatEl.style.paddingBottom = '';
+            if (window.visualViewport) stableH = window.visualViewport.height;
+          }
+        }, 300);
       });
     }
 
-    /* Auto-scroll to latest message when input is focused */
-    inputEl.addEventListener('focus', function () {
-      setTimeout(function () {
-        if (window.visualViewport) repositionInputBar();
-        smoothScroll();
-      }, 150);
-    });
+    /* ---------- Android: minimal handling ----------
+       Android resizes the layout viewport automatically, so
+       position:fixed works.  We only scroll to the latest message
+       on focus and prevent the bar from being dragged. */
+    if (inputBar && isAndroid) {
+      inputEl.addEventListener('focus', function () {
+        setTimeout(smoothScroll, 300);
+      });
+    }
 
-    /* Reset input bar position on blur */
-    inputEl.addEventListener('blur', function () {
-      if (!inputBar) return;
-      setTimeout(function () {
-        if (document.activeElement !== inputEl) {
-          inputBar.style.bottom = '';
-          chatEl.style.paddingBottom = '';
-          if (window.visualViewport) vvStableH = window.visualViewport.height;
-        }
-      }, 200);
-    });
-
-    /* Prevent input bar from being dragged on touch */
+    /* ---------- Shared: prevent touch-drag on input bar ---------- */
     if (inputBar) {
       inputBar.addEventListener('touchmove', function (e) {
         e.preventDefault();
