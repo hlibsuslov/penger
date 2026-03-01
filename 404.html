@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="/style.css">
   <title>404 &mdash; PENGER</title>
   <style>
     .error-page {
@@ -117,14 +117,13 @@
   <!-- ===== SHARED HEADER / NAV ===== -->
   <header class="site-header">
     <div class="container">
-      <a href="index.html" class="site-logo"><img src="PENGER.svg" alt="PENGER" height="20"></a>
+      <a href="/" class="site-logo"><img src="/PENGER.svg" alt="PENGER" height="20"></a>
       <nav class="site-nav" id="siteNav">
-        <a href="index.html" class="nav-link">Home</a>
-        <a href="simulators.html" class="nav-link">Simulators</a>
-        <a href="dictionary.html" class="nav-link">Dictionary</a>
-        <a href="guides.html" class="nav-link">Academy</a>
-        <a href="ai-tutor.html" class="nav-link">AI Tutor</a>
-        <button class="nav-link nav-auth-btn" id="authBtn" type="button">Log In</button>
+        <a href="/" class="nav-link">Home</a>
+        <a href="/simulators" class="nav-link">Simulators</a>
+        <a href="/dictionary" class="nav-link">Dictionary</a>
+        <a href="/guides" class="nav-link">Academy</a>
+        <a href="/ai-tutor" class="nav-link">AI Tutor</a>
       </nav>
       <div class="header-controls">
         <button class="nav-hamburger" id="navHamburger" type="button" aria-label="Menu" aria-expanded="false">
@@ -152,30 +151,17 @@
     <div class="error-binary" id="errorBinary"></div>
 
     <div class="error-nav">
-      <a href="index.html" class="primary">Home</a>
-      <a href="simulators.html">Simulators</a>
-      <a href="dictionary.html">Dictionary</a>
+      <a href="/" class="primary">Home</a>
+      <a href="/simulators">Simulators</a>
+      <a href="/dictionary">Dictionary</a>
     </div>
   </main>
 
-  <!-- ===== AUTH MODAL ===== -->
-  <div class="modal-overlay" id="authOverlay" hidden>
-    <div class="modal" role="dialog" aria-labelledby="authTitle">
-      <div class="modal-header">
-        <h3 id="authTitle">Log In</h3>
-        <button class="modal-close" id="authClose" type="button" aria-label="Close">&times;</button>
-      </div>
-      <div class="modal-body">
-        <button class="btn btn-primary" style="width:100%;margin-top:16px;" type="button" disabled>LOG IN (COMING SOON)</button>
-        <p class="meta-text" style="text-align:center;margin-top:12px;">Authentication is not yet available. This is a preview of the upcoming feature.</p>
-      </div>
-    </div>
-  </div>
 
   <footer class="site-footer">
     <div class="container">
       <div class="footer-content">
-        <span class="footer-brand"><img src="PENGER (1).svg" alt="PENGER" height="16"></span>
+        <span class="footer-brand"><img src="/PENGER (1).svg" alt="PENGER" height="16"></span>
         <span class="meta-text">Self-Custody Tools &amp; Guides</span>
       </div>
       <div class="footer-bottom">
@@ -185,9 +171,8 @@
     </div>
   </footer>
 
-  <button class="login-float" type="button" aria-label="Log In">LOG IN</button>
 
-  <script src="shared.js"></script>
+  <script src="/shared.js"></script>
   <script>
   (function () {
     'use strict';

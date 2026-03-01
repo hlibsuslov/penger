@@ -28,6 +28,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; font-size: 16px; }
+html, body { overscroll-behavior: none; }
 
 body {
   font-family: var(--font-sans);
@@ -769,16 +770,6 @@ h3 { font-size: 15px; font-weight: 600; }
   content: ''; position: absolute; bottom: -2px; left: 0; right: 0;
   height: 2px; background: var(--text-accent);
 }
-.nav-auth-btn {
-  padding: 6px 14px; border: 1px solid var(--border-default); border-radius: 4px;
-  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.06em;
-  color: var(--text-label); background: transparent; cursor: pointer;
-  transition: all 0.2s ease;
-}
-.nav-auth-btn:hover { border-color: var(--border-hover); color: var(--text-accent); }
-.nav-auth-btn::after { display: none; }
-
 .header-controls { display: flex; align-items: center; gap: 10px; }
 
 /* Smaller theme toggle for aggregator pages */
@@ -881,36 +872,6 @@ h3 { font-size: 15px; font-weight: 600; }
 }
 .card:hover .card-link { color: var(--text-accent); }
 
-/* === AUTH MODAL === */
-.modal-overlay {
-  position: fixed; inset: 0; z-index: 300;
-  background: rgba(0,0,0,0.6);
-  display: flex; align-items: center; justify-content: center;
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.2s ease;
-}
-.modal-overlay.visible { opacity: 1; pointer-events: auto; }
-.modal {
-  background: var(--bg-surface); border: 1px solid var(--border-default);
-  border-radius: 8px; padding: 32px; max-width: 400px; width: 90%;
-  transform: scale(0.95); transition: transform 0.2s ease;
-}
-.modal-overlay.visible .modal { transform: scale(1); }
-.modal-header {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 24px;
-}
-.modal-header h3 {
-  font-family: var(--font-mono); font-size: 14px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.06em;
-}
-.modal-close {
-  width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
-  background: none; border: 1px solid var(--border-default); border-radius: 4px;
-  color: var(--text-dim); font-size: 18px; cursor: pointer;
-  transition: all 0.2s ease;
-}
-.modal-close:hover { border-color: var(--border-hover); color: var(--text-accent); }
 .form-group { margin-bottom: 16px; }
 .form-group .label { margin-bottom: 6px; }
 .form-input {
@@ -1190,7 +1151,6 @@ h3 { font-size: 15px; font-weight: 600; }
   }
   .nav-link.active::after { display: none; }
   .nav-link.active { background: var(--bg-surface-hover); color: var(--text-accent); }
-  .nav-auth-btn { display: none; }
   .nav-hamburger { display: flex; }
 
   /* Hero responsive */
@@ -1223,38 +1183,6 @@ h3 { font-size: 15px; font-weight: 600; }
 @media (max-width: 380px) {
   .hero-title { font-size: 24px; }
   .hero-stats { flex-direction: column; gap: 12px; }
-}
-
-/* ====================================================================
-   FLOATING LOG IN BUTTON
-   ==================================================================== */
-.login-float {
-  position: fixed;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 200;
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  padding: 16px 9px;
-  background: var(--bg-surface);
-  border: 1px solid var(--border-default);
-  border-right: none;
-  border-radius: 6px 0 0 6px;
-  cursor: pointer;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-label);
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
-  box-shadow: -2px 0 8px rgba(0,0,0,0.06);
-}
-.login-float:hover {
-  background: var(--bg-surface-hover);
-  border-color: var(--border-hover);
-  color: var(--text-accent);
 }
 
 /* ====================================================================
@@ -1563,6 +1491,10 @@ h3 { font-size: 15px; font-weight: 600; }
   border-top: 1px solid var(--border-default);
   padding: 12px 0;
   padding-bottom: max(12px, env(safe-area-inset-bottom, 0px));
+  /* Prevent iOS tap delay on the bar */
+  touch-action: manipulation;
+  /* Hint browser for smooth repositioning when keyboard opens */
+  will-change: bottom;
 }
 .tutor-input-wrap {
   display: flex; gap: 8px; align-items: center;
@@ -1574,6 +1506,8 @@ h3 { font-size: 15px; font-weight: 600; }
   background: var(--bg-surface); border: 1px solid var(--border-default);
   border-radius: 24px; color: var(--text-primary); outline: none;
   transition: border-color 0.2s ease;
+  /* Prevent iOS zoom on focus (needs >= 16px) */
+  touch-action: manipulation;
 }
 .tutor-input:focus { border-color: var(--border-active); }
 .tutor-input::placeholder { color: var(--text-dim); }
@@ -1584,19 +1518,26 @@ h3 { font-size: 15px; font-weight: 600; }
   border-radius: 50%; border: 1px solid var(--border-default);
   background: var(--bg-surface); color: var(--text-dim);
   cursor: pointer; transition: all 0.15s ease;
+  touch-action: manipulation;
 }
 .tutor-send-btn:hover { border-color: var(--border-active); color: var(--text-accent); }
 .tutor-send-btn:active { transform: scale(0.9); }
 .tutor-send-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
 
 /* spacer so chat content doesn't hide behind fixed bar */
-.tutor-chat { padding-bottom: 72px; }
+.tutor-chat {
+  padding-bottom: 72px;
+  overscroll-behavior: none;
+}
 
 /* --- responsive --- */
 @media (max-width: 520px) {
   .tutor-msg { max-width: 92%; padding: 12px 14px; font-size: 13px; }
   .tutor-option-btn { font-size: 12px; padding: 8px 14px; }
+  /* 16px prevents iOS auto-zoom on input focus */
   .tutor-input { padding: 10px 14px; font-size: 16px; }
+  .tutor-input-bar { padding: 10px 0; padding-bottom: max(10px, env(safe-area-inset-bottom, 0px)); }
+  .tutor-send-btn { width: 40px; height: 40px; }
 }
 
 /* --- free-text error message --- */
@@ -1610,7 +1551,3 @@ h3 { font-size: 15px; font-weight: 600; }
   font-weight: 600; color: var(--text-accent);
 }
 
-/* Print: hide login float */
-@media print {
-  .login-float { display: none; }
-}
