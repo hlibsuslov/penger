@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#FAFAFA">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="The 25th Word (Passphrase) &mdash; How an optional BIP39 passphrase adds an extra layer of security, enables hidden wallets, and protects against physical seed compromise.">
+  <meta name="author" content="PENGER">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>The 25th Word (Passphrase) &mdash; PENGER Academy</title>
+</head>
+<body>
+  <noscript><p style="padding:40px;text-align:center;font-size:16px;">This application requires JavaScript to function.</p></noscript>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo"><img src="PENGER.svg" alt="PENGER" height="20"></a>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="simulators.html" class="nav-link">Simulators</a>
+        <a href="dictionary.html" class="nav-link">Dictionary</a>
+        <a href="guides.html" class="nav-link">Academy</a>
+        <a href="ai-tutor.html" class="nav-link">AI Tutor</a>
+      </nav>
+      <div class="header-controls">
+        <button class="nav-hamburger" id="navHamburger" type="button" aria-label="Menu" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <main>
+    <section class="section-intro">
+      <div class="container">
+        <a href="guides.html" class="back-link anim-fade-in">&larr; All Guides</a>
+        <p class="label anim-fade-in">[ GUIDE / PASSPHRASE ]</p>
+        <h1 class="anim-fade-in">The 25th Word (Passphrase)</h1>
+        <p class="body-text anim-fade-in">How an optional BIP39 passphrase creates an additional layer of security on top of your seed phrase &mdash; enabling hidden wallets, plausible deniability, and protection against physical seed compromise.</p>
+
+        <div class="level-toggle anim-fade-in" id="levelToggle">
+          <div class="pill-group">
+            <button class="pill active" data-level="beginner" type="button">BEGINNER</button>
+            <button class="pill" data-level="advanced" type="button">ADVANCED</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BEGINNER ===== -->
+    <div class="guide-content active" id="guide-beginner">
+      <div class="container">
+        <nav class="guide-toc">
+          <div class="guide-toc-title">In This Section</div>
+          <ol>
+            <li><a href="#b-what-is">What Is the 25th Word?</a></li>
+            <li><a href="#b-how-works">How Does It Work?</a></li>
+            <li><a href="#b-hidden-wallets">Hidden Wallets and Plausible Deniability</a></li>
+            <li><a href="#b-risks">Risks and Responsibilities</a></li>
+          </ol>
+        </nav>
+      </div>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="b-what-is" class="anim-fade-in">What Is the 25th Word?</h2>
+          <div class="guide-text anim-fade-in">
+            <p>The "25th word" is an <strong>optional passphrase</strong> that you can add on top of your standard 12 or 24-word seed phrase. It is defined in the BIP39 specification and supported by most modern wallets.</p>
+            <p>Unlike the seed words themselves (which come from a fixed list of 2,048 words), the passphrase is <strong>completely freeform</strong> &mdash; it can be any string of characters: letters, numbers, symbols, spaces, even Unicode characters. There are no restrictions on length or content.</p>
+            <blockquote><p>Think of it this way: the seed phrase is the key to your vault, and the passphrase is the combination on the vault's secondary lock. Even if someone finds the key, they still cannot open the vault without the combination.</p></blockquote>
+            <p>The critical property of the passphrase is that <strong>every different passphrase generates a completely different wallet</strong>. Your 24 words with no passphrase leads to wallet A. The same 24 words with passphrase "apple" leads to an entirely separate wallet B. Passphrase "Apple" (capital A) leads to yet another wallet C. Each is independent, with its own keys and addresses.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="b-how-works" class="anim-fade-in">How Does It Work?</h2>
+          <div class="guide-text anim-fade-in">
+            <p>When your wallet converts your seed words into cryptographic keys, it uses a process called <strong>PBKDF2 key stretching</strong>. The passphrase is incorporated directly into this process as part of the salt:</p>
+            <ol>
+              <li>You enter your 12 or 24 seed words</li>
+              <li>You enter your passphrase (or leave it blank for no passphrase)</li>
+              <li>The wallet combines them: seed words as the password, and <code>"mnemonic" + passphrase</code> as the salt</li>
+              <li>This combination is run through 2,048 rounds of PBKDF2-HMAC-SHA512</li>
+              <li>The result is a unique 512-bit master seed &mdash; from which all keys are derived</li>
+            </ol>
+            <p>Because the passphrase changes the salt, even a single character difference produces a <strong>completely different master seed</strong> and therefore a completely different set of keys and addresses.</p>
+            <div class="callout callout-info">
+              <span class="callout-label">Key Point</span>
+              The passphrase is case-sensitive and whitespace-sensitive. "MyPassphrase", "mypassphrase", and "MyPassphrase " (trailing space) all produce different wallets. Be extremely precise when setting and entering your passphrase.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="b-hidden-wallets" class="anim-fade-in">Hidden Wallets and Plausible Deniability</h2>
+          <div class="guide-text anim-fade-in">
+            <p>One of the most powerful features of the passphrase is the ability to create <strong>hidden wallets</strong> that provide plausible deniability under duress.</p>
+            <h3>How It Works in Practice</h3>
+            <p>You set up your wallet with a seed phrase and two different passphrases:</p>
+            <ul>
+              <li><strong>No passphrase</strong> (or a simple passphrase) &mdash; leads to a "decoy" wallet with a small, believable balance</li>
+              <li><strong>Your real passphrase</strong> &mdash; leads to your primary wallet with the majority of your holdings</li>
+            </ul>
+            <p>If someone forces you to reveal your seed phrase (physical coercion, legal compulsion, etc.), you hand over the seed words. They access the decoy wallet and see a balance that looks legitimate. There is <strong>no way to prove</strong> that additional passphrase-protected wallets exist &mdash; the attacker cannot even detect whether a passphrase was ever used.</p>
+            <blockquote><p>Since every passphrase (including an empty one) produces a valid wallet, there is no technical indicator that reveals whether you are using a passphrase or how many passphrase-wallets you have. This is cryptographic plausible deniability.</p></blockquote>
+            <div class="callout callout-warning">
+              <span class="callout-label">Important</span>
+              To make the decoy wallet convincing, it should contain a reasonable balance and show normal transaction activity. An empty decoy wallet is not plausible and may escalate the threat.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="b-risks" class="anim-fade-in">Risks and Responsibilities</h2>
+          <div class="guide-text anim-fade-in">
+            <p>The passphrase is a powerful tool, but it adds <strong>complexity and risk</strong> that you must manage carefully.</p>
+            <h3>If You Lose the Passphrase</h3>
+            <p>Unlike a website password, there is <strong>no recovery mechanism</strong> for a forgotten passphrase. If you forget it, you lose access to every asset stored in that passphrase-derived wallet permanently. Your seed phrase alone will only recover the base wallet (no passphrase).</p>
+            <h3>Storage Guidelines</h3>
+            <ul>
+              <li><strong>Store the passphrase separately</strong> from the seed phrase &mdash; if they are stored together, the passphrase provides no additional security</li>
+              <li>Use a <strong>durable medium</strong> for the passphrase &mdash; just like the seed, it should survive fire, water, and time</li>
+              <li>Consider storing in a <strong>different geographic location</strong> from the seed backup</li>
+              <li><strong>Do not make the passphrase too complex</strong> to remember &mdash; the risk of losing access due to a forgotten passphrase is real and more common than theft</li>
+            </ul>
+            <div class="callout callout-warning">
+              <span class="callout-label">Critical Balance</span>
+              A passphrase protects you from theft but exposes you to loss from forgetfulness. You must balance these risks: a simple, memorable passphrase that you also record on a physical backup stored separately from the seed. Overly complex passphrases increase the risk of permanent self-lockout.
+            </div>
+            <h3>Who Should Use a Passphrase?</h3>
+            <ul>
+              <li><strong>Yes</strong> &mdash; users with significant holdings who have a mature backup and recovery practice</li>
+              <li><strong>Yes</strong> &mdash; users who face physical security threats and need plausible deniability</li>
+              <li><strong>Maybe not</strong> &mdash; beginners who are still learning seed phrase management basics</li>
+              <li><strong>Maybe not</strong> &mdash; users who lack a reliable system for storing an additional secret separately</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== ADVANCED ===== -->
+    <div class="guide-content" id="guide-advanced">
+      <div class="container">
+        <nav class="guide-toc">
+          <div class="guide-toc-title">In This Section</div>
+          <ol>
+            <li><a href="#a-cryptographic">Cryptographic Mechanism</a></li>
+            <li><a href="#a-entropy-analysis">Passphrase Entropy Analysis</a></li>
+            <li><a href="#a-implementation">Implementation Across Wallet Software</a></li>
+            <li><a href="#a-advanced-strategies">Advanced Passphrase Strategies</a></li>
+            <li><a href="#a-threat-model">Threat Model Integration</a></li>
+          </ol>
+        </nav>
+      </div>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-cryptographic" class="anim-fade-in">Cryptographic Mechanism</h2>
+          <div class="guide-text anim-fade-in">
+            <p>The BIP39 passphrase is integrated into the key derivation process at the PBKDF2 layer. Understanding the exact mechanism reveals why it is so effective:</p>
+            <pre><code>seed = PBKDF2(
+  PRF:        HMAC-SHA512,
+  Password:   mnemonic_sentence,        // space-joined words, NFKD-normalized
+  Salt:       "mnemonic" + passphrase,   // literal "mnemonic" prefix + user passphrase
+  Iterations: 2048,
+  dkLen:      64 bytes                   // 512-bit output
+)</code></pre>
+            <h3>Key Properties</h3>
+            <ul>
+              <li><strong>No validation</strong> &mdash; any passphrase produces a valid seed. There is no checksum or error detection for the passphrase itself. A typo does not produce an error &mdash; it produces a different (empty) wallet.</li>
+              <li><strong>Deterministic</strong> &mdash; the same mnemonic + passphrase always produces the same seed, on any device, with any compatible software.</li>
+              <li><strong>Salt-based</strong> &mdash; the passphrase modifies the salt, not the password. This means pre-computed rainbow tables for common mnemonics are useless because the salt space is effectively infinite.</li>
+              <li><strong>NFKD normalization</strong> &mdash; per BIP39, both the mnemonic and the passphrase are Unicode NFKD-normalized before processing. This ensures consistent behavior across platforms for non-ASCII characters.</li>
+            </ul>
+            <div class="callout callout-warning">
+              <span class="callout-label">No Typo Protection</span>
+              Unlike the mnemonic words (which have a checksum), the passphrase has zero error detection. If you enter "MyPassphras" instead of "MyPassphrase", you will get a valid but completely different (and empty) wallet with no warning. This is by design &mdash; it enables plausible deniability &mdash; but it means you must be absolutely precise.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-entropy-analysis" class="anim-fade-in">Passphrase Entropy Analysis</h2>
+          <div class="guide-text anim-fade-in">
+            <p>The security benefit of a passphrase depends on its entropy. A weak passphrase can be brute-forced by an attacker who already has the seed phrase.</p>
+            <h3>Attack Scenario</h3>
+            <p>If an attacker obtains your 24 seed words but not your passphrase, they must brute-force the passphrase to access your funds. The cost of this attack depends on:</p>
+            <ol>
+              <li>The <strong>entropy of the passphrase</strong> (search space)</li>
+              <li>The <strong>cost of each guess</strong> (PBKDF2 with 2,048 iterations of HMAC-SHA512, followed by BIP32 derivation and address checking)</li>
+            </ol>
+            <h3>Passphrase Entropy Guidelines</h3>
+            <ul>
+              <li><strong>4-character PIN</strong> &mdash; ~13 bits of entropy. Crackable in seconds. Not recommended.</li>
+              <li><strong>Common English word</strong> &mdash; ~11 bits. Dictionary attack trivial.</li>
+              <li><strong>3-word Diceware passphrase</strong> &mdash; ~39 bits. Resistant to casual attackers but vulnerable to determined, well-funded adversaries.</li>
+              <li><strong>5-word Diceware passphrase</strong> &mdash; ~65 bits. Provides strong protection even against well-resourced attackers.</li>
+              <li><strong>8+ random alphanumeric characters</strong> &mdash; ~48 bits. Adequate for most threat models.</li>
+            </ul>
+            <h3>PBKDF2 Brute-Force Cost</h3>
+            <p>The 2,048 PBKDF2 iterations provide a modest computational barrier. On modern GPU hardware, an attacker can test approximately <strong>100,000-500,000 passphrases per second</strong> per GPU. With a cluster of 10 GPUs:</p>
+            <pre><code>Passphrase entropy   Time to exhaust (10 GPUs @ 500k/s)
+───────────────────────────────────────────────────────
+20 bits              ~0.2 seconds
+30 bits              ~3.5 minutes
+40 bits              ~2.5 days
+50 bits              ~7 years
+60 bits              ~7,300 years
+80 bits              ~7.7 billion years</code></pre>
+            <div class="callout callout-tip">
+              <span class="callout-label">Recommendation</span>
+              Aim for at least 40-50 bits of passphrase entropy for meaningful protection. A 4-5 word Diceware passphrase or a 10+ character random string achieves this comfortably. Avoid common phrases, dictionary words, song lyrics, or predictable patterns.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-implementation" class="anim-fade-in">Implementation Across Wallet Software</h2>
+          <div class="guide-text anim-fade-in">
+            <p>While the BIP39 passphrase is a standard, its implementation varies across wallet software and hardware devices:</p>
+            <h3>Hardware Wallets</h3>
+            <ul>
+              <li><strong>Ledger</strong> &mdash; supports passphrase entry via the device itself (temporary or attached to a PIN). Temporary passphrases must be re-entered each session. PIN-attached passphrases create a persistent second "hidden" account.</li>
+              <li><strong>Trezor</strong> &mdash; passphrase entered on the host computer or on the Trezor touchscreen (Model T / Safe 3). Host-entry is less secure (keylogger risk); on-device entry is preferred.</li>
+              <li><strong>Coldcard</strong> &mdash; supports on-device passphrase entry with the option to save an encrypted version on the device. Also supports multiple passphrase slots.</li>
+              <li><strong>Keystone</strong> &mdash; passphrase entered via the device's touchscreen, fully air-gapped from the host.</li>
+            </ul>
+            <h3>Software Wallets</h3>
+            <ul>
+              <li><strong>Sparrow</strong> &mdash; supports passphrase during wallet creation and restore. Displays the passphrase-derived fingerprint so you can verify you entered it correctly.</li>
+              <li><strong>Electrum</strong> &mdash; supports BIP39 passphrase during seed import (must enable BIP39 mode).</li>
+              <li><strong>BlueWallet</strong> &mdash; supports passphrase for BIP39 wallets during creation.</li>
+            </ul>
+            <div class="callout callout-info">
+              <span class="callout-label">Fingerprint Verification</span>
+              Many wallets display a "master fingerprint" (the first 4 bytes of the BIP32 master public key hash) after entering the passphrase. Record this fingerprint when you first set up your wallet. When restoring, compare the fingerprint to verify you entered the correct passphrase &mdash; a different fingerprint means a different passphrase (or typo).
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-advanced-strategies" class="anim-fade-in">Advanced Passphrase Strategies</h2>
+          <div class="guide-text anim-fade-in">
+            <p>Beyond the basic hidden wallet use case, the passphrase enables several advanced security configurations:</p>
+            <h3>Multi-Tier Wallet Architecture</h3>
+            <p>Use multiple passphrases with the same seed to create a tiered structure:</p>
+            <ul>
+              <li><strong>No passphrase</strong> &mdash; decoy wallet with minimal funds</li>
+              <li><strong>Passphrase A</strong> &mdash; medium-security wallet for regular transactions</li>
+              <li><strong>Passphrase B</strong> &mdash; high-security cold storage for long-term holdings</li>
+            </ul>
+            <p>Each tier has its own addresses, keys, and balances. Compromise of one passphrase does not affect the others.</p>
+            <h3>Passphrase + Multi-Sig</h3>
+            <p>For maximum security, combine the passphrase with a multi-sig setup. Each cosigner's key can be passphrase-protected independently, creating a layered defense: an attacker must obtain M seed phrases <em>and</em> their corresponding passphrases to sign a transaction.</p>
+            <h3>Geographic Separation Pattern</h3>
+            <ul>
+              <li><strong>Location A</strong> (home safe) &mdash; Seed phrase backup on metal plate</li>
+              <li><strong>Location B</strong> (bank safety deposit box) &mdash; Passphrase backup on metal plate</li>
+              <li><strong>Location C</strong> (trusted family member) &mdash; Second copy of seed phrase (for disaster recovery)</li>
+            </ul>
+            <p>An attacker must compromise two separate secure locations to access funds. A natural disaster destroying Location A still allows recovery using Locations B + C.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-threat-model" class="anim-fade-in">Threat Model Integration</h2>
+          <div class="guide-text anim-fade-in">
+            <p>The passphrase protects against specific threat scenarios and is ineffective against others. Understanding its place in your threat model is essential:</p>
+            <h3>Effective Against</h3>
+            <ul>
+              <li><strong>Physical seed compromise</strong> &mdash; if someone finds or photographs your seed phrase, they still cannot access passphrase-protected funds</li>
+              <li><strong>Coercion (with decoy)</strong> &mdash; you can surrender the seed phrase and demonstrate a plausible decoy wallet</li>
+              <li><strong>Insider threats</strong> &mdash; a family member or roommate who discovers your seed backup cannot access the passphrase wallet</li>
+              <li><strong>Supply chain attacks</strong> &mdash; even if a hardware wallet ships pre-compromised, the passphrase is entered separately and the attacker cannot predict it</li>
+            </ul>
+            <h3>Not Effective Against</h3>
+            <ul>
+              <li><strong>Malware on the passphrase-entry device</strong> &mdash; a keylogger captures the passphrase as you type it</li>
+              <li><strong>Compromised wallet software</strong> &mdash; malicious software can exfiltrate both the seed and passphrase during entry</li>
+              <li><strong>Camera surveillance</strong> &mdash; if your passphrase is captured on video during entry</li>
+              <li><strong>Repeated coercion</strong> &mdash; an attacker who suspects a hidden wallet may not accept the decoy and escalate threats</li>
+            </ul>
+            <div class="callout callout-tip">
+              <span class="callout-label">Defense in Depth</span>
+              The passphrase is one layer in a multi-layer defense. It should complement (not replace) proper seed storage, hardware wallet usage, and operational security practices. No single measure is sufficient on its own.
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== FAQ ===== -->
+    <section class="section-block faq-section">
+      <div class="container">
+        <p class="label anim-fade-in">[ FREQUENTLY ASKED QUESTIONS ]</p>
+        <h2 class="anim-fade-in">FAQ</h2>
+        <div class="faq-chat anim-fade-in">
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Is the 25th word actually a word from the BIP39 list?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="No. The term &quot;25th word&quot; is a colloquial nickname. The passphrase is a completely freeform string &mdash; it can be any combination of letters, numbers, symbols, and spaces. It is not selected from the BIP39 wordlist and has no length or format restrictions. You could use a single character, a sentence, or a complex random string."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>What happens if I enter the wrong passphrase?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="You will not see an error message. Instead, the wallet will silently generate a completely different (and likely empty) wallet from the mistyped passphrase. Every passphrase is &quot;valid&quot; in the sense that it produces a deterministic wallet &mdash; there is no checksum to detect typos. This is why recording your exact passphrase on a physical backup and verifying the master fingerprint during setup are essential."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Can I change my passphrase later?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="You cannot &quot;change&quot; a passphrase in place &mdash; that would change all your keys and addresses. Instead, you would create a new wallet with a different passphrase and transfer your funds from the old wallet to the new one. This involves on-chain transactions and associated fees. For this reason, choose your passphrase carefully from the start."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Should I use a passphrase with a 24-word seed?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="A 24-word seed already provides 256 bits of entropy, which is more than sufficient against brute-force attacks on the mnemonic itself. The passphrase does not add entropy to the mnemonic &mdash; it adds a separate authentication factor. Its value is in protecting against physical seed compromise and enabling plausible deniability. If these threat scenarios are relevant to you, a passphrase is worthwhile regardless of seed length."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Can I use the same passphrase with different seed phrases?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Yes, but each combination of seed + passphrase produces a unique wallet. Using passphrase &quot;X&quot; with seed A creates a completely different wallet than passphrase &quot;X&quot; with seed B. There is no security risk in reusing a passphrase across different seeds, but there is also no benefit &mdash; each seed is independently random."></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ARTICLE PREVIEWS ===== -->
+    <section class="article-previews">
+      <div class="container">
+        <p class="label">[ READ NEXT ]</p>
+        <h3>Continue Learning</h3>
+        <div class="preview-grid">
+          <a class="preview-card" href="guide-seed-anatomy.html">
+            <h4>Anatomy of a Seed Phrase</h4>
+            <p>What makes up a BIP39 mnemonic, how entropy and checksums work, and why your 12-24 words matter.</p>
+          </a>
+          <a class="preview-card" href="guide-opsec.html">
+            <h4>Operational Security (OpSec)</h4>
+            <p>Protect yourself from phishing, social engineering, and physical threats. Practical security habits.</p>
+          </a>
+          <a class="preview-card" href="guide-multisig.html">
+            <h4>Multisignature (Multisig)</h4>
+            <p>Eliminate single points of failure with multi-key setups and distributed trust models.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <span class="footer-brand"><img src="PENGER (1).svg" alt="PENGER" height="16"></span>
+        <span class="meta-text">Self-Custody Tools &amp; Guides</span>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 PENGER</span>
+        <span>OFFLINE / CLIENT-SIDE / NO TRACKING</span>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="shared.js"></script>
+</body>
+</html>

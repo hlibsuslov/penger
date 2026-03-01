@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#FAFAFA">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="Self-Sovereignty &mdash; The philosophy and practice of being your own bank. Why self-custody matters and how to achieve true financial autonomy.">
+  <meta name="author" content="PENGER">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>Self-Sovereignty &mdash; PENGER Academy</title>
+</head>
+<body>
+  <noscript><p style="padding:40px;text-align:center;font-size:16px;">This application requires JavaScript to function.</p></noscript>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo"><img src="PENGER.svg" alt="PENGER" height="20"></a>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="simulators.html" class="nav-link">Simulators</a>
+        <a href="dictionary.html" class="nav-link">Dictionary</a>
+        <a href="guides.html" class="nav-link">Academy</a>
+        <a href="ai-tutor.html" class="nav-link">AI Tutor</a>
+      </nav>
+      <div class="header-controls">
+        <button class="nav-hamburger" id="navHamburger" type="button" aria-label="Menu" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <main>
+    <section class="section-intro">
+      <div class="container">
+        <a href="guides.html" class="back-link anim-fade-in">&larr; All Guides</a>
+        <p class="label anim-fade-in">[ GUIDE / PHILOSOPHY ]</p>
+        <h1 class="anim-fade-in">Self-Sovereignty</h1>
+        <p class="body-text anim-fade-in">The philosophy and practice of being your own bank &mdash; why self-custody matters, the risks of trusting third parties, and a practical roadmap to true financial autonomy.</p>
+
+        <div class="level-toggle anim-fade-in" id="levelToggle">
+          <div class="pill-group">
+            <button class="pill active" data-level="beginner" type="button">BEGINNER</button>
+            <button class="pill" data-level="advanced" type="button">ADVANCED</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BEGINNER ===== -->
+    <div class="guide-content active" id="guide-beginner">
+      <div class="container">
+        <nav class="guide-toc">
+          <div class="guide-toc-title">In This Section</div>
+          <ol>
+            <li><a href="#b-what-is">What Is Self-Sovereignty?</a></li>
+            <li><a href="#b-why-matters">Why It Matters</a></li>
+            <li><a href="#b-custodial-risks">The Risks of Custodial Services</a></li>
+            <li><a href="#b-roadmap">Your Roadmap to Self-Custody</a></li>
+            <li><a href="#b-responsibility">The Responsibility Trade-Off</a></li>
+          </ol>
+        </nav>
+      </div>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="b-what-is" class="anim-fade-in">What Is Self-Sovereignty?</h2>
+          <div class="guide-text anim-fade-in">
+            <p><strong>Self-sovereignty</strong> means having full, exclusive control over your own assets and identity &mdash; without depending on any third party for permission, access, or safekeeping. In the context of cryptocurrency, it means <strong>you hold your own keys</strong>, and no institution, company, or government can freeze, seize, or restrict your funds.</p>
+            <blockquote><p>"Not your keys, not your coins." This foundational principle of self-custody captures the core idea: if someone else holds the private keys to your crypto, they control it &mdash; you merely have a promise that they will give it back when you ask.</p></blockquote>
+            <p>Self-sovereignty is not just a technical configuration &mdash; it is a <strong>philosophical commitment</strong> to personal responsibility and financial independence. It stands in contrast to the traditional financial system, where banks, brokers, and exchanges act as intermediaries that hold and control access to your money.</p>
+            <h3>Core Principles</h3>
+            <ul>
+              <li><strong>Ownership</strong> &mdash; you have direct, cryptographic control over your assets. No intermediary can deny access.</li>
+              <li><strong>Permission-less</strong> &mdash; you can transact with anyone, anywhere, at any time, without needing approval from a third party.</li>
+              <li><strong>Censorship-resistant</strong> &mdash; no entity can block, reverse, or modify your transactions once confirmed on the blockchain.</li>
+              <li><strong>Trustless</strong> &mdash; the system works through cryptographic proof, not through trust in institutions.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="b-why-matters" class="anim-fade-in">Why It Matters</h2>
+          <div class="guide-text anim-fade-in">
+            <p>Self-sovereignty may seem like an abstract ideal until you consider the concrete scenarios where it becomes critically important:</p>
+            <h3>Financial Autonomy</h3>
+            <p>In traditional finance, your access to your own money is <strong>conditional</strong>. Banks can freeze accounts, payment processors can refuse transactions, and governments can impose capital controls. These are not hypothetical risks &mdash; they happen regularly around the world:</p>
+            <ul>
+              <li>Bank account freezes during legal disputes, even before any conviction</li>
+              <li>Capital controls in countries experiencing economic crisis (Greece 2015, Lebanon 2019, Nigeria 2021)</li>
+              <li>Payment processor deplatforming of legal businesses and individuals</li>
+              <li>Currency devaluation and hyperinflation eroding savings (Venezuela, Zimbabwe, Argentina, Turkey)</li>
+            </ul>
+            <h3>Privacy</h3>
+            <p>Custodial services require <strong>Know Your Customer (KYC)</strong> verification, linking your real identity to your financial activity. This data is collected, stored, and often shared with third parties &mdash; creating a permanent record of your transactions that can be leaked, hacked, or surveilled.</p>
+            <p>Self-custody, combined with good operational security, allows you to transact with greater privacy. Your financial activity is not tied to a corporate database that may be breached.</p>
+            <h3>Resilience</h3>
+            <p>Self-custody assets are resilient to systemic failures: bank runs, exchange collapses, corporate bankruptcies, and infrastructure outages. Your Bitcoin exists on a globally distributed, decentralized network that operates 24/7/365 without any single point of failure.</p>
+            <div class="callout callout-info">
+              <span class="callout-label">Key Insight</span>
+              Self-sovereignty is not about distrust for its own sake. It is about <strong>removing unnecessary dependencies</strong> from your financial life. You trust mathematics and open-source code instead of trusting institutions to act in your interest.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="b-custodial-risks" class="anim-fade-in">The Risks of Custodial Services</h2>
+          <div class="guide-text anim-fade-in">
+            <p>When you leave crypto on an exchange or with a custodial service, you are <strong>trusting a third party</strong> with your assets. History has shown this trust is frequently violated:</p>
+            <h3>Exchange Failures</h3>
+            <ul>
+              <li><strong>Mt. Gox (2014)</strong> &mdash; the world's largest Bitcoin exchange lost 850,000 BTC (~$450M at the time) to a combination of hacking and mismanagement. Creditors waited over a decade for partial recovery.</li>
+              <li><strong>QuadrigaCX (2019)</strong> &mdash; $190M in customer funds became inaccessible after the founder (the sole key holder) allegedly died. Investigations later revealed significant fraud.</li>
+              <li><strong>FTX (2022)</strong> &mdash; one of the largest exchanges collapsed, with $8B+ in customer deposits lost. The funds were secretly misappropriated for speculative investments and personal use.</li>
+            </ul>
+            <h3>Structural Risks</h3>
+            <p>Even well-run exchanges carry inherent risks that self-custody eliminates:</p>
+            <ul>
+              <li><strong>Counterparty risk</strong> &mdash; you are an unsecured creditor. If the exchange becomes insolvent, your claim ranks below secured creditors.</li>
+              <li><strong>Regulatory risk</strong> &mdash; governments can compel exchanges to freeze accounts, restrict withdrawals, or report your holdings.</li>
+              <li><strong>Hack risk</strong> &mdash; exchanges are high-value targets that aggregate millions of users' funds in a single system.</li>
+              <li><strong>Operational risk</strong> &mdash; server outages, maintenance windows, and "temporary" withdrawal suspensions can prevent access when you need it most.</li>
+            </ul>
+            <div class="callout callout-warning">
+              <span class="callout-label">Reality Check</span>
+              Every exchange collapse caught its users by surprise. FTX was considered one of the most reputable exchanges until days before it failed. The lesson is clear: <strong>if you don't hold the keys, you don't control the outcome.</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="b-roadmap" class="anim-fade-in">Your Roadmap to Self-Custody</h2>
+          <div class="guide-text anim-fade-in">
+            <p>Transitioning to self-custody is a journey, not a single step. Here is a practical progression from beginner to confident self-sovereign:</p>
+            <h3>Stage 1: Learn the Basics</h3>
+            <ol>
+              <li>Understand what a seed phrase is and why it matters</li>
+              <li>Install a reputable self-custodial mobile wallet</li>
+              <li>Write down your seed phrase on paper, store it securely</li>
+              <li>Practice sending and receiving small amounts</li>
+            </ol>
+            <h3>Stage 2: Upgrade Security</h3>
+            <ol>
+              <li>Purchase a hardware wallet directly from the manufacturer</li>
+              <li>Transfer the majority of your holdings to the hardware wallet</li>
+              <li>Upgrade your seed backup to a metal plate for durability</li>
+              <li>Learn about and implement a BIP39 passphrase</li>
+            </ol>
+            <h3>Stage 3: Advanced Self-Sovereignty</h3>
+            <ol>
+              <li>Set up a multi-signature wallet for high-value holdings</li>
+              <li>Establish geographically distributed backups</li>
+              <li>Create an inheritance plan with documented recovery procedures</li>
+              <li>Consider running your own Bitcoin node for maximum verification independence</li>
+            </ol>
+            <div class="callout callout-tip">
+              <span class="callout-label">Start Today</span>
+              You don't need to reach Stage 3 before starting self-custody. Even Stage 1 &mdash; a simple mobile wallet with a properly stored seed phrase &mdash; is vastly more sovereign than leaving funds on an exchange. Start where you are and improve over time.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="b-responsibility" class="anim-fade-in">The Responsibility Trade-Off</h2>
+          <div class="guide-text anim-fade-in">
+            <p>Self-sovereignty comes with a fundamental trade-off: <strong>full control means full responsibility</strong>. There is no customer support, no "forgot password" flow, and no account recovery team.</p>
+            <ul>
+              <li>If you <strong>lose your seed phrase</strong> and your hardware wallet fails, your funds are gone forever</li>
+              <li>If you <strong>send to the wrong address</strong>, there is no reversal mechanism</li>
+              <li>If you <strong>fall for a phishing attack</strong>, no institution will reimburse you</li>
+              <li>If you <strong>make a mistake</strong> during recovery, the blockchain does not care about your intentions</li>
+            </ul>
+            <p>This is why <strong>education and careful practices</strong> are non-negotiable prerequisites for self-custody. The tools exist to make it safe and reliable, but they require knowledge and discipline to use correctly.</p>
+            <blockquote><p>Self-sovereignty is not the absence of trust &mdash; it is the choice to trust mathematics, open-source code, and your own discipline over opaque institutions with their own interests. It is harder, but it is honest.</p></blockquote>
+            <div class="callout callout-info">
+              <span class="callout-label">Balanced Perspective</span>
+              It is perfectly reasonable to keep a small amount on an exchange for active trading or on/off-ramping, while holding the majority of your assets in self-custody. Self-sovereignty is not all-or-nothing &mdash; every step toward holding your own keys reduces your dependence on third parties.
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== ADVANCED ===== -->
+    <div class="guide-content" id="guide-advanced">
+      <div class="container">
+        <nav class="guide-toc">
+          <div class="guide-toc-title">In This Section</div>
+          <ol>
+            <li><a href="#a-trust">Trust Models and Verification</a></li>
+            <li><a href="#a-node">Running Your Own Node</a></li>
+            <li><a href="#a-privacy">Privacy as a Sovereignty Pillar</a></li>
+            <li><a href="#a-layers">Sovereignty Stack: Layers of Independence</a></li>
+            <li><a href="#a-future">Future of Self-Sovereignty</a></li>
+          </ol>
+        </nav>
+      </div>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-trust" class="anim-fade-in">Trust Models and Verification</h2>
+          <div class="guide-text anim-fade-in">
+            <p>The maxim <strong>"Don't trust, verify"</strong> is the technical foundation of self-sovereignty. Every trust assumption in your setup is a potential point of failure. Understanding and minimizing these assumptions is the goal.</p>
+            <h3>Trust Assumptions in a Typical Setup</h3>
+            <p>Even a self-custodial wallet involves some trust:</p>
+            <ul>
+              <li><strong>Wallet software</strong> &mdash; you trust it to generate entropy correctly, derive keys per BIP standards, and not exfiltrate your seed</li>
+              <li><strong>Hardware wallet firmware</strong> &mdash; you trust the secure element and firmware to protect keys and sign correctly</li>
+              <li><strong>Operating system</strong> &mdash; you trust the OS is not compromised by malware</li>
+              <li><strong>Network nodes</strong> &mdash; if using a remote node, you trust it to relay accurate blockchain data</li>
+              <li><strong>BIP39 wordlist and specification</strong> &mdash; you trust the standard is correctly implemented</li>
+            </ul>
+            <h3>Reducing Trust</h3>
+            <ul>
+              <li><strong>Open-source software</strong> &mdash; auditable code reduces (but doesn't eliminate) trust in developers</li>
+              <li><strong>Reproducible builds</strong> &mdash; verify that the binary you download matches the published source code</li>
+              <li><strong>Hardware wallet with open firmware</strong> &mdash; community-auditable hardware reduces trust in the manufacturer</li>
+              <li><strong>Running your own node</strong> &mdash; eliminates trust in third-party network infrastructure</li>
+              <li><strong>Multi-vendor setups</strong> &mdash; using devices from different manufacturers reduces correlated risk</li>
+            </ul>
+            <blockquote><p>Perfect trustlessness is unachievable &mdash; at some point, you trust the laws of mathematics and the silicon in your hardware. The goal is to minimize trust to well-understood, verifiable foundations rather than opaque institutional promises.</p></blockquote>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-node" class="anim-fade-in">Running Your Own Node</h2>
+          <div class="guide-text anim-fade-in">
+            <p>Running a full Bitcoin node is the <strong>ultimate expression of verification sovereignty</strong>. Your node independently validates every transaction and block against the consensus rules &mdash; trusting no one else's interpretation of the blockchain state.</p>
+            <h3>What a Full Node Does</h3>
+            <ul>
+              <li><strong>Downloads and validates the entire blockchain</strong> from the genesis block (~600 GB as of 2026)</li>
+              <li><strong>Independently verifies every transaction</strong> &mdash; checks signatures, amounts, script conditions, and consensus rules</li>
+              <li><strong>Rejects invalid blocks</strong> &mdash; even if the majority of miners accept them, your node enforces your rules</li>
+              <li><strong>Serves as your wallet's backend</strong> &mdash; your wallet queries your own node instead of a third-party server</li>
+            </ul>
+            <h3>Why It Matters for Self-Sovereignty</h3>
+            <p>Without your own node, your wallet relies on someone else's node to tell you your balance, transaction history, and whether a payment has been confirmed. This creates privacy and security risks:</p>
+            <ul>
+              <li><strong>Privacy leak</strong> &mdash; a third-party node can log your addresses and correlate them with your IP</li>
+              <li><strong>Deception risk</strong> &mdash; a malicious node could lie about confirmations (though SPV proofs mitigate this partially)</li>
+              <li><strong>Censorship</strong> &mdash; a node operator could refuse to relay your transactions</li>
+            </ul>
+            <h3>Practical Setup</h3>
+            <p>A full node can run on modest hardware:</p>
+            <ul>
+              <li><strong>Hardware</strong> &mdash; Raspberry Pi 4/5, old laptop, or any computer with 1TB+ storage and 4GB+ RAM</li>
+              <li><strong>Software</strong> &mdash; Bitcoin Core, or node distributions like Umbrel, RaspiBlitz, Start9, or myNode</li>
+              <li><strong>Network</strong> &mdash; initial blockchain sync takes 1-7 days depending on hardware and bandwidth. After sync, bandwidth usage is ~10-20 GB/month.</li>
+              <li><strong>Connection to wallet</strong> &mdash; configure Sparrow, Electrum, or your mobile wallet to connect to your node (often via Tor for privacy)</li>
+            </ul>
+            <div class="callout callout-info">
+              <span class="callout-label">Sovereignty Level</span>
+              Running your own node + hardware wallet + self-managed keys is the full sovereignty stack. You verify everything independently, sign transactions on dedicated secure hardware, and broadcast through your own infrastructure. No third party is involved at any step.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-privacy" class="anim-fade-in">Privacy as a Sovereignty Pillar</h2>
+          <div class="guide-text anim-fade-in">
+            <p><strong>Privacy is not secrecy</strong> &mdash; it is the ability to selectively reveal yourself to the world. Without privacy, self-sovereignty is incomplete: if every transaction is traceable to your identity, your financial autonomy can be undermined through surveillance, discrimination, or targeted attacks.</p>
+            <h3>Blockchain Transparency vs. Privacy</h3>
+            <p>Bitcoin's blockchain is a <strong>public ledger</strong> &mdash; every transaction is visible to anyone. Privacy comes not from the protocol itself but from the <strong>difficulty of linking addresses to real-world identities</strong>:</p>
+            <ul>
+              <li><strong>Pseudonymity</strong> &mdash; addresses are pseudonymous, not anonymous. Once an address is linked to an identity (e.g., via KYC at an exchange), the entire transaction history becomes attributable.</li>
+              <li><strong>Chain analysis</strong> &mdash; companies like Chainalysis and Elliptic specialize in tracing Bitcoin flows and de-anonymizing users through heuristics (common input ownership, change detection, timing analysis).</li>
+              <li><strong>UTXO management</strong> &mdash; how you manage your UTXOs significantly impacts your privacy. Merging UTXOs from different sources can link otherwise unrelated activities.</li>
+            </ul>
+            <h3>Privacy-Enhancing Practices</h3>
+            <ul>
+              <li><strong>CoinJoin</strong> &mdash; a collaborative transaction mixing protocol that combines multiple users' inputs and outputs, making it difficult to trace which input paid which output</li>
+              <li><strong>PayJoin (P2EP)</strong> &mdash; a two-party protocol where both sender and receiver contribute inputs, breaking common-input-ownership heuristics</li>
+              <li><strong>Coin control</strong> &mdash; manually selecting which UTXOs to spend in a transaction, avoiding unwanted linkage</li>
+              <li><strong>Tor/VPN</strong> &mdash; routing wallet connections through Tor to prevent IP-based correlation</li>
+              <li><strong>Silent Payments (BIP352)</strong> &mdash; allows receivers to publish a static address while each sender generates a unique on-chain address, eliminating address reuse without interactive communication</li>
+            </ul>
+            <div class="callout callout-tip">
+              <span class="callout-label">Practical Privacy</span>
+              Perfect on-chain privacy is extremely difficult to achieve. Focus on practical measures: never reuse addresses, use your own node via Tor, be mindful of UTXO management, and avoid linking KYC-connected addresses to privacy-sensitive activity.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-layers" class="anim-fade-in">Sovereignty Stack: Layers of Independence</h2>
+          <div class="guide-text anim-fade-in">
+            <p>True self-sovereignty extends beyond key management. Each layer of the technology stack where you depend on a third party is a potential point of control, surveillance, or failure.</p>
+            <h3>The Full Sovereignty Stack</h3>
+            <ul>
+              <li><strong>Layer 1 &mdash; Keys</strong>: Self-custodial keys on hardware you control (hardware wallet, air-gapped device)</li>
+              <li><strong>Layer 2 &mdash; Verification</strong>: Your own full node validates all transactions and blocks independently</li>
+              <li><strong>Layer 3 &mdash; Network</strong>: Tor/VPN for network-level privacy; your node connects to the peer-to-peer network directly</li>
+              <li><strong>Layer 4 &mdash; Software</strong>: Open-source wallet software with reproducible builds, verified against published hashes</li>
+              <li><strong>Layer 5 &mdash; Hardware</strong>: Open-source hardware designs where possible; multi-vendor diversity for signing devices</li>
+              <li><strong>Layer 6 &mdash; Backup</strong>: Metal seed backups in geographically distributed locations, with inheritance documentation</li>
+              <li><strong>Layer 7 &mdash; Knowledge</strong>: Deep understanding of the tools and protocols you use, enabling independent troubleshooting and recovery</li>
+            </ul>
+            <h3>Progressive Sovereignty</h3>
+            <p>Not everyone needs or can maintain the full stack. The key insight is that <strong>each layer you own reduces your dependence</strong>:</p>
+            <ul>
+              <li>Holding your own keys (Layer 1) is the most impactful single step</li>
+              <li>Running your own node (Layer 2) eliminates verification trust</li>
+              <li>Using Tor (Layer 3) eliminates network-level surveillance</li>
+              <li>Each additional layer provides diminishing but still meaningful sovereignty gains</li>
+            </ul>
+            <div class="callout callout-info">
+              <span class="callout-label">Pragmatic Approach</span>
+              Start at Layer 1 (self-custody keys) and expand outward as your knowledge and holdings grow. Most users who hold their own keys on a hardware wallet and run their own node have achieved a level of financial sovereignty that was impossible for individuals before Bitcoin existed.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-future" class="anim-fade-in">Future of Self-Sovereignty</h2>
+          <div class="guide-text anim-fade-in">
+            <p>The tools and protocols for self-sovereignty are evolving rapidly. Several developments are expanding what is possible for sovereign individuals:</p>
+            <h3>Emerging Technologies</h3>
+            <ul>
+              <li><strong>MuSig2 and FROST</strong> &mdash; threshold signature schemes that make multisig indistinguishable from single-sig on-chain, improving both privacy and cost</li>
+              <li><strong>Silent Payments (BIP352)</strong> &mdash; reusable payment codes that generate unique addresses per sender without requiring interaction</li>
+              <li><strong>Fedimint</strong> &mdash; federated e-cash mints that provide Lightning Network access and privacy within community-operated trust circles</li>
+              <li><strong>Nostr + Bitcoin</strong> &mdash; censorship-resistant communication combined with censorship-resistant money, enabling sovereign identity and payments</li>
+              <li><strong>Miniscript</strong> &mdash; a structured language for Bitcoin scripts that makes complex spending policies (timelocks, multi-sig, inheritance fallbacks) more accessible and verifiable</li>
+            </ul>
+            <h3>The Sovereign Individual Thesis</h3>
+            <p>Bitcoin and self-custody tools are creating a paradigm shift: for the first time in history, an individual can hold and transfer significant wealth that is <strong>immune to physical seizure</strong> (a memorized seed phrase crosses any border), <strong>resistant to censorship</strong> (no institution can block a properly broadcast transaction), and <strong>verifiable without trust</strong> (anyone can run a node).</p>
+            <blockquote><p>Self-sovereignty is not a destination &mdash; it is a continuous practice of maintaining control over your financial life through education, discipline, and the deliberate use of open tools. The technology exists. The choice to use it is yours.</p></blockquote>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== FAQ ===== -->
+    <section class="section-block faq-section">
+      <div class="container">
+        <p class="label anim-fade-in">[ FREQUENTLY ASKED QUESTIONS ]</p>
+        <h2 class="anim-fade-in">FAQ</h2>
+        <div class="faq-chat anim-fade-in">
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Is self-custody too risky for beginners?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="No &mdash; but education before action is essential. Start with a small amount in a reputable self-custodial mobile wallet. Learn how seed phrases work, practice backup and recovery, and gradually move larger amounts as your confidence grows. The risk of losing funds through poor self-custody practices is real, but the risk of losing funds on a custodial service is historically just as real. The difference is that self-custody risk is under your control."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Do I need to run a full node to be self-sovereign?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Running a full node is the gold standard for verification independence, but self-custody of your keys is the most critical step. You can be self-custodial without a node (using a trusted remote node), and this is far better than custodial alternatives. Think of it as a spectrum: holding your own keys is the essential foundation, running your own node is the next level, and each additional layer of independence strengthens your sovereignty."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>What about regulations requiring KYC for all crypto?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Regulations apply to regulated entities (exchanges, on-ramps, custodians), not to the Bitcoin protocol itself. Peer-to-peer transactions between self-custodial wallets are permission-less by design. While regulations may affect how you acquire Bitcoin, they cannot prevent you from holding and transferring it with your own keys. This is precisely the distinction that makes self-custody powerful: the protocol operates independently of regulatory infrastructure."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Is Bitcoin the only self-sovereign cryptocurrency?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Any cryptocurrency where you can hold your own keys is technically self-custodial. However, Bitcoin is uniquely suited for self-sovereignty due to its decentralization (no single entity controls the protocol), its proven security track record (no successful protocol-level attack since 2009), its resistance to censorship (thousands of independent nodes), and its accessible self-custody tooling (hardware wallets, multisig, open standards like BIP39). Other networks may offer self-custody, but few match Bitcoin's decentralization and battle-tested resilience."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>What if my hardware wallet manufacturer goes out of business?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Your funds are safe as long as you have your seed phrase (and passphrase, if used). The seed phrase is a universal standard (BIP39) supported by hundreds of wallet implementations from dozens of manufacturers. If your hardware wallet vendor disappears, you can restore your wallet on any other BIP39-compatible device or software. This is the power of open standards &mdash; no single vendor lock-in."></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ARTICLE PREVIEWS ===== -->
+    <section class="article-previews">
+      <div class="container">
+        <p class="label">[ READ NEXT ]</p>
+        <h3>Continue Learning</h3>
+        <div class="preview-grid">
+          <a class="preview-card" href="guide-opsec.html">
+            <h4>Operational Security (OpSec)</h4>
+            <p>Protect yourself from phishing, social engineering, and physical threats. Practical security habits.</p>
+          </a>
+          <a class="preview-card" href="guide-multisig.html">
+            <h4>Multisignature (Multisig)</h4>
+            <p>Eliminate single points of failure with multi-key setups and distributed trust models.</p>
+          </a>
+          <a class="preview-card" href="guide-seed-anatomy.html">
+            <h4>Anatomy of a Seed Phrase</h4>
+            <p>What makes up a BIP39 mnemonic, how entropy and checksums work, and why your 12-24 words matter.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <span class="footer-brand"><img src="PENGER (1).svg" alt="PENGER" height="16"></span>
+        <span class="meta-text">Self-Custody Tools &amp; Guides</span>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 PENGER</span>
+        <span>OFFLINE / CLIENT-SIDE / NO TRACKING</span>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="shared.js"></script>
+</body>
+</html>

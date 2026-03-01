@@ -44,7 +44,7 @@
         <a href="guides.html" class="back-link anim-fade-in">&larr; All Guides</a>
         <p class="label anim-fade-in">[ GUIDE / WALLETS ]</p>
         <h1 class="anim-fade-in">Anatomy of a Wallet</h1>
-        <p class="body-text anim-fade-in">How cryptocurrency wallets work under the hood &mdash; from key derivation to transaction signing.</p>
+        <p class="body-text anim-fade-in">How cryptocurrency wallets work under the hood &mdash; from key derivation and address generation to transaction signing and broadcast.</p>
 
         <div class="level-toggle anim-fade-in" id="levelToggle">
           <div class="pill-group">
@@ -64,21 +64,27 @@
             <li><a href="#b-what-wallet">What Is a Crypto Wallet?</a></li>
             <li><a href="#b-keys">Public Keys vs. Private Keys</a></li>
             <li><a href="#b-addresses">Addresses and Receiving Funds</a></li>
+            <li><a href="#b-signing">Sending Funds &mdash; Transaction Signing</a></li>
+            <li><a href="#b-hd-wallets">HD Wallets &mdash; One Seed, Unlimited Keys</a></li>
           </ol>
         </nav>
       </div>
+
       <section class="section-block">
         <div class="container">
           <h2 class="anim-fade-in" id="b-what-wallet">What Is a Crypto Wallet?</h2>
           <div class="guide-text anim-fade-in">
-            <p>A cryptocurrency wallet is a tool that stores your <strong>private keys</strong> and allows you to send, receive, and manage digital assets. Despite the name, wallets don't actually store your coins &mdash; those live on the blockchain. Your wallet holds the keys that prove ownership.</p>
-            <p>There are many wallet forms, each with different trade-offs:</p>
+            <p>A cryptocurrency wallet is a tool that stores your <strong>private keys</strong> and allows you to send, receive, and manage digital assets. Despite the name, wallets don't actually store your coins or tokens &mdash; those exist as records on the blockchain. Your wallet holds the cryptographic keys that prove your ownership and authorize transfers.</p>
+            <blockquote><p>A wallet is more like a keychain than a wallet. It doesn't hold money &mdash; it holds the keys that unlock your money on the blockchain.</p></blockquote>
+            <p>Wallets come in many forms, each designed for different use cases:</p>
             <ul>
-              <li><strong>Mobile apps</strong> &mdash; convenient, always with you</li>
-              <li><strong>Desktop software</strong> &mdash; more control, larger screen</li>
-              <li><strong>Browser extensions</strong> &mdash; seamless DeFi access</li>
-              <li><strong>Hardware devices</strong> &mdash; maximum security, keys never online</li>
+              <li><strong>Mobile apps</strong> &mdash; convenient, always with you, ideal for everyday transactions</li>
+              <li><strong>Desktop software</strong> &mdash; more control, larger screen, suitable for managing multiple accounts</li>
+              <li><strong>Browser extensions</strong> &mdash; seamless interaction with DeFi protocols and dApps</li>
+              <li><strong>Hardware devices</strong> &mdash; maximum security, keys are generated and stored on a dedicated chip that never connects to the internet</li>
+              <li><strong>Paper wallets</strong> &mdash; a printed private key or seed phrase for long-term cold storage (now largely deprecated in favor of hardware wallets)</li>
             </ul>
+            <p>Regardless of the form, every wallet performs the same core functions: key storage, address generation, transaction creation, and signature production.</p>
           </div>
         </div>
       </section>
@@ -87,13 +93,17 @@
         <div class="container">
           <h2 class="anim-fade-in" id="b-keys">Public Keys vs. Private Keys</h2>
           <div class="guide-text anim-fade-in">
-            <p>Every wallet has at least one key pair:</p>
+            <p>Every wallet is built on <strong>asymmetric cryptography</strong> &mdash; a system that uses two mathematically related but functionally different keys:</p>
             <ul>
-              <li><strong>Public key</strong> &mdash; used to receive funds (like an email address)</li>
-              <li><strong>Private key</strong> &mdash; used to authorize spending (like a password)</li>
+              <li><strong>Private key</strong> &mdash; a secret 256-bit number that authorizes spending. This must never be shared with anyone. Whoever controls the private key controls the funds.</li>
+              <li><strong>Public key</strong> &mdash; derived mathematically from the private key using elliptic curve multiplication. It can be freely shared and is used to verify signatures and generate addresses.</li>
             </ul>
-            <p>Anyone can send crypto to your public address, but only the private key holder can move it out.</p>
-            <blockquote><p>Modern HD wallets generate thousands of key pairs from a single seed phrase. One backup protects access to all your addresses across multiple cryptocurrencies.</p></blockquote>
+            <blockquote><p>The private key is like a signature stamp &mdash; it proves you are the owner and authorizes actions. The public key is like your mailing address &mdash; anyone can send things to it, but only you can access the contents.</p></blockquote>
+            <p>The mathematical relationship between the two keys is <strong>one-directional</strong>: you can always derive the public key from the private key, but it is computationally infeasible to derive the private key from the public key. This asymmetry is the foundation of all cryptocurrency security.</p>
+            <div class="callout callout-warning">
+              <span class="callout-label">Critical</span>
+              If someone obtains your private key, they can immediately transfer all funds associated with that key. There is no reversal mechanism on the blockchain. Protect your private keys with the same rigor you would protect a vault key.
+            </div>
           </div>
         </div>
       </section>
@@ -102,10 +112,56 @@
         <div class="container">
           <h2 class="anim-fade-in" id="b-addresses">Addresses and Receiving Funds</h2>
           <div class="guide-text anim-fade-in">
-            <p>An address is derived from your public key through <strong>hashing and encoding</strong>. For privacy, best practice is to use a new address for each transaction.</p>
+            <p>An address is derived from your public key through a series of <strong>hashing and encoding</strong> steps. It is the string you share with others to receive funds &mdash; like a bank account number, but pseudonymous and verifiable by anyone on the network.</p>
+            <h3>Address Formats in Bitcoin</h3>
+            <ul>
+              <li><strong>Legacy (P2PKH)</strong> &mdash; starts with <code>1</code>, the original format</li>
+              <li><strong>Nested SegWit (P2SH)</strong> &mdash; starts with <code>3</code>, backward-compatible SegWit</li>
+              <li><strong>Native SegWit (Bech32)</strong> &mdash; starts with <code>bc1q</code>, lower fees, better error detection</li>
+              <li><strong>Taproot (Bech32m)</strong> &mdash; starts with <code>bc1p</code>, latest format with enhanced privacy and scripting capabilities</li>
+            </ul>
+            <p>For Ethereum and EVM chains, addresses are 40-character hex strings prefixed with <code>0x</code>, derived from the last 20 bytes of the Keccak-256 hash of the public key.</p>
             <div class="callout callout-tip">
               <span class="callout-label">Best Practice</span>
-              HD wallets handle address generation automatically by producing sequential addresses from the same seed. Never reuse addresses.
+              Use a new address for each transaction to improve privacy. HD wallets handle this automatically by generating sequential addresses from the same seed. Address reuse allows blockchain observers to link your transactions together.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 class="anim-fade-in" id="b-signing">Sending Funds &mdash; Transaction Signing</h2>
+          <div class="guide-text anim-fade-in">
+            <p>When you send cryptocurrency, your wallet performs a precise sequence of steps:</p>
+            <ol>
+              <li><strong>Construct the transaction</strong> &mdash; specify the recipient address, amount, and fee</li>
+              <li><strong>Create a hash</strong> &mdash; the wallet computes a cryptographic hash of the transaction data</li>
+              <li><strong>Sign the hash</strong> &mdash; your private key produces a digital signature over the hash</li>
+              <li><strong>Broadcast</strong> &mdash; the signed transaction is sent to the network</li>
+              <li><strong>Verification</strong> &mdash; network nodes verify the signature against your public key to confirm authorization</li>
+            </ol>
+            <p>The beauty of this system is that the private key is used to <em>create</em> the signature, but the public key is sufficient to <em>verify</em> it. Your private key never leaves the wallet during a transaction &mdash; only the signature does.</p>
+            <blockquote><p>Signing a transaction is like signing a check with invisible ink that only reveals itself under a specific UV light (your public key). Anyone can verify it is genuine, but no one can forge your signature.</p></blockquote>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 class="anim-fade-in" id="b-hd-wallets">HD Wallets &mdash; One Seed, Unlimited Keys</h2>
+          <div class="guide-text anim-fade-in">
+            <p>Modern wallets are <strong>Hierarchical Deterministic (HD)</strong>, meaning they derive all private keys, public keys, and addresses from a single seed phrase using a tree-like structure.</p>
+            <p>This design provides powerful advantages:</p>
+            <ul>
+              <li><strong>Single backup</strong> &mdash; one seed phrase protects all current and future keys</li>
+              <li><strong>Multi-coin support</strong> &mdash; the same seed can derive keys for Bitcoin, Ethereum, and dozens of other cryptocurrencies simultaneously</li>
+              <li><strong>Automatic address generation</strong> &mdash; wallets generate fresh receiving addresses without user intervention</li>
+              <li><strong>Account isolation</strong> &mdash; different derivation paths create logically separate accounts under one seed</li>
+            </ul>
+            <div class="callout callout-info">
+              <span class="callout-label">Key Insight</span>
+              An HD wallet can generate billions of unique addresses from one seed phrase. Every single one of them can be recovered by importing the same seed into any compatible wallet software. Your funds are never "in" the wallet app &mdash; they are on the blockchain, accessible with the right key.
             </div>
           </div>
         </div>
@@ -119,34 +175,67 @@
           <div class="guide-toc-title">In This Section</div>
           <ol>
             <li><a href="#a-bip32">BIP32 Hierarchical Deterministic Derivation</a></li>
-            <li><a href="#a-ecdsa">ECDSA and Transaction Signing</a></li>
-            <li><a href="#a-xpub">Extended Public Keys (xpub)</a></li>
+            <li><a href="#a-ecdsa">ECDSA and Schnorr Signatures</a></li>
+            <li><a href="#a-xpub">Extended Public Keys (xpub) and Watch-Only</a></li>
+            <li><a href="#a-utxo">UTXO Model vs. Account Model</a></li>
+            <li><a href="#a-address-types">Address Types and Script Formats</a></li>
           </ol>
         </nav>
       </div>
+
       <section class="section-block">
         <div class="container">
           <h2 class="anim-fade-in" id="a-bip32">BIP32 Hierarchical Deterministic Derivation</h2>
           <div class="guide-text anim-fade-in">
-            <p>BIP32 defines a <strong>tree structure</strong> for key derivation. Starting from a master key (derived from the BIP39 seed via PBKDF2), child keys are generated using <code>HMAC-SHA512</code>.</p>
-            <p>Each level in the tree can produce <code>2^31</code> normal child keys and <code>2^31</code> hardened child keys.</p>
-            <blockquote><p>Hardened derivation (indicated by an apostrophe, e.g., <code>m/44'</code>) prevents child key compromise from leaking information about the parent key. This is critical for multi-account security isolation.</p></blockquote>
+            <p>BIP32 defines a <strong>tree structure</strong> for key derivation. Starting from a master key (derived from the BIP39 seed via <code>HMAC-SHA512</code>), child keys are generated at each level using the parent key and a 32-bit index.</p>
+            <h3>Normal vs. Hardened Derivation</h3>
+            <p>Each level in the tree can produce <code>2<sup>31</sup></code> normal child keys (indices 0 to 2<sup>31</sup>-1) and <code>2<sup>31</sup></code> hardened child keys (indices 2<sup>31</sup> to 2<sup>32</sup>-1, denoted with <code>'</code>).</p>
+            <ul>
+              <li><strong>Normal derivation</strong> &mdash; uses the parent <em>public</em> key + chain code. Allows deriving child public keys from an xpub without the private key.</li>
+              <li><strong>Hardened derivation</strong> &mdash; uses the parent <em>private</em> key + chain code. Prevents child key compromise from propagating upward to the parent.</li>
+            </ul>
+            <blockquote><p>Hardened derivation (indicated by an apostrophe, e.g., <code>m/44'</code>) creates a cryptographic firewall between tree levels. If a child private key and its chain code are both leaked, hardened derivation prevents the attacker from computing the parent private key. This is critical for multi-account security isolation.</p></blockquote>
+            <h3>The Derivation Function</h3>
+            <pre><code>// For hardened child (index >= 2^31):
+I = HMAC-SHA512(Key=parent_chain_code,
+                Data=0x00 || parent_private_key || index)
+
+// For normal child (index < 2^31):
+I = HMAC-SHA512(Key=parent_chain_code,
+                Data=parent_public_key || index)
+
+child_key   = parse256(I_L) + parent_key  (mod n)
+child_chain = I_R</code></pre>
           </div>
         </div>
       </section>
 
       <section class="section-block">
         <div class="container">
-          <h2 class="anim-fade-in" id="a-ecdsa">ECDSA and Transaction Signing</h2>
+          <h2 class="anim-fade-in" id="a-ecdsa">ECDSA and Schnorr Signatures</h2>
           <div class="guide-text anim-fade-in">
-            <p>Bitcoin uses the <strong>secp256k1</strong> elliptic curve for digital signatures. When you send a transaction, your wallet:</p>
+            <p>Bitcoin historically uses the <strong>secp256k1</strong> elliptic curve with ECDSA (Elliptic Curve Digital Signature Algorithm) for transaction signing. The Taproot upgrade (BIP340) introduced <strong>Schnorr signatures</strong> as an alternative.</p>
+            <h3>ECDSA Signing Process</h3>
             <ol>
-              <li>Creates a hash of the transaction data</li>
-              <li>Signs it using your <strong>private key</strong></li>
-              <li>Broadcasts the signature with the transaction</li>
-              <li>Network nodes verify against your public key</li>
+              <li>Generate a random nonce <code>k</code> (using RFC 6979 deterministic nonce generation)</li>
+              <li>Compute point <code>R = k &times; G</code> (elliptic curve point multiplication)</li>
+              <li>Compute <code>r = R.x mod n</code></li>
+              <li>Compute <code>s = k<sup>-1</sup>(hash + r &times; privateKey) mod n</code></li>
+              <li>The signature is the pair <code>(r, s)</code></li>
             </ol>
-            <p>The fundamental cryptographic primitive is <em>elliptic curve multiplication</em> &mdash; computationally easy in one direction but infeasible to reverse.</p>
+            <p>The fundamental security primitive is the <strong>Elliptic Curve Discrete Logarithm Problem</strong> (ECDLP) &mdash; given <code>P = k &times; G</code>, computing <code>k</code> from <code>P</code> and <code>G</code> is computationally infeasible.</p>
+            <h3>Schnorr Signatures (BIP340)</h3>
+            <p>Schnorr signatures offer several advantages over ECDSA:</p>
+            <ul>
+              <li><strong>Linearity</strong> &mdash; signatures can be aggregated (key aggregation for multi-sig looks like a single signature on-chain)</li>
+              <li><strong>Provable security</strong> &mdash; security reduction directly to the discrete logarithm problem</li>
+              <li><strong>Smaller and faster</strong> &mdash; 64-byte signatures vs. variable-length DER-encoded ECDSA</li>
+              <li><strong>Batch verification</strong> &mdash; multiple signatures can be verified faster than individually</li>
+            </ul>
+            <div class="callout callout-info">
+              <span class="callout-label">Nonce Safety</span>
+              A reused or predictable nonce <code>k</code> in ECDSA immediately leaks the private key. RFC 6979 eliminates this risk by deriving <code>k</code> deterministically from the private key and message hash, ensuring the same input always produces the same (safe) nonce.
+            </div>
           </div>
         </div>
       </section>
@@ -155,15 +244,69 @@
         <div class="container">
           <h2 class="anim-fade-in" id="a-xpub">Extended Public Keys (xpub) and Watch-Only</h2>
           <div class="guide-text anim-fade-in">
-            <p>An <strong>extended public key</strong> (<code>xpub</code>) allows deriving all public child keys without access to the private key. This enables:</p>
+            <p>An <strong>extended public key</strong> (<code>xpub</code>) encodes the public key together with its chain code, enabling the derivation of all normal child public keys without access to any private key. This enables powerful use cases:</p>
             <ul>
-              <li><strong>Watch-only wallets</strong> &mdash; monitor balances without spending ability</li>
-              <li><strong>Payment servers</strong> &mdash; generate fresh addresses for each customer</li>
-              <li><strong>Auditing</strong> &mdash; third-party balance verification</li>
+              <li><strong>Watch-only wallets</strong> &mdash; monitor balances and generate receiving addresses without spending capability</li>
+              <li><strong>Payment servers</strong> &mdash; an e-commerce backend can generate a unique address for each customer using the xpub, while the private key stays offline on a hardware wallet</li>
+              <li><strong>Auditing</strong> &mdash; share your xpub with an accountant for tax reporting without granting spending access</li>
+              <li><strong>Multi-device setups</strong> &mdash; a phone watches balances while a hardware wallet handles signing</li>
             </ul>
+            <h3>Version Prefixes</h3>
+            <p>Different BIP standards use different version prefixes for extended keys:</p>
+            <pre><code>xpub / xprv  &larr; BIP44 (Legacy P2PKH)
+ypub / yprv  &larr; BIP49 (Nested SegWit P2SH-P2WPKH)
+zpub / zprv  &larr; BIP84 (Native SegWit P2WPKH)</code></pre>
             <div class="callout callout-warning">
-              <span class="callout-label">Security Note</span>
-              Never share your xpub publicly. While it can't spend funds, it reveals your entire transaction history and all addresses.
+              <span class="callout-label">Privacy Warning</span>
+              Never share your xpub publicly. While it cannot spend funds, it reveals your <strong>entire transaction history</strong>, all past and future addresses, and total balance for that account branch. An xpub leak is a complete privacy breach.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 class="anim-fade-in" id="a-utxo">UTXO Model vs. Account Model</h2>
+          <div class="guide-text anim-fade-in">
+            <p>How a wallet tracks and spends funds depends on the underlying blockchain model. The two dominant models are fundamentally different in design:</p>
+            <h3>UTXO Model (Bitcoin, Litecoin, Cardano)</h3>
+            <p>In the <strong>Unspent Transaction Output</strong> (UTXO) model, there is no concept of a "balance." Instead, your wallet scans the blockchain for unspent outputs assigned to your addresses. To spend, you <em>consume</em> one or more UTXOs as inputs and create new outputs:</p>
+            <ul>
+              <li>Each UTXO can only be spent <strong>once and in full</strong></li>
+              <li>If the UTXO exceeds the payment amount, the wallet creates a <strong>change output</strong> back to itself</li>
+              <li>Transaction fees are implicit: <code>fee = sum(inputs) - sum(outputs)</code></li>
+            </ul>
+            <h3>Account Model (Ethereum, Solana, BNB Chain)</h3>
+            <p>The account model works more like a traditional bank account &mdash; each address has a <strong>balance</strong> and a <strong>nonce</strong> (transaction counter). Transactions debit from one account and credit to another:</p>
+            <ul>
+              <li>Simpler mental model &mdash; just "balance minus amount"</li>
+              <li>No change outputs needed</li>
+              <li>Nonce prevents replay attacks (each transaction must have a unique, sequential nonce)</li>
+            </ul>
+            <div class="callout callout-info">
+              <span class="callout-label">Wallet Implication</span>
+              UTXO-based wallets must perform coin selection (choosing which UTXOs to spend) and manage change addresses. Account-based wallets simply decrement a balance. This is why Bitcoin wallet implementations are significantly more complex than Ethereum wallet implementations.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 class="anim-fade-in" id="a-address-types">Address Types and Script Formats</h2>
+          <div class="guide-text anim-fade-in">
+            <p>Bitcoin supports multiple address types, each corresponding to a different <strong>script template</strong> that defines the spending conditions:</p>
+            <h3>P2PKH (Pay-to-Public-Key-Hash)</h3>
+            <p>The original Bitcoin address format. The locking script requires a signature and public key that hashes to the specified value. Addresses start with <code>1</code>.</p>
+            <h3>P2SH (Pay-to-Script-Hash)</h3>
+            <p>Allows arbitrary spending conditions encoded in a script. The sender only needs the hash of the script &mdash; the full script is revealed at spending time. This enables multi-sig, time-locks, and other complex conditions. Addresses start with <code>3</code>.</p>
+            <h3>P2WPKH (Native SegWit)</h3>
+            <p>Segregated Witness version 0. Moves signature data to a separate "witness" structure outside the base transaction, reducing the effective size and thus the fee. Addresses use <strong>Bech32</strong> encoding and start with <code>bc1q</code>.</p>
+            <h3>P2TR (Taproot)</h3>
+            <p>The latest address type (SegWit v1), combining Schnorr signatures with MAST (Merkelized Abstract Syntax Trees). A P2TR output can be spent either via a key path (simple Schnorr signature) or a script path (reveals only the executed branch of a script tree). Addresses use <strong>Bech32m</strong> encoding and start with <code>bc1p</code>.</p>
+            <div class="callout callout-tip">
+              <span class="callout-label">Recommendation</span>
+              For new wallets, use Native SegWit (bc1q) or Taproot (bc1p) addresses. They offer the lowest fees, best error detection, and are supported by all modern wallet software and exchanges.
             </div>
           </div>
         </div>
@@ -183,7 +326,7 @@
               <span class="faq-arrow">&rsaquo;</span>
             </button>
             <div class="faq-bubble-wrap">
-              <div class="faq-bubble" data-text="Not necessarily. HD wallets supporting BIP44 can derive keys for multiple coin types from a single seed phrase. Each currency uses a different derivation path (e.g., m/44'/0' for Bitcoin, m/44'/60' for Ethereum). Placeholder for multi-coin wallet guidance."></div>
+              <div class="faq-bubble" data-text="Not necessarily. HD wallets supporting BIP44 can derive keys for multiple coin types from a single seed phrase. Each cryptocurrency uses a different derivation path (e.g., m/44'/0' for Bitcoin, m/44'/60' for Ethereum). However, not all wallet software supports all coins &mdash; you may need different apps to access different chains, even if they all derive from the same seed."></div>
             </div>
           </div>
 
@@ -193,7 +336,7 @@
               <span class="faq-arrow">&rsaquo;</span>
             </button>
             <div class="faq-bubble-wrap">
-              <div class="faq-bubble" data-text="As long as you have your seed phrase, you can import it into any other BIP39-compatible wallet. Your keys and funds are derived from the seed, not tied to any specific software. Placeholder for wallet migration steps."></div>
+              <div class="faq-bubble" data-text="As long as you have your seed phrase, you can import it into any other BIP39-compatible wallet and recover all your keys and addresses. Your funds are derived from the seed, not tied to any specific software. This is why open standards like BIP39/BIP32/BIP44 are so important &mdash; they ensure interoperability across wallets from different vendors."></div>
             </div>
           </div>
 
@@ -203,7 +346,7 @@
               <span class="faq-arrow">&rsaquo;</span>
             </button>
             <div class="faq-bubble-wrap">
-              <div class="faq-bubble" data-text="Sharing your xpub allows the recipient to see all past and future addresses and balances for that account. While they cannot spend your funds, it is a significant privacy leak. Only share xpubs with trusted parties like your accountant. Placeholder for xpub privacy considerations."></div>
+              <div class="faq-bubble" data-text="Sharing your xpub allows the recipient to see all past and future addresses and balances for that account. While they cannot spend your funds, it is a significant privacy leak &mdash; they can track your entire financial activity for that account. Only share xpubs with trusted parties like your accountant, and consider using a dedicated account branch for shared access."></div>
             </div>
           </div>
 
@@ -213,7 +356,17 @@
               <span class="faq-arrow">&rsaquo;</span>
             </button>
             <div class="faq-bubble-wrap">
-              <div class="faq-bubble" data-text="Some wallet software allows managing multiple accounts, each with its own seed. However, each seed independently generates its own key tree. You would need to back up each seed separately. Placeholder for multi-seed management advice."></div>
+              <div class="faq-bubble" data-text="Some wallet software allows managing multiple accounts, each derived from a different seed. However, each seed independently generates its own key tree. You must back up each seed separately. For most users, a single seed with multiple accounts (different derivation paths or passphrase-based hidden wallets) is more manageable than multiple seeds."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Why do I get a different address every time I receive crypto?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="HD wallets automatically generate a new receiving address after each use to improve your privacy. If you reused one address, anyone who knows it could trace all your transactions. With fresh addresses, each payment is harder to link to your identity. All these addresses are still derived from your single seed phrase and will be recovered during wallet restoration."></div>
             </div>
           </div>
 
@@ -228,19 +381,16 @@
         <h3>Continue Learning</h3>
         <div class="preview-grid">
           <a class="preview-card" href="guide-seed-anatomy.html">
-
             <h4>Anatomy of a Seed Phrase</h4>
             <p>What makes up a BIP39 mnemonic, how entropy and checksums work, and why your 12-24 words matter.</p>
           </a>
+          <a class="preview-card" href="guide-passphrase.html">
+            <h4>The 25th Word (Passphrase)</h4>
+            <p>How an optional BIP39 passphrase adds an extra security layer and enables hidden wallets.</p>
+          </a>
           <a class="preview-card" href="guide-wallet-comparison.html">
-
             <h4>Wallet Types Comparison</h4>
             <p>Hot wallets, cold wallets, hardware devices, multi-sig setups. Compare trade-offs and find the right fit.</p>
-          </a>
-          <a class="preview-card" href="guide-opsec.html">
-
-            <h4>Operational Security (OpSec)</h4>
-            <p>Protect yourself from phishing, social engineering, and physical threats. Practical security habits for crypto holders.</p>
           </a>
         </div>
       </div>
