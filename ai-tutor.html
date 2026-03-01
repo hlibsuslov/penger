@@ -63,8 +63,10 @@
     #tutorChat {
       flex: 1 1 0%;
       overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      overscroll-behavior-y: contain;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;    /* momentum scroll on older iOS */
+      overscroll-behavior-y: contain;       /* no scroll-chain to body      */
+      touch-action: pan-y;                  /* let browser know: vertical swipe = scroll */
       /* room for the fixed composer + safe-area + keyboard */
       padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px) + var(--kb));
     }
@@ -226,7 +228,7 @@
         }
         idx++;
         scrollCounter++;
-        if (scrollCounter % 5 === 0) smoothScroll();
+        if (scrollCounter % 5 === 0) chatEl.scrollTop = chatEl.scrollHeight;
       }, 12);
     }
 
@@ -526,7 +528,7 @@
         }
         idx++;
         scrollCounter++;
-        if (scrollCounter % 5 === 0) smoothScroll();
+        if (scrollCounter % 5 === 0) chatEl.scrollTop = chatEl.scrollHeight;
       }, 12);
     }
 
