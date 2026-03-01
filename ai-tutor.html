@@ -509,12 +509,12 @@
       })
       .then(function (res) {
         if (res.ok) return res.json();
-        if (res.status === 429) throw new Error('You\'re sending messages too fast. Please wait a minute.');
-        if (res.status === 503) throw new Error('AI service is busy. Please try again in a moment.');
-        if (res.status === 400) {
-          return res.json().then(function (d) { throw new Error(d.error || 'Invalid request.'); });
-        }
-        throw new Error('Something went wrong. Please try again.');
+        return res.json().catch(function () { return {}; }).then(function (d) {
+          if (res.status === 429) throw new Error(d.error || 'You\'re sending messages too fast. Please wait a minute.');
+          if (res.status === 503) throw new Error(d.error || 'AI service is temporarily unavailable.');
+          if (res.status === 400) throw new Error(d.error || 'Invalid request.');
+          throw new Error(d.error || 'Something went wrong. Please try again.');
+        });
       })
       .then(function (data) {
         if (!data.reply) throw new Error('Empty response from AI.');

@@ -9,11 +9,11 @@
      npm run dev                 # development (auto-restart)
    ======================================================================= */
 
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env') });
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
-const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -233,8 +233,11 @@ app.use((req, res) => {
    START
    ========================================================= */
 app.listen(PORT, '0.0.0.0', () => {
+  const envPath = path.join(__dirname, '.env');
+  const envExists = require('fs').existsSync(envPath);
   console.log('');
   console.log('  PENGER server running on http://localhost:' + PORT);
+  console.log('  .env file: ' + (envExists ? envPath : 'NOT FOUND at ' + envPath));
   console.log('  OpenAI API: ' + (OPENAI_API_KEY ? 'configured (' + OPENAI_MODEL + ')' : 'NOT configured — set OPENAI_API_KEY in .env'));
   console.log('');
 });
