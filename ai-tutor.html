@@ -145,6 +145,26 @@
 
   <script src="shared.js"></script>
   <script>
+  /* =============================================================
+     SHARED: auto-scroll gate
+     chatEl._autoScroll = true  → we follow the bottom (default)
+     chatEl._autoScroll = false → user scrolled up, leave them alone
+
+     Rule: any fn that ADDS content resets flag to true so the
+     new message is shown. The scroll listener flips it to false
+     the moment the user actively swipes/scrolls upward.
+     ============================================================= */
+  (function () {
+    var chatEl = document.getElementById('tutorChat');
+    if (!chatEl) return;
+    chatEl._autoScroll = true;
+    chatEl.addEventListener('scroll', function () {
+      /* «at the bottom» = within 80 px of the end */
+      var distFromBottom = chatEl.scrollHeight - chatEl.scrollTop - chatEl.clientHeight;
+      chatEl._autoScroll = distFromBottom < 80;
+    }, { passive: true });
+  })();
+
   (function () {
     'use strict';
 
@@ -197,6 +217,7 @@
        HELPERS
        ========================================================= */
     function smoothScroll() {
+      if (!chatEl._autoScroll) return;
       chatEl.scrollTo({ top: chatEl.scrollHeight, behavior: 'smooth' });
     }
 
@@ -228,7 +249,7 @@
         }
         idx++;
         scrollCounter++;
-        if (scrollCounter % 5 === 0) chatEl.scrollTop = chatEl.scrollHeight;
+        if (scrollCounter % 5 === 0 && chatEl._autoScroll) chatEl.scrollTop = chatEl.scrollHeight;
       }, 12);
     }
 
@@ -283,6 +304,7 @@
       var div = document.createElement('div');
       div.className = 'tutor-msg user';
       div.textContent = text;
+      chatEl._autoScroll = true;   // new message → snap back to bottom
       chatEl.appendChild(div);
       smoothScroll();
     }
@@ -298,6 +320,7 @@
       renderBreadcrumb();
 
       // Typing indicator
+      chatEl._autoScroll = true;   // new bot message → snap back to bottom
       var indicator = document.createElement('div');
       indicator.className = 'tutor-msg bot tutor-typing-msg';
       indicator.innerHTML = '<span class="tutor-typing"><span></span><span></span><span></span></span>';
@@ -366,6 +389,7 @@
       if (activeTimer) { clearInterval(activeTimer); activeTimer = null; }
       isTyping = false;
       history = [];
+      chatEl._autoScroll = true;
       chatEl.innerHTML = '';
       addBotMsg('root');
     }
@@ -464,6 +488,7 @@
 
     /* === SMOOTH SCROLL === */
     function smoothScroll() {
+      if (!chatEl._autoScroll) return;
       chatEl.scrollTo({ top: chatEl.scrollHeight, behavior: 'smooth' });
     }
 
@@ -528,7 +553,7 @@
         }
         idx++;
         scrollCounter++;
-        if (scrollCounter % 5 === 0) chatEl.scrollTop = chatEl.scrollHeight;
+        if (scrollCounter % 5 === 0 && chatEl._autoScroll) chatEl.scrollTop = chatEl.scrollHeight;
       }, 12);
     }
 
@@ -551,6 +576,7 @@
       var div = document.createElement('div');
       div.className = 'tutor-msg user';
       div.textContent = text;
+      chatEl._autoScroll = true;   // new message → snap back to bottom
       chatEl.appendChild(div);
       smoothScroll();
     }
@@ -561,6 +587,7 @@
       var textWrap = document.createElement('div');
       textWrap.className = 'tutor-msg-text';
       div.appendChild(textWrap);
+      chatEl._autoScroll = true;   // new bot reply → snap back to bottom
       chatEl.appendChild(div);
       smoothScroll();
 
