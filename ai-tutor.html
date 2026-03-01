@@ -14,6 +14,73 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+
+  <!-- Chat-layout overrides: flex shell + keyboard -->
+  <style>
+    :root { --kb: 0px; }
+
+    html {
+      height: 100dvh;
+      height: 100vh;                       /* fallback */
+      height: -webkit-fill-available;       /* older Safari */
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100dvh;
+      min-height: 100vh;
+      min-height: -webkit-fill-available;
+      margin: 0;
+      overflow: hidden;                     /* no window scroll */
+    }
+
+    .site-header { flex-shrink: 0; }
+
+    main {
+      flex: 1 1 0%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-height: 0;
+    }
+    main > .section-intro { flex-shrink: 0; }
+    main > .section-block {
+      flex: 1 1 0%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-height: 0;
+    }
+    main > .section-block > .container {
+      flex: 1 1 0%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    /* Scrollable messages container */
+    #tutorChat {
+      flex: 1 1 0%;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: contain;
+      /* room for the fixed composer + safe-area + keyboard */
+      padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px) + var(--kb));
+    }
+
+    /* Fixed composer driven by --kb */
+    .tutor-input-bar {
+      position: fixed !important;
+      left: 0; right: 0;
+      bottom: calc(env(safe-area-inset-bottom, 0px) + var(--kb)) !important;
+      z-index: 100;
+    }
+
+    /* 16 px prevents iOS auto-zoom on focus */
+    .tutor-input { font-size: 16px !important; }
+  </style>
+
   <title>AI Tutor &mdash; PENGER</title>
 </head>
 <body>
@@ -128,7 +195,7 @@
        HELPERS
        ========================================================= */
     function smoothScroll() {
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      chatEl.scrollTo({ top: chatEl.scrollHeight, behavior: 'smooth' });
     }
 
     function typeText(el, text, cb) {
@@ -395,7 +462,7 @@
 
     /* === SMOOTH SCROLL === */
     function smoothScroll() {
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      chatEl.scrollTo({ top: chatEl.scrollHeight, behavior: 'smooth' });
     }
 
     /* === TYPEWRITER WITH INLINE MARKDOWN === */
@@ -569,124 +636,86 @@
         });
     }
 
-    /* === MOBILE KEYBOARD HANDLING v2 ===
+    /* === MOBILE KEYBOARD HANDLING v3 ===
 
-       Architecture overview
-       ---------------------
-       ANDROID Chrome/Firefox: the browser automatically resizes the
-       layout viewport when the soft keyboard opens.  position:fixed
-       elements reposition themselves — zero JS is needed.
+       How it works
+       ------------
+       The composer (.tutor-input-bar) is position:fixed with:
+         bottom: calc(env(safe-area-inset-bottom) + var(--kb, 0px))
+       The #tutorChat container has matching padding-bottom so the
+       last message is always scrollable above the composer.
 
-       iOS Safari/Chrome: the layout viewport is NEVER resized.
-       position:fixed;bottom:0 stays behind the keyboard.
-       We detect the keyboard via the VisualViewport API and shift the
-       input bar with transform:translateY() — a GPU-composited
-       property that avoids layout recalculation (no thrash).
+       On every visualViewport resize/scroll we compute:
+         kb = max(0, innerHeight − (vv.height + vv.offsetTop))
+       and write it into the CSS custom property --kb on <html>.
 
-       Key design decisions
-       --------------------
-       • 150 px threshold separates URL-bar toggle (~50-80 px) from
-         the actual keyboard (~250-340 px).
-       • stableH is updated ONLY when diff ≤ 0 (viewport grew or
-         stayed the same → keyboard is certainly closed).
-       • We listen to 'resize' only — 'scroll' on visualViewport
-         fires during iOS rubber-band / inertial scrolling and
-         causes jitter when used for repositioning.
-       • will-change:transform is set once on init to guarantee the
-         element is promoted to its own compositor layer.
-       • On blur we delay reset by 300 ms to avoid flicker when the
-         user taps another field or the Send button.
+       Why this formula is correct:
+       • innerHeight  = layout viewport height  (fixed on iOS)
+       • vv.height    = visible viewport height  (shrinks when KB opens)
+       • vv.offsetTop = scroll offset of the visual viewport inside
+         the layout viewport (accounts for URL-bar toggle & scroll)
+       • The result is exactly the number of pixels the keyboard
+         "ate" from the bottom — works on both iOS and Android.
+       • Math.max(0, …) clamps rubber-band / overscroll negatives.
+
+       Platform behaviour:
+       • iOS Safari:   layout viewport unchanged → --kb drives shift.
+       • Android Chrome: layout viewport resizes → vv.height ≈
+         innerHeight → kb ≈ 0 → no double-shift.
+
+       Extra touches:
+       • font-size:16px on input prevents iOS auto-zoom.
+       • 300 ms blur delay avoids flicker when tapping Send.
+       • touchmove prevented on the bar to block accidental drag.
+       • orientationchange resets --kb after viewport settles.
        ============================================================ */
 
     var inputBar = document.getElementById('tutorInputBar');
-    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-               (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-    var isAndroid = /Android/i.test(navigator.userAgent);
 
-    /* ---------- iOS-specific keyboard handling ---------- */
-    if (inputBar && isIOS && window.visualViewport) {
+    (function initKeyboardHandler() {
+      var root = document.documentElement;
+      var vv   = window.visualViewport;
+      if (!vv || !inputBar) return;
 
-      var stableH = window.visualViewport.height;
-      var KB_THRESHOLD = 150; // px
       var pendingRAF = null;
-      var kbOpen = false;
 
-      /* Promote to compositor layer once */
-      inputBar.style.willChange = 'transform';
-
-      function applyKeyboardShift() {
+      function syncKB() {
         if (pendingRAF) return;
         pendingRAF = requestAnimationFrame(function () {
           pendingRAF = null;
-          var vv = window.visualViewport;
-          var diff = stableH - vv.height;
-
-          if (diff > KB_THRESHOLD) {
-            /* Keyboard IS open */
-            kbOpen = true;
-            inputBar.style.transform = 'translateY(-' + diff + 'px)';
-            chatEl.style.paddingBottom =
-              (inputBar.offsetHeight + diff + 8) + 'px';
-            smoothScroll();
-          } else {
-            /* Keyboard is closed (or URL-bar toggled) */
-            if (diff <= 0) stableH = vv.height; // viewport grew → update ref
-            if (kbOpen) {
-              kbOpen = false;
-              inputBar.style.transform = '';
-              chatEl.style.paddingBottom = '';
-            }
-          }
+          var kb = Math.max(0,
+            window.innerHeight - (vv.height + vv.offsetTop));
+          root.style.setProperty('--kb', kb + 'px');
+          if (kb > 50) smoothScroll();   // auto-scroll when kb opens
         });
       }
 
-      /* Only 'resize' — 'scroll' causes iOS rubber-band jitter */
-      window.visualViewport.addEventListener('resize', applyKeyboardShift);
+      vv.addEventListener('resize', syncKB);
+      vv.addEventListener('scroll', syncKB);
 
-      /* Orientation change: full reset */
-      window.addEventListener('orientationchange', function () {
-        setTimeout(function () {
-          if (window.visualViewport) {
-            stableH = window.visualViewport.height;
-            kbOpen = false;
-            inputBar.style.transform = '';
-            chatEl.style.paddingBottom = '';
-          }
-        }, 500);
-      });
-
-      /* Focus: give iOS time to open keyboard, then scroll */
+      /* Focus → let keyboard animate in, then sync + scroll */
       inputEl.addEventListener('focus', function () {
-        setTimeout(function () {
-          applyKeyboardShift();
-          smoothScroll();
-        }, 300);
+        setTimeout(function () { syncKB(); smoothScroll(); }, 300);
       });
 
-      /* Blur: delay reset so tapping Send doesn't flicker */
+      /* Blur → delay reset so tapping Send doesn't flash */
       inputEl.addEventListener('blur', function () {
         setTimeout(function () {
           if (document.activeElement !== inputEl) {
-            kbOpen = false;
-            inputBar.style.transform = '';
-            chatEl.style.paddingBottom = '';
-            if (window.visualViewport) stableH = window.visualViewport.height;
+            root.style.setProperty('--kb', '0px');
           }
         }, 300);
       });
-    }
 
-    /* ---------- Android: minimal handling ----------
-       Android resizes the layout viewport automatically, so
-       position:fixed works.  We only scroll to the latest message
-       on focus and prevent the bar from being dragged. */
-    if (inputBar && isAndroid) {
-      inputEl.addEventListener('focus', function () {
-        setTimeout(smoothScroll, 300);
+      /* Orientation change → full reset after viewport settles */
+      window.addEventListener('orientationchange', function () {
+        setTimeout(function () {
+          root.style.setProperty('--kb', '0px');
+        }, 500);
       });
-    }
+    })();
 
-    /* ---------- Shared: prevent touch-drag on input bar ---------- */
+    /* Prevent touch-drag on input bar */
     if (inputBar) {
       inputBar.addEventListener('touchmove', function (e) {
         e.preventDefault();
