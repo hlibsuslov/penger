@@ -26,7 +26,6 @@
         <a href="dictionary.html" class="nav-link">Dictionary</a>
         <a href="guides.html" class="nav-link">Academy</a>
         <a href="ai-tutor.html" class="nav-link">AI Tutor</a>
-        <button class="nav-link nav-auth-btn" id="authBtn" type="button">Log In</button>
       </nav>
       <div class="header-controls">
         <button class="nav-hamburger" id="navHamburger" type="button" aria-label="Menu" aria-expanded="false">
@@ -252,26 +251,6 @@
     </section>
   </main>
 
-  <div class="modal-overlay" id="authOverlay" hidden>
-    <div class="modal" role="dialog" aria-labelledby="authTitle">
-      <div class="modal-header">
-        <h3 id="authTitle">Log In</h3>
-        <button class="modal-close" id="authClose" type="button" aria-label="Close">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label class="label" for="authEmail">EMAIL</label>
-          <input type="email" class="form-input" id="authEmail" placeholder="satoshi@example.com">
-        </div>
-        <div class="form-group">
-          <label class="label" for="authPass">PASSWORD</label>
-          <input type="password" class="form-input" id="authPass" placeholder="Enter password">
-        </div>
-        <button class="btn btn-primary" style="width:100%;margin-top:16px;" type="button" disabled>LOG IN (COMING SOON)</button>
-        <p class="meta-text" style="text-align:center;margin-top:12px;">Authentication is not yet available.</p>
-      </div>
-    </div>
-  </div>
 
   <footer class="site-footer">
     <div class="container">
@@ -286,8 +265,6 @@
     </div>
   </footer>
 
-  <!-- FLOATING LOG IN -->
-  <button class="login-float" type="button" aria-label="Log In">LOG IN</button>
 
   <script src="shared.js"></script>
 </body>

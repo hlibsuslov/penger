@@ -34,7 +34,7 @@
     navOverlay.addEventListener('click', closeNav);
   }
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') { closeNav(); hideAuth(); }
+    if (e.key === 'Escape') { closeNav(); }
   });
 
   /* ===== ACTIVE NAV LINK ===== */
@@ -50,33 +50,6 @@
     }
   });
 
-  /* ===== AUTH MODAL ===== */
-  var authBtn = document.getElementById('authBtn');
-  var authOverlay = document.getElementById('authOverlay');
-  var authClose = document.getElementById('authClose');
-  var loginFloat = document.querySelector('.login-float');
-
-  function showAuth() {
-    if (!authOverlay) return;
-    authOverlay.hidden = false;
-    requestAnimationFrame(function () {
-      authOverlay.classList.add('visible');
-    });
-  }
-  function hideAuth() {
-    if (!authOverlay) return;
-    authOverlay.classList.remove('visible');
-    setTimeout(function () { authOverlay.hidden = true; }, 200);
-  }
-
-  if (authBtn) authBtn.addEventListener('click', showAuth);
-  if (loginFloat) loginFloat.addEventListener('click', showAuth);
-  if (authClose) authClose.addEventListener('click', hideAuth);
-  if (authOverlay) {
-    authOverlay.addEventListener('click', function (e) {
-      if (e.target === authOverlay) hideAuth();
-    });
-  }
 
   /* ===== MAKE ALL ELEMENTS VISIBLE IMMEDIATELY ===== */
   document.querySelectorAll('.anim-fade-in').forEach(function (el) {

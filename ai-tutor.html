@@ -28,7 +28,6 @@
         <a href="dictionary.html" class="nav-link">Dictionary</a>
         <a href="guides.html" class="nav-link">Academy</a>
         <a href="ai-tutor.html" class="nav-link">AI Tutor</a>
-        <button class="nav-link nav-auth-btn" id="authBtn" type="button">Log In</button>
       </nav>
       <div class="header-controls">
         <button class="nav-hamburger" id="navHamburger" type="button" aria-label="Menu" aria-expanded="false">
@@ -40,9 +39,6 @@
     </div>
   </header>
   <div class="nav-overlay" id="navOverlay"></div>
-
-  <!-- FLOATING LOG IN -->
-  <button class="login-float" type="button" aria-label="Log In">LOG IN</button>
 
   <main>
     <!-- SECTION INTRO -->
@@ -74,20 +70,6 @@
         <button class="tutor-send-btn" id="tutorSendBtn" type="button" disabled aria-label="Send">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== AUTH MODAL ===== -->
-  <div class="modal-overlay" id="authOverlay" hidden>
-    <div class="modal" role="dialog" aria-labelledby="authTitle">
-      <div class="modal-header">
-        <h3 id="authTitle">Log In</h3>
-        <button class="modal-close" id="authClose" type="button" aria-label="Close">&times;</button>
-      </div>
-      <div class="modal-body">
-        <button class="btn btn-primary" style="width:100%;margin-top:16px;" type="button" disabled>LOG IN (COMING SOON)</button>
-        <p class="meta-text" style="text-align:center;margin-top:12px;">Authentication is not yet available.</p>
       </div>
     </div>
   </div>
@@ -418,6 +400,14 @@
 
     /* === TYPEWRITER WITH INLINE MARKDOWN === */
     function typeTextFree(el, text, cb) {
+      /* Strip unmatched ** so they never appear as raw asterisks.
+         If ** count is odd, the last unpaired ** is removed. */
+      var markerCount = (text.match(/\*\*/g) || []).length;
+      if (markerCount % 2 !== 0) {
+        var lastUnpaired = text.lastIndexOf('**');
+        text = text.slice(0, lastUnpaired) + text.slice(lastUnpaired + 2);
+      }
+
       /* Pre-parse text into plain / bold segments so **bold** renders
          in real-time instead of showing raw asterisks first. */
       var segments = [];
@@ -444,7 +434,7 @@
       cursor.className = 'tutor-cursor';
       el.appendChild(cursor);
       var scrollCounter = 0;
-      var strong = null; // current <strong> element being typed into
+      var strong = null;
 
       var timer = setInterval(function () {
         if (idx >= queue.length) {
@@ -579,12 +569,16 @@
         });
     }
 
-    /* === MOBILE KEYBOARD HANDLING === */
-    document.body.style.overscrollBehavior = 'none';
-    document.documentElement.style.overscrollBehavior = 'none';
-
+    /* === MOBILE KEYBOARD HANDLING ===
+       Use the visual viewport height when the keyboard is CLOSED as a
+       stable reference.  On iOS Safari window.innerHeight includes the
+       URL-bar chrome and over-estimates the keyboard offset, which makes
+       the input bar jump too high.  Comparing against the stable visual
+       viewport height gives the true keyboard size. */
     var inputBar = document.getElementById('tutorInputBar');
-    var keyboardOpen = false;
+    var vvStableH = window.visualViewport
+      ? window.visualViewport.height
+      : window.innerHeight;
 
     if (inputBar && window.visualViewport) {
       var rafId = null;
@@ -594,29 +588,37 @@
         rafId = requestAnimationFrame(function () {
           rafId = null;
           var vv = window.visualViewport;
-          /* Place input bar at bottom of the visual viewport.
-             vv.offsetTop accounts for page scroll within layout viewport.
-             This correctly handles iOS Safari keyboard behavior. */
-          var bottom = window.innerHeight - vv.height - vv.offsetTop;
-          var safeBottom = Math.max(0, Math.round(bottom));
-          inputBar.style.bottom = safeBottom + 'px';
+          var diff = vvStableH - vv.height;
 
-          /* Adjust chat padding so content isn't hidden behind raised bar */
-          var barH = inputBar.offsetHeight;
-          chatEl.style.paddingBottom = (barH + safeBottom + 8) + 'px';
-
-          keyboardOpen = safeBottom > 50;
+          if (diff > 100) {
+            /* Keyboard is open — move bar up by keyboard height */
+            inputBar.style.bottom = diff + 'px';
+            chatEl.style.paddingBottom =
+              (inputBar.offsetHeight + diff + 8) + 'px';
+          } else {
+            /* Keyboard closed or minimal change — reset */
+            vvStableH = vv.height;
+            inputBar.style.bottom = '';
+            chatEl.style.paddingBottom = '';
+          }
         });
       }
 
       window.visualViewport.addEventListener('resize', repositionInputBar);
       window.visualViewport.addEventListener('scroll', repositionInputBar);
+
+      /* Update reference on orientation change */
+      window.addEventListener('orientationchange', function () {
+        setTimeout(function () {
+          if (window.visualViewport) vvStableH = window.visualViewport.height;
+        }, 400);
+      });
     }
 
     /* Auto-scroll to latest message when input is focused */
     inputEl.addEventListener('focus', function () {
       setTimeout(function () {
-        if (inputBar && window.visualViewport) repositionInputBar();
+        if (window.visualViewport) repositionInputBar();
         smoothScroll();
       }, 150);
     });
@@ -628,14 +630,12 @@
         if (document.activeElement !== inputEl) {
           inputBar.style.bottom = '';
           chatEl.style.paddingBottom = '';
-          keyboardOpen = false;
-          /* Scroll back to natural position */
-          window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+          if (window.visualViewport) vvStableH = window.visualViewport.height;
         }
-      }, 150);
+      }, 200);
     });
 
-    /* Prevent input bar itself from being dragged on touch */
+    /* Prevent input bar from being dragged on touch */
     if (inputBar) {
       inputBar.addEventListener('touchmove', function (e) {
         e.preventDefault();
