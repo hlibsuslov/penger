@@ -45,7 +45,7 @@
         <a href="guides.html" class="back-link anim-fade-in">&larr; All Guides</a>
         <p class="label anim-fade-in">[ GUIDE / SEED PHRASES ]</p>
         <h1 class="anim-fade-in">Anatomy of a Seed Phrase</h1>
-        <p class="body-text anim-fade-in">Everything you need to know about BIP39 seed phrases &mdash; from entropy generation to final word selection. Choose your level below.</p>
+        <p class="body-text anim-fade-in">Everything you need to know about BIP39 seed phrases &mdash; from entropy generation and word selection to checksum verification and master key derivation. Choose your level below.</p>
 
         <div class="level-toggle anim-fade-in" id="levelToggle">
           <div class="pill-group">
@@ -64,17 +64,29 @@
           <ol>
             <li><a href="#b-what-is">What Is a Seed Phrase?</a></li>
             <li><a href="#b-how-chosen">How Are the Words Chosen?</a></li>
-            <li><a href="#b-order">Why Is Order Important?</a></li>
+            <li><a href="#b-order">Why Does Order Matter?</a></li>
+            <li><a href="#b-checksum">The Checksum &mdash; Built-In Error Detection</a></li>
+            <li><a href="#b-storage">Storing Your Seed Phrase Safely</a></li>
           </ol>
         </nav>
       </div>
+
       <section class="section-block">
         <div class="container">
           <h2 id="b-what-is" class="anim-fade-in">What Is a Seed Phrase?</h2>
           <div class="guide-text anim-fade-in">
-            <p>A seed phrase is a set of <strong>12 to 24 words</strong> that serves as the master backup for your cryptocurrency wallet. These words are selected from a standardized list of 2,048 English words defined by the <strong>BIP39 specification</strong>.</p>
-            <blockquote><p>Think of a seed phrase like the master key to a building. With this single key, you can regenerate every room key (private key) and access every lock (address) in the building.</p></blockquote>
-            <p>Losing this key means losing access to everything inside &mdash; permanently. There is no "forgot password" option in self-custody crypto.</p>
+            <p>A seed phrase (also called a <strong>mnemonic phrase</strong> or <strong>recovery phrase</strong>) is a set of <strong>12 to 24 English words</strong> that serves as the master backup for your entire cryptocurrency wallet. These words are selected from a standardized list of exactly 2,048 words defined by the <strong>BIP39 specification</strong> &mdash; an open standard adopted by virtually every modern wallet.</p>
+            <blockquote><p>Think of a seed phrase like the master key to an entire building. From this single key, every room key (private key) and every lock (address) can be regenerated. Lose the master key, and every room becomes permanently inaccessible.</p></blockquote>
+            <p>Unlike a traditional password, a seed phrase cannot be reset or recovered by a support team. There is no "forgot password" mechanism in self-custody crypto. If you lose your seed phrase and your wallet device is destroyed, your funds are gone forever &mdash; locked on the blockchain with no way to access them.</p>
+            <h3>Why 12 or 24 Words?</h3>
+            <p>The word count directly corresponds to the amount of <strong>randomness (entropy)</strong> used to generate the phrase. More words means more entropy and a larger space of possible combinations:</p>
+            <ul>
+              <li><strong>12 words</strong> &mdash; 128 bits of entropy (standard security)</li>
+              <li><strong>15 words</strong> &mdash; 160 bits of entropy</li>
+              <li><strong>18 words</strong> &mdash; 192 bits of entropy</li>
+              <li><strong>24 words</strong> &mdash; 256 bits of entropy (maximum security)</li>
+            </ul>
+            <p>For most users, 12 words provides more than sufficient security. 24 words is often recommended for high-value holdings where maximum entropy is desired.</p>
           </div>
         </div>
       </section>
@@ -83,28 +95,80 @@
         <div class="container">
           <h2 id="b-how-chosen" class="anim-fade-in">How Are the Words Chosen?</h2>
           <div class="guide-text anim-fade-in">
-            <p>Your wallet uses a <strong>cryptographically secure random number generator</strong> (CSPRNG) to produce a sequence of random bits called <em>entropy</em>. This entropy is then processed through a series of steps:</p>
+            <p>Your wallet does not pick words at random from a dictionary. Instead, it uses a rigorous, deterministic process rooted in cryptography:</p>
             <ol>
-              <li>Random entropy is generated (128 bits for 12 words)</li>
-              <li>A <strong>SHA-256 checksum</strong> is calculated and appended</li>
-              <li>The combined bits are split into 11-bit segments</li>
-              <li>Each segment maps to a word from the BIP39 wordlist</li>
+              <li>A <strong>cryptographically secure random number generator</strong> (CSPRNG) produces a sequence of random bits called <em>entropy</em> &mdash; for example, 128 random bits for a 12-word phrase</li>
+              <li>A <strong>SHA-256 checksum</strong> is calculated from the entropy and the first few bits are appended to the end</li>
+              <li>The combined bit string (entropy + checksum) is divided into <strong>11-bit segments</strong></li>
+              <li>Each 11-bit segment represents a number between 0 and 2,047</li>
+              <li>Each number maps to a specific word on the BIP39 wordlist</li>
             </ol>
-            <p>Each word corresponds to a specific number between <code>1</code> and <code>2048</code>. The mapping is deterministic &mdash; the same number always produces the same word.</p>
+            <p>Because 2<sup>11</sup> = 2,048, every possible 11-bit value has a corresponding word. The mapping is entirely deterministic &mdash; the same bits always produce the same word in the same position.</p>
+            <h3>The BIP39 Wordlist</h3>
+            <p>The English BIP39 wordlist was carefully curated with specific rules to minimize human error:</p>
+            <ul>
+              <li>Each word is uniquely identifiable by its <strong>first four characters</strong> (no two words share the same prefix)</li>
+              <li>Visually similar words (like "woman" and "women") were excluded</li>
+              <li>Common, easy-to-spell words were prioritized</li>
+              <li>Wordlists also exist in Spanish, Japanese, Korean, Chinese, French, Italian, Czech, and Portuguese</li>
+            </ul>
           </div>
         </div>
       </section>
 
       <section class="section-block">
         <div class="container">
-          <h2 id="b-order" class="anim-fade-in">Why Is Order Important?</h2>
+          <h2 id="b-order" class="anim-fade-in">Why Does Order Matter?</h2>
           <div class="guide-text anim-fade-in">
-            <p>The order of your seed words matters. Changing the position of even <strong>one word</strong> creates an entirely different wallet with different keys and addresses.</p>
+            <p>The order of your seed words is <strong>absolutely critical</strong>. Changing the position of even a single word produces a completely different wallet with entirely different keys and addresses. Your original funds would be inaccessible.</p>
             <div class="callout callout-warning">
               <span class="callout-label">Important</span>
-              Always write your words down in the exact order they appear. Number each word (1, 2, 3&hellip;) to avoid confusion when restoring your wallet later.
+              Always write your words down in the exact order they appear. Number each word (1, 2, 3&hellip;) to avoid confusion when restoring your wallet. Double-check each word against what the wallet displays before proceeding.
             </div>
-            <p>A 12-word phrase has <code>2048^12</code> possible combinations &mdash; roughly 5.4 &times; 10<sup>39</sup>. Guessing or brute-forcing the correct sequence is computationally infeasible.</p>
+            <p>To understand the scale of security this provides: a 12-word seed phrase has <code>2048<sup>12</sup></code> possible combinations &mdash; approximately 5.4 &times; 10<sup>39</sup>. For comparison, the estimated number of atoms in the observable universe is roughly 10<sup>80</sup>. Brute-forcing even a 12-word phrase is computationally infeasible with any known or foreseeable technology.</p>
+            <p>A 24-word phrase raises this to approximately 2.96 &times; 10<sup>79</sup> combinations, providing a security margin that is practically absolute.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="b-checksum" class="anim-fade-in">The Checksum &mdash; Built-In Error Detection</h2>
+          <div class="guide-text anim-fade-in">
+            <p>One of the most elegant features of BIP39 is the <strong>checksum</strong> &mdash; a built-in error-detection mechanism that catches mistakes when you enter your seed phrase.</p>
+            <p>The last word of your seed phrase is <em>partially</em> determined by the checksum. This means that not all combinations of 12 or 24 BIP39 words form a valid seed phrase. If you accidentally misspell a word, swap two words, or transcribe a word incorrectly, the checksum will almost certainly fail &mdash; and the wallet will alert you to the error instead of generating a wrong wallet.</p>
+            <blockquote><p>The checksum is like a check digit on a credit card number. It does not make the system more secure against attackers, but it protects <em>you</em> from your own transcription mistakes.</p></blockquote>
+            <div class="callout callout-info">
+              <span class="callout-label">Note</span>
+              For a 12-word phrase, the checksum is 4 bits long. For a 24-word phrase, it is 8 bits. This means roughly 1 in 16 random 12-word combinations would pass the checksum by chance &mdash; but a single-character typo in a real phrase will almost always be caught.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="b-storage" class="anim-fade-in">Storing Your Seed Phrase Safely</h2>
+          <div class="guide-text anim-fade-in">
+            <p>Your seed phrase is the single most valuable piece of information in your crypto setup. How you store it determines whether your funds are safe for decades or vulnerable to a single mistake.</p>
+            <h3>Recommended Practices</h3>
+            <ul>
+              <li><strong>Write it on paper</strong> or stamp it onto a <strong>metal plate</strong> &mdash; metal resists fire, water, and corrosion</li>
+              <li>Store in a <strong>secure, private location</strong> (fireproof safe, safety deposit box)</li>
+              <li>Consider creating <strong>multiple copies</strong> in geographically separate locations for disaster resilience</li>
+              <li>Never store digitally &mdash; no photos, no cloud storage, no text files, no password managers</li>
+            </ul>
+            <div class="callout callout-warning">
+              <span class="callout-label">Critical</span>
+              Anyone who sees your seed phrase can steal all your funds instantly. Treat it like the deed to your house &mdash; except there is no insurance and no legal recourse if it is stolen.
+            </div>
+            <h3>What to Avoid</h3>
+            <ul>
+              <li>Taking a screenshot or photo of the seed phrase</li>
+              <li>Typing it into any website, app, or form (except during legitimate wallet recovery)</li>
+              <li>Sending it via email, messaging apps, or any digital channel</li>
+              <li>Storing it alongside your hardware wallet (defeats the purpose of separate backup)</li>
+            </ul>
           </div>
         </div>
       </section>
@@ -118,21 +182,40 @@
           <ol>
             <li><a href="#a-entropy">Entropy Sources and CSPRNG</a></li>
             <li><a href="#a-checksum">SHA-256 Checksum Mechanism</a></li>
-            <li><a href="#a-derivation">From Mnemonic to Master Key</a></li>
+            <li><a href="#a-derivation">From Mnemonic to Master Key (BIP32/BIP44)</a></li>
+            <li><a href="#a-wordlist">Wordlist Design and Multilingual Support</a></li>
+            <li><a href="#a-attacks">Attack Vectors and Entropy Analysis</a></li>
           </ol>
         </nav>
       </div>
+
       <section class="section-block">
         <div class="container">
           <h2 id="a-entropy" class="anim-fade-in">Entropy Sources and CSPRNG</h2>
           <div class="guide-text anim-fade-in">
-            <p>BIP39 seed generation begins with a <strong>cryptographically secure pseudo-random number generator</strong> (CSPRNG). On modern systems, this is typically backed by:</p>
+            <p>BIP39 seed generation begins with a <strong>cryptographically secure pseudo-random number generator</strong> (CSPRNG). The quality of the entropy source is the foundation of the entire security model &mdash; if the randomness is predictable or biased, the resulting seed phrase is compromised regardless of word count.</p>
+            <h3>Platform-Specific Entropy Sources</h3>
+            <p>On modern systems, CSPRNGs are typically backed by operating system entropy pools:</p>
             <ul>
-              <li><code>/dev/urandom</code> on Linux</li>
-              <li><code>CryptGenRandom</code> on Windows</li>
-              <li>The <code>Web Crypto API</code> in browsers</li>
+              <li><code>/dev/urandom</code> on Linux &mdash; draws from the kernel entropy pool seeded by hardware interrupts, disk timing, and other sources</li>
+              <li><code>CryptGenRandom</code> / <code>BCryptGenRandom</code> on Windows &mdash; backed by the Windows CNG provider</li>
+              <li><code>SecRandomCopyBytes</code> on macOS/iOS &mdash; Secure Enclave-backed on devices with the T2/M-series chip</li>
+              <li><code>crypto.getRandomValues()</code> via the Web Crypto API in browsers &mdash; delegates to the OS CSPRNG</li>
             </ul>
-            <p>The entropy length determines the word count: <strong>128 bits</strong> produces 12 words, <strong>160 bits</strong> produces 15 words, and so on up to <strong>256 bits</strong> for 24 words. Each additional 32 bits of entropy adds 3 words and one checksum bit.</p>
+            <h3>Entropy Length and Word Count</h3>
+            <p>The entropy length directly determines the mnemonic word count. Each additional 32 bits of entropy adds exactly 3 words and 1 checksum bit:</p>
+            <pre><code>ENT (bits)  CS (bits)  Total bits  Words
+────────────────────────────────────────
+128         4          132         12
+160         5          165         15
+192         6          198         18
+224         7          231         21
+256         8          264         24</code></pre>
+            <p>The formula is: <code>CS = ENT / 32</code>, and <code>words = (ENT + CS) / 11</code>.</p>
+            <div class="callout callout-warning">
+              <span class="callout-label">Security Warning</span>
+              Never generate entropy from user-chosen patterns, brain wallets, or low-entropy sources. Predictable inputs collapse the search space from 2<sup>128</sup> to a trivially brute-forceable range. Always use a CSPRNG.
+            </div>
           </div>
         </div>
       </section>
@@ -142,8 +225,22 @@
           <h2 id="a-checksum" class="anim-fade-in">SHA-256 Checksum Mechanism</h2>
           <div class="guide-text anim-fade-in">
             <p>After generating raw entropy, the system computes a <strong>SHA-256 hash</strong> of the entropy bytes. The first <em>N</em> bits of this hash (where <code>N = entropy_bits / 32</code>) are appended to the entropy as a checksum.</p>
-            <blockquote><p>The checksum serves as an error-detection mechanism. If you mistype or misspell a word during recovery, the checksum will likely fail, alerting you to the error.</p></blockquote>
-            <p>This combined bit string is then divided into 11-bit segments, each mapping to one of the 2,048 BIP39 words.</p>
+            <h3>Step-by-Step Process</h3>
+            <ol>
+              <li>Generate <code>ENT</code> bits of random entropy (e.g., 128 bits)</li>
+              <li>Compute <code>H = SHA-256(entropy_bytes)</code></li>
+              <li>Take the first <code>ENT/32</code> bits of <code>H</code> as the checksum</li>
+              <li>Concatenate: <code>entropy_bits || checksum_bits</code></li>
+              <li>Split the result into 11-bit groups</li>
+              <li>Map each 11-bit value to the corresponding BIP39 word</li>
+            </ol>
+            <blockquote><p>The checksum ensures that approximately 15 out of every 16 randomly chosen 12-word combinations (for 4-bit checksum) will be invalid. This error-detection capability catches accidental transcription mistakes during recovery, though it is not a security mechanism against deliberate attacks.</p></blockquote>
+            <h3>Validation During Recovery</h3>
+            <p>When a user enters a seed phrase for recovery, the wallet reverses the process: it converts words back to 11-bit indices, separates the checksum bits, recomputes the SHA-256 hash of the entropy portion, and verifies that the extracted checksum matches. A mismatch indicates a typo, missing word, or incorrect word order.</p>
+            <div class="callout callout-info">
+              <span class="callout-label">Technical Note</span>
+              The checksum covers only data integrity, not authenticity. It cannot detect if the entropy source was weak or compromised. A valid checksum only means the word combination is structurally correct, not that the underlying randomness was sufficient.
+            </div>
           </div>
         </div>
       </section>
@@ -152,15 +249,78 @@
         <div class="container">
           <h2 id="a-derivation" class="anim-fade-in">From Mnemonic to Master Key (BIP32/BIP44)</h2>
           <div class="guide-text anim-fade-in">
-            <p>The mnemonic phrase is converted to a <strong>512-bit seed</strong> using <code>PBKDF2-HMAC-SHA512</code> with 2,048 iterations. The passphrase <code>"mnemonic"</code> + optional user passphrase is used as the salt.</p>
-            <h3>Derivation Paths</h3>
-            <p>This seed feeds into BIP32 hierarchical deterministic key derivation. The path determines which specific key pair is generated:</p>
+            <p>The mnemonic phrase is not used directly as a cryptographic key. Instead, it undergoes a key-stretching process to produce a <strong>512-bit seed</strong>, which then feeds into hierarchical deterministic key derivation.</p>
+            <h3>PBKDF2 Key Stretching</h3>
+            <p>The mnemonic string (space-separated words, UTF-8 NFKD-normalized) is passed through <code>PBKDF2-HMAC-SHA512</code> with <strong>2,048 iterations</strong>. The salt is the string <code>"mnemonic"</code> concatenated with an optional user-supplied passphrase (the "25th word"):</p>
+            <pre><code>seed = PBKDF2(
+  password: mnemonic_string,     // "abandon ability able ..."
+  salt:     "mnemonic" + passphrase, // "mnemonic" or "mnemonicMySecret"
+  iterations: 2048,
+  dkLen:    64,                  // 512 bits
+  PRF:      HMAC-SHA512
+)</code></pre>
+            <p>The 2,048 iterations provide a deliberate computational cost that slows down brute-force attempts against weak passphrases, while remaining fast enough for legitimate use.</p>
+            <h3>BIP32 Master Key Derivation</h3>
+            <p>The 512-bit seed is fed into <code>HMAC-SHA512</code> with the key <code>"Bitcoin seed"</code>. The output is split into two 256-bit halves:</p>
             <ul>
-              <li><code>m/44'/0'/0'/0/0</code> &mdash; Bitcoin (BIP44)</li>
-              <li><code>m/44'/60'/0'/0/0</code> &mdash; Ethereum</li>
-              <li><code>m/84'/0'/0'/0/0</code> &mdash; Bitcoin SegWit (BIP84)</li>
+              <li><strong>Left 256 bits</strong> &mdash; the master private key</li>
+              <li><strong>Right 256 bits</strong> &mdash; the master chain code (used for child derivation)</li>
             </ul>
-            <p>Each path segment narrows down from the master key to a specific account and address index.</p>
+            <h3>Derivation Paths (BIP44/BIP84/BIP86)</h3>
+            <p>The master key feeds into BIP32 hierarchical deterministic key derivation. Standardized paths determine which specific key pair is generated for each coin and account:</p>
+            <pre><code>m / purpose' / coin_type' / account' / change / address_index
+
+m/44'/0'/0'/0/0   &larr; Bitcoin Legacy (P2PKH)
+m/44'/60'/0'/0/0  &larr; Ethereum
+m/49'/0'/0'/0/0   &larr; Bitcoin Nested SegWit (P2SH-P2WPKH)
+m/84'/0'/0'/0/0   &larr; Bitcoin Native SegWit (P2WPKH)
+m/86'/0'/0'/0/0   &larr; Bitcoin Taproot (P2TR)</code></pre>
+            <p>Each path segment narrows from the master key to a specific purpose, coin, account, and address index. The apostrophe (<code>'</code>) indicates hardened derivation, which prevents child key compromise from leaking parent key information.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-wordlist" class="anim-fade-in">Wordlist Design and Multilingual Support</h2>
+          <div class="guide-text anim-fade-in">
+            <p>The BIP39 English wordlist was engineered with strict constraints to minimize ambiguity and transcription errors across different contexts (handwriting, phone dictation, poor lighting):</p>
+            <ul>
+              <li><strong>4-character uniqueness</strong> &mdash; no two words share the same first four letters, enabling unambiguous abbreviation on constrained displays</li>
+              <li><strong>Levenshtein distance</strong> &mdash; words were selected to maximize edit distance between similar entries, reducing confusion from single-character typos</li>
+              <li><strong>Common vocabulary</strong> &mdash; obscure or easily misspelled words were excluded</li>
+              <li><strong>ASCII-safe</strong> &mdash; no diacritics or special characters in the English list</li>
+            </ul>
+            <h3>Non-English Wordlists</h3>
+            <p>BIP39 includes official wordlists for multiple languages. Each wordlist is independently curated and contains exactly 2,048 words. Importantly, wordlists are <strong>not translations</strong> of each other &mdash; a seed generated with the English list cannot be recovered using the Japanese list. The wordlist used during generation must also be used during recovery.</p>
+            <div class="callout callout-tip">
+              <span class="callout-label">Compatibility Note</span>
+              In practice, the English wordlist is the de facto standard. Most hardware wallets and popular software wallets only support the English list. If cross-wallet compatibility is important, stick with English.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-attacks" class="anim-fade-in">Attack Vectors and Entropy Analysis</h2>
+          <div class="guide-text anim-fade-in">
+            <p>Understanding the threat landscape for seed phrases helps calibrate security decisions. The primary attack vectors are:</p>
+            <h3>Brute-Force Attacks</h3>
+            <p>A 128-bit entropy seed (12 words) provides a search space of 2<sup>128</sup> &asymp; 3.4 &times; 10<sup>38</sup> possible keys. At 10 billion guesses per second (far beyond current capability for full key derivation), exhausting this space would take approximately 10<sup>21</sup> years. This is secure against any classical computing attack.</p>
+            <h3>Partial Knowledge Attacks</h3>
+            <p>If an attacker knows <em>some</em> words of your seed phrase, the remaining search space shrinks dramatically:</p>
+            <ul>
+              <li><strong>11 of 12 words known</strong> &mdash; 2,048 candidates (trivially brute-forceable)</li>
+              <li><strong>10 of 12 words known</strong> &mdash; ~4.2 million candidates (seconds to crack)</li>
+              <li><strong>8 of 12 words known</strong> &mdash; ~1.76 &times; 10<sup>13</sup> candidates (days to weeks)</li>
+            </ul>
+            <div class="callout callout-warning">
+              <span class="callout-label">Security Warning</span>
+              Never split your seed phrase into parts thinking each part is independently secure. If an attacker obtains any significant portion, the remaining entropy may be brute-forceable. Use Shamir's Secret Sharing (SLIP39) instead for threshold-based backup splitting.
+            </div>
+            <h3>Side-Channel and Social Attacks</h3>
+            <p>In practice, most seed phrase compromises do not involve brute-force. They come from phishing (fake wallet recovery pages), malware (clipboard hijacking, keyloggers), physical theft of backup material, and social engineering. Strong entropy is necessary but not sufficient &mdash; operational security is equally critical.</p>
           </div>
         </div>
       </section>
@@ -179,7 +339,7 @@
               <span class="faq-arrow">&rsaquo;</span>
             </button>
             <div class="faq-bubble-wrap">
-              <div class="faq-bubble" data-text="Technically yes, but it is strongly discouraged. Human-chosen words lack the randomness (entropy) needed for security. A predictable pattern could be brute-forced by an attacker far more easily than a truly random sequence. Always use a CSPRNG-backed generator."></div>
+              <div class="faq-bubble" data-text="Technically you can construct a valid BIP39 mnemonic manually, but it is strongly discouraged. Humans are extremely poor at generating randomness &mdash; we gravitate toward patterns, familiar words, and predictable sequences. An attacker can exploit these biases to dramatically reduce the search space. Always use a CSPRNG-backed generator from a trusted wallet."></div>
             </div>
           </div>
 
@@ -189,7 +349,7 @@
               <span class="faq-arrow">&rsaquo;</span>
             </button>
             <div class="faq-bubble-wrap">
-              <div class="faq-bubble" data-text="A 12-word phrase provides 128 bits of entropy, which translates to approximately 2^128 possible combinations. This is considered secure against brute-force attacks with current and foreseeable technology. Placeholder for more detailed security analysis."></div>
+              <div class="faq-bubble" data-text="A 12-word phrase provides 128 bits of entropy, which yields approximately 3.4 &times; 10^38 possible combinations. This exceeds the security level of AES-128, which is considered secure for classified government data. No known or theorized classical computer can brute-force 128 bits. Even accounting for future quantum computing, Grover's algorithm would only halve the effective security to 64 bits for key search &mdash; still formidable, and mitigated by the PBKDF2 key-stretching step. For most users, 12 words is more than sufficient."></div>
             </div>
           </div>
 
@@ -199,7 +359,7 @@
               <span class="faq-arrow">&rsaquo;</span>
             </button>
             <div class="faq-bubble-wrap">
-              <div class="faq-bubble" data-text="If you lose a single word, recovery is theoretically possible since there are only 2048 candidates for the missing position. However, this requires specialized software and the checksum must validate. Losing two or more words makes recovery exponentially harder. Placeholder for recovery strategies."></div>
+              <div class="faq-bubble" data-text="If you know the position of the missing word, there are only 2,048 candidates to try. Specialized open-source tools can test all possibilities in seconds by checking the checksum and derived addresses against known balances. If you don't know the position, it becomes 12 &times; 2,048 = 24,576 attempts &mdash; still feasible. Losing two or more words makes recovery exponentially harder and may require significant computation."></div>
             </div>
           </div>
 
@@ -209,17 +369,27 @@
               <span class="faq-arrow">&rsaquo;</span>
             </button>
             <div class="faq-bubble-wrap">
-              <div class="faq-bubble" data-text="Simple splitting (e.g., first 12 words in location A, last 12 in location B) reduces security because each half has less entropy. A better approach is Shamir's Secret Sharing (SLIP39), which creates shares where a threshold number must be combined. Placeholder for split strategies and trade-offs."></div>
+              <div class="faq-bubble" data-text="Naive splitting (e.g., words 1-6 in location A, words 7-12 in location B) is dangerous because each half has only 66 bits of entropy &mdash; well within brute-force range. A better approach is Shamir's Secret Sharing (SLIP39), which creates M-of-N shares where any M shares can reconstruct the secret, but fewer than M shares reveal zero information. This is mathematically proven to be information-theoretically secure."></div>
             </div>
           </div>
 
           <div class="faq-item">
             <button class="faq-q-btn" type="button">
-              <span>Are all 2048 BIP39 words unique enough to avoid confusion?</span>
+              <span>Are all 2,048 BIP39 words unique enough to avoid confusion?</span>
               <span class="faq-arrow">&rsaquo;</span>
             </button>
             <div class="faq-bubble-wrap">
-              <div class="faq-bubble" data-text="Yes. The BIP39 English wordlist was carefully curated so that each word is uniquely identifiable by its first four characters. This means &quot;abandon&quot; and &quot;ability&quot; cannot be confused based on a partial reading. Placeholder for wordlist design principles."></div>
+              <div class="faq-bubble" data-text="Yes. The BIP39 English wordlist was specifically curated so that each word is uniquely identifiable by its first four characters. For example, &quot;abandon&quot; and &quot;ability&quot; differ at character 3. This means even partial reading, abbreviated storage, or small-screen displays can distinguish any two words. Additionally, words with similar spelling or pronunciation were deliberately excluded from the list."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>What is the difference between a seed phrase and a private key?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="A private key is a single 256-bit number that controls one specific address. A seed phrase, by contrast, is a human-readable representation of entropy that can derive an unlimited number of private keys through hierarchical deterministic (HD) derivation. Backing up one seed phrase protects all addresses across all supported cryptocurrencies. Backing up individual private keys is impractical and error-prone."></div>
             </div>
           </div>
 
@@ -233,20 +403,17 @@
         <p class="label">[ READ NEXT ]</p>
         <h3>Continue Learning</h3>
         <div class="preview-grid">
+          <a class="preview-card" href="guide-passphrase.html">
+            <h4>The 25th Word (Passphrase)</h4>
+            <p>How an optional BIP39 passphrase adds an extra security layer on top of your seed phrase.</p>
+          </a>
           <a class="preview-card" href="guide-wallet-anatomy.html">
-
             <h4>Anatomy of a Wallet</h4>
             <p>How wallets derive keys, manage addresses, and interact with blockchain networks under the hood.</p>
           </a>
           <a class="preview-card" href="guide-wallet-comparison.html">
-
             <h4>Wallet Types Comparison</h4>
             <p>Hot wallets, cold wallets, hardware devices, multi-sig setups. Compare trade-offs and find the right fit.</p>
-          </a>
-          <a class="preview-card" href="guide-opsec.html">
-
-            <h4>Operational Security (OpSec)</h4>
-            <p>Protect yourself from phishing, social engineering, and physical threats. Practical security habits for crypto holders.</p>
           </a>
         </div>
       </div>

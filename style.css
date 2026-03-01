@@ -1005,6 +1005,11 @@ h3 { font-size: 15px; font-weight: 600; }
   border-radius: 8px; max-width: 400px;
 }
 
+/* Article h2 spacing — extra breathing room below section headings */
+.section-block h2 {
+  margin-bottom: 20px;
+}
+
 /* Scroll-to target: heading lands in upper third of viewport */
 .section-block h2[id] {
   scroll-margin-top: 30vh;

@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#FAFAFA">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="Multisignature (Multisig) &mdash; How multi-key setups eliminate single points of failure, quorum policies, and practical multi-sig configurations.">
+  <meta name="author" content="PENGER">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>Multisignature (Multisig) &mdash; PENGER Academy</title>
+</head>
+<body>
+  <noscript><p style="padding:40px;text-align:center;font-size:16px;">This application requires JavaScript to function.</p></noscript>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo"><img src="PENGER.svg" alt="PENGER" height="20"></a>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="simulators.html" class="nav-link">Simulators</a>
+        <a href="dictionary.html" class="nav-link">Dictionary</a>
+        <a href="guides.html" class="nav-link">Academy</a>
+        <a href="ai-tutor.html" class="nav-link">AI Tutor</a>
+      </nav>
+      <div class="header-controls">
+        <button class="nav-hamburger" id="navHamburger" type="button" aria-label="Menu" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <main>
+    <section class="section-intro">
+      <div class="container">
+        <a href="guides.html" class="back-link anim-fade-in">&larr; All Guides</a>
+        <p class="label anim-fade-in">[ GUIDE / MULTISIG ]</p>
+        <h1 class="anim-fade-in">Multisignature (Multisig)</h1>
+        <p class="body-text anim-fade-in">How multi-key setups eliminate single points of failure &mdash; from basic quorum policies to advanced multi-sig architectures for individuals and organizations.</p>
+
+        <div class="level-toggle anim-fade-in" id="levelToggle">
+          <div class="pill-group">
+            <button class="pill active" data-level="beginner" type="button">BEGINNER</button>
+            <button class="pill" data-level="advanced" type="button">ADVANCED</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BEGINNER ===== -->
+    <div class="guide-content active" id="guide-beginner">
+      <div class="container">
+        <nav class="guide-toc">
+          <div class="guide-toc-title">In This Section</div>
+          <ol>
+            <li><a href="#b-what-is">What Is Multisig?</a></li>
+            <li><a href="#b-why">Why Use Multisig?</a></li>
+            <li><a href="#b-configs">Common Configurations</a></li>
+            <li><a href="#b-setup">Setting Up Your First Multisig</a></li>
+          </ol>
+        </nav>
+      </div>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="b-what-is" class="anim-fade-in">What Is Multisig?</h2>
+          <div class="guide-text anim-fade-in">
+            <p><strong>Multisignature</strong> (multisig) is a security model where <strong>multiple separate keys</strong> are required to authorize a transaction. Instead of a single private key controlling access to funds, a multisig wallet requires a defined number of approvals from a group of key holders.</p>
+            <p>This is expressed as <strong>M-of-N</strong>, where:</p>
+            <ul>
+              <li><strong>N</strong> &mdash; the total number of keys in the setup</li>
+              <li><strong>M</strong> &mdash; the minimum number of keys required to sign (the <em>quorum</em>)</li>
+            </ul>
+            <blockquote><p>Think of multisig like a bank vault that requires two officers to turn their keys simultaneously. No single person can open it alone, and losing one key doesn't lock everyone out (as long as there are enough remaining).</p></blockquote>
+            <p>For example, in a <strong>2-of-3</strong> multisig, three keys exist but any two of them can sign a transaction. This means:</p>
+            <ul>
+              <li>No single key holder can steal funds unilaterally</li>
+              <li>Losing one key still allows recovery using the remaining two</li>
+              <li>An attacker must compromise two separate, independently stored keys</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="b-why" class="anim-fade-in">Why Use Multisig?</h2>
+          <div class="guide-text anim-fade-in">
+            <p>Multisig solves the <strong>single point of failure</strong> problem that plagues standard single-key wallets. With a regular wallet, the security of your entire holdings depends on one seed phrase &mdash; if it is stolen, copied, or lost, everything is at risk.</p>
+            <h3>Key Benefits</h3>
+            <ul>
+              <li><strong>Theft resistance</strong> &mdash; an attacker must compromise multiple keys stored in different locations. Stealing one key is useless.</li>
+              <li><strong>Loss tolerance</strong> &mdash; in a 2-of-3 setup, losing one key does not lock you out. You can still access funds with the remaining two and migrate to a new setup.</li>
+              <li><strong>Reduced trust requirements</strong> &mdash; no single individual (including yourself) needs to be fully trusted. Organizations can require multiple approvals for spending.</li>
+              <li><strong>Coercion resistance</strong> &mdash; even under physical threat, you cannot unilaterally move funds because additional signers are required.</li>
+              <li><strong>Inheritance planning</strong> &mdash; distribute keys to family members and a lawyer, enabling fund recovery after death without giving any single party full control.</li>
+            </ul>
+            <div class="callout callout-info">
+              <span class="callout-label">Trade-Off</span>
+              Multisig adds complexity. Setup, backup, and recovery are all more involved than a standard single-key wallet. The increased security is worth the complexity for significant holdings, but may be overkill for small amounts.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="b-configs" class="anim-fade-in">Common Configurations</h2>
+          <div class="guide-text anim-fade-in">
+            <h3>2-of-3 &mdash; Personal Sovereignty</h3>
+            <p>The most popular configuration for individuals. Three keys, each stored on a different device or medium in a different location:</p>
+            <ul>
+              <li><strong>Key 1</strong> &mdash; hardware wallet at home</li>
+              <li><strong>Key 2</strong> &mdash; hardware wallet (different brand) in a bank safety deposit box</li>
+              <li><strong>Key 3</strong> &mdash; seed backup on metal plate at a trusted family member's secure location</li>
+            </ul>
+            <p>Any two can sign. Loss of one device or location does not result in lost funds.</p>
+            <h3>3-of-5 &mdash; Organizational Governance</h3>
+            <p>Designed for businesses, DAOs, or family trusts. Five key holders, three required to approve:</p>
+            <ul>
+              <li>Distributes signing authority across leadership</li>
+              <li>Tolerates two simultaneous key compromises or losses</li>
+              <li>Can assign keys to individuals, departments, or legal representatives</li>
+            </ul>
+            <h3>2-of-2 &mdash; Collaborative Custody</h3>
+            <p>Two keys, both required. Useful for:</p>
+            <ul>
+              <li>Joint accounts (both spouses must agree to spend)</li>
+              <li>Collaborative custody services (you hold one key, a trusted service holds the other)</li>
+            </ul>
+            <div class="callout callout-warning">
+              <span class="callout-label">Warning</span>
+              With 2-of-2, losing either key means losing all funds permanently. There is no redundancy. Only use this when both keys have robust, independent backups.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="b-setup" class="anim-fade-in">Setting Up Your First Multisig</h2>
+          <div class="guide-text anim-fade-in">
+            <p>Setting up a multisig wallet requires careful planning. Here is the general process for a 2-of-3 setup:</p>
+            <ol>
+              <li><strong>Choose your coordinator software</strong> &mdash; Sparrow Wallet, Electrum, or Nunchuk are popular options with built-in multisig support</li>
+              <li><strong>Generate three independent keys</strong> &mdash; ideally on three different hardware wallets from different manufacturers</li>
+              <li><strong>Export the extended public keys</strong> (xpubs) from each device</li>
+              <li><strong>Create the multisig wallet</strong> in your coordinator by importing all three xpubs and setting the quorum to 2-of-3</li>
+              <li><strong>Back up the wallet descriptor</strong> &mdash; this file contains the xpubs and quorum policy, and is required for recovery alongside the seed phrases</li>
+              <li><strong>Test the setup</strong> &mdash; send a small amount, then complete a full spend using two of the three keys to verify everything works</li>
+              <li><strong>Store keys and backups</strong> in separate, secure locations</li>
+            </ol>
+            <div class="callout callout-warning">
+              <span class="callout-label">Critical</span>
+              The <strong>wallet descriptor file</strong> is as important as the seed phrases. Without it, you cannot reconstruct the multisig wallet even if you have all three seeds. Back it up alongside each seed in each location.
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== ADVANCED ===== -->
+    <div class="guide-content" id="guide-advanced">
+      <div class="container">
+        <nav class="guide-toc">
+          <div class="guide-toc-title">In This Section</div>
+          <ol>
+            <li><a href="#a-scripts">Bitcoin Script and Multisig Transactions</a></li>
+            <li><a href="#a-descriptors">Output Descriptors and Wallet Recovery</a></li>
+            <li><a href="#a-taproot">Taproot Multisig and MuSig2</a></li>
+            <li><a href="#a-key-management">Key Management and Vendor Diversity</a></li>
+            <li><a href="#a-collaborative">Collaborative Custody Services</a></li>
+          </ol>
+        </nav>
+      </div>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-scripts" class="anim-fade-in">Bitcoin Script and Multisig Transactions</h2>
+          <div class="guide-text anim-fade-in">
+            <p>Multisig in Bitcoin is enforced at the protocol level through <strong>Bitcoin Script</strong> &mdash; a stack-based programming language embedded in every transaction. The spending conditions are not enforced by wallet software; they are enforced by every node on the network.</p>
+            <h3>OP_CHECKMULTISIG</h3>
+            <p>The original multisig mechanism uses the <code>OP_CHECKMULTISIG</code> opcode. A 2-of-3 redeem script looks like:</p>
+            <pre><code>OP_2
+  &lt;pubkey_1&gt;
+  &lt;pubkey_2&gt;
+  &lt;pubkey_3&gt;
+OP_3
+OP_CHECKMULTISIG</code></pre>
+            <p>When spending, the witness/scriptSig must provide exactly M valid signatures corresponding to M of the N listed public keys.</p>
+            <h3>Script Wrapping (P2SH, P2WSH)</h3>
+            <ul>
+              <li><strong>P2SH (Pay-to-Script-Hash)</strong> &mdash; the redeem script is hashed; only the hash appears in the output. The full script is revealed at spending time. Addresses start with <code>3</code>.</li>
+              <li><strong>P2WSH (Pay-to-Witness-Script-Hash)</strong> &mdash; SegWit version. Moves the witness data outside the base transaction, reducing effective size and fees. Addresses start with <code>bc1q</code> (longer than single-sig bc1q addresses).</li>
+              <li><strong>P2SH-P2WSH</strong> &mdash; nested SegWit for backward compatibility. The outer P2SH wraps an inner P2WSH. Addresses start with <code>3</code>.</li>
+            </ul>
+            <div class="callout callout-info">
+              <span class="callout-label">On-Chain Fingerprint</span>
+              Traditional multisig reveals the quorum policy (M-of-N) and all public keys when a UTXO is spent. This is a privacy consideration &mdash; an observer can see that the output was controlled by a multisig setup and identify the exact policy. Taproot (see below) addresses this limitation.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-descriptors" class="anim-fade-in">Output Descriptors and Wallet Recovery</h2>
+          <div class="guide-text anim-fade-in">
+            <p><strong>Output descriptors</strong> (defined in BIPs 380-386) are a standardized way to describe the spending conditions for a set of addresses. For multisig wallets, the descriptor encodes everything needed to reconstruct the wallet:</p>
+            <pre><code>wsh(sortedmulti(2,
+  [fingerprint_1/48h/0h/0h/2h]xpub_1/0/*,
+  [fingerprint_2/48h/0h/0h/2h]xpub_2/0/*,
+  [fingerprint_3/48h/0h/0h/2h]xpub_3/0/*
+))#checksum</code></pre>
+            <h3>Descriptor Components</h3>
+            <ul>
+              <li><code>wsh()</code> &mdash; wrapping type (Witness Script Hash = native SegWit)</li>
+              <li><code>sortedmulti(2, ...)</code> &mdash; quorum of 2, with keys sorted lexicographically (BIP67)</li>
+              <li><code>[fingerprint/path]xpub</code> &mdash; each cosigner's extended public key with its derivation path and master fingerprint</li>
+              <li><code>/0/*</code> &mdash; receive addresses (change uses <code>/1/*</code>)</li>
+              <li><code>#checksum</code> &mdash; descriptor checksum for integrity verification</li>
+            </ul>
+            <h3>Recovery Requirements</h3>
+            <p>To fully recover a multisig wallet, you need:</p>
+            <ol>
+              <li><strong>M seed phrases</strong> (for signing capability)</li>
+              <li><strong>All N xpubs</strong> (to reconstruct the address set)</li>
+              <li><strong>The quorum policy</strong> (M-of-N)</li>
+              <li><strong>The derivation paths</strong> for each cosigner</li>
+              <li><strong>The script type</strong> (P2SH, P2WSH, P2TR)</li>
+            </ol>
+            <div class="callout callout-warning">
+              <span class="callout-label">Backup Strategy</span>
+              Store the full wallet descriptor alongside every seed phrase backup. Without the descriptor, having M seed phrases is insufficient &mdash; you won't know which addresses to derive or what script template to use. Each backup location should contain: one seed phrase + the complete descriptor file.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-taproot" class="anim-fade-in">Taproot Multisig and MuSig2</h2>
+          <div class="guide-text anim-fade-in">
+            <p>Bitcoin's Taproot upgrade (activated November 2021) introduced <strong>Schnorr signatures</strong> and <strong>MAST (Merkelized Abstract Syntax Trees)</strong>, which fundamentally improve multisig privacy and efficiency.</p>
+            <h3>Key Path Spending with MuSig2</h3>
+            <p><strong>MuSig2</strong> is a Schnorr-based multi-signature scheme where all N participants cooperatively produce a single aggregate signature. On-chain, this is <strong>indistinguishable</strong> from a regular single-signature Taproot transaction:</p>
+            <ul>
+              <li>Only one 64-byte Schnorr signature appears in the witness</li>
+              <li>The output looks identical to a single-key P2TR output</li>
+              <li>No public keys, quorum policies, or script complexity is revealed</li>
+              <li>Transaction fees are identical to single-sig Taproot</li>
+            </ul>
+            <h3>Script Path Fallback</h3>
+            <p>If not all N signers are available (e.g., for an M-of-N threshold where M &lt; N), the transaction can fall back to a <strong>Tapscript leaf</strong> that encodes the threshold policy. Only the specific branch used is revealed on-chain; unused branches remain hidden in the Merkle tree.</p>
+            <pre><code>Taproot output
+  ├── Key path: MuSig2(all N keys) &larr; cooperative spending (most private)
+  └── Script path (MAST):
+      ├── Leaf 1: 2-of-3 threshold (keys A, B, C)
+      ├── Leaf 2: timelock + key D (inheritance fallback)
+      └── Leaf 3: 3-of-5 threshold (all signers)</code></pre>
+            <div class="callout callout-tip">
+              <span class="callout-label">Privacy Advantage</span>
+              With Taproot + MuSig2, a multisig setup looks exactly like a regular payment on-chain. This is a massive privacy improvement over P2WSH multisig, where the script reveals the exact M-of-N policy and all involved public keys upon spending.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-key-management" class="anim-fade-in">Key Management and Vendor Diversity</h2>
+          <div class="guide-text anim-fade-in">
+            <p>The security of a multisig setup depends not just on the quorum policy but on the <strong>independence and diversity</strong> of the keys.</p>
+            <h3>Vendor Diversity Principle</h3>
+            <p>Use hardware wallets from <strong>different manufacturers</strong> for each key in your multisig setup. This protects against:</p>
+            <ul>
+              <li><strong>Firmware vulnerabilities</strong> &mdash; a zero-day exploit in one vendor's firmware can only compromise one key</li>
+              <li><strong>Supply chain attacks</strong> &mdash; a compromised manufacturing batch affects only one device</li>
+              <li><strong>Correlated failures</strong> &mdash; a hardware defect specific to one model doesn't affect other brands</li>
+            </ul>
+            <h3>Geographic Distribution</h3>
+            <p>Store keys in <strong>physically separate locations</strong> to protect against:</p>
+            <ul>
+              <li>Natural disasters (fire, flood, earthquake) destroying multiple keys</li>
+              <li>Burglary or physical attack at a single location</li>
+              <li>Legal seizure or government confiscation at one jurisdiction</li>
+            </ul>
+            <h3>Operational Independence</h3>
+            <p>For organizational multisig, each key holder should:</p>
+            <ul>
+              <li>Generate and store their key <strong>independently</strong>, without sharing the seed with others</li>
+              <li>Use their <strong>own hardware</strong> and secure storage infrastructure</li>
+              <li>Not have access to more than one key (violating this defeats the purpose of multisig)</li>
+            </ul>
+            <div class="callout callout-warning">
+              <span class="callout-label">Anti-Pattern</span>
+              Generating all multisig keys on the same device, storing all seeds in the same location, or having one person hold all keys reduces your multisig to an expensive single-sig with extra complexity. The entire value of multisig comes from independence between signers.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-collaborative" class="anim-fade-in">Collaborative Custody Services</h2>
+          <div class="guide-text anim-fade-in">
+            <p><strong>Collaborative custody</strong> is a model where a third-party service holds one key in a multisig setup, providing recovery assistance and additional security without taking custodial control of your funds.</p>
+            <h3>Typical 2-of-3 Collaborative Model</h3>
+            <ul>
+              <li><strong>Key 1</strong> &mdash; held by you (hardware wallet)</li>
+              <li><strong>Key 2</strong> &mdash; held by the collaborative custody service</li>
+              <li><strong>Key 3</strong> &mdash; held by you in cold storage (emergency recovery)</li>
+            </ul>
+            <p>Normal transactions require your key (Key 1) and the service's co-signature (Key 2). If the service disappears or becomes unresponsive, you recover using Keys 1 + 3. If you lose your primary device, you recover using Keys 2 + 3 (after identity verification with the service).</p>
+            <h3>Evaluating Collaborative Custody</h3>
+            <ul>
+              <li><strong>Does the service hold a minority of keys?</strong> &mdash; they should never be able to unilaterally move funds</li>
+              <li><strong>Can you recover without the service?</strong> &mdash; you must be able to access funds independently using your own keys</li>
+              <li><strong>Is the service open-source?</strong> &mdash; can you verify the key management and signing protocols?</li>
+              <li><strong>What identity verification does the service require?</strong> &mdash; understand the trade-off between convenience and privacy</li>
+            </ul>
+            <div class="callout callout-info">
+              <span class="callout-label">Self-Custody Preserved</span>
+              A well-designed collaborative custody setup preserves self-sovereignty. You always retain the ability to move funds without the service's cooperation (using your two keys). The service provides convenience and a safety net, not control.
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== FAQ ===== -->
+    <section class="section-block faq-section">
+      <div class="container">
+        <p class="label anim-fade-in">[ FREQUENTLY ASKED QUESTIONS ]</p>
+        <h2 class="anim-fade-in">FAQ</h2>
+        <div class="faq-chat anim-fade-in">
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Is multisig only for Bitcoin?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="No, but Bitcoin has the most mature and widely tested multisig ecosystem. Ethereum supports multisig via smart contracts (like Gnosis Safe), but this is fundamentally different from Bitcoin's native script-level multisig. Other chains have varying levels of support. Bitcoin's protocol-level enforcement is considered the gold standard because it does not depend on smart contract correctness."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Are multisig transactions more expensive?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Traditional multisig (P2SH, P2WSH) transactions are larger and therefore more expensive than single-sig because they must include multiple signatures and the full redeem script. A 2-of-3 P2WSH transaction is roughly 2-3x the size of a single-sig SegWit transaction. However, Taproot multisig with MuSig2 (key path spending) produces transactions the same size as single-sig Taproot, eliminating the fee premium entirely."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>What happens if I lose one key in a 2-of-3 setup?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="You can still access your funds using the remaining two keys. However, you should immediately migrate to a new multisig setup: create a new 2-of-3 wallet with a fresh third key, then transfer all funds from the old wallet to the new one. Operating with only two keys means you have zero redundancy &mdash; losing a second key would be catastrophic."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Can I use multisig with a passphrase (25th word)?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Yes. Each cosigner's seed phrase can independently have its own passphrase. This adds another layer of protection: an attacker who obtains a seed phrase backup still needs the corresponding passphrase to derive the correct key. However, this also increases backup complexity &mdash; you must track which passphrase belongs to which seed and ensure both are recoverable."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Do I need special software for multisig?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="You need a wallet that supports multisig coordination. Popular options include Sparrow Wallet (desktop, open-source), Nunchuk (mobile + desktop), Electrum (desktop), and Caravan (web-based, by Unchained). These tools handle the PSBT workflow: creating unsigned transactions, collecting signatures from each cosigner device, and broadcasting the fully signed transaction. Your hardware wallets handle the signing part."></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ARTICLE PREVIEWS ===== -->
+    <section class="article-previews">
+      <div class="container">
+        <p class="label">[ READ NEXT ]</p>
+        <h3>Continue Learning</h3>
+        <div class="preview-grid">
+          <a class="preview-card" href="guide-wallet-comparison.html">
+            <h4>Wallet Types Comparison</h4>
+            <p>Hot wallets, cold wallets, hardware devices. Compare trade-offs and find the right fit for your setup.</p>
+          </a>
+          <a class="preview-card" href="guide-passphrase.html">
+            <h4>The 25th Word (Passphrase)</h4>
+            <p>How an optional BIP39 passphrase adds an extra security layer and enables hidden wallets.</p>
+          </a>
+          <a class="preview-card" href="guide-self-sovereignty.html">
+            <h4>Self-Sovereignty</h4>
+            <p>The philosophy and practice of being your own bank &mdash; why self-custody matters and how to achieve it.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <span class="footer-brand"><img src="PENGER (1).svg" alt="PENGER" height="16"></span>
+        <span class="meta-text">Self-Custody Tools &amp; Guides</span>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 PENGER</span>
+        <span>OFFLINE / CLIENT-SIDE / NO TRACKING</span>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="shared.js"></script>
+</body>
+</html>

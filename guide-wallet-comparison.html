@@ -44,7 +44,7 @@
         <a href="guides.html" class="back-link anim-fade-in">&larr; All Guides</a>
         <p class="label anim-fade-in">[ GUIDE / WALLET TYPES ]</p>
         <h1 class="anim-fade-in">Wallet Types Comparison</h1>
-        <p class="body-text anim-fade-in">Hot wallets, cold storage, hardware devices, multi-sig &mdash; understand the trade-offs and pick the right tool for your needs.</p>
+        <p class="body-text anim-fade-in">Hot wallets, cold storage, hardware devices, multi-sig &mdash; understand the trade-offs of each approach and pick the right tool for your needs and threat model.</p>
 
         <div class="level-toggle anim-fade-in" id="levelToggle">
           <div class="pill-group">
@@ -64,16 +64,30 @@
             <li><a href="#b-hot-cold">Hot Wallets vs. Cold Storage</a></li>
             <li><a href="#b-hardware">Hardware Wallets</a></li>
             <li><a href="#b-custody">Custodial vs. Self-Custodial</a></li>
+            <li><a href="#b-choosing">Choosing the Right Wallet</a></li>
           </ol>
         </nav>
       </div>
+
       <section class="section-block">
         <div class="container">
           <h2 class="anim-fade-in" id="b-hot-cold">Hot Wallets vs. Cold Storage</h2>
           <div class="guide-text anim-fade-in">
-            <p><strong>Hot wallets</strong> are connected to the internet &mdash; mobile apps, browser extensions, desktop software. They are convenient for daily transactions but more vulnerable to hacking.</p>
-            <p><strong>Cold storage</strong> keeps your keys completely offline &mdash; hardware wallets, paper wallets, air-gapped computers.</p>
-            <blockquote><p>A common strategy is to keep a small amount in a hot wallet for regular use, while the majority stays in cold storage &mdash; like keeping cash in your pocket while the rest stays in a safe.</p></blockquote>
+            <p>The most fundamental distinction in wallet types is whether the private keys are ever exposed to an internet-connected device.</p>
+            <h3>Hot Wallets</h3>
+            <p><strong>Hot wallets</strong> are connected to the internet &mdash; mobile apps, browser extensions, desktop software. They provide convenience for everyday transactions but introduce risk because the keys exist on a device that could be compromised by malware, phishing, or remote exploits.</p>
+            <ul>
+              <li><strong>Mobile wallets</strong> (e.g., BlueWallet, Muun) &mdash; portable, QR code scanning, ideal for in-person payments</li>
+              <li><strong>Browser extensions</strong> (e.g., MetaMask, Rabby) &mdash; direct interaction with DeFi protocols and dApps</li>
+              <li><strong>Desktop wallets</strong> (e.g., Sparrow, Electrum) &mdash; full-featured, larger display, suitable for advanced UTXO management</li>
+            </ul>
+            <h3>Cold Storage</h3>
+            <p><strong>Cold storage</strong> keeps your private keys completely offline &mdash; on hardware wallets, air-gapped computers, or physical media like metal seed plates. The keys never touch a network-connected device, making them immune to remote attacks.</p>
+            <blockquote><p>A practical strategy is to maintain a small "spending" balance in a hot wallet for daily use, while keeping the majority of holdings in cold storage &mdash; like carrying pocket cash while the rest stays in a vault.</p></blockquote>
+            <div class="callout callout-tip">
+              <span class="callout-label">Rule of Thumb</span>
+              Only keep in a hot wallet what you can afford to lose. If you wouldn't carry that amount in cash on the street, it should be in cold storage.
+            </div>
           </div>
         </div>
       </section>
@@ -82,18 +96,27 @@
         <div class="container">
           <h2 class="anim-fade-in" id="b-hardware">Hardware Wallets</h2>
           <div class="guide-text anim-fade-in">
-            <p>Hardware wallets are dedicated physical devices that store your private keys in a <strong>secure chip</strong>. They sign transactions internally, meaning your keys never leave the device.</p>
+            <p>Hardware wallets are dedicated physical devices designed with a single purpose: securely storing private keys and signing transactions. They contain a <strong>secure element chip</strong> that isolates key material from the host computer.</p>
             <h3>How They Work</h3>
             <ol>
-              <li>A companion app on your computer prepares the transaction</li>
-              <li>The transaction is sent to the hardware device</li>
-              <li>You verify and confirm on the device screen</li>
-              <li>The device signs internally and returns the signature</li>
-              <li>The companion app broadcasts the signed transaction</li>
+              <li>A <strong>companion app</strong> on your computer or phone prepares the transaction (recipient, amount, fee)</li>
+              <li>The unsigned transaction is sent to the hardware wallet via USB, Bluetooth, or QR code</li>
+              <li>The device displays transaction details on its own <strong>trusted screen</strong> for verification</li>
+              <li>You physically confirm on the device (button press or touchscreen)</li>
+              <li>The device signs the transaction internally using the secure element</li>
+              <li>Only the <strong>signed transaction</strong> is returned &mdash; the private key never leaves the device</li>
             </ol>
-            <div class="callout callout-tip">
-              <span class="callout-label">Tip</span>
-              Popular hardware wallets include Ledger, Trezor, and Keystone. Always buy directly from the manufacturer to avoid tampering.
+            <h3>Key Features to Evaluate</h3>
+            <ul>
+              <li><strong>Secure element</strong> &mdash; does the device use a certified chip (CC EAL5+ or equivalent)?</li>
+              <li><strong>Open-source firmware</strong> &mdash; can the community audit the code?</li>
+              <li><strong>Air-gap capability</strong> &mdash; can the device sign via QR codes without any cable connection?</li>
+              <li><strong>Multi-coin support</strong> &mdash; does it support the blockchains you use?</li>
+              <li><strong>Trusted display</strong> &mdash; does the device have its own screen for verifying transaction details?</li>
+            </ul>
+            <div class="callout callout-warning">
+              <span class="callout-label">Supply Chain Safety</span>
+              Always purchase hardware wallets <strong>directly from the manufacturer</strong>. Third-party sellers, marketplace listings, and "used" devices introduce supply chain risk &mdash; the device may have been tampered with to extract your keys silently.
             </div>
           </div>
         </div>
@@ -103,14 +126,38 @@
         <div class="container">
           <h2 class="anim-fade-in" id="b-custody">Custodial vs. Self-Custodial</h2>
           <div class="guide-text anim-fade-in">
-            <p>With a <strong>custodial wallet</strong> (e.g., exchange accounts), a third party holds your keys. This is convenient but introduces <em>counterparty risk</em>:</p>
+            <p>The distinction between custodial and self-custodial is perhaps the most important decision in crypto. It determines who ultimately controls your funds.</p>
+            <h3>Custodial Wallets</h3>
+            <p>With a <strong>custodial wallet</strong> (exchange accounts like Coinbase, Binance, Kraken), a third party holds your private keys. This is convenient &mdash; no seed phrases to manage, easy password recovery &mdash; but introduces <strong>counterparty risk</strong>:</p>
             <ul>
-              <li>The exchange could be hacked</li>
-              <li>The company could go bankrupt</li>
-              <li>Your account could be frozen</li>
-              <li>Withdrawal limits may apply</li>
+              <li>The exchange could be <strong>hacked</strong> (Mt. Gox lost 850,000 BTC in 2014)</li>
+              <li>The company could become <strong>insolvent</strong> (FTX collapsed in 2022, losing $8B+ in customer funds)</li>
+              <li>Your account could be <strong>frozen</strong> due to regulatory action, compliance issues, or internal policy</li>
+              <li><strong>Withdrawal limits</strong> or delays may prevent you from accessing your own funds</li>
+              <li>You have no cryptographic proof of ownership &mdash; just a database entry</li>
             </ul>
-            <p><strong>Self-custodial wallets</strong> give you full control. You hold your keys, you own your assets &mdash; no intermediary can block access.</p>
+            <h3>Self-Custodial Wallets</h3>
+            <p><strong>Self-custodial wallets</strong> give you full control. You hold your keys, you own your assets &mdash; no intermediary can block access, freeze funds, or deny withdrawals. The trade-off is full responsibility: if you lose your seed phrase, no one can help you recover.</p>
+            <blockquote><p>"Not your keys, not your coins." This phrase captures the fundamental principle of self-custody: if you don't control the private keys, you don't truly own the cryptocurrency &mdash; you hold an IOU from a third party.</p></blockquote>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 class="anim-fade-in" id="b-choosing">Choosing the Right Wallet</h2>
+          <div class="guide-text anim-fade-in">
+            <p>There is no single "best" wallet &mdash; the right choice depends on your holdings, usage patterns, and threat model.</p>
+            <h3>For Beginners</h3>
+            <p>Start with a reputable <strong>self-custodial mobile wallet</strong>. Learn the basics: receiving, sending, backing up your seed phrase. Practice with small amounts before moving larger sums.</p>
+            <h3>For Regular Users</h3>
+            <p>Combine a <strong>hardware wallet</strong> for savings with a <strong>hot wallet</strong> for daily spending. The hardware wallet holds the bulk of your funds in cold storage; the hot wallet holds what you need for the week.</p>
+            <h3>For High-Value Holdings</h3>
+            <p>Consider <strong>multi-signature</strong> setups (2-of-3 or 3-of-5), <strong>air-gapped signing</strong>, and <strong>geographically distributed backups</strong>. Use a BIP39 passphrase to create hidden wallets. Document your setup for inheritance planning.</p>
+            <div class="callout callout-info">
+              <span class="callout-label">Key Principle</span>
+              Security should scale with holdings. A $500 portfolio doesn't need the same setup as a $500,000 portfolio. Over-engineering small amounts wastes time; under-securing large amounts risks catastrophic loss.
+            </div>
           </div>
         </div>
       </section>
@@ -125,20 +172,33 @@
             <li><a href="#a-multisig">Multi-Signature Wallets</a></li>
             <li><a href="#a-airgap">Air-Gapped Signing and PSBTs</a></li>
             <li><a href="#a-mpc">MPC Wallets and Threshold Signatures</a></li>
+            <li><a href="#a-secure-elements">Secure Elements and Firmware Verification</a></li>
           </ol>
         </nav>
       </div>
+
       <section class="section-block">
         <div class="container">
           <h2 id="a-multisig" class="anim-fade-in">Multi-Signature (Multi-Sig) Wallets</h2>
           <div class="guide-text anim-fade-in">
-            <p>Multi-sig wallets require <strong>M-of-N signatures</strong> to authorize a transaction (e.g., 2-of-3). This distributes trust across multiple key holders, eliminating single points of failure.</p>
+            <p>Multi-sig wallets require <strong>M-of-N signatures</strong> to authorize a transaction. The spending conditions are encoded directly into the Bitcoin script, meaning the blockchain itself enforces the policy &mdash; no single compromised key can move funds.</p>
             <h3>Common Configurations</h3>
             <ul>
-              <li><strong>2-of-3</strong> &mdash; personal use (phone + hardware wallet + paper backup)</li>
-              <li><strong>3-of-5</strong> &mdash; organizations with distributed signing authority</li>
+              <li><strong>2-of-3</strong> &mdash; ideal for personal use. Keys distributed across three locations (e.g., phone, hardware wallet, metal backup in a safe). Any two can sign, so losing one doesn't lock you out.</li>
+              <li><strong>3-of-5</strong> &mdash; suited for organizations. Five key holders (board members, executives), any three must approve. Tolerates two simultaneous compromises or losses.</li>
+              <li><strong>2-of-2</strong> &mdash; collaborative custody or family setups where both parties must agree to spend.</li>
             </ul>
-            <p>Bitcoin supports native multi-sig via <code>P2SH</code> and <code>P2WSH</code> scripts. The trade-off is increased complexity in setup and recovery.</p>
+            <h3>Script Implementations</h3>
+            <p>Bitcoin supports native multi-sig through several script types:</p>
+            <ul>
+              <li><code>P2SH</code> &mdash; the multi-sig script is hashed and the hash goes on-chain. The full script and all signatures are provided at spending time.</li>
+              <li><code>P2WSH</code> &mdash; SegWit version, moves witness data to save block space and reduce fees.</li>
+              <li><code>P2TR</code> (Taproot) &mdash; with MuSig2 key aggregation, an M-of-N setup can appear as a single-signature output on-chain when all parties cooperate, improving privacy and reducing fees. The multi-sig fallback is encoded in a Tapscript leaf.</li>
+            </ul>
+            <div class="callout callout-warning">
+              <span class="callout-label">Recovery Complexity</span>
+              Multi-sig wallets require not just the seed phrases but also the <strong>wallet configuration file</strong> (often called the "wallet descriptor" or "multisig coordination file") containing the xpubs of all cosigners, the quorum policy (M-of-N), and derivation paths. Back up this file alongside your seeds.
+            </div>
           </div>
         </div>
       </section>
@@ -147,15 +207,23 @@
         <div class="container">
           <h2 id="a-airgap" class="anim-fade-in">Air-Gapped Signing and PSBTs</h2>
           <div class="guide-text anim-fade-in">
-            <p>Air-gapped wallets <strong>never connect to a network</strong>. Transactions are transferred using the <code>PSBT</code> format (BIP174):</p>
+            <p>Air-gapped wallets provide the strongest isolation by ensuring the signing device <strong>never connects to any network</strong> &mdash; not via USB, Bluetooth, Wi-Fi, or NFC. Transactions are transferred via QR codes or microSD cards using the <strong>PSBT format</strong> (BIP174 / BIP370).</p>
+            <h3>PSBT Workflow</h3>
             <ol>
-              <li>The watch-only wallet creates an <strong>unsigned PSBT</strong></li>
-              <li>Transfer via QR code or SD card to the air-gapped device</li>
-              <li>The signer adds its signature</li>
-              <li>Transfer back to the watch-only wallet</li>
-              <li>The wallet broadcasts the fully signed transaction</li>
+              <li>The <strong>watch-only wallet</strong> (online) creates an <strong>unsigned PSBT</strong> containing transaction inputs, outputs, and metadata</li>
+              <li>The PSBT is transferred to the air-gapped signer via <strong>animated QR codes</strong> or SD card</li>
+              <li>The signer validates the transaction on its <strong>trusted display</strong>, adds its signature, and outputs a partially or fully signed PSBT</li>
+              <li>The signed PSBT is transferred back to the watch-only wallet</li>
+              <li>The wallet finalizes and broadcasts the fully signed transaction to the network</li>
             </ol>
-            <blockquote><p>Air-gapped signing provides the strongest isolation from network-based attacks. The signing key never exists on a network-connected device.</p></blockquote>
+            <h3>PSBT Structure</h3>
+            <p>A PSBT (Partially Signed Bitcoin Transaction) is a serialization format that carries all information needed for a signer to validate and sign:</p>
+            <ul>
+              <li><strong>Global fields</strong> &mdash; unsigned transaction, xpub metadata</li>
+              <li><strong>Per-input fields</strong> &mdash; UTXO details, derivation paths, partial signatures, redeem/witness scripts</li>
+              <li><strong>Per-output fields</strong> &mdash; derivation paths for change outputs (so the signer can verify change goes back to the same wallet)</li>
+            </ul>
+            <blockquote><p>The PSBT format is what makes multi-sig and air-gapped setups practical. Multiple signers can each add their signature independently, without ever needing to be online at the same time or share private keys.</p></blockquote>
           </div>
         </div>
       </section>
@@ -164,10 +232,51 @@
         <div class="container">
           <h2 id="a-mpc" class="anim-fade-in">MPC Wallets and Threshold Signatures</h2>
           <div class="guide-text anim-fade-in">
-            <p><strong>Multi-Party Computation</strong> (MPC) wallets split the key generation and signing process across multiple parties &mdash; no single party ever holds the complete key.</p>
+            <p><strong>Multi-Party Computation</strong> (MPC) wallets split the key generation and signing process across multiple parties using cryptographic protocols. Unlike multi-sig, the complete private key <strong>never exists in one place</strong> &mdash; not even during key generation.</p>
+            <h3>How MPC Signing Works</h3>
+            <ol>
+              <li><strong>Distributed Key Generation (DKG)</strong> &mdash; each party generates a key share. The shares are created through an interactive protocol where no single party sees the full key.</li>
+              <li><strong>Threshold Signing</strong> &mdash; to sign a transaction, a threshold of parties (e.g., 2 of 3) run an interactive signing protocol. Each contributes a partial signature from their share.</li>
+              <li><strong>Signature Combination</strong> &mdash; the partial signatures are combined into a standard ECDSA or Schnorr signature that is indistinguishable from a single-signer signature on-chain.</li>
+            </ol>
+            <h3>MPC vs. Multi-Sig</h3>
             <div class="callout callout-info">
-              <span class="callout-label">MPC vs. Multi-Sig</span>
-              Unlike multi-sig, MPC produces standard single-signature transactions on-chain. This reduces fees, improves privacy, and works across blockchains that don't support native multi-sig.
+              <span class="callout-label">Key Differences</span>
+              Multi-sig encodes the M-of-N policy in the blockchain script &mdash; it is visible on-chain and requires blockchain-specific support. MPC produces standard single-signature transactions, meaning it works across <strong>any blockchain</strong> (including those without native multi-sig), reduces fees, and reveals nothing about the signing setup. The trade-off is more complex key management and the need for interactive signing sessions.
+            </div>
+            <h3>Use Cases</h3>
+            <ul>
+              <li><strong>Institutional custody</strong> &mdash; distribute signing authority across geographic regions and organizational roles</li>
+              <li><strong>Cross-chain security</strong> &mdash; enforce threshold policies on chains that don't support multi-sig natively</li>
+              <li><strong>Key rotation</strong> &mdash; MPC supports proactive share refresh, allowing key shares to be rotated without changing the on-chain address</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-secure-elements" class="anim-fade-in">Secure Elements and Firmware Verification</h2>
+          <div class="guide-text anim-fade-in">
+            <p>The security of a hardware wallet ultimately depends on its <strong>hardware architecture</strong> and the integrity of its firmware. Two critical components:</p>
+            <h3>Secure Element (SE)</h3>
+            <p>A secure element is a tamper-resistant chip designed to store and process sensitive data. Key properties:</p>
+            <ul>
+              <li><strong>Side-channel resistance</strong> &mdash; shielded against power analysis, electromagnetic emissions, and timing attacks</li>
+              <li><strong>Fault injection protection</strong> &mdash; detects voltage glitching, laser fault injection, and clock manipulation</li>
+              <li><strong>Certified evaluation</strong> &mdash; chips like the ST31/ST33 series undergo Common Criteria certification (EAL5+/EAL6+)</li>
+              <li><strong>Monotonic counter</strong> &mdash; prevents rollback attacks on firmware versions</li>
+            </ul>
+            <h3>Firmware Verification</h3>
+            <p>Before trusting a hardware wallet, verify the firmware is authentic and unmodified:</p>
+            <ul>
+              <li><strong>Deterministic builds</strong> &mdash; open-source wallets allow anyone to compile the firmware and compare the hash against the released binary</li>
+              <li><strong>Signed firmware updates</strong> &mdash; the device should only accept updates cryptographically signed by the manufacturer</li>
+              <li><strong>Attestation</strong> &mdash; some devices support remote attestation, proving the secure element is running expected code</li>
+            </ul>
+            <div class="callout callout-tip">
+              <span class="callout-label">Evaluation Tip</span>
+              The most secure hardware wallet is one that combines an open-source firmware (auditable by the community) with a certified secure element (resistant to physical attacks). Avoid devices where either the firmware or the chip is proprietary and unauditable.
             </div>
           </div>
         </div>
@@ -187,7 +296,7 @@
               <span class="faq-arrow">&rsaquo;</span>
             </button>
             <div class="faq-bubble-wrap">
-              <div class="faq-bubble" data-text="For small amounts and learning, a reputable mobile wallet (self-custodial) is a good start. As your holdings grow, upgrade to a hardware wallet for cold storage. The key is to start with self-custody from day one. Placeholder for beginner wallet recommendations."></div>
+              <div class="faq-bubble" data-text="For small amounts and learning, start with a reputable self-custodial mobile wallet. Write down and securely store your seed phrase from day one. As your holdings grow, add a hardware wallet for cold storage. The key principle: start with self-custody immediately, even if you begin small. Building good habits early is more valuable than any specific app choice."></div>
             </div>
           </div>
 
@@ -197,7 +306,7 @@
               <span class="faq-arrow">&rsaquo;</span>
             </button>
             <div class="faq-bubble-wrap">
-              <div class="faq-bubble" data-text="Physical access attacks (side-channel, fault injection) are theoretically possible but require sophisticated lab equipment and usually physical possession of the device. Supply chain attacks (tampered devices) are a more practical concern. Always buy directly from the manufacturer. Placeholder for hardware security analysis."></div>
+              <div class="faq-bubble" data-text="Physical access attacks (side-channel analysis, fault injection, chip decapping) are theoretically possible but require sophisticated lab equipment, expertise, and physical possession of the device. Supply chain attacks &mdash; buying a tampered device from an untrusted seller &mdash; are a more practical concern. Remote hacking of a properly designed hardware wallet is essentially impossible because the device has no network interface. Always buy directly from the manufacturer and verify firmware integrity upon first setup."></div>
             </div>
           </div>
 
@@ -207,7 +316,7 @@
               <span class="faq-arrow">&rsaquo;</span>
             </button>
             <div class="faq-bubble-wrap">
-              <div class="faq-bubble" data-text='Exchanges are frequent targets for hackers and have a history of collapses (Mt. Gox, FTX). While convenient for trading, long-term storage on an exchange exposes you to counterparty risk. "Not your keys, not your coins." Placeholder for exchange risk assessment.'></div>
+              <div class="faq-bubble" data-text="Exchanges are frequent targets for hackers and have a documented history of collapses. Mt. Gox (2014), QuadrigaCX (2019), and FTX (2022) collectively lost billions in customer funds. While exchanges are convenient for active trading, long-term storage exposes you to counterparty risk that you cannot control or mitigate. The crypto community summarizes this as: &quot;Not your keys, not your coins.&quot;"></div>
             </div>
           </div>
 
@@ -217,7 +326,17 @@
               <span class="faq-arrow">&rsaquo;</span>
             </button>
             <div class="faq-bubble-wrap">
-              <div class="faq-bubble" data-text="For a multi-sig setup, you need at least 2-3 devices from different manufacturers. For a single-sig setup, one device plus a properly stored seed phrase backup is sufficient. Having a spare device speeds up recovery if one fails. Placeholder for hardware redundancy strategies."></div>
+              <div class="faq-bubble" data-text="For a single-sig setup, one hardware wallet plus a properly stored seed phrase backup is sufficient. Having a spare device speeds up recovery if the primary device fails. For a multi-sig setup (e.g., 2-of-3), you need at least 2-3 devices, ideally from different manufacturers to avoid correlated firmware vulnerabilities. The devices should be stored in separate physical locations."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>What is a watch-only wallet?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="A watch-only wallet imports your extended public key (xpub) without any private key material. It can display your balances, generate receiving addresses, and construct unsigned transactions &mdash; but it cannot sign or spend. This is useful for monitoring balances on your phone while the signing keys stay securely on a hardware wallet. Watch-only wallets are a key component of air-gapped signing workflows."></div>
             </div>
           </div>
 
@@ -231,20 +350,17 @@
         <p class="label">[ READ NEXT ]</p>
         <h3>Continue Learning</h3>
         <div class="preview-grid">
-          <a class="preview-card" href="guide-seed-anatomy.html">
-
-            <h4>Anatomy of a Seed Phrase</h4>
-            <p>What makes up a BIP39 mnemonic, how entropy and checksums work, and why your 12-24 words matter.</p>
-          </a>
-          <a class="preview-card" href="guide-wallet-anatomy.html">
-
-            <h4>Anatomy of a Wallet</h4>
-            <p>How wallets derive keys, manage addresses, and interact with blockchain networks under the hood.</p>
+          <a class="preview-card" href="guide-multisig.html">
+            <h4>Multisignature (Multisig)</h4>
+            <p>Deep dive into multi-sig setups, quorum policies, and how to eliminate single points of failure.</p>
           </a>
           <a class="preview-card" href="guide-opsec.html">
-
             <h4>Operational Security (OpSec)</h4>
             <p>Protect yourself from phishing, social engineering, and physical threats. Practical security habits for crypto holders.</p>
+          </a>
+          <a class="preview-card" href="guide-passphrase.html">
+            <h4>The 25th Word (Passphrase)</h4>
+            <p>How an optional BIP39 passphrase adds an extra security layer and enables hidden wallets.</p>
           </a>
         </div>
       </div>
