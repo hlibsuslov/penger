@@ -128,10 +128,11 @@
     var el = $('dictAlpha');
     if (!el) return;
     var letters = 'abcdefghijklmnopqrstuvwxyz'.split('');
-    var html = '<button class="alpha-btn active" data-letter="all">ALL</button>';
+    var html = '';
     letters.forEach(function (l) {
       html += '<button class="alpha-btn" data-letter="' + l + '">' + l.toUpperCase() + '</button>';
     });
+    html += '<button class="alpha-btn active" data-letter="all">ALL</button>';
     el.innerHTML = html;
     el.addEventListener('click', function (e) {
       var btn = e.target.closest('.alpha-btn');
