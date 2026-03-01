@@ -1563,6 +1563,10 @@ h3 { font-size: 15px; font-weight: 600; }
   border-top: 1px solid var(--border-default);
   padding: 12px 0;
   padding-bottom: max(12px, env(safe-area-inset-bottom, 0px));
+  /* Prevent iOS tap delay on the bar */
+  touch-action: manipulation;
+  /* Hint browser for smooth repositioning when keyboard opens */
+  will-change: bottom;
 }
 .tutor-input-wrap {
   display: flex; gap: 8px; align-items: center;
@@ -1574,6 +1578,8 @@ h3 { font-size: 15px; font-weight: 600; }
   background: var(--bg-surface); border: 1px solid var(--border-default);
   border-radius: 24px; color: var(--text-primary); outline: none;
   transition: border-color 0.2s ease;
+  /* Prevent iOS zoom on focus (needs >= 16px) */
+  touch-action: manipulation;
 }
 .tutor-input:focus { border-color: var(--border-active); }
 .tutor-input::placeholder { color: var(--text-dim); }
@@ -1584,19 +1590,26 @@ h3 { font-size: 15px; font-weight: 600; }
   border-radius: 50%; border: 1px solid var(--border-default);
   background: var(--bg-surface); color: var(--text-dim);
   cursor: pointer; transition: all 0.15s ease;
+  touch-action: manipulation;
 }
 .tutor-send-btn:hover { border-color: var(--border-active); color: var(--text-accent); }
 .tutor-send-btn:active { transform: scale(0.9); }
 .tutor-send-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
 
 /* spacer so chat content doesn't hide behind fixed bar */
-.tutor-chat { padding-bottom: 72px; }
+.tutor-chat {
+  padding-bottom: 72px;
+  overscroll-behavior: none;
+}
 
 /* --- responsive --- */
 @media (max-width: 520px) {
   .tutor-msg { max-width: 92%; padding: 12px 14px; font-size: 13px; }
   .tutor-option-btn { font-size: 12px; padding: 8px 14px; }
+  /* 16px prevents iOS auto-zoom on input focus */
   .tutor-input { padding: 10px 14px; font-size: 16px; }
+  .tutor-input-bar { padding: 10px 0; padding-bottom: max(10px, env(safe-area-inset-bottom, 0px)); }
+  .tutor-send-btn { width: 40px; height: 40px; }
 }
 
 /* --- free-text error message --- */
