@@ -1440,6 +1440,7 @@ h3 { font-size: 15px; font-weight: 600; }
   display: flex; flex-direction: column; gap: 12px;
   max-width: 640px;
   min-height: 320px;
+  min-height: calc(100dvh - 240px);
   padding-bottom: 8px;
 }
 
@@ -1585,19 +1586,17 @@ h3 { font-size: 15px; font-weight: 600; }
   cursor: pointer; transition: all 0.15s ease;
 }
 .tutor-send-btn:hover { border-color: var(--border-active); color: var(--text-accent); }
-.tutor-send-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.tutor-send-btn:active { transform: scale(0.9); }
+.tutor-send-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
 
 /* spacer so chat content doesn't hide behind fixed bar */
 .tutor-chat { padding-bottom: 72px; }
 
 /* --- responsive --- */
-@media (max-width: 768px) {
-  .tutor-footer { display: none; }
-}
 @media (max-width: 520px) {
   .tutor-msg { max-width: 92%; padding: 12px 14px; font-size: 13px; }
   .tutor-option-btn { font-size: 12px; padding: 8px 14px; }
-  .tutor-input { padding: 10px 14px; font-size: 13px; }
+  .tutor-input { padding: 10px 14px; font-size: 16px; }
 }
 
 /* --- free-text error message --- */
