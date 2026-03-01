@@ -19,19 +19,26 @@
   <style>
     :root { --kb: 0px; }
 
-    html {
-      height: 100dvh;
-      height: 100vh;                       /* fallback */
-      height: -webkit-fill-available;       /* older Safari */
-    }
+    html, body { height: 100%; }
+    html { height: 100dvh; }
     body {
       display: flex;
       flex-direction: column;
-      min-height: 100dvh;
-      min-height: 100vh;
-      min-height: -webkit-fill-available;
+      height: 100dvh;
       margin: 0;
-      overflow: hidden;                     /* no window scroll */
+      overflow: hidden;
+    }
+
+    /* Nav overlay: invisible & non-interactive by default */
+    .nav-overlay {
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+    }
+    .nav-overlay.is-open {
+      pointer-events: auto;
+      opacity: 1;
+      visibility: visible;
     }
 
     .site-header { flex-shrink: 0; }
@@ -59,14 +66,15 @@
       min-height: 0;
     }
 
-    /* Scrollable messages container */
+    /* === Scrollable messages container === */
     #tutorChat {
       flex: 1 1 0%;
+      min-height: 0;                        /* critical for flex child scroll */
       overflow-y: auto;
       overflow-x: hidden;
-      -webkit-overflow-scrolling: touch;    /* momentum scroll on older iOS */
-      overscroll-behavior-y: contain;       /* no scroll-chain to body      */
-      touch-action: pan-y;                  /* let browser know: vertical swipe = scroll */
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: contain;
+      touch-action: pan-y;
       /* room for the fixed composer + safe-area + keyboard */
       padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px) + var(--kb));
     }
@@ -715,12 +723,10 @@
           var kb = Math.max(0,
             window.innerHeight - (vv.height + vv.offsetTop));
           root.style.setProperty('--kb', kb + 'px');
-          if (kb > 50) smoothScroll();   // auto-scroll when kb opens
         });
       }
 
       vv.addEventListener('resize', syncKB);
-      vv.addEventListener('scroll', syncKB);
 
       /* Focus → let keyboard animate in, then sync + scroll */
       inputEl.addEventListener('focus', function () {
