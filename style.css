@@ -1637,7 +1637,7 @@ h3 { font-size: 15px; font-weight: 600; }
   width: 28px; height: 20px; border-radius: 4px; flex-shrink: 0;
 }
 .lp-dot-on { background: #D0D0D0; }
-.lp-dot-off { background: transparent; border: 1.5px solid rgba(255,255,255,0.12); }
+.lp-dot-off { background: transparent; border: 1px solid rgba(255,255,255,0.12); }
 .lp-plate-caption {
   font-family: var(--font-mono); font-size: 10px; font-weight: 500;
   text-transform: uppercase; letter-spacing: 0.1em;
