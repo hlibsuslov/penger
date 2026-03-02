@@ -1621,11 +1621,16 @@ h3 { font-size: 15px; font-weight: 600; }
 }
 .lp-link-secondary:hover { color: rgba(255,255,255,0.7); }
 
-/* === HERO PLATE VISUAL === */
-.lp-hero-visual {
-  margin-top: 64px;
-  display: flex; justify-content: center;
+/* === BLOCK 2: INTERACTIVE SHOWCASE === */
+.lp-section-showcase {
+  display: flex; justify-content: center; align-items: center;
+  padding: 64px 0;
 }
+.lp-showcase-visual {
+  display: flex; justify-content: center; width: 100%;
+}
+
+/* === PLATE VISUAL === */
 .lp-plate-render {
   background: #111111; border: 1px solid rgba(255,255,255,0.10);
   border-radius: 8px; padding: 28px 32px 20px;
@@ -1739,6 +1744,9 @@ h3 { font-size: 15px; font-weight: 600; }
   color: #E8E8E8; border-color: rgba(255,255,255,0.35);
 }
 
+/* === BLOCK 4: ABSOLUTE PRIVACY === */
+.lp-section-privacy { background: #080808; }
+
 /* === SECTION 5: MANIFESTO === */
 .lp-section-manifesto { background: #080808; }
 .lp-manifesto-text { margin-bottom: 20px; }
@@ -1756,6 +1764,12 @@ h3 { font-size: 15px; font-weight: 600; }
   margin-bottom: 40px;
 }
 .lp-section-final-cta .lp-cta-group { justify-content: center; }
+.lp-shipping-info {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.3); text-align: center;
+  margin-top: 20px;
+}
 
 /* === FOOTER === */
 .lp-footer {
