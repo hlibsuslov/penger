@@ -6,7 +6,8 @@
   <meta name="format-detection" content="telephone=no, date=no, email=no, address=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#FAFAFA">
+  <meta name="theme-color" content="#FAFAFA" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0A0A0A" media="(prefers-color-scheme: dark)">
   <meta name="referrer" content="no-referrer">
   <meta name="description" content="Contact PENGER &mdash; Get in touch with our team.">
   <meta name="author" content="PENGER">
@@ -62,14 +63,12 @@
     }
     .ceo-photo {
       width: 140px; height: 140px; flex-shrink: 0;
-      border-radius: 8px;
-      background: var(--bg-child); border: 2px dashed var(--border-default);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      border-radius: 8px; overflow: hidden;
+      border: 1px solid var(--border-default);
     }
-    .ceo-photo-label {
-      font-family: var(--font-mono); font-size: 10px; font-weight: 600;
-      text-transform: uppercase; letter-spacing: 0.06em;
-      color: var(--text-dim);
+    .ceo-photo img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block;
     }
     .ceo-info { flex: 1; }
     .ceo-name {
@@ -151,7 +150,6 @@
         <a href="ai-tutor.html" class="nav-link">AI Tutor</a>
       </nav>
       <div class="header-controls">
-        <button class="theme-toggle" type="button" aria-label="Toggle theme">&#9790;</button>
         <button class="nav-hamburger" id="navHamburger" type="button" aria-label="Menu" aria-expanded="false">
           <span class="hamburger-line"></span>
           <span class="hamburger-line"></span>
@@ -197,7 +195,7 @@
         <p class="label">[ LEADERSHIP ]</p>
         <div class="ceo-card" style="margin-top: 20px;">
           <div class="ceo-photo">
-            <span class="ceo-photo-label">PHOTO</span>
+            <img src="photo/main.png" alt="Hlib Suslov — CEO of PENGER" loading="lazy">
           </div>
           <div class="ceo-info">
             <h2 class="ceo-name">Hlib Suslov</h2>

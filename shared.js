@@ -1,43 +1,14 @@
 (function () {
   'use strict';
 
-  /* ===== THEME: Detect system preference, respect saved choice, enable toggle ===== */
-  function getPreferredTheme() {
-    var saved = localStorage.getItem('penger-theme');
-    if (saved === 'dark' || saved === 'light') return saved;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  /* ===== THEME: sync meta theme-color with system preference ===== */
+  var meta = document.querySelector('meta[name="theme-color"]');
+  function syncMeta(dark) {
+    if (meta) meta.content = dark ? '#0A0A0A' : '#FAFAFA';
   }
-
-  function applyTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    var meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.content = theme === 'dark' ? '#0A0A0A' : '#FAFAFA';
-    // Update toggle icons
-    document.querySelectorAll('.theme-toggle, .theme-toggle-sm').forEach(function (btn) {
-      btn.textContent = theme === 'dark' ? '\u2600' : '\u263E';
-      btn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
-    });
-  }
-
-  var currentTheme = getPreferredTheme();
-  applyTheme(currentTheme);
-
-  // Listen for system theme changes
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
-    if (!localStorage.getItem('penger-theme')) {
-      applyTheme(e.matches ? 'dark' : 'light');
-    }
-  });
-
-  // Bind toggle buttons
-  document.addEventListener('click', function (e) {
-    var btn = e.target.closest('.theme-toggle, .theme-toggle-sm');
-    if (!btn) return;
-    var current = document.documentElement.getAttribute('data-theme') || 'light';
-    var next = current === 'dark' ? 'light' : 'dark';
-    localStorage.setItem('penger-theme', next);
-    applyTheme(next);
-  });
+  var mql = window.matchMedia('(prefers-color-scheme: dark)');
+  syncMeta(mql.matches);
+  mql.addEventListener('change', function (e) { syncMeta(e.matches); });
 
   /* ===== MOBILE NAV HAMBURGER ===== */
   var navHamburger = document.getElementById('navHamburger');
@@ -76,13 +47,10 @@
     var href = link.getAttribute('href');
     if (href === currentPage) {
       link.classList.add('active');
-    } else if (currentPage === 'dictionary.html' && href === 'dictionary.html') {
-      link.classList.add('active');
     } else if (currentPage.indexOf('guide-') === 0 && href === 'guides.html') {
       link.classList.add('active');
     }
   });
-
 
   /* ===== MAKE ALL ELEMENTS VISIBLE IMMEDIATELY ===== */
   document.querySelectorAll('.anim-fade-in').forEach(function (el) {
@@ -122,14 +90,12 @@
         var fullText = bubble.getAttribute('data-text') || '';
 
         if (item.classList.contains('open')) {
-          // Close this item
           item.classList.remove('open');
           bubbleWrap.style.maxHeight = '0';
           if (item._typeTimer) { clearInterval(item._typeTimer); item._typeTimer = null; }
           return;
         }
 
-        // Close any other open items in this chat
         chat.querySelectorAll('.faq-item.open').forEach(function (other) {
           if (other !== item) {
             other.classList.remove('open');
@@ -139,19 +105,14 @@
           }
         });
 
-        // Open this item
         item.classList.add('open');
         bubble.innerHTML = '';
-
-        // Show container
         bubbleWrap.style.maxHeight = '60px';
 
-        // Add blinking cursor
         var cursor = document.createElement('span');
         cursor.className = 'faq-cursor';
         bubble.appendChild(cursor);
 
-        // Typewriter effect
         var chars = fullText.split('');
         var idx = 0;
         item._typeTimer = setInterval(function () {
@@ -163,7 +124,6 @@
           }
           cursor.insertAdjacentText('beforebegin', chars[idx]);
           idx++;
-          // Grow container as text fills
           var h = bubble.scrollHeight;
           bubbleWrap.style.maxHeight = Math.max(60, h + 16) + 'px';
         }, 18);
