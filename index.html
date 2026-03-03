@@ -6,17 +6,33 @@
   <meta name="format-detection" content="telephone=no, date=no, email=no, address=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#FAFAFA">
+  <meta name="theme-color" content="#FAFAFA" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0A0A0A" media="(prefers-color-scheme: dark)">
   <meta name="referrer" content="no-referrer">
   <meta name="description" content="PENGER v1.0 &mdash; Aerospace-grade titanium seed phrase storage. A premium physical long-term backup system for digital capital owners who think in decades.">
   <meta name="author" content="PENGER">
+
+  <!-- Font preload: critical weights only -->
+  <link rel="preload" href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hjQ.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Core styles (shared across all pages) -->
   <link rel="stylesheet" href="style.css">
+  <!-- Landing-page styles (only this page) -->
+  <link rel="stylesheet" href="landing.css">
+
+  <!-- Fonts: swap to avoid FOIT -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
+
+  <!-- Critical above-fold inline CSS -->
   <style>
     .lp-hero{min-height:50vh}
+    .site-header{background:var(--bg-main)}
+    .lp-h1,.lp-pre-header,.lp-subheadline,.lp-btn-primary{opacity:1}
   </style>
+
   <title>PENGER v1.0 &mdash; Final Backup for Digital Wealth</title>
 </head>
 <body>
@@ -34,7 +50,6 @@
         <a href="ai-tutor.html" class="nav-link">AI Tutor</a>
       </nav>
       <div class="header-controls">
-        <button class="theme-toggle" type="button" aria-label="Toggle theme">&#9790;</button>
         <button class="nav-hamburger" id="navHamburger" type="button" aria-label="Menu" aria-expanded="false">
           <span class="hamburger-line"></span>
           <span class="hamburger-line"></span>
@@ -408,6 +423,6 @@
     </div>
   </footer>
 
-  <script src="shared.js"></script>
+  <script src="shared.js" defer></script>
 </body>
 </html>
