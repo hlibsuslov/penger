@@ -37,6 +37,13 @@
     if (e.key === 'Escape') { closeNav(); }
   });
 
+  /* Close mobile nav on anchor link click (for landing page in-page links) */
+  if (siteNav) {
+    siteNav.querySelectorAll('a[href^="#"]').forEach(function (link) {
+      link.addEventListener('click', function () { closeNav(); });
+    });
+  }
+
   /* ===== ACTIVE NAV LINK ===== */
   var currentPage = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav-link[href]').forEach(function (link) {
