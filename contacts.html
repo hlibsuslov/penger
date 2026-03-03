@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="format-detection" content="telephone=no, date=no, email=no, address=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#FAFAFA">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="Contact PENGER &mdash; Get in touch with our team.">
+  <meta name="author" content="PENGER">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>Contacts &mdash; PENGER</title>
+  <style>
+    .contacts-hero {
+      padding: 56px 0 40px;
+      border-bottom: 1px solid var(--border-default);
+    }
+    .contacts-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 24px; margin-top: 32px;
+    }
+    .contact-card {
+      padding: 28px 24px;
+      background: var(--bg-surface); border: 1px solid var(--border-default);
+      border-radius: 8px; transition: border-color 0.2s ease;
+    }
+    .contact-card:hover { border-color: var(--border-active); }
+    .contact-card-label {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--text-dim); margin-bottom: 12px;
+    }
+    .contact-card-value {
+      font-family: var(--font-mono); font-size: 15px; font-weight: 600;
+      color: var(--text-accent); word-break: break-all;
+    }
+    .contact-card-value a {
+      color: var(--text-accent); text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .contact-card-value a:hover { color: var(--text-accent-hover); }
+    .contact-card-desc {
+      font-family: var(--font-sans); font-size: 13px; line-height: 1.7;
+      color: var(--text-label); margin-top: 8px;
+    }
+
+    /* CEO section */
+    .ceo-section {
+      padding: 48px 0;
+      border-bottom: 1px solid var(--border-default);
+    }
+    .ceo-card {
+      display: flex; gap: 32px; align-items: flex-start;
+      padding: 32px;
+      background: var(--bg-surface); border: 1px solid var(--border-default);
+      border-radius: 8px;
+    }
+    .ceo-photo {
+      width: 140px; height: 140px; flex-shrink: 0;
+      border-radius: 8px;
+      background: var(--bg-child); border: 2px dashed var(--border-default);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    .ceo-photo-label {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--text-dim);
+    }
+    .ceo-info { flex: 1; }
+    .ceo-name {
+      font-family: var(--font-sans); font-size: 22px; font-weight: 700;
+      color: var(--text-accent); margin-bottom: 4px;
+    }
+    .ceo-title {
+      font-family: var(--font-mono); font-size: 12px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--text-dim); margin-bottom: 16px;
+    }
+    .ceo-bio {
+      font-family: var(--font-sans); font-size: 14px; line-height: 1.8;
+      color: var(--text-primary); max-width: 480px;
+    }
+
+    /* Channels section */
+    .channels-section {
+      padding: 48px 0;
+      border-bottom: 1px solid var(--border-default);
+    }
+    .channels-list {
+      display: flex; flex-direction: column; gap: 0;
+      border: 1px solid var(--border-default); border-radius: 8px;
+      overflow: hidden; margin-top: 24px;
+    }
+    .channel-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 24px;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-default);
+      transition: background 0.15s ease;
+    }
+    .channel-row:last-child { border-bottom: none; }
+    .channel-row:hover { background: var(--bg-surface-hover); }
+    .channel-platform {
+      font-family: var(--font-mono); font-size: 13px; font-weight: 600;
+      color: var(--text-accent); text-transform: uppercase;
+      letter-spacing: 0.04em; min-width: 100px;
+    }
+    .channel-handle {
+      font-family: var(--font-mono); font-size: 14px; font-weight: 500;
+      color: var(--text-primary);
+    }
+    .channel-handle a {
+      color: var(--text-primary); text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .channel-handle a:hover { color: var(--text-accent); }
+
+    @media (max-width: 768px) {
+      .contacts-grid { grid-template-columns: 1fr; }
+      .ceo-card { flex-direction: column; gap: 24px; align-items: center; text-align: center; }
+      .ceo-bio { max-width: 100%; }
+    }
+    @media (max-width: 520px) {
+      .contacts-hero { padding: 32px 0 24px; }
+      .contact-card { padding: 20px 18px; }
+      .ceo-card { padding: 24px 20px; }
+      .ceo-photo { width: 120px; height: 120px; }
+      .ceo-name { font-size: 20px; }
+      .channel-row { padding: 14px 18px; flex-direction: column; gap: 4px; align-items: flex-start; }
+      .channel-platform { font-size: 11px; }
+      .channel-handle { font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== SHARED HEADER / NAV ===== -->
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo"><img src="PENGER.svg" alt="PENGER" height="20"></a>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="simulators.html" class="nav-link">Simulators</a>
+        <a href="dictionary.html" class="nav-link">Dictionary</a>
+        <a href="guides.html" class="nav-link">Academy</a>
+        <a href="ai-tutor.html" class="nav-link">AI Tutor</a>
+      </nav>
+      <div class="header-controls">
+        <button class="theme-toggle" type="button" aria-label="Toggle theme">&#9790;</button>
+        <button class="nav-hamburger" id="navHamburger" type="button" aria-label="Menu" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <main>
+
+    <!-- ===== HERO ===== -->
+    <section class="contacts-hero">
+      <div class="container">
+        <p class="label">[ CONTACT US ]</p>
+        <h1 style="margin-top:8px; margin-bottom:12px;">Get in Touch</h1>
+        <p class="body-text">Have questions about Penger, need support with your order, or want to discuss a partnership? Reach out through any of the channels below.</p>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT CARDS ===== -->
+    <section style="padding: 40px 0; border-bottom: 1px solid var(--border-default);">
+      <div class="container">
+        <div class="contacts-grid">
+          <div class="contact-card">
+            <div class="contact-card-label">Email</div>
+            <div class="contact-card-value"><a href="mailto:contact@mypenger.com">contact@mypenger.com</a></div>
+            <p class="contact-card-desc">General inquiries, orders, and support. We typically respond within 24 hours.</p>
+          </div>
+          <div class="contact-card">
+            <div class="contact-card-label">Telegram</div>
+            <div class="contact-card-value"><a href="https://t.me/pengercom" target="_blank" rel="noopener">@pengercom</a></div>
+            <p class="contact-card-desc">Quick questions, community updates, and real-time support.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CEO SECTION ===== -->
+    <section class="ceo-section">
+      <div class="container">
+        <p class="label">[ LEADERSHIP ]</p>
+        <div class="ceo-card" style="margin-top: 20px;">
+          <div class="ceo-photo">
+            <span class="ceo-photo-label">PHOTO</span>
+          </div>
+          <div class="ceo-info">
+            <h2 class="ceo-name">Hlib Suslov</h2>
+            <div class="ceo-title">Chief Executive Officer</div>
+            <p class="ceo-bio">Building physical sovereignty tools for the digital age. Focused on engineering solutions that make self-custody accessible, reliable, and permanent.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ALL CHANNELS ===== -->
+    <section class="channels-section">
+      <div class="container">
+        <p class="label">[ CHANNELS ]</p>
+        <h2 style="margin-top:8px; margin-bottom:4px;">Find Us Everywhere</h2>
+        <div class="channels-list">
+          <div class="channel-row">
+            <span class="channel-platform">Email</span>
+            <span class="channel-handle"><a href="mailto:contact@mypenger.com">contact@mypenger.com</a></span>
+          </div>
+          <div class="channel-row">
+            <span class="channel-platform">Telegram</span>
+            <span class="channel-handle"><a href="https://t.me/pengercom" target="_blank" rel="noopener">@pengercom</a></span>
+          </div>
+          <div class="channel-row">
+            <span class="channel-platform">Element</span>
+            <span class="channel-handle">@hlibsuslov</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="footer-brand"><img src="PENGER.svg" alt="PENGER" height="16"></div>
+          <p class="footer-tagline">Aerospace-grade titanium seed phrase storage. Physical sovereignty for digital wealth.</p>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Product</div>
+          <nav class="footer-nav" aria-label="Product links">
+            <a href="index.html" class="footer-link">Home</a>
+            <a href="simulators.html" class="footer-link">Simulators</a>
+            <a href="dictionary.html" class="footer-link">BIP39 Dictionary</a>
+          </nav>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Learn</div>
+          <nav class="footer-nav" aria-label="Learn links">
+            <a href="guides.html" class="footer-link">Academy</a>
+            <a href="ai-tutor.html" class="footer-link">AI Tutor</a>
+          </nav>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Contact</div>
+          <nav class="footer-nav" aria-label="Contact links">
+            <a href="contacts.html" class="footer-link">Contact Us</a>
+            <a href="mailto:contact@mypenger.com" class="footer-link">contact@mypenger.com</a>
+          </nav>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 PENGER</span>
+        <span>PHYSICAL SOVEREIGNTY / ZERO COMPROMISE</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="shared.js"></script>
+</body>
+</html>

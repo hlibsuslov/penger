@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="format-detection" content="telephone=no, date=no, email=no, address=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#FAFAFA">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Payment successful &mdash; PENGER">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>Payment Successful &mdash; PENGER</title>
+  <style>
+    .status-page {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: calc(100vh - var(--header-h) - 180px);
+      text-align: center; padding: 60px 24px;
+    }
+    .status-icon {
+      width: 80px; height: 80px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 36px; margin-bottom: 28px;
+      border: 2px solid var(--border-success);
+      color: var(--text-accent);
+    }
+    .status-title {
+      font-family: var(--font-sans); font-size: 32px; font-weight: 700;
+      color: var(--text-accent); letter-spacing: -0.02em;
+      margin-bottom: 16px; line-height: 1.2;
+    }
+    .status-message {
+      font-family: var(--font-sans); font-size: 15px; line-height: 1.8;
+      color: var(--text-label); max-width: 480px; margin-bottom: 32px;
+    }
+    .status-order-info {
+      padding: 20px 28px; border-radius: 8px;
+      background: var(--bg-surface); border: 1px solid var(--border-default);
+      margin-bottom: 32px; text-align: left; max-width: 400px; width: 100%;
+    }
+    .status-order-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0; font-family: var(--font-mono); font-size: 12px;
+      border-bottom: 1px solid var(--border-default);
+    }
+    .status-order-row:last-child { border-bottom: none; }
+    .status-order-key { color: var(--text-dim); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+    .status-order-val { color: var(--text-accent); font-weight: 600; }
+    .status-actions {
+      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+    }
+    .status-note {
+      font-family: var(--font-mono); font-size: 11px;
+      color: var(--text-dim); margin-top: 24px;
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    @media (max-width: 520px) {
+      .status-title { font-size: 24px; }
+      .status-message { font-size: 14px; }
+      .status-icon { width: 64px; height: 64px; font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== SHARED HEADER / NAV ===== -->
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo"><img src="PENGER.svg" alt="PENGER" height="20"></a>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="simulators.html" class="nav-link">Simulators</a>
+        <a href="dictionary.html" class="nav-link">Dictionary</a>
+        <a href="guides.html" class="nav-link">Academy</a>
+        <a href="ai-tutor.html" class="nav-link">AI Tutor</a>
+      </nav>
+      <div class="header-controls">
+        <button class="theme-toggle" type="button" aria-label="Toggle theme">&#9790;</button>
+        <button class="nav-hamburger" id="navHamburger" type="button" aria-label="Menu" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <!-- ===== PAYMENT SUCCESS ===== -->
+  <main class="status-page" role="main">
+
+    <div class="status-icon" aria-hidden="true">&#10003;</div>
+
+    <h1 class="status-title">Thank you for<br>your payment.</h1>
+
+    <p class="status-message">Your order has been confirmed. You will receive a confirmation email shortly with your tracking details. Your Penger v1.0 kit is being prepared for shipment.</p>
+
+    <div class="status-order-info">
+      <div class="status-order-row">
+        <span class="status-order-key">Status</span>
+        <span class="status-order-val">Confirmed</span>
+      </div>
+      <div class="status-order-row">
+        <span class="status-order-key">Product</span>
+        <span class="status-order-val">Penger v1.0 Kit</span>
+      </div>
+      <div class="status-order-row">
+        <span class="status-order-key">Shipping</span>
+        <span class="status-order-val">Worldwide</span>
+      </div>
+    </div>
+
+    <div class="status-actions">
+      <a href="index.html" class="btn btn-primary">Back to Home</a>
+      <a href="guides.html" class="btn btn-secondary">Start Learning</a>
+    </div>
+
+    <p class="status-note">Confirmation email sent to your inbox</p>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <span class="footer-brand"><img src="PENGER.svg" alt="PENGER" height="16"></span>
+        <span class="meta-text">Self-Custody Tools &amp; Guides</span>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 PENGER</span>
+        <span>PHYSICAL SOVEREIGNTY / ZERO COMPROMISE</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="shared.js"></script>
+</body>
+</html>

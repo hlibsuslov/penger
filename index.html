@@ -6,7 +6,7 @@
   <meta name="format-detection" content="telephone=no, date=no, email=no, address=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#0A0A0A">
+  <meta name="theme-color" content="#FAFAFA">
   <meta name="referrer" content="no-referrer">
   <meta name="description" content="PENGER v1.0 &mdash; Aerospace-grade titanium seed phrase storage. A premium physical long-term backup system for digital capital owners who think in decades.">
   <meta name="author" content="PENGER">
@@ -15,20 +15,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
-    /* Critical above-fold: prevent FOUC on dark background */
-    .lp-body{background:#0A0A0A;color:#E8E8E8}
-    .lp-body .site-header.lp-header{background:#0A0A0A;border-bottom-color:rgba(255,255,255,.08)}
     .lp-hero{min-height:50vh}
   </style>
   <title>PENGER v1.0 &mdash; Final Backup for Digital Wealth</title>
 </head>
-<body class="lp-body">
+<body>
   <noscript><p style="padding:40px;text-align:center;font-size:16px;">JavaScript is required.</p></noscript>
 
   <!-- ===== SHARED HEADER / NAV ===== -->
-  <header class="site-header lp-header">
+  <header class="site-header">
     <div class="container">
-      <a href="index.html" class="site-logo"><img src="PENGER (2).svg" alt="PENGER" height="20"></a>
+      <a href="index.html" class="site-logo"><img src="PENGER.svg" alt="PENGER" height="20"></a>
       <nav class="site-nav" id="siteNav">
         <a href="index.html" class="nav-link">Home</a>
         <a href="simulators.html" class="nav-link">Simulators</a>
@@ -37,7 +34,8 @@
         <a href="ai-tutor.html" class="nav-link">AI Tutor</a>
       </nav>
       <div class="header-controls">
-        <button class="nav-hamburger lp-hamburger" id="navHamburger" type="button" aria-label="Menu" aria-expanded="false">
+        <button class="theme-toggle" type="button" aria-label="Toggle theme">&#9790;</button>
+        <button class="nav-hamburger" id="navHamburger" type="button" aria-label="Menu" aria-expanded="false">
           <span class="hamburger-line"></span>
           <span class="hamburger-line"></span>
           <span class="hamburger-line"></span>
@@ -57,6 +55,16 @@
         <p class="lp-subheadline">Paper burns. Hard drives fail. Memory fades.<br><br>Penger v1.0 is an indestructible titanium vault for your seed phrase. Secure your capital for generations with an error-proof binary grid.</p>
         <div class="lp-cta-group">
           <a href="#order" class="btn lp-btn-primary">Buy Penger v1.0</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BLOCK 1.5: PRODUCT PHOTO ===== -->
+    <section class="lp-section lp-section-photo">
+      <div class="container">
+        <div class="lp-photo-placeholder lp-photo-hero" aria-label="Product photo placeholder">
+          <span class="lp-photo-label">PRODUCT PHOTO</span>
+          <span class="lp-photo-hint">Place a high-resolution product image here</span>
         </div>
       </div>
     </section>
@@ -112,6 +120,20 @@
         <p class="lp-section-label">[ ZERO THIRD PARTIES ]</p>
         <h2 class="lp-h2">Trust no one. Punch it yourself.</h2>
         <p class="lp-text">True sovereignty means relying on no one&mdash;not even us. We provide the aerospace-grade titanium and the precision tools. You encode your seed phrase yourself. The entire process happens 100% offline, in the absolute privacy of your home. Once you punch your seed into the titanium, it is set in metal for decades. No digital traces. No third-party access.</p>
+      </div>
+    </section>
+
+    <!-- ===== PHOTO: DETAIL SHOTS ===== -->
+    <section class="lp-section lp-section-photo">
+      <div class="container">
+        <div class="lp-photo-grid">
+          <div class="lp-photo-placeholder lp-photo-detail" aria-label="Detail photo placeholder">
+            <span class="lp-photo-label">DETAIL SHOT 1</span>
+          </div>
+          <div class="lp-photo-placeholder lp-photo-detail" aria-label="Detail photo placeholder">
+            <span class="lp-photo-label">DETAIL SHOT 2</span>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -322,6 +344,16 @@
       </div>
     </section>
 
+    <!-- ===== PHOTO: FULL-WIDTH ===== -->
+    <section class="lp-section lp-section-photo">
+      <div class="container">
+        <div class="lp-photo-placeholder lp-photo-wide" aria-label="Full width photo placeholder">
+          <span class="lp-photo-label">LIFESTYLE / IN-USE PHOTO</span>
+          <span class="lp-photo-hint">Full-width photo of the product in real-world use</span>
+        </div>
+      </div>
+    </section>
+
     <!-- ===== BLOCK 8: FINAL CTA ===== -->
     <section class="lp-section lp-section-final-cta" id="order">
       <div class="container">
@@ -337,16 +369,37 @@
 
   </main>
 
-  <footer class="site-footer lp-footer" id="legal">
+  <footer class="site-footer" id="legal">
     <div class="container">
-      <div class="footer-content">
-        <span class="footer-brand"><img src="PENGER (1).svg" alt="PENGER" height="16"></span>
-        <nav class="lp-footer-nav" aria-label="Footer navigation">
-          <a href="#order" class="lp-footer-link">Product Kit</a>
-          <a href="#how-it-works" class="lp-footer-link">Engineering Protocol</a>
-          <a href="guides.html" class="lp-footer-link">Sovereignty Academy Login</a>
-          <a href="#legal" class="lp-footer-link">Legal &amp; Terms</a>
-        </nav>
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="footer-brand"><img src="PENGER.svg" alt="PENGER" height="16"></div>
+          <p class="footer-tagline">Aerospace-grade titanium seed phrase storage. Physical sovereignty for digital wealth.</p>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Product</div>
+          <nav class="footer-nav" aria-label="Product links">
+            <a href="#order" class="footer-link">Buy Penger v1.0</a>
+            <a href="#how-it-works" class="footer-link">How It Works</a>
+            <a href="#encoding-guide" class="footer-link">Encoding Guide</a>
+          </nav>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Learn</div>
+          <nav class="footer-nav" aria-label="Learn links">
+            <a href="guides.html" class="footer-link">Academy</a>
+            <a href="simulators.html" class="footer-link">Simulators</a>
+            <a href="dictionary.html" class="footer-link">BIP39 Dictionary</a>
+            <a href="ai-tutor.html" class="footer-link">AI Tutor</a>
+          </nav>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Contact</div>
+          <nav class="footer-nav" aria-label="Contact links">
+            <a href="contacts.html" class="footer-link">Contact Us</a>
+            <a href="mailto:contact@mypenger.com" class="footer-link">contact@mypenger.com</a>
+          </nav>
+        </div>
       </div>
       <div class="footer-bottom">
         <span>&copy; 2026 PENGER</span>
