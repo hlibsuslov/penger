@@ -262,6 +262,39 @@
   color: var(--text-dim); text-align: center; margin-top: 20px;
 }
 
+/* === PLATE PARALLAX === */
+.lp-section-plate { padding: 40px 0; }
+.lp-plate-stage {
+  position: relative;
+  height: 420px;
+  max-width: 700px;
+  margin: 0 auto;
+  overflow: visible;
+}
+.lp-plate {
+  position: absolute;
+  top: 50%;
+  height: 85%;
+  width: auto;
+  max-width: 55%;
+  object-fit: contain;
+  will-change: transform;
+}
+.lp-plate-back {
+  left: 0;
+  transform: translateX(-40%) translateY(-50%);
+  z-index: 1;
+}
+.lp-plate-front {
+  right: 0;
+  transform: translateX(40%) translateY(-50%);
+  z-index: 2;
+}
+@media (prefers-reduced-motion: reduce) {
+  .lp-plate-back  { transform: translateX(12.5%) translateY(-50%) !important; }
+  .lp-plate-front { transform: translateX(-12.5%) translateY(-50%) !important; }
+}
+
 /* ====================================================================
    RESPONSIVE
    ==================================================================== */
@@ -278,6 +311,7 @@
   .lp-guide-flow { margin-top: 36px; }
   .lp-guide-simulator-callout { padding: 28px 22px; }
   .lp-guide-callout-title { font-size: 17px; }
+  .lp-plate-stage { height: 320px; max-width: 560px; }
 }
 
 @media (max-width: 520px) {
@@ -322,6 +356,8 @@
   .lp-btn-group-callout { margin-top: 16px; }
   .lp-btn-group-callout .lp-btn-primary { font-size: 12px; padding: 12px 24px; }
   .lp-btn-group-callout .lp-btn-outline { font-size: 11px; padding: 10px 20px; }
+  .lp-plate-stage { height: 240px; }
+  .lp-plate { max-width: 60%; }
   .lp-cta-group { flex-direction: column; align-items: stretch; }
   .lp-btn-primary { text-align: center; justify-content: center; width: 100%; }
   .lp-btn-outline { text-align: center; justify-content: center; width: 100%; }
@@ -337,6 +373,7 @@
   .lp-h2 { font-size: 20px; }
   .lp-subheadline { font-size: 13px; }
   .lp-section { padding: 32px 0; }
+  .lp-plate-stage { height: 180px; }
   .lp-feature-card { padding: 20px 16px; }
   .lp-feature-title { font-size: 14px; }
   .lp-feature-desc { font-size: 12px; }
