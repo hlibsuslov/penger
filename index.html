@@ -357,5 +357,44 @@
   </footer>
 
   <script src="shared.js" defer></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var stage = document.querySelector('.lp-plate-stage');
+    if (!stage) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var back  = stage.querySelector('.lp-plate-back');
+    var front = stage.querySelector('.lp-plate-front');
+    if (!back || !front) return;
+
+    var startOff = window.innerWidth <= 520 ? 25 : 40;
+    var endOff   = 12.5;
+    var active   = false;
+
+    function tick() {
+      if (!active) return;
+      var rect = stage.getBoundingClientRect();
+      var wH   = window.innerHeight;
+
+      var p = (wH - rect.top) / (wH * 0.6);
+      p = p < 0 ? 0 : p > 1 ? 1 : p;
+
+      var bx = -startOff + (startOff + endOff) * p;
+      var fx =  startOff - (startOff + endOff) * p;
+
+      back.style.transform  = 'translateX(' + bx + '%) translateY(-50%)';
+      front.style.transform = 'translateX(' + fx + '%) translateY(-50%)';
+
+      requestAnimationFrame(tick);
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      active = entries[0].isIntersecting;
+      if (active) requestAnimationFrame(tick);
+    }, { rootMargin: '200px 0px' });
+
+    observer.observe(stage);
+  });
+  </script>
 </body>
 </html>
