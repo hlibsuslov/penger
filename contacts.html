@@ -17,13 +17,23 @@
   <link rel="stylesheet" href="style.css">
   <title>Contacts &mdash; PENGER</title>
   <style>
+    /* Hero */
     .contacts-hero {
       padding: 56px 0 40px;
       border-bottom: 1px solid var(--border-default);
     }
+    .contacts-hero .body-text {
+      max-width: 520px;
+    }
+
+    /* Contact cards section */
+    .contacts-cards-section {
+      padding: 40px 0;
+      border-bottom: 1px solid var(--border-default);
+    }
     .contacts-grid {
       display: grid; grid-template-columns: 1fr 1fr;
-      gap: 24px; margin-top: 32px;
+      gap: 24px; margin-top: 24px;
     }
     .contact-card {
       padding: 28px 24px;
@@ -38,7 +48,7 @@
     }
     .contact-card-value {
       font-family: var(--font-mono); font-size: 15px; font-weight: 600;
-      color: var(--text-accent); word-break: break-all;
+      color: var(--text-accent); overflow-wrap: break-word; word-break: break-word;
     }
     .contact-card-value a {
       color: var(--text-accent); text-decoration: none;
@@ -70,7 +80,7 @@
       width: 100%; height: 100%; object-fit: cover;
       display: block;
     }
-    .ceo-info { flex: 1; }
+    .ceo-info { flex: 1; min-width: 0; }
     .ceo-name {
       font-family: var(--font-sans); font-size: 22px; font-weight: 700;
       color: var(--text-accent); margin-bottom: 4px;
@@ -93,10 +103,11 @@
     .channels-list {
       display: flex; flex-direction: column; gap: 0;
       border: 1px solid var(--border-default); border-radius: 8px;
-      overflow: hidden; margin-top: 24px;
+      overflow: hidden; margin-top: 20px;
     }
     .channel-row {
-      display: flex; align-items: center; justify-content: space-between;
+      display: grid; grid-template-columns: 120px 1fr;
+      align-items: center;
       padding: 18px 24px;
       background: var(--bg-surface);
       border-bottom: 1px solid var(--border-default);
@@ -107,11 +118,11 @@
     .channel-platform {
       font-family: var(--font-mono); font-size: 13px; font-weight: 600;
       color: var(--text-accent); text-transform: uppercase;
-      letter-spacing: 0.04em; min-width: 100px;
+      letter-spacing: 0.04em;
     }
     .channel-handle {
       font-family: var(--font-mono); font-size: 14px; font-weight: 500;
-      color: var(--text-primary);
+      color: var(--text-primary); overflow-wrap: break-word; word-break: break-word;
     }
     .channel-handle a {
       color: var(--text-primary); text-decoration: none;
@@ -119,20 +130,49 @@
     }
     .channel-handle a:hover { color: var(--text-accent); }
 
+    /* Tablet */
     @media (max-width: 768px) {
+      .contacts-hero { padding: 44px 0 32px; }
       .contacts-grid { grid-template-columns: 1fr; }
       .ceo-card { flex-direction: column; gap: 24px; align-items: center; text-align: center; }
       .ceo-bio { max-width: 100%; }
     }
+    /* Phone */
     @media (max-width: 520px) {
       .contacts-hero { padding: 32px 0 24px; }
+      .contacts-cards-section { padding: 28px 0; }
+      .contacts-grid { gap: 16px; margin-top: 20px; }
       .contact-card { padding: 20px 18px; }
-      .ceo-card { padding: 24px 20px; }
-      .ceo-photo { width: 120px; height: 120px; }
+      .contact-card-value { font-size: 14px; }
+      .ceo-section { padding: 32px 0; }
+      .ceo-card { padding: 24px 20px; gap: 20px; }
+      .ceo-photo { width: 100px; height: 100px; }
       .ceo-name { font-size: 20px; }
-      .channel-row { padding: 14px 18px; flex-direction: column; gap: 4px; align-items: flex-start; }
+      .ceo-title { font-size: 11px; margin-bottom: 12px; }
+      .ceo-bio { font-size: 13px; }
+      .channels-section { padding: 32px 0; }
+      .channels-list { margin-top: 16px; }
+      .channel-row { grid-template-columns: 1fr; gap: 4px; padding: 14px 18px; }
       .channel-platform { font-size: 11px; }
       .channel-handle { font-size: 13px; }
+    }
+    /* Small phone */
+    @media (max-width: 380px) {
+      .contacts-hero { padding: 24px 0 20px; }
+      .contacts-cards-section { padding: 24px 0; }
+      .contact-card { padding: 16px 14px; }
+      .contact-card-label { font-size: 9px; margin-bottom: 8px; }
+      .contact-card-value { font-size: 13px; }
+      .contact-card-desc { font-size: 12px; }
+      .ceo-section { padding: 24px 0; }
+      .ceo-card { padding: 20px 16px; }
+      .ceo-photo { width: 80px; height: 80px; }
+      .ceo-name { font-size: 18px; }
+      .ceo-bio { font-size: 12px; }
+      .channels-section { padding: 24px 0; }
+      .channel-row { padding: 12px 14px; }
+      .channel-platform { font-size: 10px; }
+      .channel-handle { font-size: 12px; }
     }
   </style>
 </head>
@@ -172,8 +212,9 @@
     </section>
 
     <!-- ===== CONTACT CARDS ===== -->
-    <section style="padding: 40px 0; border-bottom: 1px solid var(--border-default);">
+    <section class="contacts-cards-section">
       <div class="container">
+        <p class="label">[ DIRECT CONTACT ]</p>
         <div class="contacts-grid">
           <div class="contact-card">
             <div class="contact-card-label">Email</div>

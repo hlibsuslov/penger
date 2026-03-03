@@ -202,8 +202,9 @@
   margin-top: 18px; padding: 16px 18px;
   background: var(--bg-child); border: 1px solid var(--border-default);
   border-radius: 6px; display: flex; flex-direction: column; gap: 10px;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
 }
-.lp-guide-example-row, .lp-guide-binary-row, .lp-guide-calc { display: flex; align-items: center; gap: 12px; }
+.lp-guide-example-row, .lp-guide-binary-row, .lp-guide-calc { display: flex; align-items: center; gap: 12px; min-width: 0; }
 .lp-guide-tag {
   font-family: var(--font-mono); font-size: 10px; font-weight: 600;
   text-transform: uppercase; letter-spacing: .06em;
@@ -211,7 +212,7 @@
 }
 .lp-guide-val { font-family: var(--font-mono); font-size: 15px; font-weight: 600; color: var(--text-accent); }
 .lp-guide-hl { color: var(--text-accent-hover); }
-.lp-guide-dim { font-family: var(--font-mono); font-size: 12px; font-weight: 400; color: var(--text-label); }
+.lp-guide-dim { font-family: var(--font-mono); font-size: 12px; font-weight: 400; color: var(--text-label); overflow-wrap: break-word; word-break: break-word; min-width: 0; }
 .lp-guide-dim strong { color: var(--text-accent); font-weight: 700; }
 .lp-guide-bits { display: flex; gap: 3px; }
 .lp-guide-bit {
@@ -221,11 +222,18 @@
 }
 .lp-guide-bit.on { background: var(--punch-fill); color: var(--bg-main); }
 .lp-guide-bit.off { background: transparent; border: 1px solid var(--border-default); color: var(--text-dim); }
-.lp-guide-bit-labels { display: flex; gap: 3px; margin-top: 4px; padding-left: 68px; }
+.lp-guide-bit-labels { display: flex; gap: 3px; margin-top: 4px; padding-left: 68px; align-items: center; }
 .lp-guide-bit-labels span {
   width: 24px; text-align: center; flex-shrink: 0;
   font-family: var(--font-mono); font-size: 7px; font-weight: 500; color: var(--text-dim);
 }
+.lp-guide-edge-label {
+  font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--text-dim); flex-shrink: 0; width: auto !important;
+}
+.lp-guide-edge-label-top { margin-right: 8px; }
+.lp-guide-edge-label-bottom { margin-left: 8px; }
 .lp-guide-punch-visual {
   margin-top: 18px; padding: 18px;
   background: var(--bg-child); border: 1px solid var(--border-default); border-radius: 6px;
@@ -343,6 +351,7 @@
   .lp-guide-bit { width: 20px; height: 20px; font-size: 10px; }
   .lp-guide-bit-labels span { width: 20px; font-size: 6px; }
   .lp-guide-bit-labels { padding-left: 68px; }
+  .lp-guide-edge-label { font-size: 8px; }
   .lp-guide-punch-row { flex-wrap: wrap; }
   .lp-guide-simulator-callout { padding: 22px 16px; margin-top: 28px; }
   .lp-guide-callout-title { font-size: 16px; }
@@ -352,6 +361,7 @@
   .lp-section-how .btn-secondary { font-size: 12px; padding: 12px 20px; width: 100%; justify-content: center; }
   .lp-cta-group { flex-direction: column; align-items: stretch; }
   .lp-btn-primary { text-align: center; justify-content: center; width: 100%; }
+  .lp-btn-outline { text-align: center; justify-content: center; width: 100%; }
   .lp-btn-large { padding: 14px 28px; font-size: 13px; }
   .lp-cta-sub { font-size: 15px; margin-bottom: 28px; }
   .lp-shipping-info { font-size: 10px; }
@@ -390,6 +400,9 @@
   .lp-guide-bits { gap: 2px; }
   .lp-guide-bit-labels { padding-left: 0; gap: 2px; }
   .lp-guide-bit-labels span { width: 18px; font-size: 5px; }
+  .lp-guide-edge-label { font-size: 7px; }
+  .lp-guide-edge-label-top { margin-right: 4px; }
+  .lp-guide-edge-label-bottom { margin-left: 4px; }
   .lp-guide-binary-row { flex-direction: column; align-items: flex-start; }
   .lp-guide-tag { width: auto; margin-bottom: 4px; }
   .lp-guide-punch-label { width: auto; margin-bottom: 6px; }
