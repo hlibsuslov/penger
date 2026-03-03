@@ -266,17 +266,16 @@
 .lp-section-plate { padding: 40px 0; }
 .lp-plate-stage {
   position: relative;
-  height: 420px;
-  max-width: 700px;
+  height: clamp(320px, 55vh, 560px);
+  max-width: 800px;
   margin: 0 auto;
   overflow: visible;
 }
 .lp-plate {
   position: absolute;
   top: 50%;
-  height: 85%;
-  width: auto;
-  max-width: 55%;
+  width: clamp(320px, 38vw, 560px);
+  height: auto;
   object-fit: contain;
   will-change: transform;
 }
@@ -311,7 +310,8 @@
   .lp-guide-flow { margin-top: 36px; }
   .lp-guide-simulator-callout { padding: 28px 22px; }
   .lp-guide-callout-title { font-size: 17px; }
-  .lp-plate-stage { height: 320px; max-width: 560px; }
+  .lp-plate-stage { height: clamp(260px, 45vh, 420px); max-width: 600px; }
+  .lp-plate { width: clamp(260px, 50vw, 420px); }
 }
 
 @media (max-width: 520px) {
@@ -356,8 +356,8 @@
   .lp-btn-group-callout { margin-top: 16px; }
   .lp-btn-group-callout .lp-btn-primary { font-size: 12px; padding: 12px 24px; }
   .lp-btn-group-callout .lp-btn-outline { font-size: 11px; padding: 10px 20px; }
-  .lp-plate-stage { height: 240px; }
-  .lp-plate { max-width: 60%; }
+  .lp-plate-stage { height: clamp(200px, 40vh, 320px); }
+  .lp-plate { width: clamp(200px, 70vw, 320px); }
   .lp-cta-group { flex-direction: column; align-items: stretch; }
   .lp-btn-primary { text-align: center; justify-content: center; width: 100%; }
   .lp-btn-outline { text-align: center; justify-content: center; width: 100%; }
@@ -373,7 +373,8 @@
   .lp-h2 { font-size: 20px; }
   .lp-subheadline { font-size: 13px; }
   .lp-section { padding: 32px 0; }
-  .lp-plate-stage { height: 180px; }
+  .lp-plate-stage { height: clamp(160px, 35vh, 260px); }
+  .lp-plate { width: clamp(160px, 60vw, 260px); }
   .lp-feature-card { padding: 20px 16px; }
   .lp-feature-title { font-size: 14px; }
   .lp-feature-desc { font-size: 12px; }
