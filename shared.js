@@ -1,10 +1,43 @@
 (function () {
   'use strict';
 
-  /* ===== THEME: White-only — set light theme on load, no toggle ===== */
-  document.documentElement.setAttribute('data-theme', 'light');
-  var meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.content = '#FAFAFA';
+  /* ===== THEME: Detect system preference, respect saved choice, enable toggle ===== */
+  function getPreferredTheme() {
+    var saved = localStorage.getItem('penger-theme');
+    if (saved === 'dark' || saved === 'light') return saved;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.content = theme === 'dark' ? '#0A0A0A' : '#FAFAFA';
+    // Update toggle icons
+    document.querySelectorAll('.theme-toggle, .theme-toggle-sm').forEach(function (btn) {
+      btn.textContent = theme === 'dark' ? '\u2600' : '\u263E';
+      btn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+    });
+  }
+
+  var currentTheme = getPreferredTheme();
+  applyTheme(currentTheme);
+
+  // Listen for system theme changes
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
+    if (!localStorage.getItem('penger-theme')) {
+      applyTheme(e.matches ? 'dark' : 'light');
+    }
+  });
+
+  // Bind toggle buttons
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.theme-toggle, .theme-toggle-sm');
+    if (!btn) return;
+    var current = document.documentElement.getAttribute('data-theme') || 'light';
+    var next = current === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('penger-theme', next);
+    applyTheme(next);
+  });
 
   /* ===== MOBILE NAV HAMBURGER ===== */
   var navHamburger = document.getElementById('navHamburger');
