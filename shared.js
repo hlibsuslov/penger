@@ -49,6 +49,8 @@
       link.classList.add('active');
     } else if (currentPage.indexOf('guide-') === 0 && href === 'guides.html') {
       link.classList.add('active');
+    } else if (currentPage === 'contacts.html' && (href === 'index.html' || href === '/')) {
+      link.classList.add('active');
     }
   });
 

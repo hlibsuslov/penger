@@ -172,28 +172,6 @@
       color: var(--text-primary);
       max-width: 480px;
     }
-    .ceo-links {
-      display: flex;
-      gap: 12px;
-      margin-top: 16px;
-    }
-    .ceo-link {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--text-dim);
-      text-decoration: none;
-      padding: 6px 14px;
-      border: 1px solid var(--border-default);
-      border-radius: 4px;
-      transition: all 0.2s ease;
-    }
-    .ceo-link:hover {
-      color: var(--text-accent);
-      border-color: var(--border-active);
-    }
 
     /* Channels section */
     .channels-section {
@@ -272,7 +250,6 @@
         text-align: center;
       }
       .ceo-bio { max-width: 100%; }
-      .ceo-links { justify-content: center; }
     }
     /* Phone */
     @media (max-width: 520px) {
@@ -289,8 +266,6 @@
       .ceo-name { font-size: 20px; }
       .ceo-title { font-size: 11px; margin-bottom: 12px; }
       .ceo-bio { font-size: 13px; }
-      .ceo-links { flex-wrap: wrap; gap: 8px; }
-      .ceo-link { font-size: 10px; padding: 5px 12px; }
       .channels-section { padding: 32px 0; }
       .channels-list { margin-top: 16px; }
       .channel-row {
@@ -403,10 +378,6 @@
             <h2 class="ceo-name">Hlib Suslov</h2>
             <div class="ceo-title">Chief Executive Officer</div>
             <p class="ceo-bio">Building physical sovereignty tools for the digital age. Focused on engineering solutions that make self-custody accessible, reliable, and permanent.</p>
-            <div class="ceo-links">
-              <a href="https://t.me/pengercom" target="_blank" rel="noopener" class="ceo-link">Telegram</a>
-              <a href="mailto:contact@mypenger.com" class="ceo-link">Email</a>
-            </div>
           </div>
         </div>
       </div>
@@ -439,36 +410,17 @@
 
   </main>
 
-  <!-- FOOTER -->
   <footer class="site-footer">
     <div class="container">
-      <div class="footer-grid">
-        <div class="footer-col">
-          <div class="footer-brand"><img src="PENGER.svg" alt="PENGER" height="16"></div>
-          <p class="footer-tagline">Aerospace-grade titanium seed phrase storage. Physical sovereignty for digital wealth.</p>
-        </div>
-        <div class="footer-col">
-          <div class="footer-col-title">Product</div>
-          <nav class="footer-nav" aria-label="Product links">
-            <a href="index.html" class="footer-link">Home</a>
-            <a href="simulators.html" class="footer-link">Simulators</a>
-            <a href="dictionary.html" class="footer-link">BIP39 Dictionary</a>
-          </nav>
-        </div>
-        <div class="footer-col">
-          <div class="footer-col-title">Learn</div>
-          <nav class="footer-nav" aria-label="Learn links">
-            <a href="guides.html" class="footer-link">Academy</a>
-            <a href="ai-tutor.html" class="footer-link">AI Tutor</a>
-          </nav>
-        </div>
-        <div class="footer-col">
-          <div class="footer-col-title">Contact</div>
-          <nav class="footer-nav" aria-label="Contact links">
-            <a href="contacts.html" class="footer-link">Contact Us</a>
-            <a href="mailto:contact@mypenger.com" class="footer-link">contact@mypenger.com</a>
-          </nav>
-        </div>
+      <div class="footer-top">
+        <div class="footer-brand"><img src="PENGER.svg" alt="PENGER" height="16"></div>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="index.html" class="footer-link">Home</a>
+          <a href="simulators.html" class="footer-link">Simulators</a>
+          <a href="dictionary.html" class="footer-link">Dictionary</a>
+          <a href="guides.html" class="footer-link">Academy</a>
+          <a href="ai-tutor.html" class="footer-link">AI Tutor</a>
+        </nav>
       </div>
       <div class="footer-bottom">
         <span>&copy; 2026 PENGER</span>
