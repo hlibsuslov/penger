@@ -367,33 +367,68 @@
     var front = stage.querySelector('.lp-plate-front');
     if (!back || !front) return;
 
-    var startOff = window.innerWidth <= 520 ? 25 : 40;
-    var endOff   = 12.5;
-    var active   = false;
+    var END_OFF = 10;
+    var ticking = false;
+    var visible = false;
 
-    function tick() {
-      if (!active) return;
-      var rect = stage.getBoundingClientRect();
-      var wH   = window.innerHeight;
+    /* Responsive start offset — must match CSS initial transforms */
+    function getStartOff() {
+      var w = window.innerWidth;
+      if (w <= 380) return 20;
+      if (w <= 520) return 25;
+      return 40;
+    }
 
-      var p = (wH - rect.top) / (wH * 0.6);
-      p = p < 0 ? 0 : p > 1 ? 1 : p;
+    /* Cubic ease-in-out for natural feel */
+    function ease(t) {
+      return t < 0.5
+        ? 4 * t * t * t
+        : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
 
-      var bx = -startOff + (startOff + endOff) * p;
-      var fx =  startOff - (startOff + endOff) * p;
+    function render() {
+      ticking = false;
+      var rect   = stage.getBoundingClientRect();
+      var wH     = window.innerHeight;
+      var stageH = rect.height;
+
+      /* p = 0  → stage top is at viewport bottom (just entering)
+         p = 1  → stage center reaches viewport center             */
+      var enterY  = wH;
+      var centerY = (wH - stageH) / 2;
+      var raw     = (enterY - rect.top) / (enterY - centerY);
+      var p       = Math.max(0, Math.min(1, raw));
+      p = ease(p);
+
+      var s  = getStartOff();
+      var bx = -s + (s + END_OFF) * p;
+      var fx =  s - (s + END_OFF) * p;
 
       back.style.transform  = 'translateX(' + bx + '%) translateY(-50%)';
       front.style.transform = 'translateX(' + fx + '%) translateY(-50%)';
-
-      requestAnimationFrame(tick);
     }
 
-    var observer = new IntersectionObserver(function (entries) {
-      active = entries[0].isIntersecting;
-      if (active) requestAnimationFrame(tick);
-    }, { rootMargin: '200px 0px' });
+    function onScroll() {
+      if (!ticking && visible) {
+        ticking = true;
+        requestAnimationFrame(render);
+      }
+    }
 
+    /* Passive listeners — fire only on actual scroll/resize */
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+
+    /* IntersectionObserver: skip work when section is off-screen */
+    var observer = new IntersectionObserver(function (entries) {
+      visible = entries[0].isIntersecting;
+      if (visible) onScroll();
+    }, { rootMargin: '200px 0px' });
     observer.observe(stage);
+
+    /* Immediate render to match scroll position on load (no flash) */
+    visible = true;
+    render();
   });
   </script>
 </body>
