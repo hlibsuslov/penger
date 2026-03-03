@@ -160,8 +160,8 @@
       var p = (start - rect.top) / (start - end);
       p = Math.max(0, Math.min(1, p));
 
-      var bx = startOff - (startOff + endOff) * p;
-      var fx = -startOff + (startOff + endOff) * p;
+      var bx = -startOff + (startOff + endOff) * p;
+      var fx = startOff - (startOff + endOff) * p;
 
       back.style.transform  = 'translateX(' + bx + '%) translateY(-50%)';
       front.style.transform = 'translateX(' + fx + '%) translateY(-50%)';
