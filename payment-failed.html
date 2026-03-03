@@ -19,43 +19,45 @@
   <style>
     .status-page {
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      min-height: calc(100vh - var(--header-h) - 180px);
-      text-align: center; padding: 60px 24px;
+      min-height: calc(100vh - var(--header-h) - 140px);
+      text-align: center; padding: 48px 24px;
+    }
+    .status-label {
+      font-family: var(--font-mono); font-size: 12px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--text-label); margin-bottom: 24px;
     }
     .status-icon {
-      width: 80px; height: 80px; border-radius: 50%;
+      width: 64px; height: 64px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-size: 36px; margin-bottom: 28px;
-    }
-    .status-icon-error {
+      margin-bottom: 24px;
       border: 2px solid var(--error-border);
       color: var(--error-text);
     }
+    .status-icon svg { width: 24px; height: 24px; }
     .status-title {
-      font-family: var(--font-sans); font-size: 32px; font-weight: 700;
+      font-family: var(--font-sans); font-size: 28px; font-weight: 700;
       color: var(--text-accent); letter-spacing: -0.02em;
-      margin-bottom: 16px; line-height: 1.2;
+      margin-bottom: 12px; line-height: 1.2;
     }
     .status-message {
-      font-family: var(--font-sans); font-size: 15px; line-height: 1.8;
-      color: var(--text-label); max-width: 480px; margin-bottom: 32px;
+      font-family: var(--font-sans); font-size: 14px; line-height: 1.8;
+      color: var(--text-label); max-width: 440px; margin-bottom: 28px;
     }
     .status-reasons {
-      padding: 20px 28px; border-radius: 8px;
+      padding: 16px 20px; border-radius: 6px;
       background: var(--bg-surface); border: 1px solid var(--border-default);
-      margin-bottom: 32px; text-align: left; max-width: 440px; width: 100%;
+      margin-bottom: 28px; text-align: left; max-width: 400px; width: 100%;
     }
     .status-reasons-title {
-      font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+      font-family: var(--font-mono); font-size: 10px; font-weight: 700;
       text-transform: uppercase; letter-spacing: 0.06em;
-      color: var(--text-dim); margin-bottom: 12px;
+      color: var(--text-dim); margin-bottom: 10px;
     }
-    .status-reasons ul {
-      list-style: none; padding: 0; margin: 0;
-    }
+    .status-reasons ul { list-style: none; padding: 0; margin: 0; }
     .status-reasons li {
-      font-family: var(--font-sans); font-size: 13px; line-height: 1.7;
-      color: var(--text-primary); padding: 6px 0;
+      font-family: var(--font-sans); font-size: 12px; line-height: 1.7;
+      color: var(--text-primary); padding: 5px 0;
       border-bottom: 1px solid var(--border-default);
     }
     .status-reasons li:last-child { border-bottom: none; }
@@ -67,8 +69,8 @@
       display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
     }
     .status-contact {
-      font-family: var(--font-mono); font-size: 12px;
-      color: var(--text-dim); margin-top: 24px; line-height: 1.7;
+      font-family: var(--font-mono); font-size: 11px;
+      color: var(--text-dim); margin-top: 20px; line-height: 1.7;
     }
     .status-contact a {
       color: var(--text-accent); text-decoration: none;
@@ -76,9 +78,11 @@
     }
     .status-contact a:hover { color: var(--text-accent-hover); }
     @media (max-width: 520px) {
-      .status-title { font-size: 24px; }
-      .status-message { font-size: 14px; }
-      .status-icon { width: 64px; height: 64px; font-size: 28px; }
+      .status-page { padding: 36px 20px; }
+      .status-title { font-size: 22px; }
+      .status-message { font-size: 13px; }
+      .status-icon { width: 56px; height: 56px; }
+      .status-icon svg { width: 20px; height: 20px; }
     }
   </style>
 </head>
@@ -109,11 +113,15 @@
   <!-- ===== PAYMENT FAILED ===== -->
   <main class="status-page" role="main">
 
-    <div class="status-icon status-icon-error" aria-hidden="true">&#10007;</div>
+    <p class="status-label">[ PAYMENT FAILED ]</p>
 
-    <h1 class="status-title">Payment failed.</h1>
+    <div class="status-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+    </div>
 
-    <p class="status-message">Your payment could not be processed. No charges have been made to your account. Please try again or use a different payment method.</p>
+    <h1 class="status-title">Payment could not be processed.</h1>
+
+    <p class="status-message">No charges have been made to your account. Please try again or use a different payment method.</p>
 
     <div class="status-reasons">
       <div class="status-reasons-title">Common reasons</div>
@@ -136,9 +144,15 @@
 
   <footer class="site-footer">
     <div class="container">
-      <div class="footer-content">
-        <span class="footer-brand"><img src="PENGER.svg" alt="PENGER" height="16"></span>
-        <span class="meta-text">Self-Custody Tools &amp; Guides</span>
+      <div class="footer-top">
+        <div class="footer-brand"><img src="PENGER.svg" alt="PENGER" height="16"></div>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="index.html" class="footer-link">Home</a>
+          <a href="simulators.html" class="footer-link">Simulators</a>
+          <a href="dictionary.html" class="footer-link">Dictionary</a>
+          <a href="guides.html" class="footer-link">Academy</a>
+          <a href="contacts.html" class="footer-link">Contacts</a>
+        </nav>
       </div>
       <div class="footer-bottom">
         <span>&copy; 2026 PENGER</span>
