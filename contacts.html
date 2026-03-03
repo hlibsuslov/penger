@@ -19,46 +19,102 @@
   <style>
     /* Hero */
     .contacts-hero {
-      padding: 56px 0 40px;
+      padding: 64px 0 48px;
       border-bottom: 1px solid var(--border-default);
+    }
+    .contacts-hero h1 {
+      font-family: var(--font-sans);
+      font-size: 42px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      color: var(--text-accent);
+      margin-top: 12px;
+      margin-bottom: 16px;
     }
     .contacts-hero .body-text {
       max-width: 520px;
+      font-size: 15px;
+      line-height: 1.8;
     }
 
     /* Contact cards section */
     .contacts-cards-section {
-      padding: 40px 0;
+      padding: 48px 0;
       border-bottom: 1px solid var(--border-default);
     }
     .contacts-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 24px; margin-top: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 24px;
     }
     .contact-card {
       padding: 28px 24px;
-      background: var(--bg-surface); border: 1px solid var(--border-default);
-      border-radius: 8px; transition: border-color 0.2s ease;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: 8px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
     }
-    .contact-card:hover { border-color: var(--border-active); }
+    .contact-card:hover {
+      border-color: var(--border-active);
+      box-shadow: 0 2px 12px var(--glow);
+    }
+    .contact-card-icon {
+      font-size: 20px;
+      margin-bottom: 16px;
+      line-height: 1;
+    }
     .contact-card-label {
-      font-family: var(--font-mono); font-size: 10px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.08em;
-      color: var(--text-dim); margin-bottom: 12px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      margin-bottom: 12px;
     }
     .contact-card-value {
-      font-family: var(--font-mono); font-size: 15px; font-weight: 600;
-      color: var(--text-accent); overflow-wrap: break-word; word-break: break-word;
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-accent);
+      overflow-wrap: break-word;
+      word-break: break-word;
     }
     .contact-card-value a {
-      color: var(--text-accent); text-decoration: none;
+      color: var(--text-accent);
+      text-decoration: none;
       transition: color 0.2s ease;
     }
     .contact-card-value a:hover { color: var(--text-accent-hover); }
     .contact-card-desc {
-      font-family: var(--font-sans); font-size: 13px; line-height: 1.7;
-      color: var(--text-label); margin-top: 8px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--text-label);
+      margin-top: 10px;
     }
+    .contact-card-action {
+      margin-top: auto;
+      padding-top: 16px;
+    }
+    .contact-card-action a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .contact-card-action a:hover { color: var(--text-accent); }
 
     /* CEO section */
     .ceo-section {
@@ -66,33 +122,77 @@
       border-bottom: 1px solid var(--border-default);
     }
     .ceo-card {
-      display: flex; gap: 32px; align-items: flex-start;
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
       padding: 32px;
-      background: var(--bg-surface); border: 1px solid var(--border-default);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
       border-radius: 8px;
+      margin-top: 20px;
     }
     .ceo-photo {
-      width: 140px; height: 140px; flex-shrink: 0;
-      border-radius: 8px; overflow: hidden;
-      border: 1px solid var(--border-default);
+      width: 120px;
+      height: 120px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--border-default);
     }
     .ceo-photo img {
-      width: 100%; height: 100%; object-fit: cover;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       display: block;
     }
-    .ceo-info { flex: 1; min-width: 0; }
+    .ceo-info {
+      flex: 1;
+      min-width: 0;
+    }
     .ceo-name {
-      font-family: var(--font-sans); font-size: 22px; font-weight: 700;
-      color: var(--text-accent); margin-bottom: 4px;
+      font-family: var(--font-sans);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-accent);
+      margin-bottom: 4px;
     }
     .ceo-title {
-      font-family: var(--font-mono); font-size: 12px; font-weight: 600;
-      text-transform: uppercase; letter-spacing: 0.06em;
-      color: var(--text-dim); margin-bottom: 16px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-dim);
+      margin-bottom: 16px;
     }
     .ceo-bio {
-      font-family: var(--font-sans); font-size: 14px; line-height: 1.8;
-      color: var(--text-primary); max-width: 480px;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--text-primary);
+      max-width: 480px;
+    }
+    .ceo-links {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .ceo-link {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-dim);
+      text-decoration: none;
+      padding: 6px 14px;
+      border: 1px solid var(--border-default);
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+    .ceo-link:hover {
+      color: var(--text-accent);
+      border-color: var(--border-active);
     }
 
     /* Channels section */
@@ -100,67 +200,126 @@
       padding: 48px 0;
       border-bottom: 1px solid var(--border-default);
     }
+    .channels-section h2 {
+      margin-top: 8px;
+      margin-bottom: 4px;
+    }
     .channels-list {
-      display: flex; flex-direction: column; gap: 0;
-      border: 1px solid var(--border-default); border-radius: 8px;
-      overflow: hidden; margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--border-default);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 20px;
     }
     .channel-row {
-      display: grid; grid-template-columns: 120px 1fr;
+      display: grid;
+      grid-template-columns: 110px 1fr auto;
       align-items: center;
+      gap: 16px;
       padding: 18px 24px;
       background: var(--bg-surface);
       border-bottom: 1px solid var(--border-default);
       transition: background 0.15s ease;
+      text-decoration: none;
+      color: inherit;
     }
     .channel-row:last-child { border-bottom: none; }
     .channel-row:hover { background: var(--bg-surface-hover); }
     .channel-platform {
-      font-family: var(--font-mono); font-size: 13px; font-weight: 600;
-      color: var(--text-accent); text-transform: uppercase;
-      letter-spacing: 0.04em;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-accent);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
     }
     .channel-handle {
-      font-family: var(--font-mono); font-size: 14px; font-weight: 500;
-      color: var(--text-primary); overflow-wrap: break-word; word-break: break-word;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      overflow-wrap: break-word;
+      word-break: break-word;
     }
     .channel-handle a {
-      color: var(--text-primary); text-decoration: none;
+      color: var(--text-primary);
+      text-decoration: none;
       transition: color 0.2s ease;
     }
     .channel-handle a:hover { color: var(--text-accent); }
+    .channel-arrow {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--text-dim);
+      transition: transform 0.2s ease;
+    }
+    .channel-row:hover .channel-arrow {
+      transform: translateX(3px);
+      color: var(--text-accent);
+    }
 
     /* Tablet */
     @media (max-width: 768px) {
-      .contacts-hero { padding: 44px 0 32px; }
+      .contacts-hero { padding: 48px 0 36px; }
+      .contacts-hero h1 { font-size: 32px; }
       .contacts-grid { grid-template-columns: 1fr; }
-      .ceo-card { flex-direction: column; gap: 24px; align-items: center; text-align: center; }
+      .ceo-card {
+        flex-direction: column;
+        gap: 24px;
+        align-items: center;
+        text-align: center;
+      }
       .ceo-bio { max-width: 100%; }
+      .ceo-links { justify-content: center; }
     }
     /* Phone */
     @media (max-width: 520px) {
-      .contacts-hero { padding: 32px 0 24px; }
-      .contacts-cards-section { padding: 28px 0; }
-      .contacts-grid { gap: 16px; margin-top: 20px; }
-      .contact-card { padding: 20px 18px; }
+      .contacts-hero { padding: 36px 0 28px; }
+      .contacts-hero h1 { font-size: 26px; }
+      .contacts-hero .body-text { font-size: 14px; }
+      .contacts-cards-section { padding: 32px 0; }
+      .contacts-grid { gap: 14px; margin-top: 20px; }
+      .contact-card { padding: 22px 18px; }
       .contact-card-value { font-size: 14px; }
       .ceo-section { padding: 32px 0; }
       .ceo-card { padding: 24px 20px; gap: 20px; }
-      .ceo-photo { width: 100px; height: 100px; }
+      .ceo-photo { width: 96px; height: 96px; }
       .ceo-name { font-size: 20px; }
       .ceo-title { font-size: 11px; margin-bottom: 12px; }
       .ceo-bio { font-size: 13px; }
+      .ceo-links { flex-wrap: wrap; gap: 8px; }
+      .ceo-link { font-size: 10px; padding: 5px 12px; }
       .channels-section { padding: 32px 0; }
       .channels-list { margin-top: 16px; }
-      .channel-row { grid-template-columns: 1fr; gap: 4px; padding: 14px 18px; }
-      .channel-platform { font-size: 11px; }
-      .channel-handle { font-size: 13px; }
+      .channel-row {
+        grid-template-columns: 1fr auto;
+        gap: 4px 12px;
+        padding: 14px 18px;
+      }
+      .channel-platform {
+        font-size: 10px;
+        grid-column: 1;
+      }
+      .channel-handle {
+        font-size: 13px;
+        grid-column: 1;
+      }
+      .channel-arrow {
+        grid-row: 1 / 3;
+        grid-column: 2;
+        align-self: center;
+      }
     }
     /* Small phone */
     @media (max-width: 380px) {
-      .contacts-hero { padding: 24px 0 20px; }
+      .contacts-hero { padding: 28px 0 22px; }
+      .contacts-hero h1 { font-size: 22px; }
+      .contacts-hero .body-text { font-size: 13px; }
       .contacts-cards-section { padding: 24px 0; }
-      .contact-card { padding: 16px 14px; }
+      .contact-card { padding: 18px 14px; }
+      .contact-card-icon { font-size: 18px; margin-bottom: 12px; }
       .contact-card-label { font-size: 9px; margin-bottom: 8px; }
       .contact-card-value { font-size: 13px; }
       .contact-card-desc { font-size: 12px; }
@@ -206,7 +365,7 @@
     <section class="contacts-hero">
       <div class="container">
         <p class="label">[ CONTACT US ]</p>
-        <h1 style="margin-top:8px; margin-bottom:12px;">Get in Touch</h1>
+        <h1>Get in Touch</h1>
         <p class="body-text">Have questions about Penger, need support with your order, or want to discuss a partnership? Reach out through any of the channels below.</p>
       </div>
     </section>
@@ -220,11 +379,13 @@
             <div class="contact-card-label">Email</div>
             <div class="contact-card-value"><a href="mailto:contact@mypenger.com">contact@mypenger.com</a></div>
             <p class="contact-card-desc">General inquiries, orders, and support. We typically respond within 24 hours.</p>
+            <div class="contact-card-action"><a href="mailto:contact@mypenger.com">Write to us &rarr;</a></div>
           </div>
           <div class="contact-card">
             <div class="contact-card-label">Telegram</div>
             <div class="contact-card-value"><a href="https://t.me/pengercom" target="_blank" rel="noopener">@pengercom</a></div>
             <p class="contact-card-desc">Quick questions, community updates, and real-time support.</p>
+            <div class="contact-card-action"><a href="https://t.me/pengercom" target="_blank" rel="noopener">Open Telegram &rarr;</a></div>
           </div>
         </div>
       </div>
@@ -234,7 +395,7 @@
     <section class="ceo-section">
       <div class="container">
         <p class="label">[ LEADERSHIP ]</p>
-        <div class="ceo-card" style="margin-top: 20px;">
+        <div class="ceo-card">
           <div class="ceo-photo">
             <img src="photo/main.png" alt="Hlib Suslov — CEO of PENGER" loading="lazy">
           </div>
@@ -242,6 +403,10 @@
             <h2 class="ceo-name">Hlib Suslov</h2>
             <div class="ceo-title">Chief Executive Officer</div>
             <p class="ceo-bio">Building physical sovereignty tools for the digital age. Focused on engineering solutions that make self-custody accessible, reliable, and permanent.</p>
+            <div class="ceo-links">
+              <a href="https://t.me/pengercom" target="_blank" rel="noopener" class="ceo-link">Telegram</a>
+              <a href="mailto:contact@mypenger.com" class="ceo-link">Email</a>
+            </div>
           </div>
         </div>
       </div>
@@ -251,19 +416,22 @@
     <section class="channels-section">
       <div class="container">
         <p class="label">[ CHANNELS ]</p>
-        <h2 style="margin-top:8px; margin-bottom:4px;">Find Us Everywhere</h2>
+        <h2>Find Us Everywhere</h2>
         <div class="channels-list">
-          <div class="channel-row">
+          <a class="channel-row" href="mailto:contact@mypenger.com">
             <span class="channel-platform">Email</span>
-            <span class="channel-handle"><a href="mailto:contact@mypenger.com">contact@mypenger.com</a></span>
-          </div>
-          <div class="channel-row">
+            <span class="channel-handle">contact@mypenger.com</span>
+            <span class="channel-arrow">&rarr;</span>
+          </a>
+          <a class="channel-row" href="https://t.me/pengercom" target="_blank" rel="noopener">
             <span class="channel-platform">Telegram</span>
-            <span class="channel-handle"><a href="https://t.me/pengercom" target="_blank" rel="noopener">@pengercom</a></span>
-          </div>
+            <span class="channel-handle">@pengercom</span>
+            <span class="channel-arrow">&rarr;</span>
+          </a>
           <div class="channel-row">
             <span class="channel-platform">Element</span>
             <span class="channel-handle">@hlibsuslov</span>
+            <span class="channel-arrow"></span>
           </div>
         </div>
       </div>
