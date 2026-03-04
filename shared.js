@@ -20,12 +20,16 @@
     siteNav.classList.add('open');
     navHamburger.setAttribute('aria-expanded', 'true');
     if (navOverlay) navOverlay.classList.add('visible');
+    var scrollbarW = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.setProperty('--scrollbar-w', scrollbarW + 'px');
+    document.body.classList.add('nav-open');
   }
   function closeNav() {
     if (!siteNav || !navHamburger) return;
     siteNav.classList.remove('open');
     navHamburger.setAttribute('aria-expanded', 'false');
     if (navOverlay) navOverlay.classList.remove('visible');
+    document.body.classList.remove('nav-open');
   }
 
   if (navHamburger) {
@@ -54,10 +58,30 @@
     }
   });
 
-  /* ===== MAKE ALL ELEMENTS VISIBLE IMMEDIATELY ===== */
-  document.querySelectorAll('.anim-fade-in').forEach(function (el) {
-    el.classList.add('visible');
-  });
+  /* ===== SCROLL-TRIGGERED FADE-IN ===== */
+  (function () {
+    var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var targets = document.querySelectorAll('.anim-fade-in');
+
+    if (reducedMotion || !('IntersectionObserver' in window)) {
+      targets.forEach(function (el) { el.classList.add('visible'); });
+      return;
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.15,
+      rootMargin: '0px 0px -60px 0px'
+    });
+
+    targets.forEach(function (el) { observer.observe(el); });
+  })();
 
   /* ===== GUIDE LEVEL TOGGLE (Beginner / Advanced) ===== */
   var levelToggle = document.getElementById('levelToggle');

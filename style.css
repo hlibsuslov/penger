@@ -23,6 +23,13 @@
   --error-text: #994444;
   --error-border: #DDBBBB;
   --scrollbar-thumb: #CFCFCF;
+  /* Animation tokens */
+  --duration-fast: 0.15s;
+  --duration-normal: 0.4s;
+  --duration-slow: 0.6s;
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --stagger-delay: 0.08s;
   color-scheme: light dark;
 }
 
@@ -773,6 +780,7 @@ h3 { font-size: 15px; font-weight: 600; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  .anim-fade-in { opacity: 1 !important; transform: none !important; }
 }
 
 :focus-visible { outline: 2px solid var(--border-success); outline-offset: 2px; border-radius: 2px; }
@@ -844,10 +852,20 @@ h3 { font-size: 15px; font-weight: 600; }
 /* Mobile nav overlay */
 .nav-overlay {
   position: fixed; inset: 0; z-index: 89;
-  background: rgba(0,0,0,0.5); opacity: 0;
-  pointer-events: none; transition: opacity 0.25s ease;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-fast) var(--ease-default);
 }
 .nav-overlay.visible { opacity: 1; pointer-events: auto; }
+
+/* Body scroll lock when nav is open */
+body.nav-open {
+  overflow: hidden;
+  padding-right: var(--scrollbar-w, 0px);
+}
 
 /* === HERO === */
 .hero {
@@ -1161,11 +1179,25 @@ h3 { font-size: 15px; font-weight: 600; }
 
 /* === SCROLL FADE-IN ANIMATION === */
 .anim-fade-in {
-  opacity: 1; transform: none;
+  opacity: 0;
+  transform: translateY(24px);
+  will-change: opacity, transform;
+  transition: opacity var(--duration-normal) var(--ease-out),
+              transform var(--duration-normal) var(--ease-out);
 }
 .anim-fade-in.visible {
-  opacity: 1; transform: none;
+  opacity: 1;
+  transform: none;
+  will-change: auto;
 }
+
+/* Stagger delays for lists/grids */
+.anim-fade-in.stagger-1 { transition-delay: 0.06s; }
+.anim-fade-in.stagger-2 { transition-delay: 0.12s; }
+.anim-fade-in.stagger-3 { transition-delay: 0.18s; }
+.anim-fade-in.stagger-4 { transition-delay: 0.24s; }
+.anim-fade-in.stagger-5 { transition-delay: 0.30s; }
+.anim-fade-in.stagger-6 { transition-delay: 0.36s; }
 
 /* === SECTION DIVIDER === */
 .section-cards { padding: 40px 0; border-bottom: 1px solid var(--border-default); }
