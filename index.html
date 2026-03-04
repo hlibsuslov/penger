@@ -368,7 +368,7 @@
     if (!back || !front) return;
 
     var SPREAD_START = 70;    /* initial offset — plates apart (% of own width, must match CSS) */
-    var SPREAD_END   = 37.5;  /* final offset — ~25 % overlap (must match CSS reduced-motion) */
+    var SPREAD_END   = window.innerWidth <= 520 ? 20 : 37.5;  /* mobile: closer to center */
     var ticking = false;
     var visible = false;
 
@@ -403,6 +403,7 @@
     }
 
     function onScroll() {
+      SPREAD_END = window.innerWidth <= 520 ? 20 : 37.5;
       if (!ticking) {
         ticking = true;
         requestAnimationFrame(render);
