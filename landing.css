@@ -263,7 +263,7 @@
 }
 
 /* === PLATE PARALLAX === */
-.lp-section-plate { padding: 50px 0; }
+.lp-section-plate { padding: 50px 0; contain: style; overflow: visible; }
 .lp-plate-stage {
   position: relative;
   width: 100%;

@@ -382,14 +382,18 @@
       ticking = false;
       if (!visible) return; /* skip updates when section is fully off-screen */
 
-      /* Scroll-position animation: works on desktop (wheel/keyboard) and mobile (touch).
-         p = 0  → section just entering from below
-         p = 1  → section fully passed above viewport */
       var rect = stage.getBoundingClientRect();
       var winH = window.innerHeight;
-      /* raw goes from 0 (section bottom at viewport bottom) to 1 (section top at viewport top) */
-      var raw = (winH - rect.top) / (winH + rect.height);
-      var p   = Math.max(0, Math.min(1, raw));
+
+      /* Center-based scrub with reverse:
+         p = 0  → section center far from viewport center (entering or leaving)
+         p = 1  → section center aligned with viewport center
+         This gives the same visible effect on any screen size. */
+      var stageCenter = rect.top + rect.height / 2;
+      var viewCenter  = winH / 2;
+      /* normalise distance: 0 = aligned, 1 = section center at viewport edge */
+      var dist = Math.abs(stageCenter - viewCenter) / (winH * 0.6);
+      var p    = Math.max(0, Math.min(1, 1 - dist));
       p = ease(p);
 
       /* lerp offset: 70 % → 37.5 % */
