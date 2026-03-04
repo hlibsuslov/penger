@@ -367,7 +367,8 @@
     var front = stage.querySelector('.lp-plate-front');
     if (!back || !front) return;
 
-    var SPREAD = 30;   /* start offset — plates apart (must match CSS) */
+    var SPREAD_START = 70;    /* initial offset — plates apart (% of own width, must match CSS) */
+    var SPREAD_END   = 37.5;  /* final offset — ~25 % overlap (must match CSS reduced-motion) */
     var ticking = false;
     var visible = false;
 
@@ -382,18 +383,19 @@
       var rect = stage.getBoundingClientRect();
       var wH   = window.innerHeight;
 
-      /* p = 0  → stage enters bottom of viewport
-         p = 1  → stage near top of viewport
-         Scroll range ≈ 70% of viewport height — smooth, readable */
+      /* p = 0  → stage enters bottom of viewport   (plates apart)
+         p = 1  → stage near top of viewport         (plates overlapped)
+         Scroll range ≈ 70 % of viewport height — smooth, readable */
       var from = wH * 0.85;
       var to   = wH * 0.15;
       var raw  = (from - rect.top) / (from - to);
       var p    = Math.max(0, Math.min(1, raw));
       p = ease(p);
 
-      var off = SPREAD * (1 - p);            /* 30 → 0 */
-      back.style.transform  = 'translateX(' + (-off) + '%) translateY(-50%)';
-      front.style.transform = 'translateX(' +   off  + '%) translateY(-50%)';
+      /* lerp offset: 70 % → 37.5 % */
+      var off = SPREAD_START * (1 - p) + SPREAD_END * p;
+      back.style.transform  = 'translate(-50%,-50%) translateX(' + (-off) + '%)';
+      front.style.transform = 'translate(-50%,-50%) translateX(' + off + '%)';
     }
 
     function onScroll() {
