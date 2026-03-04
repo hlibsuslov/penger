@@ -275,8 +275,8 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 80%;
-  max-width: 720px;
+  width: 95%;
+  max-width: 900px;
   height: auto;
   will-change: transform;
 }
@@ -312,7 +312,7 @@
 }
 
 @media (max-width: 520px) {
-  .lp-plate { width: 362px; max-width: none; }
+  .lp-plate { width: 440px; max-width: none; }
   .lp-plate-stage { height: clamp(400px, 65vh, 560px); }
   .lp-hero { padding: 48px 0 40px; }
   .lp-h1 { font-size: 30px; }
@@ -365,8 +365,8 @@
 }
 
 @media (max-width: 380px) {
-  .lp-plate { width: 362px; }
-  .lp-plate-stage { height: clamp(340px, 50vh, 440px); }
+  .lp-plate { width: 400px; }
+  .lp-plate-stage { height: clamp(380px, 55vh, 480px); }
   .lp-hero { padding: 32px 0 24px; }
   .lp-h1 { font-size: 24px; }
   .lp-h2 { font-size: 20px; }
