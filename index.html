@@ -380,11 +380,11 @@
 
     function render() {
       ticking = false;
+      if (!visible) return; /* skip updates when section is fully off-screen */
 
-      /* Animation tied to section position in viewport.
+      /* Scroll-position animation: works on desktop (wheel/keyboard) and mobile (touch).
          p = 0  → section just entering from below
-         p = 1  → section fully passed above viewport
-         This ensures animation works on both mobile and desktop. */
+         p = 1  → section fully passed above viewport */
       var rect = stage.getBoundingClientRect();
       var winH = window.innerHeight;
       /* raw goes from 0 (section bottom at viewport bottom) to 1 (section top at viewport top) */
@@ -405,6 +405,7 @@
       }
     }
 
+    /* Track scroll position on both desktop (wheel/keyboard) and mobile (touch) */
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
 
@@ -414,7 +415,7 @@
     }, { rootMargin: '200px 0px' });
     observer.observe(stage);
 
-    /* Immediate render — no flash if section already in viewport */
+    /* Immediate render — no flash if section already in viewport on load */
     visible = true;
     render();
   });
