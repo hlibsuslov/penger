@@ -263,34 +263,34 @@
 }
 
 /* === PLATE PARALLAX === */
-.lp-section-plate { padding: 40px 0; }
+.lp-section-plate { padding: 48px 0; }
 .lp-plate-stage {
   position: relative;
-  height: clamp(200px, 35vh, 380px);
-  max-width: min(550px, 85vw);
+  width: 100%;
+  height: clamp(220px, 34vh, 320px);
   margin: 0 auto;
   overflow: visible;
 }
 .lp-plate {
   position: absolute;
   top: 50%;
-  width: 65%;
+  left: 50%;
+  width: 42%;
+  max-width: 340px;
   height: auto;
   will-change: transform;
 }
 .lp-plate-back {
-  left: 0;
-  transform: translateX(-30%) translateY(-50%);
+  transform: translate(-50%, -50%) translateX(-70%);
   z-index: 1;
 }
 .lp-plate-front {
-  right: 0;
-  transform: translateX(30%) translateY(-50%);
+  transform: translate(-50%, -50%) translateX(70%);
   z-index: 2;
 }
 @media (prefers-reduced-motion: reduce) {
-  .lp-plate-back  { transform: translateY(-50%) !important; }
-  .lp-plate-front { transform: translateY(-50%) !important; }
+  .lp-plate-back  { transform: translate(-50%, -50%) translateX(-37.5%) !important; }
+  .lp-plate-front { transform: translate(-50%, -50%) translateX(37.5%) !important; }
 }
 
 /* ====================================================================
@@ -312,6 +312,8 @@
 }
 
 @media (max-width: 520px) {
+  .lp-plate { width: 50%; }
+  .lp-plate-stage { height: clamp(170px, 28vh, 240px); }
   .lp-hero { padding: 48px 0 40px; }
   .lp-h1 { font-size: 30px; }
   .lp-h2 { font-size: 24px; }
