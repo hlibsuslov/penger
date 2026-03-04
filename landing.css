@@ -263,13 +263,13 @@
 }
 
 /* === PLATE PARALLAX === */
-.lp-section-plate { padding: 50px 0; contain: style; overflow: clip; }
+.lp-section-plate { padding: 50px 0; contain: style; overflow: hidden; overflow: clip; }
 .lp-plate-stage {
   position: relative;
   width: 100%;
   height: clamp(440px, 66vh, 700px);
   margin: 0 auto;
-  overflow: visible;
+  overflow: hidden;
 }
 .lp-plate {
   position: absolute;
@@ -316,7 +316,7 @@
 }
 
 @media (max-width: 520px) {
-  .lp-plate { width: 440px; max-width: none; }
+  .lp-plate { width: min(440px, 115vw); max-width: none; }
   .lp-plate-stage { height: clamp(400px, 65vh, 560px); }
   .lp-hero { padding: 48px 0 40px; }
   .lp-h1 { font-size: 30px; }
@@ -369,7 +369,7 @@
 }
 
 @media (max-width: 380px) {
-  .lp-plate { width: 400px; }
+  .lp-plate { width: min(400px, 115vw); }
   .lp-plate-stage { height: clamp(380px, 55vh, 480px); }
   .lp-hero { padding: 32px 0 24px; }
   .lp-h1 { font-size: 24px; }
