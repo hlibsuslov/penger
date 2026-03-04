@@ -380,7 +380,7 @@
 
     function render() {
       ticking = false;
-      if (!visible) return; /* skip updates when section is fully off-screen */
+      if (!visible) return;
 
       var rect = stage.getBoundingClientRect();
       var winH = window.innerHeight;
@@ -419,7 +419,8 @@
     }, { rootMargin: '200px 0px' });
     observer.observe(stage);
 
-    /* Immediate render — no flash if section already in viewport on load */
+    /* Immediate rende — no flash if section already in viewport on load */
+    /* Immediate render */
     visible = true;
     render();
   });
