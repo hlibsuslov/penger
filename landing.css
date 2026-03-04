@@ -251,7 +251,7 @@
   display: flex; flex-direction: column; gap: 16px;
 }
 .lp-binary-index-row {
-  display: flex; align-items: center; gap: 12px;
+  display: flex; align-items: baseline; gap: 10px;
 }
 .lp-binary-label {
   font-family: var(--font-mono); font-size: 10px; font-weight: 600;
@@ -259,29 +259,34 @@
   color: var(--text-dim); flex-shrink: 0;
 }
 .lp-binary-index-val {
-  font-family: var(--font-mono); font-size: 20px; font-weight: 700;
+  font-family: var(--font-mono); font-size: 22px; font-weight: 700;
   color: var(--text-accent-hover); letter-spacing: -0.02em;
 }
 .lp-binary-grid {
-  display: flex; align-items: center; gap: 10px;
+  display: flex; align-items: center; gap: 8px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
-.lp-binary-edge-indicator {
+.lp-binary-edge-label {
   font-family: var(--font-mono); font-size: 9px; font-weight: 700;
   text-transform: uppercase; letter-spacing: .06em;
   color: var(--text-accent); flex-shrink: 0;
-  writing-mode: vertical-lr;
-  text-orientation: mixed;
+  min-width: 32px; text-align: center;
 }
 .lp-binary-cells {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 3px;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 4px;
   flex: 1;
   min-width: 0;
 }
-.lp-binary-cell {
+.lp-binary-col {
   display: flex; flex-direction: column; align-items: center;
-  gap: 4px; padding: 6px 0;
+  gap: 4px; min-width: 0;
+}
+.lp-binary-cell {
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; aspect-ratio: 1;
   border-radius: 4px;
   min-width: 0;
 }
@@ -294,18 +299,20 @@
 .lp-binary-cell.on .lp-binary-digit { color: var(--bg-main); }
 .lp-binary-cell.off .lp-binary-digit { color: var(--text-dim); }
 .lp-binary-weight {
-  font-family: var(--font-mono); font-size: 7px; font-weight: 500;
+  font-family: var(--font-mono); font-size: 8px; font-weight: 400;
   color: var(--text-dim); line-height: 1;
 }
-.lp-binary-cell.on .lp-binary-weight { color: var(--bg-child); opacity: 0.7; }
+.lp-binary-weight.active {
+  font-weight: 700; color: var(--text-accent);
+}
 .lp-binary-check {
-  display: flex; align-items: center; gap: 12px;
+  display: flex; align-items: baseline; gap: 10px;
   padding-top: 12px;
   border-top: 1px solid var(--border-default);
 }
 .lp-binary-formula {
   font-family: var(--font-mono); font-size: 12px; font-weight: 400;
-  color: var(--text-label); overflow-wrap: break-word; word-break: break-word;
+  color: var(--text-dim); overflow-wrap: break-word; word-break: break-word;
 }
 .lp-binary-formula strong {
   color: var(--text-accent); font-weight: 700;
@@ -458,15 +465,16 @@
   }
   .lp-guide-punch-row { flex-wrap: wrap; }
   .lp-binary-card { padding: 14px; gap: 12px; }
-  .lp-binary-grid { flex-direction: column; gap: 6px; }
-  .lp-binary-edge-indicator { writing-mode: horizontal-tb; font-size: 8px; }
+  .lp-binary-grid { gap: 6px; }
+  .lp-binary-edge-label { font-size: 8px; min-width: 28px; }
   .lp-binary-cells { gap: 2px; }
+  .lp-binary-col { gap: 3px; }
   .lp-binary-digit { font-size: 10px; }
   .lp-binary-weight { font-size: 6px; }
-  .lp-binary-cell { padding: 4px 0; gap: 2px; border-radius: 3px; }
+  .lp-binary-cell { border-radius: 3px; }
   .lp-binary-index-val { font-size: 16px; }
   .lp-binary-formula { font-size: 11px; }
-  .lp-binary-check { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .lp-binary-check { flex-direction: column; align-items: flex-start; gap: 6px; }
   .lp-guide-simulator-callout { padding: 22px 16px; margin-top: 28px; }
   .lp-guide-callout-title { font-size: 16px; }
   .lp-guide-callout-text { font-size: 13px; }
@@ -522,9 +530,10 @@
   .lp-binary-card { padding: 10px; gap: 10px; }
   .lp-binary-digit { font-size: 9px; }
   .lp-binary-weight { font-size: 5px; }
-  .lp-binary-cell { padding: 3px 0; gap: 1px; border-radius: 2px; }
+  .lp-binary-cell { border-radius: 2px; }
   .lp-binary-cells { gap: 1px; }
-  .lp-binary-edge-indicator { font-size: 7px; }
+  .lp-binary-col { gap: 2px; }
+  .lp-binary-edge-label { font-size: 7px; min-width: 24px; }
   .lp-binary-index-val { font-size: 14px; }
   .lp-binary-formula { font-size: 10px; }
 }
