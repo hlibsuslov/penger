@@ -263,13 +263,15 @@
 }
 
 /* === PLATE PARALLAX === */
-.lp-section-plate { padding: 50px 0; contain: style; overflow: hidden; overflow: clip; }
+.lp-section-plate { padding: 50px 0; contain: style layout; overflow: clip; }
+.lp-section-plate > .container { overflow: clip; }
 .lp-plate-stage {
   position: relative;
   width: 100%;
   height: clamp(440px, 66vh, 700px);
   margin: 0 auto;
-  overflow: hidden;
+  overflow: clip;
+  contain: paint;
 }
 .lp-plate {
   position: absolute;

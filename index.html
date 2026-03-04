@@ -369,6 +369,7 @@
 
     var SPREAD_START = 70;    /* initial offset — plates apart (% of own width, must match CSS) */
     var SPREAD_END   = window.innerWidth <= 520 ? 20 : 37.5;  /* mobile: closer to center */
+    var MAX_OFFSET   = 70;   /* never exceed this translateX % to prevent overflow */
     var ticking = false;
     var visible = false;
 
@@ -377,6 +378,8 @@
         ? 4 * t * t * t
         : 1 - Math.pow(-2 * t + 2, 3) / 2;
     }
+
+    function clamp(val, min, max) { return Math.max(min, Math.min(max, val)); }
 
     function render() {
       ticking = false;
@@ -396,8 +399,8 @@
       var p    = Math.max(0, Math.min(1, 1 - dist));
       p = ease(p);
 
-      /* lerp offset: 70 % → 37.5 % */
-      var off = SPREAD_START * (1 - p) + SPREAD_END * p;
+      /* lerp offset: 70 % → 37.5 % — identical logic for both plates */
+      var off = clamp(SPREAD_START * (1 - p) + SPREAD_END * p, 0, MAX_OFFSET);
       back.style.transform  = 'translate(-50%,-50%) translateX(' + (-off) + '%)';
       front.style.transform = 'translate(-50%,-50%) translateX(' + off + '%)';
     }
