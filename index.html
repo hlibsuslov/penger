@@ -421,6 +421,36 @@
       targetAlpha  = lerp(config.opacityFar, config.opacityNear, p);
     }
 
+    /* --- Clip plates to stage boundaries --- */
+    function clipPlates() {
+      var stageRect = stage.getBoundingClientRect();
+      var plates = [back, front];
+      for (var i = 0; i < plates.length; i++) {
+        var plate = plates[i];
+        var pr = plate.getBoundingClientRect();
+        var pw = pr.width;
+        var ph = pr.height;
+        if (pw === 0 || ph === 0) continue;
+
+        /* How many px each side overflows beyond the stage */
+        var overTop    = Math.max(0, stageRect.top - pr.top);
+        var overRight  = Math.max(0, pr.right - stageRect.right);
+        var overBottom = Math.max(0, pr.bottom - stageRect.bottom);
+        var overLeft   = Math.max(0, stageRect.left - pr.left);
+
+        /* Convert to % of plate's own rendered size */
+        var insetTop    = (overTop    / ph * 100).toFixed(2);
+        var insetRight  = (overRight  / pw * 100).toFixed(2);
+        var insetBottom = (overBottom / ph * 100).toFixed(2);
+        var insetLeft   = (overLeft   / pw * 100).toFixed(2);
+
+        var needsClip = overTop > 0.5 || overRight > 0.5 || overBottom > 0.5 || overLeft > 0.5;
+        plate.style.clipPath = needsClip
+          ? 'inset(' + insetTop + '% ' + insetRight + '% ' + insetBottom + '% ' + insetLeft + '%)'
+          : 'none';
+      }
+    }
+
     /* --- Render loop with lerp smoothing --- */
     function tick() {
       if (!visible) { animating = false; return; }
@@ -439,6 +469,9 @@
       back.style.transform  = 'translate(-50%,-50%) translateX(' + (-off).toFixed(2) + '%) rotate(' + (-rot) + 'deg) scale(' + sc + ')';
       front.style.transform = 'translate(-50%,-50%) translateX(' + off.toFixed(2) + '%) rotate(' + rot + 'deg) scale(' + sc + ')';
       back.style.opacity = currentAlpha.toFixed(3);
+
+      /* Clip plates to stage bounds (prevents overflow on all browsers) */
+      clipPlates();
 
       /* Keep looping if delta is significant */
       var delta = Math.abs(currentOffset - targetOffset) + Math.abs(currentScale - targetScale);
@@ -471,6 +504,11 @@
       if (visible) onScroll();
     }, { rootMargin: '200px 0px' });
     observer.observe(stage);
+
+    /* Recalculate clip on resize (device rotation, etc.) */
+    window.addEventListener('resize', function () {
+      requestAnimationFrame(clipPlates);
+    });
 
     /* Initial render */
     visible = true;
