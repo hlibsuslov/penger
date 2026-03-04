@@ -367,33 +367,54 @@
     var front = stage.querySelector('.lp-plate-front');
     if (!back || !front) return;
 
-    var startOff = window.innerWidth <= 520 ? 25 : 40;
-    var endOff   = 12.5;
-    var active   = false;
+    var SPREAD = 30;   /* start offset — plates apart (must match CSS) */
+    var ticking = false;
+    var visible = false;
 
-    function tick() {
-      if (!active) return;
+    function ease(t) {
+      return t < 0.5
+        ? 4 * t * t * t
+        : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+
+    function render() {
+      ticking = false;
       var rect = stage.getBoundingClientRect();
       var wH   = window.innerHeight;
 
-      var p = (wH - rect.top) / (wH * 0.6);
-      p = p < 0 ? 0 : p > 1 ? 1 : p;
+      /* p = 0  → stage enters bottom of viewport
+         p = 1  → stage near top of viewport
+         Scroll range ≈ 70% of viewport height — smooth, readable */
+      var from = wH * 0.85;
+      var to   = wH * 0.15;
+      var raw  = (from - rect.top) / (from - to);
+      var p    = Math.max(0, Math.min(1, raw));
+      p = ease(p);
 
-      var bx = -startOff + (startOff + endOff) * p;
-      var fx =  startOff - (startOff + endOff) * p;
-
-      back.style.transform  = 'translateX(' + bx + '%) translateY(-50%)';
-      front.style.transform = 'translateX(' + fx + '%) translateY(-50%)';
-
-      requestAnimationFrame(tick);
+      var off = SPREAD * (1 - p);            /* 30 → 0 */
+      back.style.transform  = 'translateX(' + (-off) + '%) translateY(-50%)';
+      front.style.transform = 'translateX(' +   off  + '%) translateY(-50%)';
     }
 
-    var observer = new IntersectionObserver(function (entries) {
-      active = entries[0].isIntersecting;
-      if (active) requestAnimationFrame(tick);
-    }, { rootMargin: '200px 0px' });
+    function onScroll() {
+      if (!ticking && visible) {
+        ticking = true;
+        requestAnimationFrame(render);
+      }
+    }
 
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+
+    var observer = new IntersectionObserver(function (entries) {
+      visible = entries[0].isIntersecting;
+      if (visible) onScroll();
+    }, { rootMargin: '200px 0px' });
     observer.observe(stage);
+
+    /* Immediate render — no flash if section already in viewport */
+    visible = true;
+    render();
   });
   </script>
 </body>
