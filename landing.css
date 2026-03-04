@@ -357,15 +357,17 @@
 .lp-section-plate {
   padding: 40px 0;
   contain: style layout;
+  overflow: hidden;
   overflow: clip;
 }
-.lp-section-plate > .container { overflow: clip; }
+.lp-section-plate > .container { overflow: hidden; overflow: clip; }
 .lp-plate-stage {
   position: relative;
   width: 100%;
   max-width: 960px;
   height: clamp(420px, 60vh, 680px);
   margin: 0 auto;
+  overflow: hidden;
   overflow: clip;
   contain: paint;
 }
