@@ -50,9 +50,11 @@
       </nav>
       <div class="header-controls">
         <button class="nav-hamburger" id="navHamburger" type="button" aria-label="Menu" aria-expanded="false">
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
+          <span class="hamburger-icon">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+          </span>
+          <span class="hamburger-label">Menu</span>
         </button>
       </div>
     </div>
@@ -228,42 +230,35 @@
               <h3 class="lp-guide-step-title">Convert to Binary</h3>
             </div>
             <p class="lp-guide-step-text">The dictionary already shows the 12-bit binary representation for every word. Each bit position corresponds to a power of 2. Filled = 1, empty = 0.</p>
-            <div class="lp-guide-example">
-              <div class="lp-guide-example-row">
-                <span class="lp-guide-tag">Index</span>
-                <span class="lp-guide-val lp-guide-hl">1197</span>
+
+            <div class="lp-binary-card">
+              <div class="lp-binary-index-row">
+                <span class="lp-binary-label">Index</span>
+                <span class="lp-binary-index-val">1197</span>
               </div>
-              <div class="lp-guide-binary-scroll">
-                <div class="lp-guide-binary-row">
-                  <span class="lp-guide-tag">Binary</span>
-                  <div class="lp-guide-bits-group">
-                    <span class="lp-guide-edge-label lp-guide-edge-label-top">TOP</span>
-                    <div class="lp-guide-bits-col">
-                      <div class="lp-guide-bits">
-                        <span class="lp-guide-bit off" title="2048">0</span>
-                        <span class="lp-guide-bit on" title="1024">1</span>
-                        <span class="lp-guide-bit off" title="512">0</span>
-                        <span class="lp-guide-bit off" title="256">0</span>
-                        <span class="lp-guide-bit on" title="128">1</span>
-                        <span class="lp-guide-bit off" title="64">0</span>
-                        <span class="lp-guide-bit on" title="32">1</span>
-                        <span class="lp-guide-bit off" title="16">0</span>
-                        <span class="lp-guide-bit on" title="8">1</span>
-                        <span class="lp-guide-bit on" title="4">1</span>
-                        <span class="lp-guide-bit off" title="2">0</span>
-                        <span class="lp-guide-bit on" title="1">1</span>
-                      </div>
-                      <div class="lp-guide-bit-labels">
-                        <span>2048</span><span>1024</span><span>512</span><span>256</span><span>128</span><span>64</span><span>32</span><span>16</span><span>8</span><span>4</span><span>2</span><span>1</span>
-                      </div>
-                    </div>
-                    <span class="lp-guide-edge-label lp-guide-edge-label-bottom">BOTTOM</span>
-                  </div>
+
+              <div class="lp-binary-grid">
+                <div class="lp-binary-edge-indicator">TOP</div>
+                <div class="lp-binary-cells">
+                  <div class="lp-binary-cell off"><span class="lp-binary-digit">0</span><span class="lp-binary-weight">2048</span></div>
+                  <div class="lp-binary-cell on"><span class="lp-binary-digit">1</span><span class="lp-binary-weight">1024</span></div>
+                  <div class="lp-binary-cell off"><span class="lp-binary-digit">0</span><span class="lp-binary-weight">512</span></div>
+                  <div class="lp-binary-cell off"><span class="lp-binary-digit">0</span><span class="lp-binary-weight">256</span></div>
+                  <div class="lp-binary-cell on"><span class="lp-binary-digit">1</span><span class="lp-binary-weight">128</span></div>
+                  <div class="lp-binary-cell off"><span class="lp-binary-digit">0</span><span class="lp-binary-weight">64</span></div>
+                  <div class="lp-binary-cell on"><span class="lp-binary-digit">1</span><span class="lp-binary-weight">32</span></div>
+                  <div class="lp-binary-cell off"><span class="lp-binary-digit">0</span><span class="lp-binary-weight">16</span></div>
+                  <div class="lp-binary-cell on"><span class="lp-binary-digit">1</span><span class="lp-binary-weight">8</span></div>
+                  <div class="lp-binary-cell on"><span class="lp-binary-digit">1</span><span class="lp-binary-weight">4</span></div>
+                  <div class="lp-binary-cell off"><span class="lp-binary-digit">0</span><span class="lp-binary-weight">2</span></div>
+                  <div class="lp-binary-cell on"><span class="lp-binary-digit">1</span><span class="lp-binary-weight">1</span></div>
                 </div>
+                <div class="lp-binary-edge-indicator">BOTTOM</div>
               </div>
-              <div class="lp-guide-calc">
-                <span class="lp-guide-tag">Check</span>
-                <span class="lp-guide-val lp-guide-dim">1024 + 128 + 32 + 8 + 4 + 1 = <strong class="lp-guide-hl">1197</strong></span>
+
+              <div class="lp-binary-check">
+                <span class="lp-binary-label">Check</span>
+                <span class="lp-binary-formula">1024 + 128 + 32 + 8 + 4 + 1 = <strong>1197</strong></span>
               </div>
             </div>
           </div>
@@ -366,66 +361,125 @@
     var front = stage.querySelector('.lp-plate-front');
     if (!back || !front) return;
 
-    var SPREAD_START = 70;    /* initial offset — plates apart (% of own width, must match CSS) */
-    var SPREAD_END   = window.innerWidth <= 520 ? 20 : 37.5;  /* mobile: closer to center */
-    var MAX_OFFSET   = 70;   /* never exceed this translateX % to prevent overflow */
-    var ticking = false;
-    var visible = false;
+    /* --- Configuration --- */
+    var isMobile = function () { return window.innerWidth <= 520; };
 
+    var config = {
+      spreadFar:  65,     /* translateX % when plates are far apart */
+      spreadNear: function () { return isMobile() ? 18 : 35; },
+      maxOffset:  65,     /* clamp to prevent overflow */
+      scaleFar:   0.95,   /* scale when far */
+      scaleNear:  1.0,    /* scale when near */
+      rotFar:     1.0,    /* rotation degrees when far */
+      rotNear:    0,      /* rotation degrees when near */
+      opacityFar: 0.85,   /* back plate opacity when far */
+      opacityNear: 0.95   /* back plate opacity when near */
+    };
+
+    /* --- State --- */
+    var currentOffset = config.spreadFar;
+    var currentScale  = config.scaleFar;
+    var currentRot    = config.rotFar;
+    var currentAlpha  = config.opacityFar;
+    var targetOffset  = config.spreadFar;
+    var targetScale   = config.scaleFar;
+    var targetRot     = config.rotFar;
+    var targetAlpha   = config.opacityFar;
+    var visible = false;
+    var animating = false;
+
+    /* --- Math helpers --- */
+    function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    /* Smooth ease-in-out cubic */
     function ease(t) {
       return t < 0.5
         ? 4 * t * t * t
         : 1 - Math.pow(-2 * t + 2, 3) / 2;
     }
 
-    function clamp(val, min, max) { return Math.max(min, Math.min(max, val)); }
-
-    function render() {
-      ticking = false;
-      if (!visible) return;
-
+    /* --- Compute scroll progress (0 = far, 1 = centered) --- */
+    function getProgress() {
       var rect = stage.getBoundingClientRect();
       var winH = window.innerHeight;
-
-      /* Center-based scrub with reverse:
-         p = 0  → section center far from viewport center (entering or leaving)
-         p = 1  → section center aligned with viewport center
-         This gives the same visible effect on any screen size. */
       var stageCenter = rect.top + rect.height / 2;
       var viewCenter  = winH / 2;
-      /* normalise distance: 0 = aligned, 1 = section center at viewport edge */
-      var dist = Math.abs(stageCenter - viewCenter) / (winH * 0.6);
-      var p    = Math.max(0, Math.min(1, 1 - dist));
-      p = ease(p);
-
-      /* lerp offset: 70 % → 37.5 % — identical logic for both plates */
-      var off = clamp(SPREAD_START * (1 - p) + SPREAD_END * p, 0, MAX_OFFSET);
-      back.style.transform  = 'translate(-50%,-50%) translateX(' + (-off) + '%)';
-      front.style.transform = 'translate(-50%,-50%) translateX(' + off + '%)';
+      var dist = Math.abs(stageCenter - viewCenter) / (winH * 0.55);
+      return clamp(1 - dist, 0, 1);
     }
 
-    function onScroll() {
-      SPREAD_END = window.innerWidth <= 520 ? 20 : 37.5;
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(render);
+    /* --- Update targets from scroll --- */
+    function updateTargets() {
+      var raw = getProgress();
+      var p   = ease(raw);
+      var nearOff = config.spreadNear();
+
+      targetOffset = clamp(lerp(config.spreadFar, nearOff, p), 0, config.maxOffset);
+      targetScale  = lerp(config.scaleFar, config.scaleNear, p);
+      targetRot    = lerp(config.rotFar, config.rotNear, p);
+      targetAlpha  = lerp(config.opacityFar, config.opacityNear, p);
+    }
+
+    /* --- Render loop with lerp smoothing --- */
+    function tick() {
+      if (!visible) { animating = false; return; }
+
+      var smoothing = 0.12;
+      currentOffset = lerp(currentOffset, targetOffset, smoothing);
+      currentScale  = lerp(currentScale, targetScale, smoothing);
+      currentRot    = lerp(currentRot, targetRot, smoothing);
+      currentAlpha  = lerp(currentAlpha, targetAlpha, smoothing);
+
+      /* Apply transforms */
+      var off = currentOffset;
+      var sc  = currentScale.toFixed(4);
+      var rot = currentRot.toFixed(2);
+
+      back.style.transform  = 'translate(-50%,-50%) translateX(' + (-off).toFixed(2) + '%) rotate(' + (-rot) + 'deg) scale(' + sc + ')';
+      front.style.transform = 'translate(-50%,-50%) translateX(' + off.toFixed(2) + '%) rotate(' + rot + 'deg) scale(' + sc + ')';
+      back.style.opacity = currentAlpha.toFixed(3);
+
+      /* Keep looping if delta is significant */
+      var delta = Math.abs(currentOffset - targetOffset) + Math.abs(currentScale - targetScale);
+      if (delta > 0.01) {
+        requestAnimationFrame(tick);
+      } else {
+        animating = false;
       }
     }
 
-    /* Track scroll position on both desktop (wheel/keyboard) and mobile (touch) */
+    function startAnimation() {
+      if (!animating) {
+        animating = true;
+        requestAnimationFrame(tick);
+      }
+    }
+
+    function onScroll() {
+      updateTargets();
+      startAnimation();
+    }
+
+    /* --- Event listeners --- */
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
 
+    /* Only animate when section is near viewport */
     var observer = new IntersectionObserver(function (entries) {
       visible = entries[0].isIntersecting;
       if (visible) onScroll();
     }, { rootMargin: '200px 0px' });
     observer.observe(stage);
 
-    /* Immediate rende — no flash if section already in viewport on load */
-    /* Immediate render */
+    /* Initial render */
     visible = true;
-    render();
+    updateTargets();
+    currentOffset = targetOffset;
+    currentScale  = targetScale;
+    currentRot    = targetRot;
+    currentAlpha  = targetAlpha;
+    requestAnimationFrame(tick);
   });
   </script>
 </body>

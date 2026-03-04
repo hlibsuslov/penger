@@ -828,25 +828,49 @@ h3 { font-size: 15px; font-weight: 600; }
 
 /* Hamburger */
 .nav-hamburger {
-  display: none; flex-direction: column; gap: 4px;
-  width: 36px; height: 36px; align-items: center; justify-content: center;
+  display: none; align-items: center; gap: 8px;
+  height: 36px; padding: 0 14px;
   background: none; border: 1px solid var(--border-default); border-radius: 4px;
-  cursor: pointer; transition: border-color 0.2s ease;
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease-default),
+              background var(--duration-fast) var(--ease-default);
 }
-.nav-hamburger:hover { border-color: var(--border-hover); }
+.nav-hamburger:hover { border-color: var(--border-hover); background: var(--bg-surface-hover); }
+.nav-hamburger:active { transform: scale(0.97); }
+
+.hamburger-label {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--text-label);
+  transition: color var(--duration-fast) var(--ease-default);
+}
+.nav-hamburger:hover .hamburger-label { color: var(--text-accent); }
+
+.hamburger-icon {
+  display: flex; flex-direction: column; gap: 4px;
+  width: 14px; height: 14px;
+  align-items: center; justify-content: center;
+  position: relative;
+}
 .hamburger-line {
-  display: block; width: 16px; height: 2px;
+  display: block; width: 14px; height: 1.5px;
   background: var(--text-label); border-radius: 1px;
-  transition: all 0.25s ease; transform-origin: center;
+  transition: transform 0.3s var(--ease-default),
+              opacity 0.3s var(--ease-default),
+              background 0.2s ease;
+  transform-origin: center;
+  position: absolute;
 }
+.hamburger-line:nth-child(1) { top: 3px; }
+.hamburger-line:nth-child(2) { bottom: 3px; }
+.nav-hamburger:hover .hamburger-line { background: var(--text-accent); }
+
+/* Open state: X transform */
 .nav-hamburger[aria-expanded="true"] .hamburger-line:nth-child(1) {
-  transform: rotate(45deg) translate(3px, 3px);
+  transform: translateY(2.75px) rotate(45deg);
 }
 .nav-hamburger[aria-expanded="true"] .hamburger-line:nth-child(2) {
-  opacity: 0; transform: scaleX(0);
-}
-.nav-hamburger[aria-expanded="true"] .hamburger-line:nth-child(3) {
-  transform: rotate(-45deg) translate(3px, -3px);
+  transform: translateY(-2.75px) rotate(-45deg);
 }
 
 /* Mobile nav overlay */

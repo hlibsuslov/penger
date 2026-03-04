@@ -15,10 +15,13 @@
   var siteNav = document.getElementById('siteNav');
   var navOverlay = document.getElementById('navOverlay');
 
+  var hamburgerLabel = navHamburger ? navHamburger.querySelector('.hamburger-label') : null;
+
   function openNav() {
     if (!siteNav || !navHamburger) return;
     siteNav.classList.add('open');
     navHamburger.setAttribute('aria-expanded', 'true');
+    if (hamburgerLabel) hamburgerLabel.textContent = 'Close';
     if (navOverlay) navOverlay.classList.add('visible');
     var scrollbarW = window.innerWidth - document.documentElement.clientWidth;
     document.body.style.setProperty('--scrollbar-w', scrollbarW + 'px');
@@ -28,6 +31,7 @@
     if (!siteNav || !navHamburger) return;
     siteNav.classList.remove('open');
     navHamburger.setAttribute('aria-expanded', 'false');
+    if (hamburgerLabel) hamburgerLabel.textContent = 'Menu';
     if (navOverlay) navOverlay.classList.remove('visible');
     document.body.classList.remove('nav-open');
   }
