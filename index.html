@@ -367,19 +367,10 @@
     var front = stage.querySelector('.lp-plate-front');
     if (!back || !front) return;
 
-    var END_OFF = 10;
+    var SPREAD = 30;   /* start offset — plates apart (must match CSS) */
     var ticking = false;
     var visible = false;
 
-    /* Responsive start offset — must match CSS initial transforms */
-    function getStartOff() {
-      var w = window.innerWidth;
-      if (w <= 380) return 20;
-      if (w <= 520) return 25;
-      return 40;
-    }
-
-    /* Cubic ease-in-out for natural feel */
     function ease(t) {
       return t < 0.5
         ? 4 * t * t * t
@@ -388,24 +379,21 @@
 
     function render() {
       ticking = false;
-      var rect   = stage.getBoundingClientRect();
-      var wH     = window.innerHeight;
-      var stageH = rect.height;
+      var rect = stage.getBoundingClientRect();
+      var wH   = window.innerHeight;
 
-      /* p = 0  → stage top is at viewport bottom (just entering)
-         p = 1  → stage center reaches viewport center             */
-      var enterY  = wH;
-      var centerY = (wH - stageH) / 2;
-      var raw     = (enterY - rect.top) / (enterY - centerY);
-      var p       = Math.max(0, Math.min(1, raw));
+      /* p = 0  → stage enters bottom of viewport
+         p = 1  → stage near top of viewport
+         Scroll range ≈ 70% of viewport height — smooth, readable */
+      var from = wH * 0.85;
+      var to   = wH * 0.15;
+      var raw  = (from - rect.top) / (from - to);
+      var p    = Math.max(0, Math.min(1, raw));
       p = ease(p);
 
-      var s  = getStartOff();
-      var bx = -s + (s + END_OFF) * p;
-      var fx =  s - (s + END_OFF) * p;
-
-      back.style.transform  = 'translateX(' + bx + '%) translateY(-50%)';
-      front.style.transform = 'translateX(' + fx + '%) translateY(-50%)';
+      var off = SPREAD * (1 - p);            /* 30 → 0 */
+      back.style.transform  = 'translateX(' + (-off) + '%) translateY(-50%)';
+      front.style.transform = 'translateX(' +   off  + '%) translateY(-50%)';
     }
 
     function onScroll() {
@@ -415,18 +403,16 @@
       }
     }
 
-    /* Passive listeners — fire only on actual scroll/resize */
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
 
-    /* IntersectionObserver: skip work when section is off-screen */
     var observer = new IntersectionObserver(function (entries) {
       visible = entries[0].isIntersecting;
       if (visible) onScroll();
     }, { rootMargin: '200px 0px' });
     observer.observe(stage);
 
-    /* Immediate render to match scroll position on load (no flash) */
+    /* Immediate render — no flash if section already in viewport */
     visible = true;
     render();
   });
