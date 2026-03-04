@@ -267,7 +267,7 @@
 .lp-plate-stage {
   position: relative;
   width: 100%;
-  height: clamp(220px, 34vh, 320px);
+  height: clamp(280px, 42vh, 440px);
   margin: 0 auto;
   overflow: visible;
 }
@@ -275,8 +275,8 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 42%;
-  max-width: 340px;
+  width: 48%;
+  max-width: 440px;
   height: auto;
   will-change: transform;
 }
@@ -312,8 +312,8 @@
 }
 
 @media (max-width: 520px) {
-  .lp-plate { width: 50%; }
-  .lp-plate-stage { height: clamp(170px, 28vh, 240px); }
+  .lp-plate { width: 75%; max-width: none; }
+  .lp-plate-stage { height: clamp(260px, 42vh, 360px); }
   .lp-hero { padding: 48px 0 40px; }
   .lp-h1 { font-size: 30px; }
   .lp-h2 { font-size: 24px; }
@@ -365,6 +365,8 @@
 }
 
 @media (max-width: 380px) {
+  .lp-plate { width: 72%; }
+  .lp-plate-stage { height: clamp(220px, 38vh, 310px); }
   .lp-hero { padding: 32px 0 24px; }
   .lp-h1 { font-size: 24px; }
   .lp-h2 { font-size: 20px; }
