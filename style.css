@@ -53,7 +53,7 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; font-size: 16px; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; font-size: 16px; overflow-x: clip; }
 html, body { overscroll-behavior: none; }
 
 body {
