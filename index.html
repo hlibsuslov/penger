@@ -409,6 +409,7 @@
       }
     }
 
+    /* Track scroll position on both desktop (wheel/keyboard) and mobile (touch) */
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
 
@@ -418,6 +419,7 @@
     }, { rootMargin: '200px 0px' });
     observer.observe(stage);
 
+    /* Immediate rende — no flash if section already in viewport on load */
     /* Immediate render */
     visible = true;
     render();
