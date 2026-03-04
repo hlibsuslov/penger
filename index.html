@@ -380,16 +380,14 @@
 
     function render() {
       ticking = false;
-      var rect = stage.getBoundingClientRect();
-      var wH   = window.innerHeight;
 
-      /* p = 0  → stage enters bottom of viewport   (plates apart)
-         p = 1  → stage near top of viewport         (plates overlapped)
-         Scroll range ≈ 70 % of viewport height — smooth, readable */
-      var from = wH * 0.85;
-      var to   = wH * 0.15;
-      var raw  = (from - rect.top) / (from - to);
-      var p    = Math.max(0, Math.min(1, raw));
+      /* p = 0  → page at top        (plates apart)
+         p = 1  → page at bottom     (plates overlapped)
+         Animation tied to overall page scroll progress */
+      var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      var raw = maxScroll > 0 ? scrollTop / maxScroll : 0;
+      var p   = Math.max(0, Math.min(1, raw));
       p = ease(p);
 
       /* lerp offset: 70 % → 37.5 % */
@@ -399,7 +397,7 @@
     }
 
     function onScroll() {
-      if (!ticking && visible) {
+      if (!ticking) {
         ticking = true;
         requestAnimationFrame(render);
       }
