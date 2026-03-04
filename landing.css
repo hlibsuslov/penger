@@ -263,7 +263,7 @@
 }
 
 /* === PLATE PARALLAX === */
-.lp-section-plate { padding: 50px 0; contain: style; overflow: visible; }
+.lp-section-plate { padding: 50px 0; contain: style; overflow-x: clip; }
 .lp-plate-stage {
   position: relative;
   width: 100%;
@@ -291,6 +291,10 @@
 @media (prefers-reduced-motion: reduce) {
   .lp-plate-back  { transform: translate(-50%, -50%) translateX(-37.5%) !important; }
   .lp-plate-front { transform: translate(-50%, -50%) translateX(37.5%) !important; }
+}
+@media (prefers-reduced-motion: reduce) and (max-width: 520px) {
+  .lp-plate-back  { transform: translate(-50%, -50%) translateX(-20%) !important; }
+  .lp-plate-front { transform: translate(-50%, -50%) translateX(20%) !important; }
 }
 
 /* ====================================================================
