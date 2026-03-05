@@ -6,7 +6,7 @@
   var faviconLink = document.querySelector('link[rel="icon"]');
   function syncTheme(dark) {
     if (meta) meta.content = dark ? '#0A0A0A' : '#FAFAFA';
-    if (faviconLink) faviconLink.href = dark ? '/favicon-dark.svg' : '/favicon-light.svg';
+    if (faviconLink) faviconLink.href = dark ? '/favicon-dark.svg?v=2' : '/favicon-light.svg?v=2';
   }
   var mql = window.matchMedia('(prefers-color-scheme: dark)');
   syncTheme(mql.matches);
