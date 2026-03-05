@@ -2,7 +2,7 @@
 # robots.txt — mypenger.com
 # ============================================================
 
-# ----- Main crawlers (Google, Bing, etc.) -------------------
+# ----- All crawlers (Google, Bing, AI bots, etc.) -----------
 User-agent: *
 Allow: /
 
@@ -16,25 +16,6 @@ Disallow: /server.js
 Disallow: /package.json
 Disallow: /package-lock.json
 Disallow: /tutor-scenarios.json
-
-# ----- AI training crawlers — block if you don't want AI to train on your content -----
-User-agent: GPTBot
-Disallow: /
-
-User-agent: ChatGPT-User
-Disallow: /
-
-User-agent: CCBot
-Disallow: /
-
-User-agent: anthropic-ai
-Disallow: /
-
-User-agent: Claude-Web
-Disallow: /
-
-User-agent: Google-Extended
-Disallow: /
 
 # ----- Aggressive/spam crawlers ----------------------------
 User-agent: AhrefsBot
