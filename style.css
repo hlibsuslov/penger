@@ -825,7 +825,7 @@ h3 { font-size: 15px; font-weight: 600; }
   .nav-link.active::after { transform: scaleX(1); background: var(--text-accent); }
 }
 /* Hide mobile-only nav elements on desktop */
-.nav-caption, .nav-spacer { display: none; }
+.nav-caption, .nav-spacer, .nav-link--footer { display: none; }
 
 .header-controls { display: flex; align-items: center; gap: 10px; }
 
@@ -1300,6 +1300,9 @@ body.nav-open {
     background: var(--text-accent);
     border-radius: 0 1px 1px 0;
   }
+
+  /* Show footer links in mobile menu */
+  .nav-link--footer { display: block; }
 
   .nav-hamburger { display: flex; }
 
