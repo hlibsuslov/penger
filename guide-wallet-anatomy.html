@@ -28,6 +28,66 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <title>Anatomy of a Wallet &mdash; PENGER Academy</title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Anatomy of a Wallet",
+    "description": "How crypto wallets work under the hood — key derivation, address generation, HD wallets, and transaction signing explained for beginners and advanced users.",
+    "url": "https://mypenger.com/guide-wallet-anatomy.html",
+    "author": { "@type": "Organization", "name": "PENGER" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "PENGER",
+      "logo": { "@type": "ImageObject", "url": "https://mypenger.com/PENGER.svg" }
+    },
+    "dateModified": "2026-03-05"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mypenger.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Academy", "item": "https://mypenger.com/guides.html" },
+      { "@type": "ListItem", "position": 3, "name": "Anatomy of a Wallet", "item": "https://mypenger.com/guide-wallet-anatomy.html" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Do I need a separate wallet for each cryptocurrency?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Not necessarily. HD wallets supporting BIP44 can derive keys for multiple coin types from a single seed phrase. Each cryptocurrency uses a different derivation path (e.g., m/44'/0' for Bitcoin, m/44'/60' for Ethereum). However, not all wallet software supports all coins — you may need different apps to access different chains, even if they all derive from the same seed." }
+      },
+      {
+        "@type": "Question",
+        "name": "What happens if my wallet software stops being maintained?",
+        "acceptedAnswer": { "@type": "Answer", "text": "As long as you have your seed phrase, you can import it into any other BIP39-compatible wallet and recover all your keys and addresses. Your funds are derived from the seed, not tied to any specific software. This is why open standards like BIP39/BIP32/BIP44 are so important — they ensure interoperability across wallets from different vendors." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is it safe to share my extended public key (xpub)?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Sharing your xpub allows the recipient to see all past and future addresses and balances for that account. While they cannot spend your funds, it is a significant privacy leak — they can track your entire financial activity for that account. Only share xpubs with trusted parties like your accountant." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can a wallet have multiple seed phrases?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Some wallet software allows managing multiple accounts, each derived from a different seed. However, each seed independently generates its own key tree. You must back up each seed separately. For most users, a single seed with multiple accounts (different derivation paths or passphrase-based hidden wallets) is more manageable than multiple seeds." }
+      },
+      {
+        "@type": "Question",
+        "name": "Why do I get a different address every time I receive crypto?",
+        "acceptedAnswer": { "@type": "Answer", "text": "HD wallets automatically generate a new receiving address after each use to improve your privacy. If you reused one address, anyone who knows it could trace all your transactions. With fresh addresses, each payment is harder to link to your identity. All these addresses are still derived from your single seed phrase and will be recovered during wallet restoration." }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <noscript><p style="padding:40px;text-align:center;font-size:16px;">This application requires JavaScript to function.</p></noscript>

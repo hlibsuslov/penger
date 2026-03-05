@@ -28,6 +28,71 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <title>Anatomy of a Seed Phrase &mdash; PENGER Academy</title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Anatomy of a Seed Phrase",
+    "description": "Learn how BIP39 seed phrases work — from entropy generation and word selection to checksum verification and master key derivation.",
+    "url": "https://mypenger.com/guide-seed-anatomy.html",
+    "author": { "@type": "Organization", "name": "PENGER" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "PENGER",
+      "logo": { "@type": "ImageObject", "url": "https://mypenger.com/PENGER.svg" }
+    },
+    "dateModified": "2026-03-05"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mypenger.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Academy", "item": "https://mypenger.com/guides.html" },
+      { "@type": "ListItem", "position": 3, "name": "Anatomy of a Seed Phrase", "item": "https://mypenger.com/guide-seed-anatomy.html" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Can I choose my own seed words instead of random ones?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Technically you can construct a valid BIP39 mnemonic manually, but it is strongly discouraged. Humans are extremely poor at generating randomness — we gravitate toward patterns, familiar words, and predictable sequences. An attacker can exploit these biases to dramatically reduce the search space. Always use a CSPRNG-backed generator from a trusted wallet." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is a 12-word seed phrase secure enough?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A 12-word phrase provides 128 bits of entropy, which yields approximately 3.4 × 10^38 possible combinations. This exceeds the security level of AES-128, which is considered secure for classified government data. No known or theorized classical computer can brute-force 128 bits. For most users, 12 words is more than sufficient." }
+      },
+      {
+        "@type": "Question",
+        "name": "What happens if I lose one word from my seed phrase?",
+        "acceptedAnswer": { "@type": "Answer", "text": "If you know the position of the missing word, there are only 2,048 candidates to try. Specialized open-source tools can test all possibilities in seconds by checking the checksum and derived addresses against known balances. If you don't know the position, it becomes 12 × 2,048 = 24,576 attempts — still feasible. Losing two or more words makes recovery exponentially harder." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I split my seed phrase between multiple locations?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Naive splitting (e.g., words 1-6 in location A, words 7-12 in location B) is dangerous because each half has only 66 bits of entropy — well within brute-force range. A better approach is Shamir's Secret Sharing (SLIP39), which creates M-of-N shares where any M shares can reconstruct the secret, but fewer than M shares reveal zero information." }
+      },
+      {
+        "@type": "Question",
+        "name": "Are all 2,048 BIP39 words unique enough to avoid confusion?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. The BIP39 English wordlist was specifically curated so that each word is uniquely identifiable by its first four characters. For example, \"abandon\" and \"ability\" differ at character 3. This means even partial reading, abbreviated storage, or small-screen displays can distinguish any two words." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between a seed phrase and a private key?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A private key is a single 256-bit number that controls one specific address. A seed phrase, by contrast, is a human-readable representation of entropy that can derive an unlimited number of private keys through hierarchical deterministic (HD) derivation. Backing up one seed phrase protects all addresses across all supported cryptocurrencies." }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <noscript><p style="padding:40px;text-align:center;font-size:16px;">This application requires JavaScript to function.</p></noscript>

@@ -28,6 +28,66 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <title>Wallet Types Comparison &mdash; PENGER Academy</title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Wallet Types Comparison",
+    "description": "Compare hot wallets, cold storage, hardware devices, and multi-sig setups. Understand trade-offs and pick the right wallet for your threat model.",
+    "url": "https://mypenger.com/guide-wallet-comparison.html",
+    "author": { "@type": "Organization", "name": "PENGER" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "PENGER",
+      "logo": { "@type": "ImageObject", "url": "https://mypenger.com/PENGER.svg" }
+    },
+    "dateModified": "2026-03-05"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mypenger.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Academy", "item": "https://mypenger.com/guides.html" },
+      { "@type": "ListItem", "position": 3, "name": "Wallet Types Comparison", "item": "https://mypenger.com/guide-wallet-comparison.html" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Which wallet type is best for a beginner?",
+        "acceptedAnswer": { "@type": "Answer", "text": "For small amounts and learning, start with a reputable self-custodial mobile wallet. Write down and securely store your seed phrase from day one. As your holdings grow, add a hardware wallet for cold storage. The key principle: start with self-custody immediately, even if you begin small." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can a hardware wallet be hacked?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Physical access attacks (side-channel analysis, fault injection, chip decapping) are theoretically possible but require sophisticated lab equipment, expertise, and physical possession of the device. Remote hacking of a properly designed hardware wallet is essentially impossible because the device has no network interface. Always buy directly from the manufacturer and verify firmware integrity upon first setup." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is it safe to keep crypto on an exchange?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Exchanges are frequent targets for hackers and have a documented history of collapses. Mt. Gox (2014), QuadrigaCX (2019), and FTX (2022) collectively lost billions in customer funds. While exchanges are convenient for active trading, long-term storage exposes you to counterparty risk that you cannot control or mitigate." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many hardware wallets should I own?",
+        "acceptedAnswer": { "@type": "Answer", "text": "For a single-sig setup, one hardware wallet plus a properly stored seed phrase backup is sufficient. Having a spare device speeds up recovery if the primary device fails. For a multi-sig setup (e.g., 2-of-3), you need at least 2-3 devices, ideally from different manufacturers to avoid correlated firmware vulnerabilities." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a watch-only wallet?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A watch-only wallet imports your extended public key (xpub) without any private key material. It can display your balances, generate receiving addresses, and construct unsigned transactions — but it cannot sign or spend. This is useful for monitoring balances on your phone while the signing keys stay securely on a hardware wallet." }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <noscript><p style="padding:40px;text-align:center;font-size:16px;">This application requires JavaScript to function.</p></noscript>

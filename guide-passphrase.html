@@ -174,6 +174,66 @@
       .sim-addr-row { grid-template-columns: 1fr; gap: 4px; }
     }
   </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "The 25th Word (Passphrase)",
+    "description": "How a BIP39 passphrase (25th word) adds extra security to your seed phrase, enables hidden wallets, and provides plausible deniability under duress.",
+    "url": "https://mypenger.com/guide-passphrase.html",
+    "author": { "@type": "Organization", "name": "PENGER" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "PENGER",
+      "logo": { "@type": "ImageObject", "url": "https://mypenger.com/PENGER.svg" }
+    },
+    "dateModified": "2026-03-05"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mypenger.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Academy", "item": "https://mypenger.com/guides.html" },
+      { "@type": "ListItem", "position": 3, "name": "The 25th Word (Passphrase)", "item": "https://mypenger.com/guide-passphrase.html" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is the 25th word actually a word from the BIP39 list?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. The term \"25th word\" is a colloquial nickname. The passphrase is a completely freeform string — it can be any combination of letters, numbers, symbols, and spaces. It is not selected from the BIP39 wordlist and has no length or format restrictions." }
+      },
+      {
+        "@type": "Question",
+        "name": "What happens if I enter the wrong passphrase?",
+        "acceptedAnswer": { "@type": "Answer", "text": "You will not see an error message. Instead, the wallet will silently generate a completely different (and likely empty) wallet from the mistyped passphrase. Every passphrase is \"valid\" in the sense that it produces a deterministic wallet — there is no checksum to detect typos. This is why recording your exact passphrase on a physical backup and verifying the master fingerprint during setup are essential." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I change my passphrase later?",
+        "acceptedAnswer": { "@type": "Answer", "text": "You cannot \"change\" a passphrase in place — that would change all your keys and addresses. Instead, you would create a new wallet with a different passphrase and transfer your funds from the old wallet to the new one. This involves on-chain transactions and associated fees. For this reason, choose your passphrase carefully from the start." }
+      },
+      {
+        "@type": "Question",
+        "name": "Should I use a passphrase with a 24-word seed?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A 24-word seed already provides 256 bits of entropy, which is more than sufficient against brute-force attacks on the mnemonic itself. The passphrase does not add entropy to the mnemonic — it adds a separate authentication factor. Its value is in protecting against physical seed compromise and enabling plausible deniability." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I use the same passphrase with different seed phrases?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes, but each combination of seed + passphrase produces a unique wallet. Using passphrase \"X\" with seed A creates a completely different wallet than passphrase \"X\" with seed B. There is no security risk in reusing a passphrase across different seeds, but there is also no benefit — each seed is independently random." }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <noscript><p style="padding:40px;text-align:center;font-size:16px;">This application requires JavaScript to function.</p></noscript>

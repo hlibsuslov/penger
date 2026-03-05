@@ -32,3 +32,4 @@ Disallow: /
 
 # ============================================================
 Sitemap: https://mypenger.com/sitemap.xml
+LLMs: https://mypenger.com/llms.txt
