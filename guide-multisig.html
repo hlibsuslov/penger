@@ -28,6 +28,66 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <title>Multisignature (Multisig) &mdash; PENGER Academy</title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Multisignature (Multisig)",
+    "description": "Multi-key setups that eliminate single points of failure. Learn quorum policies, vendor diversity, collaborative custody, and Taproot privacy.",
+    "url": "https://mypenger.com/guide-multisig.html",
+    "author": { "@type": "Organization", "name": "PENGER" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "PENGER",
+      "logo": { "@type": "ImageObject", "url": "https://mypenger.com/PENGER.svg" }
+    },
+    "dateModified": "2026-03-05"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mypenger.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Academy", "item": "https://mypenger.com/guides.html" },
+      { "@type": "ListItem", "position": 3, "name": "Multisignature (Multisig)", "item": "https://mypenger.com/guide-multisig.html" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is multisig only for Bitcoin?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No, but Bitcoin has the most mature and widely tested multisig ecosystem. Ethereum supports multisig via smart contracts (like Gnosis Safe), but this is fundamentally different from Bitcoin's native script-level multisig. Bitcoin's protocol-level enforcement is considered the gold standard because it does not depend on smart contract correctness." }
+      },
+      {
+        "@type": "Question",
+        "name": "Are multisig transactions more expensive?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Traditional multisig (P2SH, P2WSH) transactions are larger and therefore more expensive than single-sig because they must include multiple signatures and the full redeem script. However, Taproot multisig with MuSig2 (key path spending) produces transactions the same size as single-sig Taproot, eliminating the fee premium entirely." }
+      },
+      {
+        "@type": "Question",
+        "name": "What happens if I lose one key in a 2-of-3 setup?",
+        "acceptedAnswer": { "@type": "Answer", "text": "You can still access your funds using the remaining two keys. However, you should immediately migrate to a new multisig setup: create a new 2-of-3 wallet with a fresh third key, then transfer all funds from the old wallet to the new one. Operating with only two keys means you have zero redundancy." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I use multisig with a passphrase (25th word)?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Each cosigner's seed phrase can independently have its own passphrase. This adds another layer of protection: an attacker who obtains a seed phrase backup still needs the corresponding passphrase to derive the correct key. However, this also increases backup complexity." }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need special software for multisig?",
+        "acceptedAnswer": { "@type": "Answer", "text": "You need a wallet that supports multisig coordination. Popular options include Sparrow Wallet (desktop, open-source), Nunchuk (mobile + desktop), Electrum (desktop), and Caravan (web-based, by Unchained). These tools handle the PSBT workflow: creating unsigned transactions, collecting signatures from each cosigner device, and broadcasting the fully signed transaction." }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <noscript><p style="padding:40px;text-align:center;font-size:16px;">This application requires JavaScript to function.</p></noscript>
