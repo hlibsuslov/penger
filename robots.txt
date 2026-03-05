@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /worker/
+Disallow: /payment-success.html
+Disallow: /payment-failed.html
+
+Sitemap: https://penger.io/sitemap.xml
