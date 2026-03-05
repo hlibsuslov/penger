@@ -446,25 +446,25 @@
     var isMobile = function () { return window.innerWidth <= 520; };
 
     var config = {
-      spreadFar:  65,     /* translateX % when plates are far apart */
+      spreadFar:  function () { return window.innerWidth > 520 ? 35 : 65; },
       spreadNear: function () { return isMobile() ? 18 : 35; },
       maxOffset:  65,     /* clamp to prevent overflow */
       scaleFar:   0.95,   /* scale when far */
       scaleNear:  1.0,    /* scale when near */
-      rotFar:     1.0,    /* rotation degrees when far */
+      rotFar:     function () { return window.innerWidth > 520 ? 0 : 1.0; },
       rotNear:    0,      /* rotation degrees when near */
       opacityFar: 0.85,   /* back plate opacity when far */
       opacityNear: 0.95   /* back plate opacity when near */
     };
 
     /* --- State --- */
-    var currentOffset = config.spreadFar;
+    var currentOffset = config.spreadFar();
     var currentScale  = config.scaleFar;
-    var currentRot    = config.rotFar;
+    var currentRot    = config.rotFar();
     var currentAlpha  = config.opacityFar;
-    var targetOffset  = config.spreadFar;
+    var targetOffset  = config.spreadFar();
     var targetScale   = config.scaleFar;
-    var targetRot     = config.rotFar;
+    var targetRot     = config.rotFar();
     var targetAlpha   = config.opacityFar;
     var visible = false;
     var animating = false;
@@ -496,14 +496,19 @@
       var p   = ease(raw);
       var nearOff = config.spreadNear();
 
-      targetOffset = clamp(lerp(config.spreadFar, nearOff, p), 0, config.maxOffset);
+      targetOffset = clamp(lerp(config.spreadFar(), nearOff, p), 0, config.maxOffset);
       targetScale  = lerp(config.scaleFar, config.scaleNear, p);
-      targetRot    = lerp(config.rotFar, config.rotNear, p);
+      targetRot    = lerp(config.rotFar(), config.rotNear, p);
       targetAlpha  = lerp(config.opacityFar, config.opacityNear, p);
     }
 
     /* --- Clip plates to stage boundaries --- */
     function clipPlates() {
+      if (window.innerWidth > 520) {
+        back.style.clipPath  = 'none';
+        front.style.clipPath = 'none';
+        return;
+      }
       var stageRect = stage.getBoundingClientRect();
       var plates = [back, front];
       for (var i = 0; i < plates.length; i++) {

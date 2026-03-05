@@ -398,13 +398,17 @@
   filter: drop-shadow(0 8px 32px rgba(0, 0, 0, 0.12));
 }
 .lp-plate-back {
-  transform: translate(-50%, -50%) translateX(-65%) rotate(-1deg) scale(0.95);
+  transform: translate(-50%, -50%) translateX(-35%) rotate(0deg) scale(0.95);
   z-index: 1;
   opacity: 0.85;
 }
 .lp-plate-front {
-  transform: translate(-50%, -50%) translateX(65%) rotate(1deg) scale(0.95);
+  transform: translate(-50%, -50%) translateX(35%) rotate(0deg) scale(0.95);
   z-index: 2;
+}
+@media (max-width: 520px) {
+  .lp-plate-back  { transform: translate(-50%, -50%) translateX(-65%) rotate(-1deg) scale(0.95); }
+  .lp-plate-front { transform: translate(-50%, -50%) translateX(65%) rotate(1deg) scale(0.95); }
 }
 @media (prefers-reduced-motion: reduce) {
   .lp-plate-back  { transform: translate(-50%, -50%) translateX(-35%) rotate(0deg) scale(1) !important; opacity: 0.9 !important; }
