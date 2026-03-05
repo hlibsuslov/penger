@@ -383,9 +383,13 @@
   max-width: 960px;
   height: clamp(420px, 60vh, 680px);
   margin: 0 auto;
-  overflow: hidden;
-  overflow: clip;
   contain: paint;
+}
+@media (max-width: 520px) {
+  .lp-plate-stage {
+    overflow: hidden;
+    overflow: clip;
+  }
 }
 .lp-plate {
   position: absolute;
