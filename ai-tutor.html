@@ -67,7 +67,6 @@
       min-height: 0;
     }
     main > .section-intro { flex-shrink: 0; }
-    main > #introToggleBar { flex-shrink: 0; }
     main > .section-block {
       flex: 1 1 0%;
       display: flex;
@@ -110,6 +109,7 @@
     /* === Intro collapse/expand === */
     .section-intro {
       overflow: hidden;
+      padding-bottom: 44px; /* room for the chevron button */
       transition: max-height var(--duration-normal) var(--ease-default),
                   padding var(--duration-normal) var(--ease-default),
                   opacity 0.3s var(--ease-default),
@@ -129,41 +129,70 @@
       pointer-events: none;
     }
 
-    /* Single toggle bar between intro and chat */
-    #introToggleBar {
-      flex-shrink: 0;
+    /* Chevron toggle at bottom center of intro */
+    .intro-toggle-btn {
       display: flex;
-      justify-content: center;
-      padding: 6px 0;
-      border-bottom: 1px solid var(--border-default);
-    }
-    #introToggleBar button {
-      display: inline-flex;
       align-items: center;
-      gap: 6px;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      margin: 0 auto;
       background: none;
-      border: none;
+      border: 1px solid var(--border-default);
+      border-radius: 50%;
       cursor: pointer;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.03em;
       color: var(--text-dim);
-      padding: 4px 12px;
-      border-radius: 4px;
       transition: color 0.2s var(--ease-default),
+                  border-color 0.2s var(--ease-default),
                   background 0.2s var(--ease-default);
     }
-    #introToggleBar button:hover {
+    .intro-toggle-btn:hover {
       color: var(--text-accent);
+      border-color: var(--border-active);
       background: var(--bg-surface-hover);
     }
-    #introToggleBar .intro-toggle-icon {
+    .intro-toggle-btn .intro-toggle-icon {
       transition: transform 0.35s var(--ease-default);
       flex-shrink: 0;
     }
-    #introToggleBar.is-collapsed .intro-toggle-icon {
-      transform: rotate(180deg);
+
+    /* Expand bar — visible when collapsed */
+    #introExpandBar {
+      flex-shrink: 0;
+      display: flex;
+      justify-content: center;
+      padding: 0;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 0.35s var(--ease-default),
+                  opacity 0.3s var(--ease-default),
+                  padding 0.35s var(--ease-default);
+    }
+    #introExpandBar.is-visible {
+      max-height: 48px;
+      opacity: 1;
+      padding: 6px 0;
+    }
+    #introExpandBar button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      background: none;
+      border: 1px solid var(--border-default);
+      border-radius: 50%;
+      cursor: pointer;
+      color: var(--text-dim);
+      transition: color 0.2s var(--ease-default),
+                  border-color 0.2s var(--ease-default),
+                  background 0.2s var(--ease-default);
+    }
+    #introExpandBar button:hover {
+      color: var(--text-accent);
+      border-color: var(--border-active);
+      background: var(--bg-surface-hover);
     }
   </style>
 
@@ -221,13 +250,15 @@
           Learn crypto self-custody step by step. Pick a topic and follow the guided conversation &mdash; the tutor will walk you through key concepts at your own pace.
         </p>
       </div>
+      <button class="intro-toggle-btn" id="introCollapseBtn" type="button" aria-expanded="true" aria-controls="tutorIntro">
+        <svg class="intro-toggle-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 6L8 11L13 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
     </section>
 
-    <!-- Single toggle bar -->
-    <div id="introToggleBar">
-      <button type="button" id="introToggleBtn" aria-expanded="true" aria-controls="tutorIntro">
-        <span class="intro-toggle-label">AI Tutor</span>
-        <svg class="intro-toggle-icon" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <!-- Expand chevron (visible when intro is collapsed) -->
+    <div id="introExpandBar">
+      <button type="button" id="introExpandBtn">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 10L8 5L13 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
     </div>
 
@@ -258,18 +289,17 @@
   <!-- Intro collapse / expand toggle -->
   <script>
   (function () {
-    var intro     = document.getElementById('tutorIntro');
-    var toggleBar = document.getElementById('introToggleBar');
-    var toggleBtn = document.getElementById('introToggleBtn');
-    if (!intro || !toggleBar || !toggleBtn) return;
+    var intro      = document.getElementById('tutorIntro');
+    var collapseBtn = document.getElementById('introCollapseBtn');
+    var expandBar  = document.getElementById('introExpandBar');
+    var expandBtn  = document.getElementById('introExpandBtn');
+    if (!intro || !collapseBtn || !expandBar || !expandBtn) return;
 
     var isAnimating = false;
-    var isCollapsed = false;
 
     function collapse() {
       if (isAnimating) return;
       isAnimating = true;
-      isCollapsed = true;
 
       var h = intro.scrollHeight;
       intro.style.maxHeight = h + 'px';
@@ -281,8 +311,8 @@
       intro.style.paddingBottom = '0px';
       intro.style.borderBottomColor = 'transparent';
 
-      toggleBar.classList.add('is-collapsed');
-      toggleBtn.setAttribute('aria-expanded', 'false');
+      collapseBtn.setAttribute('aria-expanded', 'false');
+      expandBar.classList.add('is-visible');
 
       intro.addEventListener('transitionend', function onEnd(e) {
         if (e.propertyName !== 'max-height') return;
@@ -296,7 +326,6 @@
     function expand() {
       if (isAnimating) return;
       isAnimating = true;
-      isCollapsed = false;
 
       intro.classList.remove('is-collapsed');
       intro.style.maxHeight = '';
@@ -318,8 +347,8 @@
       intro.style.opacity = '';
       intro.style.borderBottomColor = '';
 
-      toggleBar.classList.remove('is-collapsed');
-      toggleBtn.setAttribute('aria-expanded', 'true');
+      collapseBtn.setAttribute('aria-expanded', 'true');
+      expandBar.classList.remove('is-visible');
 
       intro.addEventListener('transitionend', function onEnd(e) {
         if (e.propertyName !== 'max-height') return;
@@ -329,10 +358,8 @@
       });
     }
 
-    toggleBtn.addEventListener('click', function () {
-      if (isCollapsed) expand();
-      else collapse();
-    });
+    collapseBtn.addEventListener('click', collapse);
+    expandBtn.addEventListener('click', expand);
   })();
   </script>
 
