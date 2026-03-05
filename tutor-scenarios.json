@@ -9,41 +9,213 @@
   },
 
   "wallet_intro": {
-    "bot": "A crypto wallet is software (or hardware) that stores your private keys — the secret codes that prove you own your coins. You never actually store crypto \"in\" a wallet; the coins live on the blockchain. The wallet just holds the keys to access them.",
+    "bot": "A crypto wallet stores your private keys — the secret codes that prove you own your coins. You never actually store crypto \"in\" a wallet; the coins live on the blockchain. The wallet just holds the keys to access them.\n\nThere are two fundamental concepts to understand: what a private key is, and how wallets use it to sign transactions.",
     "options": [
       { "label": "What types of wallets exist?", "next": "wallet_types" },
-      { "label": "How do I set up my first wallet?", "next": "wallet_setup" }
+      { "label": "How do I set up my first wallet?", "next": "wallet_setup" },
+      { "label": "What exactly is a private key?", "next": "wallet_private_key" }
     ]
   },
+
   "wallet_types": {
-    "bot": "There are two main categories:\n\n• Hot wallets — connected to the internet (mobile apps, browser extensions like MetaMask). Convenient for daily use, but more vulnerable to hacks.\n\n• Cold wallets — offline devices (Ledger, Trezor, metal plates). Best for long-term storage of significant amounts. The private key never touches the internet.",
+    "bot": "There are two main categories:\n\n• **Hot wallets** — connected to the internet (mobile apps, browser extensions like MetaMask). Convenient for daily use, but more vulnerable to hacks.\n\n• **Cold wallets** — offline devices (Ledger, Trezor, metal plates). Best for long-term storage of significant amounts. The private key never touches the internet.",
     "options": [
       { "label": "Which wallet should a beginner choose?", "next": "wallet_beginner" },
-      { "label": "What is a hardware wallet exactly?", "next": "wallet_hardware" }
+      { "label": "What is a hardware wallet exactly?", "next": "wallet_hardware" },
+      { "label": "What is a watch-only wallet?", "next": "wallet_watch_only" }
     ]
   },
+
   "wallet_beginner": {
-    "bot": "For learning, start with a reputable hot wallet like MetaMask (browser) or Trust Wallet (mobile). Practice with small amounts first. Once you hold meaningful value, consider a hardware wallet like Ledger Nano or Trezor for secure long-term storage. Never keep large amounts on an exchange — \"not your keys, not your coins.\"",
+    "bot": "For learning, start with a reputable hot wallet like MetaMask (browser) or Trust Wallet (mobile). Practice with small amounts first. Once you hold meaningful value, consider a hardware wallet like Ledger Nano or Trezor for secure long-term storage. Never keep large amounts on an exchange — **\"not your keys, not your coins.\"**",
     "options": [
+      { "label": "What risks do hot wallets have?", "next": "wallet_hot_risks" },
       { "label": "Start over", "next": "root" }
     ]
   },
+
   "wallet_hardware": {
-    "bot": "A hardware wallet is a dedicated physical device (looks like a USB stick) that generates and stores your private keys in a secure chip. When you sign a transaction, the key never leaves the device — the transaction is signed inside the chip and only the signed result is sent to your computer. This makes it nearly impossible for malware to steal your keys.",
+    "bot": "A hardware wallet is a dedicated physical device that generates and stores your private keys in a secure chip. When you sign a transaction, the key never leaves the device — the transaction is signed inside the chip and only the signed result is sent to your computer. This makes it nearly impossible for malware to steal your keys.",
     "options": [
-      { "label": "Start over", "next": "root" }
+      { "label": "How does the hardware wallet architecture work?", "next": "wallet_hardware_architecture" },
+      { "label": "What is a secure element chip?", "next": "wallet_secure_element" },
+      { "label": "What are the best practices for hardware wallets?", "next": "wallet_hardware_best_practices" }
     ]
   },
+
   "wallet_setup": {
-    "bot": "Setting up a wallet typically involves 3 steps:\n\n1. Download the official app or buy a hardware device from the manufacturer.\n2. Create a new wallet — the device generates a random seed phrase (12 or 24 words).\n3. Write down your seed phrase on paper or stamp it on metal. Store it securely offline.\n\nNever screenshot your seed phrase or store it digitally. If someone gets your seed phrase, they can take all your funds.",
+    "bot": "Setting up a wallet typically involves 3 steps:\n\n1. Download the official app or buy a hardware device from the manufacturer.\n2. Create a new wallet — the device generates a random seed phrase (12 or 24 words).\n3. Write down your seed phrase on paper or stamp it on metal. Store it securely offline.\n\nNever screenshot your seed phrase or store it digitally.",
     "options": [
       { "label": "What if I lose my seed phrase?", "next": "wallet_backup" },
+      { "label": "What are hot wallet risks?", "next": "wallet_hot_risks" },
       { "label": "Start over", "next": "root" }
     ]
   },
+
   "wallet_backup": {
     "bot": "If you lose your seed phrase AND your wallet device breaks, your funds are permanently lost. No one can recover them — there is no \"forgot password\" button in crypto.\n\nBest practices:\n• Write the phrase on paper and store in a fireproof safe.\n• Use a metal backup plate (like what PENGER tools help you create) for fire/water resistance.\n• Consider splitting the phrase across 2–3 secure locations.\n• Never store it on your phone, email, or cloud storage.",
     "options": [
+      { "label": "Learn about seed phrases in depth", "next": "seed_intro" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "wallet_private_key": {
+    "bot": "A **private key** is a randomly generated 256-bit number — essentially a number between 1 and 2^256. This number is so astronomically large that guessing someone else's key is practically impossible. Your private key is the master secret: whoever holds it controls the funds at the corresponding address.\n\nPrivate keys are usually displayed as 64 hexadecimal characters (0–9, a–f). They must NEVER be shared with anyone.",
+    "options": [
+      { "label": "How is a public key derived from a private key?", "next": "wallet_elliptic_curve" },
+      { "label": "What is a public key?", "next": "wallet_public_key" }
+    ]
+  },
+
+  "wallet_elliptic_curve": {
+    "bot": "Bitcoin and most cryptocurrencies use **Elliptic Curve Cryptography (secp256k1)**. Think of it as a one-way mathematical function: you can go from private key → public key easily, but you cannot go from public key → private key (mathematically infeasible).\n\nThe private key is multiplied by a fixed generator point on the curve. The resulting point is your public key. This asymmetry is the foundation of all crypto security.",
+    "options": [
+      { "label": "What is a public key used for?", "next": "wallet_public_key" }
+    ]
+  },
+
+  "wallet_public_key": {
+    "bot": "Your **public key** is derived from the private key using elliptic curve math. It can be safely shared with anyone. Your wallet **address** is a shortened hash of the public key (via SHA-256 and RIPEMD-160). When someone sends you crypto, they send it to your address. When you spend it, you prove ownership by signing with the private key.",
+    "options": [
+      { "label": "How does transaction signing work?", "next": "wallet_tx_signing" }
+    ]
+  },
+
+  "wallet_tx_signing": {
+    "bot": "When you send crypto, your wallet:\n\n1. Creates a transaction message (\"send X from A to B\").\n2. Hashes the message.\n3. Signs the hash with your private key using ECDSA.\n4. Broadcasts the transaction + signature to the network.\n\nValidators verify the signature using your public key — without ever seeing your private key. This is how you prove ownership without exposing the secret.",
+    "options": [
+      { "label": "What risks do hot wallets face?", "next": "wallet_hot_risks" },
+      { "label": "Learn about hardware wallet signing", "next": "wallet_hardware" }
+    ]
+  },
+
+  "wallet_hot_risks": {
+    "bot": "Hot wallets (internet-connected) face several threats:\n\n• **Malware** — software that secretly reads your private key from device memory.\n• **Clipboard hijacking** — malware replaces copied wallet addresses with attacker addresses.\n• **Phishing** — fake websites or apps that steal your seed phrase or private key.\n• **Browser vulnerabilities** — malicious browser extensions can intercept transactions.\n\nAlways verify addresses character-by-character before sending.",
+    "options": [
+      { "label": "Tell me more about malware attacks", "next": "wallet_malware" },
+      { "label": "What is clipboard hijacking?", "next": "wallet_clipboard_hijack" },
+      { "label": "How do phishing attacks work?", "next": "wallet_phishing" }
+    ]
+  },
+
+  "wallet_malware": {
+    "bot": "**Crypto-targeting malware** includes:\n\n• **Keyloggers** — record every keystroke to capture private keys or seed phrases.\n• **Clipboard stealers** — monitor clipboard content for wallet addresses and replace them.\n• **Memory scrapers** — scan RAM for private keys when wallets are unlocked.\n• **Remote Access Trojans (RATs)** — give attackers full control of your machine.\n\nProtection: use dedicated hardware wallets, keep OS updated, use trusted security software.",
+    "options": [
+      { "label": "What is clipboard hijacking in detail?", "next": "wallet_clipboard_hijack" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "wallet_clipboard_hijack": {
+    "bot": "**Clipboard hijacking** is a subtle but devastating attack. When you copy a wallet address, malware instantly replaces it with the attacker's address in your clipboard. You paste what you think is the recipient's address, but you're actually sending to the attacker.\n\nDefense:\n• Always verify the full address after pasting — not just first/last characters.\n• Use hardware wallets that display the actual destination address on the device screen.\n• On critical transactions, type the first few and last few characters manually to cross-check.",
+    "options": [
+      { "label": "Tell me about phishing attacks", "next": "wallet_phishing" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "wallet_phishing": {
+    "bot": "**Phishing attacks** in crypto typically involve:\n\n• Fake wallet apps or browser extensions that look identical to legitimate ones.\n• Emails or messages claiming your wallet needs \"re-verification\" — asking for your seed phrase.\n• Fake support teams on social media or Discord claiming to help you recover your wallet.\n\n**Golden rule:** No legitimate wallet or exchange will EVER ask for your seed phrase. If anything asks for it, it's a scam — full stop.",
+    "options": [
+      { "label": "How do hardware wallets protect against this?", "next": "wallet_hardware" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "wallet_hardware_architecture": {
+    "bot": "A hardware wallet has two key components:\n\n• **Secure element (SE)** — a tamper-resistant chip that generates and stores the private key. This chip is physically hardened against extraction attempts.\n• **General-purpose MCU** — handles the user interface and communication with your computer.\n\nThe SE never exposes the private key to the MCU or computer. Only signed transaction outputs leave the secure chip. This separation is the core security architecture.",
+    "options": [
+      { "label": "What exactly is a secure element?", "next": "wallet_secure_element" },
+      { "label": "What are firmware attack risks?", "next": "wallet_firmware_attacks" }
+    ]
+  },
+
+  "wallet_secure_element": {
+    "bot": "A **Secure Element (SE)** is a certified tamper-resistant microchip (often CC EAL5+ or EAL6+ certified). It:\n\n• Generates true random numbers for key generation.\n• Stores keys in encrypted, isolated memory.\n• Self-destructs or locks after repeated failed PIN attempts.\n• Resists physical probing, side-channel attacks, and fault injection.\n\nLedger uses proprietary SEs; Trezor uses a general MCU with different security tradeoffs. Neither approach is perfect, but both vastly outperform software wallets.",
+    "options": [
+      { "label": "What are firmware attack risks?", "next": "wallet_firmware_attacks" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "wallet_firmware_attacks": {
+    "bot": "**Firmware attacks** target the software running on your hardware wallet device. A malicious firmware update could:\n\n• Exfiltrate private keys through USB communication.\n• Modify transaction details before signing.\n• Weaken random number generation, making keys predictable.\n\nProtection:\n• Only update firmware from the official manufacturer's website.\n• Verify firmware checksums before applying updates.\n• Some devices (like Coldcard) display firmware hash on the screen for manual verification.",
+    "options": [
+      { "label": "What is a supply chain attack?", "next": "wallet_supply_chain" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "wallet_supply_chain": {
+    "bot": "A **supply chain attack** means the hardware wallet is tampered with BEFORE it reaches you — during manufacturing, shipping, or resale. Attackers may:\n\n• Pre-install backdoored firmware.\n• Replace the secure element with a compromised chip.\n• Include a pre-generated seed phrase (so they already know your keys).\n\nProtection:\n• Only buy directly from the official manufacturer's website.\n• Never buy used hardware wallets.\n• Verify the packaging tamper-evident seals are intact.\n• Initialize the device yourself — never use a seed phrase provided in the box.",
+    "options": [
+      { "label": "What about physical attacks on hardware wallets?", "next": "wallet_physical_attacks" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "wallet_physical_attacks": {
+    "bot": "If an attacker physically possesses your hardware wallet, they can attempt:\n\n• **Evil maid attack** — tamper with the device while you're away.\n• **$5 wrench attack** — threaten you into revealing your PIN or seed phrase.\n• **Glitching attacks** — inject electrical faults to bypass PIN protection.\n• **Microscopy** — physically decap the chip and read memory.\n\nMitigation:\n• Strong PIN, plus passphrase (25th word) for plausible deniability.\n• Keep physical access to your device strictly controlled.\n• Use a passphrase so even the device alone is useless to attackers.",
+    "options": [
+      { "label": "Hardware wallet best practices", "next": "wallet_hardware_best_practices" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "wallet_hardware_best_practices": {
+    "bot": "**Hardware wallet best practices:**\n\n• Buy only from the official manufacturer, verify tamper seals.\n• Set a strong PIN (6–8 digits minimum).\n• Add a BIP39 passphrase (25th word) for an extra security layer.\n• Keep firmware updated from official sources only.\n• Store your device in a secure physical location.\n• Never enter your seed phrase on a computer — only directly on the device.",
+    "options": [
+      { "label": "Summary: hardware wallet security", "next": "wallet_hardware_summary" },
+      { "label": "What is a BIP39 passphrase?", "next": "wallet_bip39_passphrase" }
+    ]
+  },
+
+  "wallet_hardware_summary": {
+    "bot": "**Hardware wallet security summary:**\n\n• Private keys never leave the secure element — period.\n• PIN + passphrase provide two layers of protection.\n• Supply chain attacks are real — buy direct from manufacturer.\n• Firmware integrity matters — verify and update carefully.\n• Even hardware wallets can't help you if your seed phrase is stolen.\n\nThe seed phrase is the ultimate backup — protect it as well as (or better than) the device itself.",
+    "options": [
+      { "label": "Learn about multi-sig wallets", "next": "wallet_multisig" },
+      { "label": "Learn about air-gapped wallets", "next": "wallet_airgap" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "wallet_multisig": {
+    "bot": "**Multi-signature (multisig)** wallets require M-of-N keys to authorize a transaction. For example, a 2-of-3 multisig requires any 2 of 3 private keys to sign.\n\nBenefits:\n• No single point of failure — one stolen key isn't enough.\n• Institutional-grade security for large holdings.\n• Can distribute keys across multiple hardware wallets or geographic locations.\n\nDrawbacks:\n• More complex setup and transaction process.\n• Losing too many keys (below the threshold) still means losing funds.",
+    "options": [
+      { "label": "What is a BIP39 passphrase?", "next": "wallet_bip39_passphrase" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "wallet_bip39_passphrase": {
+    "bot": "The **BIP39 passphrase** (often called the \"25th word\") is an optional extra password added to your seed phrase. It creates an entirely separate wallet:\n\n• Your seed phrase alone opens wallet A (could hold decoy funds).\n• Seed phrase + passphrase opens wallet B (your real funds).\n\nBenefits:\n• Even if your seed phrase is stolen, funds in the passphrase wallet are safe.\n• Enables **plausible deniability** under duress.\n• Unlimited possible passphrases, each creating a unique wallet.",
+    "options": [
+      { "label": "What is a watch-only wallet?", "next": "wallet_watch_only" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "wallet_watch_only": {
+    "bot": "A **watch-only wallet** contains only the public key (or xpub) — no private keys. It can:\n\n• Monitor incoming and outgoing transactions.\n• Display balances and addresses.\n• Prepare unsigned transactions.\n\nIt CANNOT sign or broadcast transactions. This makes it safe to use on an internet-connected device — if hacked, the attacker gets your transaction history but cannot move funds. Pair it with an air-gapped device for signing.",
+    "options": [
+      { "label": "What is an air-gapped wallet?", "next": "wallet_airgap" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "wallet_airgap": {
+    "bot": "An **air-gapped wallet** is a signing device that has NEVER been connected to the internet. It communicates via:\n\n• **QR codes** — animated QR codes transfer transaction data without USB or Bluetooth.\n• **MicroSD cards** — transaction files are transferred on physical media.\n\nThe private key is isolated from any network exposure. Even sophisticated remote attacks are impossible if the device was never online. Coldcard and Passport are examples of Bitcoin-only air-gapped hardware wallets.",
+    "options": [
+      { "label": "Wallet interoperability — can I switch wallets?", "next": "wallet_interoperability" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "wallet_interoperability": {
+    "bot": "Yes — wallets are interoperable through the **seed phrase standard (BIP39)**. Your seed phrase works with any compatible wallet:\n\n• Import your 12/24-word seed into Ledger, Trezor, MetaMask, Exodus, or others.\n• The same derivation paths (BIP44) produce the same addresses on every wallet.\n\nImportant caveats:\n• Some wallets use non-standard derivation paths — verify compatibility.\n• Always test recovery with a small amount first.\n• Never enter your seed phrase on an internet-connected device unless absolutely necessary.",
+    "options": [
+      { "label": "Learn about seed phrase derivation paths", "next": "seed_bip44" },
       { "label": "Start over", "next": "root" }
     ]
   },
@@ -52,24 +224,214 @@
     "bot": "A blockchain is a shared digital ledger that records transactions across thousands of computers. Instead of trusting a bank to keep track of who owns what, the network itself maintains the record. Every transaction is grouped into a \"block,\" and blocks are chained together in order — hence \"blockchain.\"",
     "options": [
       { "label": "How are blocks created?", "next": "blockchain_blocks" },
-      { "label": "What keeps the network secure?", "next": "blockchain_consensus" }
+      { "label": "What keeps the network secure?", "next": "blockchain_consensus" },
+      { "label": "What happens before a transaction enters a block?", "next": "blockchain_mempool" }
     ]
   },
+
   "blockchain_blocks": {
-    "bot": "Roughly every 10 minutes (on Bitcoin), a special node called a \"miner\" collects pending transactions, bundles them into a block, and solves a cryptographic puzzle to earn the right to add that block. This process is called Proof of Work. Each block contains a hash of the previous block, creating an unbreakable chain — changing one old block would require re-doing all subsequent work.",
+    "bot": "Roughly every 10 minutes (on Bitcoin), a miner collects pending transactions, bundles them into a block, and solves a cryptographic puzzle to earn the right to add that block. Each block contains:\n\n• A header (previous block hash, Merkle root, nonce, timestamp).\n• A list of transactions.\n\nChanging one old block would require re-doing all subsequent proof-of-work, making history practically immutable.",
     "options": [
       { "label": "What is a transaction technically?", "next": "blockchain_tx" },
+      { "label": "What is in a block header?", "next": "blockchain_block_header" },
+      { "label": "What is a Merkle root?", "next": "blockchain_merkle_root" }
+    ]
+  },
+
+  "blockchain_tx": {
+    "bot": "A transaction is a signed message: \"Send X coins from address A to address B.\" You sign it with your private key (proving you own address A), broadcast it to the network, and miners include it in the next block. Once confirmed in a block, it's practically irreversible. The more blocks added after yours (\"confirmations\"), the more secure the transaction becomes.",
+    "options": [
+      { "label": "What is the UTXO model?", "next": "blockchain_utxo" },
+      { "label": "How are transaction fees calculated?", "next": "blockchain_fees" },
       { "label": "Start over", "next": "root" }
     ]
   },
-  "blockchain_tx": {
-    "bot": "A transaction is a signed message that says: \"Send X coins from address A to address B.\" You sign it with your private key (proving you own address A), broadcast it to the network, and miners include it in the next block. Once confirmed in a block, it's practically irreversible. The more blocks added after yours (\"confirmations\"), the more secure the transaction becomes.",
+
+  "blockchain_consensus": {
+    "bot": "Consensus mechanisms prevent fraud without a central authority:\n\n• **Proof of Work (PoW)** — Miners compete to solve math puzzles. Used by Bitcoin. Very secure but energy-intensive.\n\n• **Proof of Stake (PoS)** — Validators lock up coins as collateral. Used by Ethereum. More energy-efficient, but different trust assumptions.\n\nBoth ensure that no single party can rewrite the ledger without controlling the majority of the network's resources.",
+    "options": [
+      { "label": "How does Bitcoin mining work?", "next": "blockchain_mining" },
+      { "label": "What is difficulty adjustment?", "next": "blockchain_difficulty" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "blockchain_mempool": {
+    "bot": "The **mempool** (memory pool) is a waiting room for unconfirmed transactions. When you broadcast a transaction, it enters every node's mempool. Miners select transactions from the mempool — typically prioritizing those with higher fees.\n\nDuring congestion:\n• The mempool can hold thousands of transactions.\n• Low-fee transactions may wait hours or days.\n• You can use Replace-By-Fee (RBF) to bump your fee if a transaction is stuck.",
+    "options": [
+      { "label": "How are transaction fees calculated?", "next": "blockchain_fees" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "blockchain_fees": {
+    "bot": "Bitcoin transaction fees are NOT based on the amount sent — they're based on **transaction size** in virtual bytes (vbytes). Larger transactions (more inputs/outputs) cost more. The fee rate is measured in **sat/vbyte** (satoshis per virtual byte).\n\nExample: A typical 1-input, 2-output transaction is ~140 vbytes. At 10 sat/vbyte, that's 1,400 satoshis (about $0.01–$1 depending on Bitcoin price).",
+    "options": [
+      { "label": "What is sat/vbyte?", "next": "blockchain_sat_vbyte" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "blockchain_sat_vbyte": {
+    "bot": "**Sat/vbyte** (satoshis per virtual byte) is the fee density — how many satoshis you pay per unit of block space. Miners sort transactions by fee density and pick the highest-paying ones first to maximize revenue.\n\n• 1 sat/vbyte = low priority (may wait hours during congestion).\n• 10–50 sat/vbyte = standard priority.\n• 100+ sat/vbyte = high priority (next block during congestion).\n\nUse a fee estimator or your wallet's \"fast\" / \"standard\" / \"slow\" options to choose appropriately.",
+    "options": [
+      { "label": "What are vbytes?", "next": "blockchain_vbytes" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "blockchain_vbytes": {
+    "bot": "**Virtual bytes (vbytes)** were introduced with SegWit to create a fair accounting system. Before SegWit, fees were based on raw bytes. SegWit moved signature data to a separate \"witness\" area and discounts it at 1/4 the weight of other data.\n\nFormula: vbytes = (base_size × 3 + total_size) / 4\n\nThis incentivizes SegWit adoption by making SegWit transactions cheaper per unit of economic activity while keeping block size effectively at ~1.7–2MB equivalent.",
     "options": [
       { "label": "Start over", "next": "root" }
     ]
   },
-  "blockchain_consensus": {
-    "bot": "Consensus mechanisms prevent fraud without a central authority:\n\n• Proof of Work (PoW) — Miners compete to solve math puzzles. Used by Bitcoin. Very secure but energy-intensive.\n\n• Proof of Stake (PoS) — Validators lock up coins as collateral. Used by Ethereum. More energy-efficient, but different trust assumptions.\n\nBoth ensure that no single party can rewrite the ledger without controlling the majority of the network's power or stake.",
+
+  "blockchain_utxo": {
+    "bot": "Bitcoin uses the **UTXO model** (Unspent Transaction Output). Instead of account balances, Bitcoin tracks individual \"coins\" — each UTXO is a discrete chunk of bitcoin.\n\nExample: If you receive 0.3 BTC and 0.2 BTC in separate transactions, you have 2 UTXOs. To send 0.4 BTC, you spend both UTXOs and receive 0.1 BTC change back to yourself.\n\nUTXOs provide strong privacy properties and allow parallel transaction validation.",
+    "options": [
+      { "label": "How does Ethereum's account model differ?", "next": "blockchain_account_model" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "blockchain_account_model": {
+    "bot": "Ethereum uses an **account model** — similar to a bank account. Each address has a running balance. When you send ETH, the sender's balance decreases and the receiver's increases. This is simpler to understand but has different privacy and technical tradeoffs.\n\n• UTXO (Bitcoin): Better privacy, parallel validation, complex scripting.\n• Account (Ethereum): Simpler state management, easier smart contracts, sequential nonces prevent replay attacks.",
+    "options": [
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "blockchain_block_header": {
+    "bot": "A **block header** contains 6 fields:\n\n• **Version** — block format version.\n• **Previous block hash** — links this block to the chain.\n• **Merkle root** — a single hash summarizing all transactions.\n• **Timestamp** — approximate time of block creation.\n• **Bits** — encoded difficulty target.\n• **Nonce** — the number miners iterate to find a valid hash.\n\nThe header is only 80 bytes, yet cryptographically commits to the entire block's transaction history.",
+    "options": [
+      { "label": "What is a nonce?", "next": "blockchain_nonce" },
+      { "label": "What is a Merkle root?", "next": "blockchain_merkle_root" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "blockchain_merkle_root": {
+    "bot": "The **Merkle root** is a single 32-byte hash that represents ALL transactions in a block. It's the top of a Merkle tree — a binary tree where each leaf is a transaction hash, and each parent node is the hash of its two children.\n\nThis allows:\n• Light clients to verify a single transaction is in a block without downloading all transactions.\n• Detection of any change to any transaction — altering one TX changes all parent hashes up to the root.",
+    "options": [
+      { "label": "How does a Merkle tree work?", "next": "blockchain_merkle_tree" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "blockchain_merkle_tree": {
+    "bot": "A **Merkle tree** is built bottom-up:\n\n1. Hash each transaction: TX1→H1, TX2→H2, TX3→H3, TX4→H4.\n2. Pair and hash: hash(H1+H2)→H12, hash(H3+H4)→H34.\n3. Combine: hash(H12+H34) = **Merkle root**.\n\nTo prove TX3 is in the block, you only need H4 and H12 (a \"Merkle proof\"). This proof is logarithmic in size — even for 10,000 transactions, the proof is only 14 hashes.",
+    "options": [
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "blockchain_nonce": {
+    "bot": "The **nonce** (\"number used once\") is a 32-bit number that miners iterate through during mining. The goal: find a nonce such that the block header hash is below the target value (starts with many zeros).\n\nMiners try billions of nonces per second. When the nonce space is exhausted, miners also change the timestamp or extra nonce in the coinbase transaction. The difficulty of finding a valid nonce is what makes proof of work computationally expensive.",
+    "options": [
+      { "label": "How does Bitcoin mining work in detail?", "next": "blockchain_mining" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "blockchain_mining": {
+    "bot": "**Bitcoin mining** is the process of:\n\n1. Collecting unconfirmed transactions from the mempool.\n2. Building a candidate block with a coinbase transaction (miner's reward).\n3. Hashing the block header with SHA-256d (double SHA-256) repeatedly, changing the nonce.\n4. Finding a hash below the difficulty target.\n5. Broadcasting the block to the network.\n\nThe miner earns the block subsidy (currently 3.125 BTC after the 2024 halving) plus all transaction fees in that block.",
+    "options": [
+      { "label": "How does difficulty adjustment work?", "next": "blockchain_difficulty" },
+      { "label": "What is hash rate?", "next": "blockchain_hashrate" }
+    ]
+  },
+
+  "blockchain_difficulty": {
+    "bot": "Bitcoin automatically adjusts mining **difficulty** every 2016 blocks (~2 weeks) to maintain an average block time of 10 minutes. If blocks came faster than 10 min, difficulty increases. If slower, it decreases.\n\nThis self-regulating mechanism ensures stability regardless of whether there are 1,000 or 1,000,000 miners on the network. The target block time of 10 minutes was chosen as a balance between security (more confirmations) and usability.",
+    "options": [
+      { "label": "What is hash rate?", "next": "blockchain_hashrate" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "blockchain_hashrate": {
+    "bot": "**Hash rate** measures the total computational power of the Bitcoin network — how many SHA-256 hashes are computed per second. As of 2024, Bitcoin's hash rate exceeds 600 EH/s (exahashes per second — 6 × 10^20 hashes/sec).\n\nHigher hash rate means:\n• More security — a 51% attack requires controlling half this power.\n• Higher difficulty.\n• More energy consumption.\n\nHash rate is the real-world measure of Bitcoin's security budget.",
+    "options": [
+      { "label": "What are soft forks and hard forks?", "next": "blockchain_soft_forks" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "blockchain_soft_forks": {
+    "bot": "A **soft fork** is a backward-compatible protocol upgrade:\n\n• Old nodes still see new blocks as valid.\n• The new rules are a strict subset of old rules.\n• Examples: SegWit (2017), Taproot (2021).\n\nSoft forks can activate via miner signaling (BIP9) or enforced by economic majority (UASF). They're generally less disruptive but require careful design to ensure old and new nodes reach consensus.",
+    "options": [
+      { "label": "What is a hard fork?", "next": "blockchain_hard_forks" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "blockchain_hard_forks": {
+    "bot": "A **hard fork** is a backward-incompatible upgrade:\n\n• Old nodes reject new blocks as invalid.\n• If the community is split, the chain permanently splits into two separate blockchains.\n• Both chains share history up to the fork point — users on both chains receive equal amounts of both coins.\n\nHard forks require near-universal node upgrade adoption to avoid a permanent split. They're used for changes that cannot be made backwards-compatible.",
+    "options": [
+      { "label": "Tell me about the Bitcoin Cash fork", "next": "blockchain_bitcoin_cash" },
+      { "label": "What is SegWit?", "next": "blockchain_segwit" }
+    ]
+  },
+
+  "blockchain_bitcoin_cash": {
+    "bot": "**Bitcoin Cash (BCH)** was created in August 2017 via a hard fork of Bitcoin. The core disagreement: how to scale Bitcoin's transaction capacity.\n\n• **Bitcoin (BTC)** proponents favored off-chain scaling via Lightning Network, keeping blocks small for decentralization.\n• **BCH proponents** favored on-chain scaling by increasing block size to 8MB (later 32MB+).\n\nThe chain split permanently. BCH has significantly less hash rate, market cap, and adoption than BTC. The event illustrates that protocol governance and community consensus are critical to blockchain security.",
+    "options": [
+      { "label": "What is SegWit?", "next": "blockchain_segwit" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "blockchain_segwit": {
+    "bot": "**SegWit** (Segregated Witness) was a 2017 Bitcoin soft fork that:\n\n• Moved signature (\"witness\") data outside the main transaction block.\n• Fixed transaction malleability (a bug that hindered the Lightning Network).\n• Discounted witness data at 1/4 weight, effectively increasing block capacity to ~1.7–2MB equivalent.\n• Enabled second-layer protocols like Lightning Network.\n\nSegWit adoption was slow initially but now represents the majority of Bitcoin transactions. Taproot (2021) further extended SegWit's capabilities.",
+    "options": [
+      { "label": "What is the Lightning Network?", "next": "blockchain_lightning" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "blockchain_lightning": {
+    "bot": "The **Lightning Network** is Bitcoin's primary Layer 2 payment protocol. Two parties open a payment channel by locking funds in a multisig on-chain transaction. They can then send unlimited instant payments between each other off-chain, with only the final balance settled on-chain.\n\nBenefits:\n• Near-instant payments.\n• Near-zero fees.\n• Much higher throughput than on-chain.\n\nLimitations:\n• Requires on-chain funding transaction.\n• Both parties must be online for routing.\n• Channel liquidity management can be complex.",
+    "options": [
+      { "label": "What are smart contracts?", "next": "blockchain_smart_contracts" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "blockchain_smart_contracts": {
+    "bot": "**Smart contracts** are self-executing programs stored on a blockchain. When predefined conditions are met, the contract automatically executes. Ethereum pioneered smart contracts, enabling DeFi, NFTs, and DAOs.\n\nKey properties:\n• Code is immutable once deployed.\n• Execution is deterministic — same inputs always produce same outputs.\n• No trusted third party needed — the network enforces the rules.\n\nBitcoin has limited smart contract functionality (Script). Full programmability comes with Ethereum's EVM or other smart contract platforms.",
+    "options": [
+      { "label": "What types of nodes exist on a blockchain?", "next": "blockchain_full_nodes" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "blockchain_full_nodes": {
+    "bot": "**Full nodes** download and validate every block and transaction since the genesis block. They:\n\n• Independently verify all consensus rules.\n• Store the complete blockchain (700GB+ for Bitcoin as of 2024).\n• Relay transactions and blocks to other nodes.\n• Don't require trust in any third party.\n\nRunning a full node is the most secure way to interact with Bitcoin. Anyone can run one on a $50–$100 mini PC. The more full nodes, the more decentralized and censorship-resistant the network.",
+    "options": [
+      { "label": "What are light nodes?", "next": "blockchain_light_nodes" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "blockchain_light_nodes": {
+    "bot": "**Light nodes** (also called SPV clients) don't download the full blockchain. They download only block headers (80 bytes each) and verify transactions using Merkle proofs.\n\nTrade-off:\n• Much lower storage and bandwidth requirements.\n• Rely on full nodes to provide transaction data — requires some trust.\n• Can verify that a transaction is included in a block, but cannot independently validate all consensus rules.\n\nMost mobile wallets (Trust Wallet, Electrum in SPV mode) are light clients.",
+    "options": [
+      { "label": "How does SPV work?", "next": "blockchain_spv" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "blockchain_spv": {
+    "bot": "**SPV** (Simplified Payment Verification) was described in the Bitcoin whitepaper. An SPV client:\n\n1. Downloads all block headers.\n2. Requests a Merkle proof for a specific transaction from a full node.\n3. Verifies the Merkle proof against the block header's Merkle root.\n4. Checks that sufficient proof-of-work is built on top of that block.\n\nSPV provides reasonable security for typical users without the overhead of a full node, but is vulnerable to attacks if an adversary controls all your full-node connections.",
+    "options": [
+      { "label": "What is blockchain finality?", "next": "blockchain_finality" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "blockchain_finality": {
+    "bot": "**Finality** refers to how certain it is that a confirmed transaction cannot be reversed.\n\n• **Bitcoin (PoW)** — probabilistic finality. Each additional confirmation exponentially increases security. 6 confirmations (~1 hour) is considered safe for most transactions.\n• **Ethereum (PoS)** — checkpoint finality every ~12 minutes. Once finalized, reversion requires burning 1/3 of all staked ETH.\n• **Exchanges** — typically require 1–6+ confirmations depending on the asset and amount.\n\nThere is no 100% final confirmation in PoW — only economic impracticality of reversal.",
     "options": [
       { "label": "Start over", "next": "root" }
     ]
@@ -79,32 +441,209 @@
     "bot": "A seed phrase (also called a \"mnemonic\" or \"recovery phrase\") is a list of 12 or 24 English words generated from random entropy. It's the master backup of your entire wallet — all your private keys, addresses, and accounts can be mathematically derived from this single phrase. Lose it, and you lose everything. Protect it, and you can recover your wallet on any compatible device.",
     "options": [
       { "label": "How does BIP39 encoding work?", "next": "seed_bip39" },
-      { "label": "How do I store my seed phrase safely?", "next": "seed_security" }
+      { "label": "How do I store my seed phrase safely?", "next": "seed_security" },
+      { "label": "What is entropy and where does it come from?", "next": "seed_entropy" }
     ]
   },
+
   "seed_bip39": {
     "bot": "BIP39 is the standard:\n\n1. Your device generates 128–256 bits of random data (entropy).\n2. A SHA-256 checksum is appended (4–8 bits).\n3. The combined bits are split into groups of 11.\n4. Each 11-bit group maps to one of 2048 words in the BIP39 wordlist.\n\nSo 12 words = 128 bits of entropy + 4-bit checksum = 132 bits total. Each word's index (1–2048) has a unique binary representation — that's what the punch patterns on PENGER visualize.",
     "options": [
       { "label": "What do the binary punch patterns mean?", "next": "seed_binary" },
-      { "label": "Start over", "next": "root" }
+      { "label": "What is the BIP39 wordlist?", "next": "seed_wordlist" },
+      { "label": "12 words vs 24 words — what's the difference?", "next": "seed_12_vs_24" }
     ]
   },
+
   "seed_binary": {
-    "bot": "Each BIP39 word maps to an index (1–2048). That index converts to a 12-bit binary number. On a metal backup plate, each column represents one word, and each row represents a bit weight (2048, 1024, 512... down to 1). A filled dot means \"1\" (punch), an empty dot means \"0\" (skip). Reading top to bottom gives you the binary index, which maps back to the word. You can try this yourself in the Simulators section!",
+    "bot": "Each BIP39 word maps to an index (1–2048). That index converts to an 11-bit binary number. On a PENGER metal backup plate, each column represents one word, and each row represents a bit position. A punched hole means \"1\", an empty position means \"0\". Reading the column top-to-bottom gives you the binary index, which maps back to the word.\n\nThis encoding is language-independent — the plate encodes numbers, not letters, surviving any translation issues.",
     "options": [
-      { "label": "Start over", "next": "root" }
-    ]
-  },
-  "seed_security": {
-    "bot": "Golden rules for seed phrase security:\n\n• Write it down physically — paper at minimum, metal plate for durability.\n• Never type it into a website, email, or messaging app.\n• Never photograph or screenshot it.\n• Store in a fireproof, waterproof location (safe, vault).\n• Consider splitting across multiple locations (e.g., Shamir's Secret Sharing).\n• Test your backup by restoring on a secondary device before storing large funds.",
-    "options": [
+      { "label": "Learn about PENGER's encoding system", "next": "seed_penger_encoding" },
       { "label": "Any tips for long-term backup?", "next": "seed_backup_tips" },
       { "label": "Start over", "next": "root" }
     ]
   },
+
+  "seed_security": {
+    "bot": "Golden rules for seed phrase security:\n\n• Write it down physically — paper at minimum, metal plate for durability.\n• Never type it into a website, email, or messaging app.\n• Never photograph or screenshot it.\n• Store in a fireproof, waterproof location (safe, vault).\n• Consider splitting across multiple locations (e.g., Shamir's Secret Sharing).\n• Test your backup by restoring on a secondary device before storing large funds.",
+    "options": [
+      { "label": "Any tips for long-term backup?", "next": "seed_backup_tips" },
+      { "label": "How do I verify my backup is correct?", "next": "seed_backup_verification" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
   "seed_backup_tips": {
     "bot": "For long-term backup:\n\n• Use a stainless steel or titanium plate — resistant to fire (up to 1400°C), water, and corrosion.\n• Stamp or punch each word's binary pattern (not letters) for a compact, language-independent backup.\n• Store in a secure location only you can access.\n• Tell a trusted person WHERE the backup is (not the phrase itself) in case of emergency.\n• Periodically verify your backup is intact and readable.\n\nPENGER's simulator tools help you understand and practice the binary encoding before committing to metal.",
     "options": [
+      { "label": "How do I test my restore procedure?", "next": "seed_test_restore" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "seed_entropy": {
+    "bot": "**Entropy** in cryptography refers to randomness — specifically, how unpredictable your private key or seed is. A 128-bit entropy seed phrase has 2^128 possible values — a number so large that even if you checked a billion combinations per second for billions of years, you'd barely scratch the surface.\n\nFor comparison:\n• A 4-digit PIN = ~13 bits of entropy.\n• 12-word BIP39 seed = 128 bits of entropy.\n• 24-word BIP39 seed = 256 bits of entropy.\n\nMore entropy = harder to brute-force.",
+    "options": [
+      { "label": "Where does this randomness come from?", "next": "seed_randomness" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "seed_randomness": {
+    "bot": "Secure wallet apps generate entropy from:\n\n• **Hardware Random Number Generators (HRNG)** — specialized circuits exploiting quantum noise (thermal noise, shot noise) in semiconductors.\n• **OS entropy pools** (/dev/urandom on Linux, CryptGenRandom on Windows) — combining many unpredictable system events.\n• **Secure elements** in hardware wallets — dedicated certified RNG chips.\n\n**Never** generate a seed phrase using predictable sources or manually-typed \"random\" words — human-chosen randomness is notoriously predictable.",
+    "options": [
+      { "label": "What about using dice for entropy?", "next": "seed_dice_entropy" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "seed_dice_entropy": {
+    "bot": "**Dice rolling** is a valid way to generate high-quality entropy for a seed phrase — if done correctly:\n\n• Use casino-grade (precision) dice for unbiased results.\n• Roll a 6-sided die 99+ times to generate 256 bits of entropy (log2(6) ≈ 2.585 bits per roll).\n• Use established tools like Coldcard's \"Dice\" mode, which accepts your rolls and adds them to hardware-generated entropy.\n\nNever create the seed phrase from dice alone without software that correctly converts rolls to BIP39 entropy — errors in this process compromise security.",
+    "options": [
+      { "label": "How does BIP39 use this entropy?", "next": "seed_bip39" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "seed_wordlist": {
+    "bot": "The **BIP39 wordlist** contains exactly **2048 words** chosen for:\n\n• **Uniqueness** — each word is unique and distinguishable.\n• **Disambiguity** — the first 4 letters of each word are unique, so reading only 4 letters is enough to identify it.\n• **Simplicity** — common, short English words to minimize transcription errors.\n• **Internationalization** — BIP39 wordlists exist in 9+ languages (Chinese, Japanese, Spanish, etc.), but the English list is the universal standard.\n\nThe same 2048-word list is used by virtually all BIP39-compatible wallets.",
+    "options": [
+      { "label": "How is the 2048-word list structured?", "next": "seed_2048_structure" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "seed_2048_structure": {
+    "bot": "The 2048-word BIP39 list is ordered alphabetically and numbered 0–2047. The key insight:\n\n• 2048 = 2^11, so each word perfectly maps to an **11-bit binary number**.\n• Word #0 (\"abandon\") = binary 00000000000.\n• Word #1 (\"ability\") = binary 00000000001.\n• Word #2047 (\"zoo\") = binary 11111111111.\n\nThis binary encoding is exactly what PENGER's punch plate system encodes — the numeric index of each word in binary.",
+    "options": [
+      { "label": "How does binary encoding work on a plate?", "next": "seed_binary_encoding" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "seed_binary_encoding": {
+    "bot": "Binary encoding maps each seed word to its 11-bit index:\n\n1. Look up the word's position in the BIP39 wordlist (0–2047).\n2. Convert that number to 11-bit binary. Example: \"zoo\" = 2047 = 11111111111.\n3. On a PENGER plate, 11 rows represent bit positions 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1.\n4. Punch the rows where the bit is 1; leave empty where it's 0.\n\nThis compact, language-neutral encoding means your backup works regardless of wordlist language — it's just numbers.",
+    "options": [
+      { "label": "See how this looks on a PENGER plate", "next": "seed_penger_encoding" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "seed_12_vs_24": {
+    "bot": "**12-word seed**: 128 bits of entropy. Provides ~3.4 × 10^38 possible combinations — more than enough for practical security. Used by most hot wallets and some hardware wallets.\n\n**24-word seed**: 256 bits of entropy. Provides ~1.2 × 10^77 possible combinations — twice the key space. Used by Ledger and many hardware wallets for extra security margin.\n\nIn practice, 128 bits is considered **computationally unbreakable** today. The 24-word format provides a quantum computing resistance margin and is preferred for large, long-term holdings.",
+    "options": [
+      { "label": "What is an HD wallet?", "next": "seed_hd_wallets" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "seed_hd_wallets": {
+    "bot": "**Hierarchical Deterministic (HD) wallets** (BIP32) derive an unlimited number of key pairs from a single seed. This means:\n\n• One seed phrase backs up ALL your addresses, past and future.\n• Addresses are derived in a tree structure — you can generate millions of addresses without needing new backups.\n• Each derived key is mathematically linked to the master seed, but cannot be used to reverse-engineer the seed.\n\nBefore HD wallets, users had to back up each individual private key. HD wallets made the \"one seed to rule them all\" model possible.",
+    "options": [
+      { "label": "What are derivation paths?", "next": "seed_derivation_paths" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "seed_derivation_paths": {
+    "bot": "**Derivation paths** specify which key to derive from the HD tree. They look like:\n\nm/44'/0'/0'/0/0\n\n• m = master key.\n• 44' = BIP44 purpose (hardened).\n• 0' = coin type (0 = Bitcoin, hardened).\n• 0' = account index (hardened).\n• 0 = chain (0 = external/receiving).\n• 0 = address index.\n\nDifferent wallets use different paths. Using the wrong path in recovery may produce valid but empty addresses — this is a common recovery mistake.",
+    "options": [
+      { "label": "What is BIP44?", "next": "seed_bip44" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "seed_bip44": {
+    "bot": "**BIP44** standardized the HD derivation path structure for multi-currency wallets:\n\nm / purpose' / coin_type' / account' / change / address_index\n\n• Purpose = 44 (for BIP44), 49 (SegWit P2SH), or 84 (native SegWit bech32).\n• Coin types: 0 = BTC, 60 = ETH, 145 = BCH, and hundreds more.\n• Account allows multiple separate wallets under one seed.\n\nThis standardization means any BIP44-compatible wallet can restore your accounts from the same seed phrase with the same addresses.",
+    "options": [
+      { "label": "What is hardened derivation?", "next": "seed_hardened_derivation" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "seed_hardened_derivation": {
+    "bot": "In BIP32, paths with ' (apostrophe) use **hardened derivation**. Standard (non-hardened) derivation allows parent public keys to derive child public keys — useful for watch-only wallets. But it also means: if a child private key is leaked, it could expose the parent private key.\n\n**Hardened derivation** breaks this link: child keys cannot be derived from the parent public key alone. This protects your master seed even if a single derived private key is compromised. Coin type and account levels are always hardened for this reason.",
+    "options": [
+      { "label": "What is BIP85?", "next": "seed_bip85" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "seed_bip85": {
+    "bot": "**BIP85** allows you to derive independent child seed phrases from a single master seed. Each derived seed is completely independent and cannot be linked back to the master.\n\nUse cases:\n• Generate a separate seed for each app or exchange, all backed up by one master.\n• Create \"burner\" wallets for specific purposes.\n• Reduce backup complexity — one master backup covers all derived seeds.\n\nSupported by Coldcard hardware wallet. Derivation path: m/83696968'/39'/{lang}'/{words}'/{index}'",
+    "options": [
+      { "label": "What is Shamir's Secret Sharing?", "next": "seed_shamir" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "seed_shamir": {
+    "bot": "**Shamir's Secret Sharing (SSS)** is a cryptographic scheme that splits a secret into N shares, of which any M are sufficient to reconstruct the secret (M-of-N scheme).\n\nExample: Split a seed into 5 shares, require any 3 to reconstruct. You can:\n• Distribute shares to trusted people or locations.\n• Lose up to 2 shares and still recover.\n• Force an attacker to compromise 3 locations simultaneously.\n\nThis eliminates the single-point-of-failure risk of a traditional seed backup without requiring all holders to be present.",
+    "options": [
+      { "label": "What is SLIP39?", "next": "seed_slip39" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "seed_slip39": {
+    "bot": "**SLIP39** (Shamir's Secret Sharing for Mnemonic Codes) is Trezor's implementation of SSS for seed phrases. Unlike BIP39's single word list, SLIP39:\n\n• Splits the master secret into multiple word-encoded shares.\n• Each share is a 20-word (or other length) mnemonic.\n• Reconstruction requires the threshold number of shares.\n• Supported natively by Trezor Model T and Model 3.\n\nNote: SLIP39 seeds are incompatible with BIP39 wallets — you cannot import a SLIP39 share into a standard BIP39 wallet.",
+    "options": [
+      { "label": "Tell me about BIP39 passphrases", "next": "seed_passphrase" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "seed_passphrase": {
+    "bot": "The **BIP39 passphrase** (also called the 25th word) is an optional extension to your seed phrase. Any passphrase (including empty) creates a completely different wallet:\n\n• It can be any string: letters, numbers, symbols, any length.\n• It is NOT stored on the device — you must remember it.\n• Losing it means permanently losing access to that wallet's funds.\n\nThe passphrase is hashed together with the mnemonic in PBKDF2 (2048 rounds of HMAC-SHA512) to produce the master seed — this is standardized in BIP39.",
+    "options": [
+      { "label": "What is plausible deniability?", "next": "seed_plausible_deniability" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "seed_plausible_deniability": {
+    "bot": "**Plausible deniability** means you can truthfully claim your visible wallet is your only wallet — while your real funds are in a passphrase-protected wallet.\n\nSetup:\n• Seed phrase alone → small decoy wallet with modest funds.\n• Seed phrase + passphrase → real wallet with significant holdings.\n\nUnder duress (\"$5 wrench attack\"), you reveal the seed phrase. The attacker finds the decoy wallet and believes it's all you have. This is a real-world defense against physical coercion — but only works if the decoy holds believable amounts.",
+    "options": [
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "seed_penger_encoding": {
+    "bot": "**PENGER's encoding system** translates each BIP39 word into an 11-bit binary number and physically encodes it on a metal plate:\n\n• Each word occupies one column on the plate.\n• 11 rows represent binary bit positions: 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1.\n• A punched hole = 1, no hole = 0.\n• The 11-bit binary column value is the word's BIP39 index.\n\nFor a 12-word seed: 12 columns × 11 bits = 132 punch positions maximum. The result fits on a wallet-sized titanium or steel plate.",
+    "options": [
+      { "label": "How do I read a punch pattern?", "next": "seed_punch_patterns" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "seed_punch_patterns": {
+    "bot": "**Reading a PENGER punch pattern:**\n\n1. Identify the column (each column = one seed word).\n2. Read from top row (bit 1024) to bottom (bit 1).\n3. Punched hole = 1, empty = 0.\n4. Convert the 11-bit binary to decimal: e.g., 01100000001 = 512 + 256 + 1 = 769.\n5. Look up word #769 in the BIP39 wordlist.\n\nAlways read left to right across all word columns to reconstruct the full seed phrase. The PENGER simulator lets you practice this before working with metal.",
+    "options": [
+      { "label": "How do I verify my punch patterns?", "next": "seed_punch_verification" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "seed_punch_verification": {
+    "bot": "**Verifying your punch patterns** is a critical step after creating a PENGER backup:\n\n1. Read back each column's binary pattern independently.\n2. Convert each binary value to a decimal word index.\n3. Look up each word in the BIP39 wordlist.\n4. Compare the reconstructed word list with your original seed phrase.\n\nDo this BEFORE storing the plate as your primary backup. Even a single incorrect punch position changes the word, making recovery fail. The PENGER simulator app can help you verify digit by digit.",
+    "options": [
+      { "label": "How do I verify my full backup?", "next": "seed_backup_verification" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "seed_backup_verification": {
+    "bot": "**Full backup verification** means ensuring your backup can actually restore your wallet:\n\n1. Obtain a second compatible device or software wallet.\n2. Input your seed phrase (from memory or the backup) into the second device.\n3. Verify that the first address matches your primary wallet's first address.\n4. If addresses match, your backup is correct and complete.\n\nDo this periodically (annually) or after any backup modification. This is the only way to be 100% sure your backup works when you truly need it.",
+    "options": [
+      { "label": "Walk me through a test restore procedure", "next": "seed_test_restore" },
+      { "label": "Start over", "next": "root" }
+    ]
+  },
+
+  "seed_test_restore": {
+    "bot": "**Test restore procedure:**\n\n1. On a spare device or software wallet, select \"Restore from seed phrase.\"\n2. Enter your words in order from your backup.\n3. Check that the derived Bitcoin address matches your main wallet's first receiving address.\n4. If using a passphrase, also test with the passphrase to verify that wallet too.\n5. If addresses match — your backup is valid. If not — immediately investigate the discrepancy before it becomes an emergency.\n\nTest with a second device before storing large funds. Never skip this step.",
+    "options": [
+      { "label": "Learn about PENGER backup verification", "next": "seed_backup_verification" },
       { "label": "Start over", "next": "root" }
     ]
   }
