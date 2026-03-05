@@ -1,7 +1,53 @@
+# ============================================================
+# robots.txt — mypenger.com
+# ============================================================
+
+# ----- Main crawlers (Google, Bing, etc.) -------------------
 User-agent: *
 Allow: /
+
+# Utility & internal pages — do not index
 Disallow: /worker/
 Disallow: /payment-success.html
 Disallow: /payment-failed.html
+Disallow: /guide-TEMPLATE.html
+Disallow: /404.html
+Disallow: /server.js
+Disallow: /package.json
+Disallow: /package-lock.json
+Disallow: /tutor-scenarios.json
 
-Sitemap: https://penger.io/sitemap.xml
+# ----- AI training crawlers — block if you don't want AI to train on your content -----
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+# ----- Aggressive/spam crawlers ----------------------------
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+# ============================================================
+Sitemap: https://mypenger.com/sitemap.xml
