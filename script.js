@@ -198,21 +198,12 @@
   var genWordCount = 12;
   var genIndices = []; // display indices 1..2048
 
-  function updateGenInfo() {
-    var ent = ENTROPY_MAP[genWordCount];
-    var cs = ent / 32;
-    $('genEntropy').textContent = ent + ' bits';
-    $('genChecksum').textContent = cs + ' bits';
-    $('genTotalBits').innerHTML = (ent + cs) + ' bits (' + genWordCount + ' &times; 11 + ' + genWordCount + ' display offset)';
-    $('genPlateBits').textContent = (genWordCount * BIT_COUNT) + ' positions (' + genWordCount + ' \u00d7 ' + BIT_COUNT + ')';
-  }
 
   document.querySelectorAll('#genWordCount .pill').forEach(function (btn) {
     btn.addEventListener('click', function () {
       document.querySelectorAll('#genWordCount .pill').forEach(function (b) { b.classList.remove('active'); });
       btn.classList.add('active');
       genWordCount = parseInt(btn.getAttribute('data-count'), 10);
-      updateGenInfo();
     });
   });
 
@@ -448,8 +439,6 @@
     });
     setTimeout(function () { $('genSeedSection').scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 80);
   });
-
-  updateGenInfo();
 
   /* ===== DECODE TAB ===== */
   var decWordCount = 12;
