@@ -443,15 +443,16 @@
     if (!back || !front) return;
 
     /* --- Configuration --- */
-    var isMobile = function () { return window.innerWidth <= 520; };
+    var MOBILE_BP = 520;
+    var isMobile = function () { return window.innerWidth <= MOBILE_BP; };
 
     var config = {
-      spreadFar:  function () { return window.innerWidth > 520 ? 35 : 65; },
+      spreadFar:  function () { return window.innerWidth > MOBILE_BP ? 35 : 65; },
       spreadNear: function () { return isMobile() ? 18 : 35; },
       maxOffset:  65,     /* clamp to prevent overflow */
       scaleFar:   0.95,   /* scale when far */
       scaleNear:  1.0,    /* scale when near */
-      rotFar:     function () { return window.innerWidth > 520 ? 0 : 1.0; },
+      rotFar:     function () { return window.innerWidth > MOBILE_BP ? 0 : 1.0; },
       rotNear:    0,      /* rotation degrees when near */
       opacityFar: 0.85,   /* back plate opacity when far */
       opacityNear: 0.95   /* back plate opacity when near */
@@ -503,11 +504,15 @@
     }
 
     /* --- Clip plates to stage boundaries --- */
+    function setClip(el, value) {
+      el.style.clipPath = value;
+      el.style.webkitClipPath = value;
+    }
     function clipPlates() {
       var plates = [back, front];
-      if (window.innerWidth > 520) {
+      if (window.innerWidth > MOBILE_BP) {
         for (var i = 0; i < plates.length; i++) {
-          plates[i].style.clipPath = 'none';
+          setClip(plates[i], 'none');
         }
         return;
       }
@@ -517,6 +522,7 @@
         var pr = plate.getBoundingClientRect();
         var pw = pr.width;
         var ph = pr.height;
+        if (pw === 0 || ph === 0) continue;
         var overTop    = Math.max(0, stageRect.top  - pr.top);
         var overRight  = Math.max(0, pr.right  - stageRect.right);
         var overBottom = Math.max(0, pr.bottom - stageRect.bottom);
@@ -526,9 +532,9 @@
         var insetBottom = (overBottom / ph * 100).toFixed(2);
         var insetLeft   = (overLeft   / pw * 100).toFixed(2);
         var needsClip = overTop > 0.5 || overRight > 0.5 || overBottom > 0.5 || overLeft > 0.5;
-        plate.style.clipPath = needsClip
+        setClip(plate, needsClip
           ? 'inset(' + insetTop + '% ' + insetRight + '% ' + insetBottom + '% ' + insetLeft + '%)'
-          : 'none';
+          : 'none');
       }
     }
 
@@ -577,7 +583,18 @@
 
     /* --- Event listeners --- */
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
+
+    /* Track previous mobile state to detect transitions */
+    var wasMobile = isMobile();
+    window.addEventListener('resize', function () {
+      var nowMobile = isMobile();
+      if (wasMobile !== nowMobile) {
+        /* Immediately clear or apply clip on breakpoint transition */
+        clipPlates();
+        wasMobile = nowMobile;
+      }
+      onScroll();
+    }, { passive: true });
 
     /* Only animate when section is near viewport */
     var observer = new IntersectionObserver(function (entries) {
@@ -585,11 +602,6 @@
       if (visible) onScroll();
     }, { rootMargin: '200px 0px' });
     observer.observe(stage);
-
-    /* Recalculate clip on resize (device rotation, etc.) */
-    window.addEventListener('resize', function () {
-      requestAnimationFrame(clipPlates);
-    });
 
     /* Initial render */
     visible = true;
