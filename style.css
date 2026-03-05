@@ -824,6 +824,9 @@ h3 { font-size: 15px; font-weight: 600; }
   .nav-link:hover::after { transform: scaleX(1); }
   .nav-link.active::after { transform: scaleX(1); background: var(--text-accent); }
 }
+/* Hide mobile-only nav elements on desktop */
+.nav-caption, .nav-spacer { display: none; }
+
 .header-controls { display: flex; align-items: center; gap: 10px; }
 
 /* Hamburger */
@@ -1231,29 +1234,86 @@ body.nav-open {
    ==================================================================== */
 
 @media (max-width: 768px) {
-  /* Nav becomes compact dropdown drawer */
+  /* Nav becomes panel drawer */
   .site-nav {
-    position: fixed; top: var(--header-h); right: 0;
-    width: 240px;
-    max-height: calc(100dvh - var(--header-h) - 40px);
-    background: var(--bg-surface);
-    border: 1px solid var(--border-default);
-    border-top: none;
-    border-radius: 0 0 0 8px;
+    position: fixed; top: 0; right: 0;
+    width: 260px;
+    max-height: 100dvh;
+    background: rgba(17, 17, 17, 0.88);
+    backdrop-filter: blur(20px) saturate(1.2);
+    -webkit-backdrop-filter: blur(20px) saturate(1.2);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-right: none;
+    border-radius: 0 0 0 12px;
     flex-direction: column; align-items: stretch; gap: 0;
-    padding: 8px 0 12px;
+    padding: 20px 0 24px;
     transform: translateX(100%); transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
     z-index: 90; overflow-y: auto;
-    box-shadow: -4px 4px 20px rgba(0,0,0,0.1);
+    box-shadow: -8px 0 40px rgba(0, 0, 0, 0.25);
   }
   .site-nav.open { transform: translateX(0); }
-  .nav-link {
-    padding: 12px 20px; font-size: 12px;
-    border-bottom: 1px solid var(--border-default);
+
+  /* Nav caption (Education label) */
+  .nav-caption {
+    display: block;
+    padding: 20px 24px 6px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-dim);
+    user-select: none;
   }
+
+  /* Nav spacer between education & footer groups */
+  .nav-spacer {
+    display: block;
+    height: 1px;
+    margin: 16px 24px;
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  /* Nav links in mobile */
+  .nav-link {
+    padding: 10px 24px; font-size: 12px;
+    border-bottom: none;
+    border-radius: 0;
+    position: relative;
+    transition: color 0.15s ease, background 0.15s ease;
+  }
+  .nav-link:hover {
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  /* Active state: subtle background + left accent bar */
   .nav-link.active::after { display: none; }
-  .nav-link.active { background: var(--bg-surface-hover); color: var(--text-accent); }
+  .nav-link.active {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-accent);
+  }
+  .nav-link.active::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 4px; bottom: 4px;
+    width: 2px;
+    background: var(--text-accent);
+    border-radius: 0 1px 1px 0;
+  }
+
   .nav-hamburger { display: flex; }
+
+  /* Light theme overrides for nav panel */
+  @media (prefers-color-scheme: light) {
+    .site-nav {
+      background: rgba(255, 255, 255, 0.92);
+      border-color: rgba(0, 0, 0, 0.06);
+      box-shadow: -8px 0 40px rgba(0, 0, 0, 0.08);
+    }
+    .nav-spacer { background: rgba(0, 0, 0, 0.06); }
+    .nav-link:hover { background: rgba(0, 0, 0, 0.03); }
+    .nav-link.active { background: rgba(0, 0, 0, 0.04); }
+  }
 
   /* Hero responsive */
   .hero { padding: 48px 0 36px; }
@@ -1274,7 +1334,7 @@ body.nav-open {
   .card-grid { grid-template-columns: 1fr; }
   .card { padding: 20px; }
 
-  .site-nav { width: 200px; }
+  .site-nav { width: 220px; }
 
   .faq-q-btn { padding: 12px 14px; font-size: 13px; }
   .faq-bubble { padding: 12px 14px; font-size: 12px; }
