@@ -173,21 +173,40 @@
 
 /* Encoding points (Block 6.5) */
 .lp-encoding-points {
-  list-style: none; padding: 0; margin-top: 32px;
+  list-style: none; padding: 0; margin-top: 40px;
   display: flex; flex-direction: column; gap: 0;
-  border-top: 1px solid var(--border-default);
 }
 .lp-encoding-point {
-  display: flex; align-items: flex-start; gap: 20px; padding: 22px 0;
-  border-bottom: 1px solid var(--border-default);
+  display: flex; align-items: flex-start; gap: 24px;
+  padding: 28px 0; position: relative;
+}
+.lp-encoding-point:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 20px; /* center of 40px badge */
+  top: calc(28px + 48px); /* padding-top + badge height */
+  bottom: 0;
+  width: 1px;
+  background: var(--border-default);
+}
+.lp-encoding-badge {
+  position: relative; flex-shrink: 0;
+  width: 40px; height: 48px;
+  color: var(--text-dim);
+}
+.lp-encoding-badge-svg {
+  display: block; width: 100%; height: 100%;
 }
 .lp-encoding-num {
-  font-family: var(--font-mono); font-size: 12px; font-weight: 600;
-  color: var(--text-dim); letter-spacing: .04em; flex-shrink: 0; width: 28px; padding-top: 2px;
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-mono); font-size: 13px; font-weight: 700;
+  color: var(--text-label); letter-spacing: .04em;
+  z-index: 1; line-height: 1;
 }
 .lp-encoding-content {
-  font-family: var(--font-sans); font-size: 15px; line-height: 1.7;
-  color: var(--text-label); max-width: 560px;
+  font-family: var(--font-sans); font-size: 15px; line-height: 1.85;
+  color: var(--text-label); max-width: 560px; padding-top: 4px;
 }
 .lp-encoding-content strong { color: var(--text-accent); font-weight: 600; }
 
@@ -506,8 +525,11 @@
   .lp-section { padding: 48px 0; }
   .lp-anti-features li { font-size: 15px; padding: 16px 0; }
   .lp-privacy-card { padding: 22px 18px; }
-  .lp-encoding-point { gap: 14px; padding: 18px 0; }
-  .lp-encoding-content { font-size: 14px; }
+  .lp-encoding-point { gap: 16px; padding: 20px 0; }
+  .lp-encoding-badge { width: 34px; height: 40px; }
+  .lp-encoding-num { font-size: 12px; }
+  .lp-encoding-point:not(:last-child)::after { left: 17px; top: calc(20px + 40px); }
+  .lp-encoding-content { font-size: 14px; padding-top: 2px; }
   .lp-step { gap: 18px; padding: 24px 0; }
   .lp-guide-step { padding: 22px 18px 20px; }
   .lp-guide-bit { width: 20px; height: 20px; font-size: 10px; }
@@ -578,9 +600,11 @@
   .lp-privacy-card { padding: 18px 14px; }
   .lp-privacy-title { font-size: 14px; }
   .lp-privacy-desc { font-size: 12px; }
-  .lp-encoding-point { gap: 10px; padding: 16px 0; }
-  .lp-encoding-num { font-size: 11px; width: 24px; }
-  .lp-encoding-content { font-size: 13px; }
+  .lp-encoding-point { gap: 12px; padding: 16px 0; }
+  .lp-encoding-badge { width: 30px; height: 36px; }
+  .lp-encoding-num { font-size: 11px; }
+  .lp-encoding-point:not(:last-child)::after { left: 15px; top: calc(16px + 36px); }
+  .lp-encoding-content { font-size: 13px; padding-top: 1px; }
   .lp-cta-sub { font-size: 14px; }
   .lp-guide-step { padding: 16px 12px 14px; }
   .lp-guide-bit { width: 18px; height: 18px; font-size: 9px; border-radius: 3px; }
