@@ -1,14 +1,16 @@
 (function () {
   'use strict';
 
-  /* ===== THEME: sync meta theme-color with system preference ===== */
+  /* ===== THEME: sync meta theme-color & favicon with system preference ===== */
   var meta = document.querySelector('meta[name="theme-color"]');
-  function syncMeta(dark) {
+  var faviconLink = document.querySelector('link[rel="icon"]');
+  function syncTheme(dark) {
     if (meta) meta.content = dark ? '#0A0A0A' : '#FAFAFA';
+    if (faviconLink) faviconLink.href = dark ? '/favicon-dark.svg' : '/favicon-light.svg';
   }
   var mql = window.matchMedia('(prefers-color-scheme: dark)');
-  syncMeta(mql.matches);
-  mql.addEventListener('change', function (e) { syncMeta(e.matches); });
+  syncTheme(mql.matches);
+  mql.addEventListener('change', function (e) { syncTheme(e.matches); });
 
   /* ===== MOBILE NAV HAMBURGER ===== */
   var navHamburger = document.getElementById('navHamburger');
