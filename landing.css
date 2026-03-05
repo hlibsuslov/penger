@@ -164,6 +164,7 @@
 .lp-privacy-card {
   background: var(--bg-surface);
   border: 1px solid var(--border-default);
+  border-top: 2px solid var(--border-default);
   border-radius: 12px;
   padding: 32px 28px 36px;
   transition:
@@ -173,6 +174,7 @@
 
 .lp-privacy-card:hover {
   border-color: var(--border-hover);
+  border-top-color: var(--text-accent);
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);
 }
 
@@ -182,10 +184,15 @@
 
 .lp-privacy-icon {
   display: block;
-  width: 32px;
-  height: 22px;
-  color: var(--text-dim);
+  width: 36px;
+  height: 36px;
+  color: var(--text-label);
   margin-bottom: 20px;
+  transition: color var(--duration-normal) var(--ease-default);
+}
+
+.lp-privacy-card:hover .lp-privacy-icon {
+  color: var(--text-accent);
 }
 
 .lp-privacy-title {
@@ -216,36 +223,33 @@
   display: flex; flex-direction: column; gap: 0;
 }
 .lp-encoding-point {
-  display: flex; align-items: flex-start; gap: 24px;
-  padding: 28px 0; position: relative;
+  display: flex; align-items: flex-start; gap: 20px;
+  padding: 24px 0; position: relative;
 }
 .lp-encoding-point:not(:last-child)::after {
   content: '';
   position: absolute;
-  left: 20px; /* center of 40px badge */
-  top: calc(28px + 48px); /* padding-top + badge height */
+  left: 16px;
+  top: calc(24px + 32px + 4px);
   bottom: 0;
   width: 1px;
   background: var(--border-default);
 }
 .lp-encoding-badge {
   position: relative; flex-shrink: 0;
-  width: 40px; height: 48px;
-  color: var(--text-dim);
-}
-.lp-encoding-badge-svg {
-  display: block; width: 100%; height: 100%;
+  width: 32px; height: 32px;
+  border: 1.5px solid var(--border-active);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 2px;
 }
 .lp-encoding-num {
-  position: absolute; top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: var(--font-mono); font-size: 13px; font-weight: 700;
-  color: var(--text-label); letter-spacing: .04em;
-  z-index: 1; line-height: 1;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  color: var(--text-label); letter-spacing: .04em; line-height: 1;
 }
 .lp-encoding-content {
   font-family: var(--font-sans); font-size: 15px; line-height: 1.85;
-  color: var(--text-label); max-width: 560px; padding-top: 4px;
+  color: var(--text-label); max-width: 560px; padding-top: 5px;
 }
 .lp-encoding-content strong { color: var(--text-accent); font-weight: 600; }
 
@@ -566,11 +570,11 @@
   .lp-section { padding: 48px 0; }
   .lp-anti-features li { font-size: 15px; padding: 16px 0; }
   .lp-privacy-card { padding: 26px 22px 28px; }
-  .lp-encoding-point { gap: 16px; padding: 20px 0; }
-  .lp-encoding-badge { width: 34px; height: 40px; }
-  .lp-encoding-num { font-size: 12px; }
-  .lp-encoding-point:not(:last-child)::after { left: 17px; top: calc(20px + 40px); }
-  .lp-encoding-content { font-size: 14px; padding-top: 2px; }
+  .lp-encoding-point { gap: 14px; padding: 18px 0; }
+  .lp-encoding-badge { width: 28px; height: 28px; }
+  .lp-encoding-num { font-size: 10px; }
+  .lp-encoding-point:not(:last-child)::after { left: 14px; top: calc(18px + 28px + 3px); }
+  .lp-encoding-content { font-size: 14px; padding-top: 3px; }
   .lp-step { gap: 18px; padding: 24px 0; }
   .lp-guide-step { padding: 22px 18px 20px; }
   .lp-guide-bit { width: 20px; height: 20px; font-size: 10px; }
@@ -641,11 +645,11 @@
   .lp-privacy-card { padding: 22px 18px 24px; }
   .lp-privacy-title { font-size: 15px; }
   .lp-privacy-desc { font-size: 13px; }
-  .lp-encoding-point { gap: 12px; padding: 16px 0; }
-  .lp-encoding-badge { width: 30px; height: 36px; }
-  .lp-encoding-num { font-size: 11px; }
-  .lp-encoding-point:not(:last-child)::after { left: 15px; top: calc(16px + 36px); }
-  .lp-encoding-content { font-size: 13px; padding-top: 1px; }
+  .lp-encoding-point { gap: 10px; padding: 14px 0; }
+  .lp-encoding-badge { width: 26px; height: 26px; }
+  .lp-encoding-num { font-size: 10px; }
+  .lp-encoding-point:not(:last-child)::after { left: 13px; top: calc(14px + 26px + 2px); }
+  .lp-encoding-content { font-size: 13px; padding-top: 2px; }
   .lp-cta-sub { font-size: 14px; }
   .lp-guide-step { padding: 16px 12px 14px; }
   .lp-guide-bit { width: 18px; height: 18px; font-size: 9px; border-radius: 3px; }
