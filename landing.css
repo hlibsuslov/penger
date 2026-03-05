@@ -184,8 +184,8 @@
 
 .lp-privacy-icon {
   display: block;
-  width: 36px;
-  height: 36px;
+  width: 24px;
+  height: 24px;
   color: var(--text-label);
   margin-bottom: 20px;
   transition: color var(--duration-normal) var(--ease-default);
