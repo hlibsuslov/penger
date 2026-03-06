@@ -16,7 +16,6 @@
   var navHamburger = document.getElementById('navHamburger');
   var siteNav = document.getElementById('siteNav');
   var navOverlay = document.getElementById('navOverlay');
-  var navCloseBtn = document.getElementById('navCloseBtn');
 
   var hamburgerLabel = navHamburger ? navHamburger.querySelector('.hamburger-label') : null;
 
@@ -47,9 +46,6 @@
   }
   if (navOverlay) {
     navOverlay.addEventListener('click', closeNav);
-  }
-  if (navCloseBtn) {
-    navCloseBtn.addEventListener('click', closeNav);
   }
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') { closeNav(); }
