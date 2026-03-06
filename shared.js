@@ -51,6 +51,35 @@
     if (e.key === 'Escape') { closeNav(); }
   });
 
+  /* ===== SWIPE-TO-CLOSE NAV ===== */
+  (function () {
+    if (!siteNav) return;
+    var startX = 0;
+    var startY = 0;
+    var tracking = false;
+
+    siteNav.addEventListener('touchstart', function (e) {
+      var touch = e.touches[0];
+      startX = touch.clientX;
+      startY = touch.clientY;
+      tracking = true;
+    }, { passive: true });
+
+    siteNav.addEventListener('touchmove', function (e) {
+      if (!tracking) return;
+      var dx = e.touches[0].clientX - startX;
+      var dy = e.touches[0].clientY - startY;
+      if (dx > 60 && Math.abs(dy) < dx * 0.5) {
+        closeNav();
+        tracking = false;
+      }
+    }, { passive: true });
+
+    siteNav.addEventListener('touchend', function () {
+      tracking = false;
+    }, { passive: true });
+  })();
+
   /* ===== ACTIVE NAV LINK ===== */
   var currentPage = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav-link[href]').forEach(function (link) {
