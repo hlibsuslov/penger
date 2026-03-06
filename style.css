@@ -1252,10 +1252,9 @@ body.nav-open {
 @media (max-width: 768px) {
   /* ── Nav panel drawer ── */
   .site-nav {
-    position: fixed; top: 0; right: 0;
+    position: fixed; top: 0; right: 0; bottom: 0;
     width: 81%;
     max-width: 340px;
-    height: 100dvh;
     background: rgba(16, 16, 18, 0.88);
     backdrop-filter: blur(32px) saturate(1.4);
     -webkit-backdrop-filter: blur(32px) saturate(1.4);
@@ -1268,6 +1267,8 @@ body.nav-open {
     transition: transform 0.26s cubic-bezier(0.32, 0.72, 0, 1),
                 opacity 0.22s ease;
     z-index: 90; overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
     box-shadow: -16px 0 64px rgba(0, 0, 0, 0.45),
                 -2px 0 12px rgba(0, 0, 0, 0.2),
                 inset 1px 0 0 rgba(255, 255, 255, 0.04);
