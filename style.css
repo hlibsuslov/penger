@@ -1451,10 +1451,10 @@ body.nav-open {
   .nav-link {
     display: block;
     padding: 16px 24px;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     letter-spacing: 0.06em;
-    border-bottom: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 0;
     position: relative;
     transition: color 0.15s ease, background 0.15s ease;
@@ -1484,11 +1484,15 @@ body.nav-open {
   /* ── Footer links ── */
   .nav-link--footer {
     display: block;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     letter-spacing: 0.06em;
     color: var(--text-dim);
     padding: 16px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  .nav-link--footer:last-child {
+    border-bottom: none;
   }
   .nav-link--footer:hover { color: var(--text-label); }
 
@@ -1505,6 +1509,8 @@ body.nav-open {
                   inset 1px 0 0 rgba(0, 0, 0, 0.03);
     }
     .nav-spacer { border-bottom-color: rgba(0, 0, 0, 0.05); }
+    .nav-link { border-bottom-color: rgba(0, 0, 0, 0.05); }
+    .nav-link--footer { border-bottom-color: rgba(0, 0, 0, 0.05); }
     .nav-mobile-group-label { opacity: 0.5; }
     .nav-link:hover,
     .nav-link:focus-visible { background: rgba(0, 0, 0, 0.03); }
