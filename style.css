@@ -895,14 +895,17 @@ h3 { font-size: 15px; font-weight: 600; }
 /* Mobile nav overlay */
 .nav-overlay {
   position: fixed; inset: 0; z-index: 89;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s var(--ease-default);
 }
 .nav-overlay.visible { opacity: 1; pointer-events: auto; }
+
+/* Close button inside mobile nav */
+.nav-close-btn { display: none; }
 
 /* Body scroll lock when nav is open */
 body.nav-open {
@@ -1256,14 +1259,14 @@ body.nav-open {
     width: 81%;
     max-width: 340px;
     height: auto;
-    max-height: calc(100dvh - var(--header-h));
+    max-height: min(55vh, 480px);
     background: rgba(16, 16, 18, 0.88);
     backdrop-filter: blur(32px) saturate(1.4);
     -webkit-backdrop-filter: blur(32px) saturate(1.4);
     border-left: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 0 0 0 16px;
     flex-direction: column; align-items: stretch; gap: 0;
-    padding: 20px 0 36px;
+    padding: 20px 0 24px;
     transform: translateX(100%);
     opacity: 0;
     transition: transform 0.26s cubic-bezier(0.32, 0.72, 0, 1),
@@ -1280,6 +1283,22 @@ body.nav-open {
     opacity: 1;
   }
 
+  /* Close button */
+  .nav-close-btn {
+    display: flex; align-items: center; gap: 8px;
+    margin: 0 16px 8px auto;
+    padding: 6px 12px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--text-label);
+    font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .nav-close-btn:hover { border-color: var(--border-hover); background: var(--bg-surface-hover); }
+
   /* Staggered entrance for nav items */
   .site-nav > * {
     opacity: 0;
@@ -1290,15 +1309,16 @@ body.nav-open {
     opacity: 1;
     transform: translateX(0);
   }
-  .site-nav.open > :nth-child(1)  { transition-delay: 0.06s; }
-  .site-nav.open > :nth-child(2)  { transition-delay: 0.09s; }
-  .site-nav.open > :nth-child(3)  { transition-delay: 0.12s; }
-  .site-nav.open > :nth-child(4)  { transition-delay: 0.15s; }
-  .site-nav.open > :nth-child(5)  { transition-delay: 0.18s; }
-  .site-nav.open > :nth-child(6)  { transition-delay: 0.21s; }
-  .site-nav.open > :nth-child(7)  { transition-delay: 0.24s; }
-  .site-nav.open > :nth-child(8)  { transition-delay: 0.27s; }
-  .site-nav.open > :nth-child(9)  { transition-delay: 0.30s; }
+  .site-nav.open > :nth-child(1)  { transition-delay: 0.03s; }
+  .site-nav.open > :nth-child(2)  { transition-delay: 0.06s; }
+  .site-nav.open > :nth-child(3)  { transition-delay: 0.09s; }
+  .site-nav.open > :nth-child(4)  { transition-delay: 0.12s; }
+  .site-nav.open > :nth-child(5)  { transition-delay: 0.15s; }
+  .site-nav.open > :nth-child(6)  { transition-delay: 0.18s; }
+  .site-nav.open > :nth-child(7)  { transition-delay: 0.21s; }
+  .site-nav.open > :nth-child(8)  { transition-delay: 0.24s; }
+  .site-nav.open > :nth-child(9)  { transition-delay: 0.27s; }
+  .site-nav.open > :nth-child(10) { transition-delay: 0.30s; }
 
   /* ── Education caption ── */
   .nav-caption {
@@ -1380,6 +1400,8 @@ body.nav-open {
                   -2px 0 12px rgba(0, 0, 0, 0.06),
                   inset 1px 0 0 rgba(0, 0, 0, 0.03);
     }
+    .nav-close-btn { border-color: rgba(0, 0, 0, 0.1); color: var(--text-label); }
+    .nav-close-btn:hover { border-color: rgba(0, 0, 0, 0.2); background: rgba(0, 0, 0, 0.03); }
     .nav-spacer { border-bottom-color: rgba(0, 0, 0, 0.05); }
     .nav-link:hover,
     .nav-link:focus-visible { background: rgba(0, 0, 0, 0.03); }
@@ -1407,7 +1429,7 @@ body.nav-open {
   .card-grid { grid-template-columns: 1fr; }
   .card { padding: 20px; }
 
-  .site-nav { width: 84%; border-radius: 14px 0 0 14px; }
+  .site-nav { width: 84%; max-width: 340px; border-radius: 14px 0 0 14px; }
 
   .faq-q-btn { padding: 12px 14px; font-size: 13px; }
   .faq-bubble { padding: 12px 14px; font-size: 12px; }
