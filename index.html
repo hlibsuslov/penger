@@ -90,11 +90,24 @@
       <nav class="site-nav" id="siteNav">
         <button class="nav-close-btn" id="navCloseBtn" type="button" aria-label="Close menu"><span class="nav-close-icon">✕</span><span class="nav-close-label">Close</span></button>
         <a href="index.html" class="nav-link">Home</a>
-        <span class="nav-caption">Education</span>
-        <a href="guides.html" class="nav-link">Academy</a>
-        <a href="simulators.html" class="nav-link">Simulators</a>
-        <a href="dictionary.html" class="nav-link">Dictionary</a>
-        <a href="ai-tutor.html" class="nav-link">AI Tutor</a>
+        <div class="nav-dropdown" id="navDropdown">
+          <button class="nav-dropdown-trigger" type="button" aria-expanded="false" aria-haspopup="true">Education <span class="nav-dropdown-arrow"></span></button>
+          <div class="nav-dropdown-menu" role="menu">
+            <a href="guides.html" class="nav-dropdown-link" role="menuitem"><span class="nav-dropdown-icon">■</span> Academy</a>
+            <a href="simulators.html" class="nav-dropdown-link" role="menuitem"><span class="nav-dropdown-icon">○</span> Simulators</a>
+            <a href="dictionary.html" class="nav-dropdown-link" role="menuitem"><span class="nav-dropdown-icon">≡</span> Dictionary</a>
+            <div class="nav-dropdown-sep"></div>
+            <a href="ai-tutor.html" class="nav-dropdown-link" role="menuitem"><span class="nav-dropdown-icon">✦</span> AI Tutor</a>
+          </div>
+        </div>
+        <a href="contacts.html" class="nav-link nav-link--desktop">Contacts</a>
+        <div class="nav-mobile-group">
+          <span class="nav-mobile-group-label">Education</span>
+          <a href="guides.html" class="nav-link">Academy</a>
+          <a href="simulators.html" class="nav-link">Simulators</a>
+          <a href="dictionary.html" class="nav-link">Dictionary</a>
+          <a href="ai-tutor.html" class="nav-link">AI Tutor</a>
+        </div>
         <span class="nav-spacer"></span>
         <a href="contacts.html" class="nav-link nav-link--footer">Contacts</a>
         <a href="about.html" class="nav-link nav-link--footer">About Us</a>

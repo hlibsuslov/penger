@@ -65,6 +65,48 @@
       link.classList.add('active');
     }
   });
+  /* Also mark dropdown links and trigger as active */
+  document.querySelectorAll('.nav-dropdown-link[href]').forEach(function (link) {
+    var href = link.getAttribute('href');
+    if (href === currentPage || (currentPage.indexOf('guide-') === 0 && href === 'guides.html')) {
+      link.classList.add('active');
+      var trigger = link.closest('.nav-dropdown');
+      if (trigger) {
+        var btn = trigger.querySelector('.nav-dropdown-trigger');
+        if (btn) btn.classList.add('active');
+      }
+    }
+  });
+
+  /* ===== DESKTOP DROPDOWN MENU ===== */
+  var dropdowns = document.querySelectorAll('.nav-dropdown');
+  dropdowns.forEach(function (dropdown) {
+    var trigger = dropdown.querySelector('.nav-dropdown-trigger');
+    if (!trigger) return;
+
+    trigger.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var isOpen = dropdown.classList.contains('open');
+      /* Close all dropdowns first */
+      dropdowns.forEach(function (d) { d.classList.remove('open'); });
+      if (!isOpen) dropdown.classList.add('open');
+    });
+
+    /* Close on mouse leave with delay */
+    var closeTimer = null;
+    dropdown.addEventListener('mouseenter', function () {
+      clearTimeout(closeTimer);
+    });
+    dropdown.addEventListener('mouseleave', function () {
+      closeTimer = setTimeout(function () {
+        dropdown.classList.remove('open');
+      }, 300);
+    });
+  });
+  /* Close dropdown when clicking outside */
+  document.addEventListener('click', function () {
+    dropdowns.forEach(function (d) { d.classList.remove('open'); });
+  });
 
   /* ===== SCROLL-TRIGGERED FADE-IN ===== */
   (function () {
