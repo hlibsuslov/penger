@@ -665,7 +665,7 @@ h3 { font-size: 15px; font-weight: 600; }
 .animate { opacity: 1; }
 
 /* === RESPONSIVE: Tablet === */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .container { padding: 0 20px; }
   h1 { font-size: 24px; }
   h2 { font-size: 19px; }
@@ -818,7 +818,7 @@ h3 { font-size: 15px; font-weight: 600; }
   background: var(--glow);
 }
 /* Active indicator dot — desktop only */
-@media (min-width: 769px) {
+@media (min-width: 601px) {
   .nav-link.active::after {
     content: ''; position: absolute;
     bottom: 2px; left: 50%; transform: translateX(-50%);
@@ -848,7 +848,7 @@ h3 { font-size: 15px; font-weight: 600; }
   color: var(--text-accent);
   background: var(--glow);
 }
-@media (min-width: 769px) {
+@media (min-width: 601px) {
   .nav-dropdown-trigger.active::after {
     content: ''; position: absolute;
     bottom: 2px; left: 50%; transform: translateX(-50%);
@@ -1354,7 +1354,7 @@ body.nav-open {
    RESPONSIVE: AGGREGATOR ADDITIONS
    ==================================================================== */
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   /* ── Hide desktop-only elements on mobile ── */
   .nav-dropdown { display: none; }
   .nav-link--desktop { display: none; }
@@ -1432,7 +1432,17 @@ body.nav-open {
   }
   .nav-mobile-group .nav-link {
     padding-left: 24px;
+    display: flex;
+    align-items: center;
   }
+  .nav-mobile-icon {
+    width: 20px; height: 20px;
+    display: inline-flex; align-items: center; justify-content: center;
+    margin-right: 10px;
+    flex-shrink: 0;
+    opacity: 0.6;
+  }
+  .nav-mobile-icon svg { display: block; }
 
   /* ── Education caption (legacy, hidden) ── */
   .nav-caption {
