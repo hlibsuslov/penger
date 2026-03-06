@@ -1413,10 +1413,10 @@ body.nav-open {
 
   /* ── Mobile nav group (Education section) ── */
   .nav-mobile-group {
-    padding: 4px 0 0;
+    padding: 0;
   }
   .nav-mobile-group-label {
-    display: block;
+    display: none;
     padding: 16px 24px 6px;
     font-family: var(--font-mono);
     font-size: 9.5px;
@@ -1440,10 +1440,9 @@ body.nav-open {
   /* ── Spacer between sections ── */
   .nav-spacer {
     display: block;
-    flex-grow: 1;
-    min-height: 16px;
-    margin: 10px 20px 6px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    min-height: 0;
+    margin: 6px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   }
 
   /* ── Nav links in drawer ── */
@@ -1483,11 +1482,11 @@ body.nav-open {
   /* ── Footer links ── */
   .nav-link--footer {
     display: block;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 16px;
+    font-weight: 600;
     letter-spacing: 0.06em;
     color: var(--text-dim);
-    padding: 14px 24px;
+    padding: 16px 24px;
   }
   .nav-link--footer:hover { color: var(--text-label); }
 
