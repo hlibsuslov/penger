@@ -797,9 +797,9 @@ h3 { font-size: 15px; font-weight: 600; }
    MULTI-PAGE AGGREGATOR STYLES
    ==================================================================== */
 
-/* === SITE NAV === */
+/* === SITE NAV (Desktop) === */
 .site-nav {
-  display: flex; align-items: center; gap: 6px;
+  display: flex; align-items: center; gap: 2px;
 }
 .nav-link {
   font-family: var(--font-mono); font-size: 11px; font-weight: 600;
@@ -826,8 +826,110 @@ h3 { font-size: 15px; font-weight: 600; }
     background: var(--text-accent);
   }
 }
+
+/* === Nav Dropdown (Education) === */
+.nav-dropdown {
+  position: relative;
+}
+.nav-dropdown-trigger {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--text-dim); background: none; border: none;
+  cursor: pointer; padding: 6px 10px; position: relative;
+  border-radius: 6px;
+  transition: color 0.2s ease, background 0.2s ease;
+  display: flex; align-items: center; gap: 5px;
+}
+.nav-dropdown-trigger:hover {
+  color: var(--text-label);
+  background: var(--bg-surface-hover);
+}
+.nav-dropdown-trigger.active {
+  color: var(--text-accent);
+  background: var(--glow);
+}
+@media (min-width: 769px) {
+  .nav-dropdown-trigger.active::after {
+    content: ''; position: absolute;
+    bottom: 2px; left: 50%; transform: translateX(-50%);
+    width: 3px; height: 3px; border-radius: 50%;
+    background: var(--text-accent);
+  }
+}
+.nav-dropdown-arrow {
+  display: inline-block;
+  width: 0; height: 0;
+  border-left: 3.5px solid transparent;
+  border-right: 3.5px solid transparent;
+  border-top: 4px solid currentColor;
+  transition: transform 0.25s ease;
+  position: relative; top: 0.5px;
+}
+.nav-dropdown.open .nav-dropdown-arrow {
+  transform: rotate(180deg);
+}
+.nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px); left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  min-width: 200px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: 10px;
+  padding: 6px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 110;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
+}
+@media (prefers-color-scheme: dark) {
+  .nav-dropdown-menu {
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 2px 8px rgba(0,0,0,0.15);
+  }
+}
+.nav-dropdown.open .nav-dropdown-menu {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+.nav-dropdown-link {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--text-dim); text-decoration: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+.nav-dropdown-link:hover {
+  color: var(--text-accent);
+  background: var(--bg-surface-hover);
+}
+.nav-dropdown-link.active {
+  color: var(--text-accent);
+  background: var(--glow);
+}
+.nav-dropdown-icon {
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg-highlight);
+  border-radius: 6px;
+  flex-shrink: 0;
+  font-size: 13px;
+  line-height: 1;
+}
+.nav-dropdown-sep {
+  height: 1px;
+  background: var(--border-default);
+  margin: 4px 8px;
+}
+
 /* Hide mobile-only nav elements on desktop */
 .nav-caption, .nav-spacer, .nav-link--footer, .nav-close-btn { display: none; }
+.nav-mobile-group { display: none; }
+/* Desktop-only nav link */
+.nav-link--desktop { display: inline-flex; }
 
 .header-controls { display: flex; align-items: center; gap: 10px; }
 
@@ -1253,13 +1355,18 @@ body.nav-open {
    ==================================================================== */
 
 @media (max-width: 768px) {
+  /* ── Hide desktop-only elements on mobile ── */
+  .nav-dropdown { display: none; }
+  .nav-link--desktop { display: none; }
+  .nav-mobile-group { display: block; }
+
   /* ── Nav panel drawer ── */
   .site-nav {
     position: fixed; top: var(--header-h); right: 0;
     width: 78%;
     max-width: 320px;
     height: auto;
-    max-height: min(55vh, 480px);
+    max-height: min(65vh, 540px);
     background: rgba(18, 18, 22, 0.92);
     backdrop-filter: blur(32px) saturate(1.4);
     -webkit-backdrop-filter: blur(32px) saturate(1.4);
@@ -1325,10 +1432,13 @@ body.nav-open {
   .site-nav.open > :nth-child(9)  { transition-delay: 0.27s; }
   .site-nav.open > :nth-child(10) { transition-delay: 0.30s; }
 
-  /* ── Education caption ── */
-  .nav-caption {
+  /* ── Mobile nav group (Education section) ── */
+  .nav-mobile-group {
+    padding: 4px 0 0;
+  }
+  .nav-mobile-group-label {
     display: block;
-    padding: 16px 20px 4px;
+    padding: 14px 20px 4px;
     font-family: var(--font-mono);
     font-size: 8.5px;
     font-weight: 500;
@@ -1339,8 +1449,16 @@ body.nav-open {
     user-select: none;
     pointer-events: none;
   }
+  .nav-mobile-group .nav-link {
+    padding-left: 20px;
+  }
 
-  /* ── Spacer between education & footer ── */
+  /* ── Education caption (legacy, hidden) ── */
+  .nav-caption {
+    display: none;
+  }
+
+  /* ── Spacer between sections ── */
   .nav-spacer {
     display: block;
     flex-grow: 1;
@@ -1408,11 +1526,11 @@ body.nav-open {
     .nav-close-btn { border-color: rgba(0, 0, 0, 0.08); color: var(--text-dim); }
     .nav-close-btn:hover { border-color: rgba(0, 0, 0, 0.16); background: rgba(0, 0, 0, 0.03); color: var(--text-label); }
     .nav-spacer { border-bottom-color: rgba(0, 0, 0, 0.05); }
+    .nav-mobile-group-label { opacity: 0.5; }
     .nav-link:hover,
     .nav-link:focus-visible { background: rgba(0, 0, 0, 0.03); }
     .nav-link.active { background: rgba(0, 0, 0, 0.04); }
     .nav-link.active::before { opacity: 0.8; }
-    .nav-caption { opacity: 0.5; }
   }
 
   /* Hero responsive */
