@@ -1363,7 +1363,7 @@ body.nav-open {
   /* ── Nav panel drawer ── */
   .site-nav {
     position: fixed; top: var(--header-h); right: 0;
-    width: 30%;
+    width: 40%;
     max-width: none;
     height: auto;
     max-height: min(80vh, 680px);
@@ -1541,7 +1541,7 @@ body.nav-open {
   .card-grid { grid-template-columns: 1fr; }
   .card { padding: 20px; }
 
-  .site-nav { width: 38%; border-radius: 0 0 0 14px; }
+  .site-nav { width: 50%; border-radius: 0 0 0 14px; }
 
   .faq-q-btn { padding: 12px 14px; font-size: 13px; }
   .faq-bubble { padding: 12px 14px; font-size: 12px; }
