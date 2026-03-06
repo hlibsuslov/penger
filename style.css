@@ -1252,16 +1252,18 @@ body.nav-open {
 @media (max-width: 768px) {
   /* ── Nav panel drawer ── */
   .site-nav {
-    position: fixed; top: 0; right: 0; bottom: 0;
+    position: fixed; top: var(--header-h); right: 0;
     width: 81%;
     max-width: 340px;
+    height: auto;
+    max-height: calc(100dvh - var(--header-h));
     background: rgba(16, 16, 18, 0.88);
     backdrop-filter: blur(32px) saturate(1.4);
     -webkit-backdrop-filter: blur(32px) saturate(1.4);
     border-left: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 16px 0 0 16px;
+    border-radius: 0 0 0 16px;
     flex-direction: column; align-items: stretch; gap: 0;
-    padding: calc(var(--header-h) + 20px) 0 36px;
+    padding: 20px 0 36px;
     transform: translateX(100%);
     opacity: 0;
     transition: transform 0.26s cubic-bezier(0.32, 0.72, 0, 1),
