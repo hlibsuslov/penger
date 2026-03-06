@@ -916,8 +916,10 @@ h3 { font-size: 15px; font-weight: 600; }
   background: var(--bg-highlight);
   border-radius: 6px;
   flex-shrink: 0;
-  font-size: 13px;
-  line-height: 1;
+  color: var(--text-primary);
+}
+.nav-dropdown-icon svg {
+  display: block;
 }
 .nav-dropdown-sep {
   height: 1px;
