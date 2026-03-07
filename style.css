@@ -848,14 +848,6 @@ h3 { font-size: 15px; font-weight: 600; }
   color: var(--text-accent);
   background: var(--glow);
 }
-@media (min-width: 601px) {
-  .nav-dropdown-trigger.active::after {
-    content: ''; position: absolute;
-    bottom: 2px; left: 50%; transform: translateX(-50%);
-    width: 3px; height: 3px; border-radius: 50%;
-    background: var(--text-accent);
-  }
-}
 .nav-dropdown-arrow {
   display: inline-block;
   width: 0; height: 0;
