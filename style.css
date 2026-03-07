@@ -921,6 +921,11 @@ h3 { font-size: 15px; font-weight: 600; }
 .nav-dropdown-icon svg {
   display: block;
 }
+.icon-ai-tutor {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
 .nav-dropdown-sep {
   height: 1px;
   background: var(--border-default);
@@ -1362,7 +1367,7 @@ body.nav-open {
 
   /* ── Nav panel drawer ── */
   .site-nav {
-    position: fixed; top: var(--header-h); right: 0;
+    position: fixed; top: calc(var(--header-h) - 5px); right: 0;
     width: 40%;
     max-width: none;
     height: auto;
@@ -1953,4 +1958,3 @@ body.nav-open {
   .footer-link { font-size: 9px; }
   .footer-bottom { font-size: 9px; }
 }
-
