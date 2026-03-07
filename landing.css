@@ -403,10 +403,10 @@
 }
 .lp-binary-edge-top {
   transform: rotate(180deg);
-  align-self: flex-start;
+  align-self: center;
 }
 .lp-binary-edge-bottom {
-  align-self: flex-start;
+  align-self: center;
 }
 .lp-binary-cells {
   display: grid;
