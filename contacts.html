@@ -30,6 +30,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="contacts.css">
   <title>Contacts &mdash; PENGER</title>
   <script type="application/ld+json">
   {
@@ -62,331 +63,6 @@
     }
   }
   </script>
-  <style>
-    /* Hero */
-    .contacts-hero {
-      padding: 64px 0 48px;
-      border-bottom: 1px solid var(--border-default);
-    }
-    .contacts-hero h1 {
-      font-family: var(--font-sans);
-      font-size: 42px;
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
-      color: var(--text-accent);
-      margin-top: 12px;
-      margin-bottom: 16px;
-    }
-    .contacts-hero .body-text {
-      max-width: 520px;
-      font-size: 15px;
-      line-height: 1.8;
-    }
-
-    /* Contact cards section */
-    .contacts-cards-section {
-      padding: 48px 0;
-      border-bottom: 1px solid var(--border-default);
-    }
-    .contacts-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-top: 24px;
-    }
-    .contact-card {
-      padding: 28px 24px;
-      background: var(--bg-surface);
-      border: 1px solid var(--border-default);
-      border-radius: 8px;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-      display: flex;
-      flex-direction: column;
-    }
-    .contact-card:hover {
-      border-color: var(--border-active);
-      box-shadow: 0 2px 12px var(--glow);
-    }
-    .contact-card-icon {
-      width: 24px;
-      height: 24px;
-      margin-bottom: 16px;
-      color: var(--text-accent);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .contact-card-icon svg {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-    .contact-card-label {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-dim);
-      margin-bottom: 12px;
-    }
-    .contact-card-value {
-      font-family: var(--font-mono);
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text-accent);
-      overflow-wrap: break-word;
-      word-break: break-word;
-    }
-    .contact-card-value a {
-      color: var(--text-accent);
-      text-decoration: none;
-      transition: color 0.2s ease;
-    }
-    .contact-card-value a:hover { color: var(--text-accent-hover); }
-    .contact-card-desc {
-      font-family: var(--font-sans);
-      font-size: 13px;
-      line-height: 1.7;
-      color: var(--text-label);
-      margin-top: 10px;
-    }
-    .contact-card-action {
-      margin-top: auto;
-      padding-top: 16px;
-    }
-    .contact-card-action a {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--text-dim);
-      text-decoration: none;
-      transition: color 0.2s ease;
-    }
-    .contact-card-action a:hover { color: var(--text-accent); }
-
-    /* CEO section */
-    .ceo-section {
-      padding: 48px 0;
-      border-bottom: 1px solid var(--border-default);
-    }
-    .ceo-card {
-      display: flex;
-      gap: 32px;
-      align-items: flex-start;
-      padding: 32px;
-      background: var(--bg-surface);
-      border: 1px solid var(--border-default);
-      border-radius: 8px;
-      margin-top: 20px;
-    }
-    .ceo-photo {
-      width: 120px;
-      height: 120px;
-      flex-shrink: 0;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 2px solid var(--border-default);
-    }
-    .ceo-photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .ceo-info {
-      flex: 1;
-      min-width: 0;
-    }
-    .ceo-name {
-      font-family: var(--font-sans);
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--text-accent);
-      margin-bottom: 4px;
-    }
-    .ceo-title {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--text-dim);
-      margin-bottom: 16px;
-    }
-    .ceo-bio {
-      font-family: var(--font-sans);
-      font-size: 14px;
-      line-height: 1.8;
-      color: var(--text-primary);
-      max-width: 480px;
-    }
-
-    /* Channels section */
-    .channels-section {
-      padding: 48px 0;
-      border-bottom: 1px solid var(--border-default);
-    }
-    .channels-section h2 {
-      margin-top: 8px;
-      margin-bottom: 4px;
-    }
-    .channels-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      border: 1px solid var(--border-default);
-      border-radius: 8px;
-      overflow: hidden;
-      margin-top: 20px;
-    }
-    .channel-row {
-      display: grid;
-      grid-template-columns: 110px 1fr auto;
-      align-items: center;
-      gap: 16px;
-      padding: 18px 24px;
-      background: var(--bg-surface);
-      border-bottom: 1px solid var(--border-default);
-      transition: background 0.15s ease;
-      text-decoration: none;
-      color: inherit;
-    }
-    .channel-row:last-child { border-bottom: none; }
-    .channel-row:hover { background: var(--bg-surface-hover); }
-    .channel-platform {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text-accent);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .channel-platform-icon {
-      width: 16px;
-      height: 16px;
-      color: var(--text-accent);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .channel-platform-icon svg {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-    .channel-handle {
-      font-family: var(--font-mono);
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-primary);
-      overflow-wrap: break-word;
-      word-break: break-word;
-    }
-    .channel-handle a {
-      color: var(--text-primary);
-      text-decoration: none;
-      transition: color 0.2s ease;
-    }
-    .channel-handle a:hover { color: var(--text-accent); }
-    .channel-arrow {
-      font-family: var(--font-mono);
-      font-size: 14px;
-      color: var(--text-dim);
-      transition: transform 0.2s ease;
-    }
-    .channel-row:hover .channel-arrow {
-      transform: translateX(3px);
-      color: var(--text-accent);
-    }
-
-    /* Tablet */
-    @media (max-width: 768px) {
-      .contacts-hero { padding: 48px 0 36px; }
-      .contacts-hero h1 { font-size: 32px; }
-      .contacts-grid { grid-template-columns: 1fr; }
-      .ceo-card {
-        flex-direction: column;
-        gap: 24px;
-        align-items: center;
-        text-align: center;
-      }
-      .ceo-bio { max-width: 100%; }
-    }
-    /* Phone */
-    @media (max-width: 520px) {
-      .contacts-hero { padding: 36px 0 28px; }
-      .contacts-hero h1 { font-size: 26px; }
-      .contacts-hero .body-text { font-size: 14px; }
-      .contacts-cards-section { padding: 32px 0; }
-      .contacts-grid { gap: 14px; margin-top: 20px; }
-      .contact-card { padding: 22px 18px; }
-      .contact-card-value { font-size: 14px; }
-      .ceo-section { padding: 32px 0; }
-      .ceo-card { padding: 24px 20px; gap: 20px; }
-      .ceo-photo { width: 96px; height: 96px; }
-      .ceo-name { font-size: 20px; }
-      .ceo-title { font-size: 11px; margin-bottom: 12px; }
-      .ceo-bio { font-size: 13px; }
-      .channels-section { padding: 32px 0; }
-      .channels-list { margin-top: 16px; }
-      .channel-row {
-        grid-template-columns: 1fr auto;
-        gap: 4px 12px;
-        padding: 14px 18px;
-      }
-      .channel-platform {
-        font-size: 10px;
-        grid-column: 1;
-        gap: 6px;
-      }
-      .channel-platform-icon {
-        width: 14px;
-        height: 14px;
-      }
-      .channel-handle {
-        font-size: 13px;
-        grid-column: 1;
-      }
-      .channel-arrow {
-        grid-row: 1 / 3;
-        grid-column: 2;
-        align-self: center;
-      }
-    }
-    /* Small phone */
-    @media (max-width: 380px) {
-      .contacts-hero { padding: 28px 0 22px; }
-      .contacts-hero h1 { font-size: 22px; }
-      .contacts-hero .body-text { font-size: 13px; }
-      .contacts-cards-section { padding: 24px 0; }
-      .contact-card { padding: 18px 14px; }
-      .contact-card-icon { width: 22px; height: 22px; margin-bottom: 12px; }
-      .contact-card-label { font-size: 9px; margin-bottom: 8px; }
-      .contact-card-value { font-size: 13px; }
-      .contact-card-desc { font-size: 12px; }
-      .ceo-section { padding: 24px 0; }
-      .ceo-card { padding: 20px 16px; }
-      .ceo-photo { width: 80px; height: 80px; }
-      .ceo-name { font-size: 18px; }
-      .ceo-bio { font-size: 12px; }
-      .channels-section { padding: 24px 0; }
-      .channel-row { padding: 12px 14px; }
-      .channel-platform { font-size: 10px; }
-      .channel-platform-icon { width: 13px; height: 13px; }
-      .channel-handle { font-size: 12px; }
-    }
-  </style>
 </head>
 <body>
 
@@ -446,29 +122,49 @@
     <section class="contacts-cards-section">
       <div class="container">
         <p class="label">[ DIRECT CONTACT ]</p>
+        <div class="response-badge">
+          <span class="response-badge-dot"></span>
+          We typically respond within 24 hours
+        </div>
         <div class="contacts-grid">
+          <!-- Email card -->
           <div class="contact-card">
-            <div class="contact-card-icon" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 824 814">
-                <path fill="currentColor" fill-rule="evenodd" d="M33 136 L31 141 L29 143 L28 148 L26 151 L25 159 L24 160 L24 163 L23 164 L23 583 L24 584 L24 587 L25 588 L26 596 L28 599 L29 604 L31 606 L33 611 L35 613 L37 617 L48 628 L49 628 L52 631 L55 632 L62 637 L67 638 L70 640 L73 640 L74 641 L79 641 L80 642 L84 642 L85 643 L727 643 L728 642 L733 642 L734 641 L739 641 L740 640 L743 640 L746 638 L751 637 L753 635 L758 633 L760 631 L764 629 L775 618 L775 617 L780 611 L782 606 L784 604 L785 599 L787 596 L787 593 L788 592 L788 587 L790 583 L790 164 L788 160 L788 155 L787 154 L787 151 L785 148 L784 143 L782 141 L780 136 L778 134 L776 130 L764 118 L763 118 L758 114 L753 112 L751 110 L746 109 L743 107 L735 106 L734 105 L729 105 L728 104 L85 104 L84 105 L79 105 L78 106 L70 107 L67 109 L62 110 L58 113 L56 113 L53 116 L52 116 L49 119 L48 119 L37 130 L37 131 Z M100 149 L101 148 L712 148 L713 149 L652 210 L652 211 L650 212 L637 225 L637 226 L635 227 L635 228 L633 229 L631 231 L631 232 L629 233 L628 235 L626 236 L626 237 L624 239 L623 239 L623 240 L621 242 L620 242 L620 243 L618 245 L617 245 L617 246 L615 248 L614 248 L614 249 L612 251 L611 251 L611 252 L609 254 L608 254 L608 255 L606 257 L605 257 L605 258 L603 260 L602 260 L602 261 L600 263 L599 263 L599 264 L597 266 L596 266 L596 267 L594 269 L593 269 L593 270 L591 272 L590 272 L590 273 L588 275 L587 275 L587 276 L585 278 L584 278 L584 279 L582 281 L581 281 L581 282 L579 284 L578 284 L578 285 L576 287 L575 287 L575 288 L573 290 L572 290 L572 291 L570 293 L569 293 L569 294 L421 442 L417 443 L414 445 L409 445 L408 446 L405 446 L404 445 L399 445 L396 443 L392 442 L289 339 L289 338 L288 338 L277 327 L277 326 L276 326 L271 321 L271 320 L270 320 L265 315 L265 314 L264 314 L262 312 L262 311 L261 311 L259 309 L259 308 L258 308 L256 306 L256 305 L255 305 L253 303 L253 302 L252 302 L250 300 L250 299 L249 299 L247 297 L247 296 L246 296 L244 294 L244 293 L243 293 L241 291 L241 290 L240 290 L238 288 L238 287 L237 287 L235 285 L235 284 L234 284 L232 282 L232 281 L231 281 L229 279 L229 278 L228 278 L226 276 L226 275 L225 275 L223 273 L223 272 L222 272 L220 270 L220 269 L219 269 L217 267 L217 266 L216 266 L214 264 L214 263 L213 263 L211 261 L211 260 L210 260 L209 258 L204 253 L203 253 L202 251 L200 250 L199 248 L198 248 L197 246 L187 236 L185 235 L185 234 Z M100 598 L169 529 L169 528 L171 527 L179 519 L179 518 L181 517 L181 516 L183 514 L184 514 L184 513 L186 511 L187 511 L187 510 L189 508 L190 508 L190 507 L192 505 L193 505 L193 504 L195 502 L196 502 L196 501 L198 500 L199 498 L201 496 L202 496 L202 495 L204 493 L205 493 L205 492 L207 490 L208 490 L208 489 L210 487 L211 487 L211 486 L213 484 L214 484 L214 483 L216 481 L217 481 L217 480 L219 478 L220 478 L220 477 L222 475 L223 475 L223 474 L228 469 L229 469 L229 468 L234 463 L235 463 L235 462 L237 460 L238 460 L238 459 L243 454 L244 454 L244 453 L246 451 L247 451 L247 450 L261 436 L262 436 L262 435 L291 406 L293 405 L295 406 L298 409 L298 410 L299 410 L306 417 L306 418 L307 418 L311 422 L311 423 L312 423 L316 427 L316 428 L318 429 L319 431 L320 431 L321 433 L322 433 L324 435 L324 436 L358 470 L359 470 L365 476 L371 479 L373 481 L377 482 L379 484 L385 485 L388 487 L392 487 L393 488 L402 488 L403 489 L409 489 L410 488 L420 488 L421 487 L425 487 L428 485 L434 484 L436 482 L438 482 L442 479 L448 476 L453 471 L454 471 L490 435 L490 434 L492 433 L505 420 L505 419 L507 418 L514 411 L515 409 L516 409 L520 405 L521 405 L572 456 L572 457 L573 457 L575 459 L575 460 L576 460 L578 462 L578 463 L579 463 L581 465 L581 466 L582 466 L587 471 L587 472 L588 472 L590 474 L590 475 L591 475 L593 477 L593 478 L594 478 L596 480 L596 481 L597 481 L599 483 L599 484 L600 484 L602 486 L602 487 L603 487 L605 489 L605 490 L606 490 L608 492 L608 493 L609 493 L611 495 L611 496 L612 496 L614 498 L614 499 L615 499 L617 501 L617 502 L618 502 L620 504 L620 505 L621 505 L623 507 L623 508 L625 509 L626 511 L627 511 L629 513 L629 514 L630 514 L632 516 L632 517 L633 517 L634 519 L638 523 L639 523 L641 525 L641 526 L642 526 L644 528 L644 529 L650 535 L651 535 L652 537 L654 539 L655 539 L656 541 L713 598 L712 599 L101 599 Z M745 179 L746 180 L746 567 L745 568 L552 375 L552 372 Z M68 179 L261 372 L261 375 L68 568 L67 567 L67 180 Z"/>
-              </svg>
+            <div class="contact-card-header">
+              <span class="contact-card-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              </span>
+              <span class="contact-card-label">Email</span>
             </div>
-            <div class="contact-card-label">Email</div>
-            <div class="contact-card-value"><a href="mailto:contact@mypenger.com">contact@mypenger.com</a></div>
-            <p class="contact-card-desc">General inquiries, orders, and support. We typically respond within 24 hours.</p>
-            <div class="contact-card-action"><a href="mailto:contact@mypenger.com">Write to us &rarr;</a></div>
+            <div class="contact-card-value">contact@mypenger.com</div>
+            <p class="contact-card-desc">General inquiries, orders, and support.</p>
+            <div class="contact-card-cta">
+              <a class="contact-card-btn" href="mailto:contact@mypenger.com?subject=Inquiry%20%E2%80%94%20PENGER&body=Hello%20PENGER%20team%2C%0A%0A">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg>
+                Send Email
+              </a>
+              <button class="copy-email-btn" type="button" onclick="copyEmail(this)" data-email="contact@mypenger.com">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span>Copy</span>
+              </button>
+            </div>
           </div>
-          <div class="contact-card">
-            <div class="contact-card-icon" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 867 736">
-                <path fill="currentColor" fill-rule="evenodd" d="M798 44 L785 37 L777 35 L763 35 L79 260 L64 269 L57 277 L52 286 L49 297 L49 310 L56 328 L66 339 L80 347 L185 392 L187 394 L192 395 L244 419 L292 644 L297 661 L304 670 L311 673 L321 673 L330 669 L461 571 L612 694 L628 700 L642 700 L660 693 L671 683 L678 671 L684 649 L691 614 L696 598 L700 576 L702 572 L708 542 L711 534 L712 525 L714 521 L720 491 L723 483 L724 474 L750 368 L751 359 L756 343 L763 308 L771 279 L772 270 L774 266 L787 206 L816 87 L816 74 L813 64 L807 53 Z M772 80 L694 415 L691 423 L687 445 L679 474 L679 479 L655 576 L646 619 L643 627 L639 649 L636 656 L629 652 L402 466 L639 217 L644 205 L643 196 L639 189 L633 184 L628 182 L616 182 L609 185 L262 378 L93 304 L95 301 L243 253 L303 232 L343 220 L768 79 Z M500 297 L501 298 L351 455 L346 467 L346 471 L340 488 L340 492 L334 509 L334 513 L322 554 L319 558 L288 414 L483 305 Z M383 507 L420 537 L425 543 L358 593 L357 588 L363 571 L363 567 L369 550 L380 509 Z"/>
-              </svg>
+          <!-- Telegram card -->
+          <a class="contact-card" href="https://t.me/pengercom" target="_blank" rel="noopener">
+            <div class="contact-card-header">
+              <span class="contact-card-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0h-.056zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+              </span>
+              <span class="contact-card-label">Telegram</span>
             </div>
-            <div class="contact-card-label">Telegram</div>
-            <div class="contact-card-value"><a href="https://t.me/pengercom" target="_blank" rel="noopener">@pengercom</a></div>
+            <div class="contact-card-value">@pengercom</div>
             <p class="contact-card-desc">Quick questions, community updates, and real-time support.</p>
-            <div class="contact-card-action"><a href="https://t.me/pengercom" target="_blank" rel="noopener">Open Telegram &rarr;</a></div>
-          </div>
+            <div class="contact-card-cta">
+              <span class="contact-card-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                Open Chat
+              </span>
+            </div>
+          </a>
         </div>
       </div>
     </section>
@@ -496,12 +192,10 @@
         <p class="label">[ CHANNELS ]</p>
         <h2>Find Us Everywhere</h2>
         <div class="channels-list">
-          <a class="channel-row" href="mailto:contact@mypenger.com">
+          <a class="channel-row" href="mailto:contact@mypenger.com?subject=Inquiry%20%E2%80%94%20PENGER&body=Hello%20PENGER%20team%2C%0A%0A">
             <span class="channel-platform">
               <span class="channel-platform-icon" aria-hidden="true">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 824 814">
-                  <path fill="currentColor" fill-rule="evenodd" d="M33 136 L31 141 L29 143 L28 148 L26 151 L25 159 L24 160 L24 163 L23 164 L23 583 L24 584 L24 587 L25 588 L26 596 L28 599 L29 604 L31 606 L33 611 L35 613 L37 617 L48 628 L49 628 L52 631 L55 632 L62 637 L67 638 L70 640 L73 640 L74 641 L79 641 L80 642 L84 642 L85 643 L727 643 L728 642 L733 642 L734 641 L739 641 L740 640 L743 640 L746 638 L751 637 L753 635 L758 633 L760 631 L764 629 L775 618 L775 617 L780 611 L782 606 L784 604 L785 599 L787 596 L787 593 L788 592 L788 587 L790 583 L790 164 L788 160 L788 155 L787 154 L787 151 L785 148 L784 143 L782 141 L780 136 L778 134 L776 130 L764 118 L763 118 L758 114 L753 112 L751 110 L746 109 L743 107 L735 106 L734 105 L729 105 L728 104 L85 104 L84 105 L79 105 L78 106 L70 107 L67 109 L62 110 L58 113 L56 113 L53 116 L52 116 L49 119 L48 119 L37 130 L37 131 Z M100 149 L101 148 L712 148 L713 149 L652 210 L652 211 L650 212 L637 225 L637 226 L635 227 L635 228 L633 229 L631 231 L631 232 L629 233 L628 235 L626 236 L626 237 L624 239 L623 239 L623 240 L621 242 L620 242 L620 243 L618 245 L617 245 L617 246 L615 248 L614 248 L614 249 L612 251 L611 251 L611 252 L609 254 L608 254 L608 255 L606 257 L605 257 L605 258 L603 260 L602 260 L602 261 L600 263 L599 263 L599 264 L597 266 L596 266 L596 267 L594 269 L593 269 L593 270 L591 272 L590 272 L590 273 L588 275 L587 275 L587 276 L585 278 L584 278 L584 279 L582 281 L581 281 L581 282 L579 284 L578 284 L578 285 L576 287 L575 287 L575 288 L573 290 L572 290 L572 291 L570 293 L569 293 L569 294 L421 442 L417 443 L414 445 L409 445 L408 446 L405 446 L404 445 L399 445 L396 443 L392 442 L289 339 L289 338 L288 338 L277 327 L277 326 L276 326 L271 321 L271 320 L270 320 L265 315 L265 314 L264 314 L262 312 L262 311 L261 311 L259 309 L259 308 L258 308 L256 306 L256 305 L255 305 L253 303 L253 302 L252 302 L250 300 L250 299 L249 299 L247 297 L247 296 L246 296 L244 294 L244 293 L243 293 L241 291 L241 290 L240 290 L238 288 L238 287 L237 287 L235 285 L235 284 L234 284 L232 282 L232 281 L231 281 L229 279 L229 278 L228 278 L226 276 L226 275 L225 275 L223 273 L223 272 L222 272 L220 270 L220 269 L219 269 L217 267 L217 266 L216 266 L214 264 L214 263 L213 263 L211 261 L211 260 L210 260 L209 258 L204 253 L203 253 L202 251 L200 250 L199 248 L198 248 L197 246 L187 236 L185 235 L185 234 Z M100 598 L169 529 L169 528 L171 527 L179 519 L179 518 L181 517 L181 516 L183 514 L184 514 L184 513 L186 511 L187 511 L187 510 L189 508 L190 508 L190 507 L192 505 L193 505 L193 504 L195 502 L196 502 L196 501 L198 500 L199 498 L201 496 L202 496 L202 495 L204 493 L205 493 L205 492 L207 490 L208 490 L208 489 L210 487 L211 487 L211 486 L213 484 L214 484 L214 483 L216 481 L217 481 L217 480 L219 478 L220 478 L220 477 L222 475 L223 475 L223 474 L228 469 L229 469 L229 468 L234 463 L235 463 L235 462 L237 460 L238 460 L238 459 L243 454 L244 454 L244 453 L246 451 L247 451 L247 450 L261 436 L262 436 L262 435 L291 406 L293 405 L295 406 L298 409 L298 410 L299 410 L306 417 L306 418 L307 418 L311 422 L311 423 L312 423 L316 427 L316 428 L318 429 L319 431 L320 431 L321 433 L322 433 L324 435 L324 436 L358 470 L359 470 L365 476 L371 479 L373 481 L377 482 L379 484 L385 485 L388 487 L392 487 L393 488 L402 488 L403 489 L409 489 L410 488 L420 488 L421 487 L425 487 L428 485 L434 484 L436 482 L438 482 L442 479 L448 476 L453 471 L454 471 L490 435 L490 434 L492 433 L505 420 L505 419 L507 418 L514 411 L515 409 L516 409 L520 405 L521 405 L572 456 L572 457 L573 457 L575 459 L575 460 L576 460 L578 462 L578 463 L579 463 L581 465 L581 466 L582 466 L587 471 L587 472 L588 472 L590 474 L590 475 L591 475 L593 477 L593 478 L594 478 L596 480 L596 481 L597 481 L599 483 L599 484 L600 484 L602 486 L602 487 L603 487 L605 489 L605 490 L606 490 L608 492 L608 493 L609 493 L611 495 L611 496 L612 496 L614 498 L614 499 L615 499 L617 501 L617 502 L618 502 L620 504 L620 505 L621 505 L623 507 L623 508 L625 509 L626 511 L627 511 L629 513 L629 514 L630 514 L632 516 L632 517 L633 517 L634 519 L638 523 L639 523 L641 525 L641 526 L642 526 L644 528 L644 529 L650 535 L651 535 L652 537 L654 539 L655 539 L656 541 L713 598 L712 599 L101 599 Z M745 179 L746 180 L746 567 L745 568 L552 375 L552 372 Z M68 179 L261 372 L261 375 L68 568 L67 567 L67 180 Z"/>
-                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
               </span>
               Email
             </span>
@@ -511,9 +205,7 @@
           <a class="channel-row" href="https://t.me/pengercom" target="_blank" rel="noopener">
             <span class="channel-platform">
               <span class="channel-platform-icon" aria-hidden="true">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 867 736">
-                  <path fill="currentColor" fill-rule="evenodd" d="M798 44 L785 37 L777 35 L763 35 L79 260 L64 269 L57 277 L52 286 L49 297 L49 310 L56 328 L66 339 L80 347 L185 392 L187 394 L192 395 L244 419 L292 644 L297 661 L304 670 L311 673 L321 673 L330 669 L461 571 L612 694 L628 700 L642 700 L660 693 L671 683 L678 671 L684 649 L691 614 L696 598 L700 576 L702 572 L708 542 L711 534 L712 525 L714 521 L720 491 L723 483 L724 474 L750 368 L751 359 L756 343 L763 308 L771 279 L772 270 L774 266 L787 206 L816 87 L816 74 L813 64 L807 53 Z M772 80 L694 415 L691 423 L687 445 L679 474 L679 479 L655 576 L646 619 L643 627 L639 649 L636 656 L629 652 L402 466 L639 217 L644 205 L643 196 L639 189 L633 184 L628 182 L616 182 L609 185 L262 378 L93 304 L95 301 L243 253 L303 232 L343 220 L768 79 Z M500 297 L501 298 L351 455 L346 467 L346 471 L340 488 L340 492 L334 509 L334 513 L322 554 L319 558 L288 414 L483 305 Z M383 507 L420 537 L425 543 L358 593 L357 588 L363 571 L363 567 L369 550 L380 509 Z"/>
-                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0h-.056zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
               </span>
               Telegram
             </span>
@@ -521,9 +213,17 @@
             <span class="channel-arrow">&rarr;</span>
           </a>
           <div class="channel-row">
-            <span class="channel-platform">Element</span>
+            <span class="channel-platform">
+              <span class="channel-platform-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M.632.55v22.9H8.28V17.1H5.09v-3.47H8.28V10.4c0-2.39 1.385-4.34 4.34-4.34 1.239 0 2.152.093 2.152.093v2.58h-1.55c-1.219 0-1.586.76-1.586 1.82v2.58h3.058l-.413 3.47H11.636v6.35h7.732V.55z"/></svg>
+              </span>
+              Element
+            </span>
             <span class="channel-handle">@hlibsuslov</span>
-            <span class="channel-arrow"></span>
+            <button class="channel-copy-btn" type="button" onclick="copyHandle(this, '@hlibsuslov')">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span>Copy</span>
+            </button>
           </div>
         </div>
       </div>
@@ -551,6 +251,29 @@
   </footer>
 
   <script src="shared.js"></script>
+  <script>
+    function copyEmail(btn) {
+      var email = btn.getAttribute('data-email');
+      navigator.clipboard.writeText(email).then(function() {
+        btn.classList.add('copied');
+        btn.querySelector('span').textContent = 'Copied!';
+        setTimeout(function() {
+          btn.classList.remove('copied');
+          btn.querySelector('span').textContent = 'Copy';
+        }, 2000);
+      });
+    }
+    function copyHandle(btn, handle) {
+      navigator.clipboard.writeText(handle).then(function() {
+        btn.classList.add('copied');
+        btn.querySelector('span').textContent = 'Copied!';
+        setTimeout(function() {
+          btn.classList.remove('copied');
+          btn.querySelector('span').textContent = 'Copy';
+        }, 2000);
+      });
+    }
+  </script>
 </body>
 </html>
 
