@@ -67,6 +67,22 @@
 }
 .lp-btn-primary:hover { background: var(--text-accent-hover); border-color: var(--text-accent-hover); }
 .lp-btn-primary:active { transform: scale(0.97); }
+.lp-btn-with-icon {
+  gap: 8px;
+}
+.lp-btn-icon {
+  width: 14px;
+  height: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.lp-btn-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
 .lp-btn-large { padding: 16px 40px; font-size: 14px; }
 .lp-link-secondary {
   font-family: var(--font-mono); font-size: 12px; font-weight: 500;
@@ -367,7 +383,8 @@
   color: var(--text-accent-hover); letter-spacing: -0.02em;
 }
 .lp-binary-grid {
-  display: flex; align-items: stretch; gap: 0;
+  --lp-binary-edge-size: 22px;
+  display: flex; align-items: flex-start; gap: 0;
   overflow: hidden;
 }
 .lp-binary-edge-label {
@@ -375,15 +392,21 @@
   text-transform: uppercase; letter-spacing: .08em;
   color: var(--text-accent); flex-shrink: 0;
   writing-mode: vertical-rl;
-  display: flex; align-items: center; justify-content: flex-start;
-  padding: 0 6px;
+  text-orientation: mixed;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--lp-binary-edge-size);
+  height: var(--lp-binary-edge-size);
+  line-height: 1;
+  padding: 0;
 }
 .lp-binary-edge-top {
   transform: rotate(180deg);
   align-self: flex-start;
 }
 .lp-binary-edge-bottom {
-  align-self: flex-end;
+  align-self: flex-start;
 }
 .lp-binary-cells {
   display: grid;
@@ -601,7 +624,8 @@
   }
   .lp-guide-punch-row { flex-wrap: wrap; }
   .lp-binary-card { padding: 14px; gap: 12px; }
-  .lp-binary-edge-label { font-size: 7px; padding: 0 4px; }
+  .lp-binary-grid { --lp-binary-edge-size: 18px; }
+  .lp-binary-edge-label { font-size: 7px; }
   .lp-binary-cells { gap: 4px; }
   .lp-binary-col { gap: 3px; }
   .lp-binary-digit { font-size: 10px; }
@@ -619,6 +643,7 @@
   .lp-btn-group-how { margin-top: 24px; }
   .lp-btn-group-callout { margin-top: 16px; }
   .lp-btn-group-callout .lp-btn-primary { font-size: 12px; padding: 12px 24px; }
+  .lp-btn-group-callout .lp-btn-primary .lp-btn-icon { width: 13px; height: 13px; }
   .lp-btn-group-callout .lp-btn-outline { font-size: 11px; padding: 10px 20px; }
   .lp-cta-group { flex-direction: column; align-items: stretch; }
   .lp-btn-primary { text-align: center; justify-content: center; width: 100%; }
@@ -676,7 +701,8 @@
   .lp-binary-cell { border-radius: 2px; }
   .lp-binary-cells { gap: 2px; }
   .lp-binary-col { gap: 2px; }
-  .lp-binary-edge-label { font-size: 6px; padding: 0 3px; }
+  .lp-binary-grid { --lp-binary-edge-size: 16px; }
+  .lp-binary-edge-label { font-size: 6px; }
   .lp-binary-index-val { font-size: 14px; }
   .lp-binary-formula { font-size: 10px; }
 }
