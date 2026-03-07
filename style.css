@@ -817,15 +817,7 @@ h3 { font-size: 15px; font-weight: 600; }
   color: var(--text-accent);
   background: var(--glow);
 }
-/* Active indicator dot — desktop only */
-@media (min-width: 601px) {
-  .nav-link.active::after {
-    content: ''; position: absolute;
-    bottom: 2px; left: 50%; transform: translateX(-50%);
-    width: 3px; height: 3px; border-radius: 50%;
-    background: var(--text-accent);
-  }
-}
+/* Active indicator dot — removed */
 
 /* === Nav Dropdown (Education) === */
 .nav-dropdown {
@@ -884,9 +876,6 @@ h3 { font-size: 15px; font-weight: 600; }
   opacity: 1;
   pointer-events: auto;
   transform: translateX(-50%) translateY(0);
-}
-.site-nav:has(.nav-dropdown.open) .nav-link.active::after {
-  display: none;
 }
 .nav-dropdown-link {
   display: flex; align-items: center; gap: 10px;
@@ -1476,7 +1465,6 @@ body.nav-open {
   }
 
   /* ── Active: subtle row highlight + thin accent bar ── */
-  .nav-link.active::after { display: none; }
   .nav-link.active {
     background: rgba(255, 255, 255, 0.045);
     color: var(--text-accent);
