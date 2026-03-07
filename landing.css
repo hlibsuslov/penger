@@ -384,7 +384,7 @@
 }
 .lp-binary-grid {
   --lp-binary-edge-size: 22px;
-  display: flex; align-items: flex-start; gap: 0;
+  display: flex; align-items: center; gap: 0;
   overflow: hidden;
 }
 .lp-binary-edge-label {
