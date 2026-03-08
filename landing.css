@@ -274,7 +274,7 @@
 .lp-cta-group {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
@@ -343,6 +343,10 @@
 .lp-btn-primary:active { transform: scale(0.97); }
 .lp-btn-with-icon {
   gap: 8px;
+}
+.lp-btn-svg {
+  flex-shrink: 0;
+  display: block;
 }
 .lp-btn-icon {
   width: 30px;
@@ -845,7 +849,8 @@
   .lp-subheadline { font-size: 15px; }
   .lp-section { padding: 60px 0; }
   .lp-hero-image { margin-top: -20px; margin-left: -16px; margin-right: -16px; }
-  .lp-hero-stats { margin-top: 12px; margin-bottom: 24px; margin-left: -16px; margin-right: -16px; }
+  .lp-hero-image { margin-bottom: 0; }
+  .lp-hero-stats { margin-top: 16px; margin-bottom: 24px; margin-left: -16px; margin-right: -16px; z-index: auto; }
   .lp-hero-stat { padding: 0 20px; }
   .lp-hero-stat-value { font-size: 32px; }
   .lp-hero-corner { width: 18px; height: 18px; }
@@ -868,17 +873,19 @@
 @media (max-width: 520px) {
   .lp-plate { width: min(420px, 110vw); max-width: none; }
   .lp-plate-stage { height: clamp(380px, 58vh, 520px); }
-  .lp-hero { padding: 48px 0 40px; }
+  .lp-hero { padding: 25px 0 40px; }
   .lp-h1 { font-size: 30px; }
   .lp-h2 { font-size: 24px; }
   .lp-subheadline { font-size: 14px; }
   .lp-section { padding: 48px 0; }
   .lp-hero-image { margin-top: -15px; margin-left: -8px; margin-right: -8px; }
+  .lp-hero-image { margin-bottom: 0; }
   .lp-hero-stats {
-    margin-top: 12px; margin-bottom: 20px;
+    margin-top: 16px; margin-bottom: 20px;
     margin-left: -8px; margin-right: -8px;
     display: grid; grid-template-columns: 1fr 1fr;
     gap: 16px 0;
+    z-index: auto;
   }
   .lp-hero-stat { padding: 0 14px; border-left: 1px solid var(--border-default); min-width: 0; }
   .lp-hero-stat:nth-child(odd) { padding-left: 0; border-left: none; }
@@ -957,7 +964,7 @@
 @media (max-width: 380px) {
   .lp-plate { width: min(380px, 108vw); }
   .lp-plate-stage { height: clamp(340px, 50vh, 440px); }
-  .lp-hero { padding: 32px 0 24px; }
+  .lp-hero { padding: 25px 0 24px; }
   .lp-h1 { font-size: 24px; }
   .lp-h2 { font-size: 20px; }
   .lp-subheadline { font-size: 13px; }
@@ -966,6 +973,7 @@
     margin-top: 16px; margin-bottom: 16px;
     display: grid; grid-template-columns: 1fr 1fr;
     gap: 12px 0;
+    z-index: auto;
   }
   .lp-hero-stat { padding: 0 10px; border-left: 1px solid var(--border-default); min-width: 0; }
   .lp-hero-stat:nth-child(odd) { padding-left: 0; border-left: none; }
