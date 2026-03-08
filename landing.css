@@ -344,6 +344,10 @@
 .lp-btn-with-icon {
   gap: 8px;
 }
+.lp-btn-svg {
+  flex-shrink: 0;
+  display: block;
+}
 .lp-btn-icon {
   width: 30px;
   height: 30px;
