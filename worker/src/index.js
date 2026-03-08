@@ -136,7 +136,11 @@ function validateRequest(body) {
 }
 
 /* =========================================================
-   MESSAGE PREPARATION  (sliding window, token budget)
+   MESSAGE PREPARATION  (context-aware sliding window)
+   Keeps the first user+assistant exchange (conversation topic),
+   then fills the remaining budget with the most recent messages.
+   If middle messages were dropped, injects a brief summary so
+   the model knows what was discussed earlier.
    ========================================================= */
 function prepareMessages(messages, context, maxInputChars) {
   let systemContent = SYSTEM_PROMPT;
@@ -147,29 +151,70 @@ function prepareMessages(messages, context, maxInputChars) {
       '" topic in the guided scenarios before asking this question. Use this context to give a more relevant answer.';
   }
 
-  const prepared = [{ role: 'system', content: systemContent }];
-
-  // Walk newest → oldest, keep as many as fit in budget
+  const budget = maxInputChars;
   let totalChars = systemContent.length;
-  const trimmed = [];
 
-  for (let i = messages.length - 1; i >= 0; i--) {
+  // --- Step 1: reserve the first exchange (sets the conversation topic) ---
+  const firstExchange = [];
+  for (let i = 0; i < Math.min(messages.length, 2); i++) {
+    firstExchange.push(messages[i]);
+    totalChars += messages[i].content.length;
+  }
+
+  // If only 1-2 messages, just return them all — no trimming needed
+  if (messages.length <= 2) {
+    return [{ role: 'system', content: systemContent }].concat(firstExchange);
+  }
+
+  // --- Step 2: fill from the end (most recent messages) ---
+  const recentMessages = [];
+  for (let i = messages.length - 1; i >= firstExchange.length; i--) {
     const msgChars = messages[i].content.length;
-    if (totalChars + msgChars > maxInputChars) break;
+    if (totalChars + msgChars > budget) break;
     totalChars += msgChars;
-    trimmed.unshift(messages[i]);
+    recentMessages.unshift(messages[i]);
   }
 
   // Always include at least the latest message
-  if (trimmed.length === 0 && messages.length > 0) {
+  if (recentMessages.length === 0) {
     const last = messages[messages.length - 1];
-    trimmed.push({
+    const maxLen = Math.max(200, budget - totalChars);
+    recentMessages.push({
       role: last.role,
-      content: last.content.slice(0, maxInputChars - systemContent.length),
+      content: last.content.slice(0, maxLen),
     });
   }
 
-  return prepared.concat(trimmed);
+  // --- Step 3: detect if middle messages were dropped ---
+  const firstKept = firstExchange.length;
+  const recentStart = messages.length - recentMessages.length;
+  const droppedCount = recentStart - firstKept;
+
+  const result = [{ role: 'system', content: systemContent }];
+  result.push(...firstExchange);
+
+  if (droppedCount > 0) {
+    const droppedTopics = [];
+    for (let i = firstKept; i < recentStart; i++) {
+      if (messages[i].role === 'user') {
+        const snippet = messages[i].content.slice(0, 80).replace(/\n/g, ' ').trim();
+        droppedTopics.push(snippet);
+      }
+    }
+
+    let gapNote = '[Earlier in this conversation (' + droppedCount +
+      ' messages were exchanged)';
+    if (droppedTopics.length > 0) {
+      gapNote += ' — the user also asked about: ' +
+        droppedTopics.map(function (t) { return '"' + t + '"'; }).join(', ');
+    }
+    gapNote += '. Continue naturally from this context.]';
+
+    result.push({ role: 'system', content: gapNote });
+  }
+
+  result.push(...recentMessages);
+  return result;
 }
 
 /* =========================================================
