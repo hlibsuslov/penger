@@ -292,7 +292,7 @@
   <div class="tutor-input-bar" id="tutorInputBar">
     <div class="container">
       <div class="tutor-input-wrap">
-        <input class="tutor-input" id="tutorInput" type="text" placeholder="Ask about wallets, seed phrases, blockchain..." maxlength="1000" autocomplete="off" enterkeyhint="send" inputmode="text">
+        <input class="tutor-input" id="tutorInput" type="text" placeholder="Ask about wallets, seed phrases, DeFi, blockchain..." maxlength="2000" autocomplete="off" enterkeyhint="send" inputmode="text">
         <button class="tutor-send-btn" id="tutorSendBtn" type="button" disabled aria-label="Send">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
@@ -690,8 +690,8 @@
     /* === CONFIG === */
     var TUTOR_API = {
       endpoint: '/api/chat',
-      maxHistoryMessages: 10,
-      maxInputLength: 1000,
+      maxHistoryMessages: 20,
+      maxInputLength: 2000,
       retryDelay: 2000,
     };
 
