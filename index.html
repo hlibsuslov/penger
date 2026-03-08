@@ -127,14 +127,42 @@
 
     <!-- ===== BLOCK 1: HERO ===== -->
     <section class="lp-hero">
+      <div class="lp-hero-grid-bg"></div>
+      <div class="lp-hero-glow"></div>
+
       <div class="container">
-        <p class="lp-pre-header">ENGINEERING PHYSICAL SOVEREIGNTY</p>
-        <h1 class="lp-h1">The final backup for your <br>digital wealth.</h1>
-        <p class="lp-subheadline">Paper burns. Hard drives fail. Memory fades.<br><br>Penger v1.0 is an indestructible titanium vault for your seed phrase. Secure your capital for generations with an error-proof binary grid.</p>
+        <div class="lp-pre-header">
+          <span class="lp-pre-header-dot"></span>
+          <span>ENGINEERING PHYSICAL SOVEREIGNTY</span>
+        </div>
+        <h1 class="lp-h1">The final backup for your <br><span class="lp-h1-highlight">digital wealth.</span></h1>
+
+        <div class="lp-hero-image" id="heroImage">
+          <img src="imagepackage.png" alt="Penger v1.0 titanium seed phrase backup" width="2056" height="1512">
+        </div>
+
+        <div class="lp-hero-stats">
+          <div class="lp-hero-stat">
+            <div class="lp-hero-stat-value">
+              <span class="lp-counter" data-target="1668">0</span><span>°С</span>
+            </div>
+            <div class="lp-hero-stat-label">Melting point</div>
+          </div>
+          <div class="lp-hero-stat">
+            <div class="lp-hero-stat-value">UNLIMITED</div>
+            <div class="lp-hero-stat-label">Guarantee</div>
+          </div>
+        </div>
+
+        <p class="lp-subheadline">Paper burns. Hard drives fail. Memory fades.<br><br>A titanium backup plate for your seed phrase that you encode yourself</p>
         <div class="lp-cta-group">
-          <a href="#order" class="btn lp-btn-primary">Buy Penger v1.0</a>
+          <a href="#order" class="btn lp-btn-primary lp-btn-shimmer">
+            <span>Buy Penger v1.0</span>
+          </a>
+          <a href="#encoding-guide" class="btn lp-btn-outline lp-hero-link">How it works <span class="lp-hero-link-arrow">&rarr;</span></a>
         </div>
       </div>
+
     </section>
 
     <!-- ===== BLOCK 3: THE REALITY CHECK ===== -->
@@ -698,6 +726,113 @@
     }
     window.addEventListener('load', syncBinaryEdge);
     window.addEventListener('resize', syncBinaryEdge);
+  })();
+
+  /* === COUNTER ANIMATION (enhanced) === */
+  (function () {
+    var counters = document.querySelectorAll('.lp-counter');
+    if (!counters.length) return;
+
+    function animateCounter(el) {
+      var target = parseInt(el.getAttribute('data-target'), 10);
+      /* Scale duration by magnitude: small numbers animate faster */
+      var duration = target < 10 ? 800 : target < 100 ? 1200 : 2000;
+      var start = null;
+
+      function step(timestamp) {
+        if (!start) start = timestamp;
+        var progress = Math.min((timestamp - start) / duration, 1);
+        /* ease-out expo for a snappier feel */
+        var eased = 1 - Math.pow(1 - progress, 4);
+        el.textContent = Math.floor(eased * target);
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          el.textContent = target;
+        }
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          animateCounter(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    counters.forEach(function (el) { observer.observe(el); });
+  })();
+
+  /* === HERO IMAGE PARALLAX ON MOUSE === */
+  (function () {
+    var heroImage = document.getElementById('heroImage');
+    var hero = document.querySelector('.lp-hero');
+    if (!heroImage || !hero) return;
+
+    /* Skip on touch devices */
+    if ('ontouchstart' in window) return;
+
+    var targetX = 0, targetY = 0;
+    var currentX = 0, currentY = 0;
+    var rafId = null;
+    var isHovering = false;
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    function tick() {
+      currentX = lerp(currentX, targetX, 0.08);
+      currentY = lerp(currentY, targetY, 0.08);
+
+      if (Math.abs(currentX - targetX) < 0.01 && Math.abs(currentY - targetY) < 0.01) {
+        currentX = targetX;
+        currentY = targetY;
+      }
+
+      heroImage.style.transform = 'translate(' + currentX + 'px, ' + currentY + 'px)';
+
+      if (isHovering || Math.abs(currentX) > 0.01 || Math.abs(currentY) > 0.01) {
+        rafId = requestAnimationFrame(tick);
+      } else {
+        heroImage.style.transform = '';
+        rafId = null;
+      }
+    }
+
+    hero.addEventListener('mousemove', function (e) {
+      var rect = hero.getBoundingClientRect();
+      var cx = (e.clientX - rect.left) / rect.width - 0.5;
+      var cy = (e.clientY - rect.top) / rect.height - 0.5;
+      targetX = cx * -12;
+      targetY = cy * -8;
+      isHovering = true;
+      if (!rafId) rafId = requestAnimationFrame(tick);
+    });
+
+    hero.addEventListener('mouseleave', function () {
+      targetX = 0;
+      targetY = 0;
+      isHovering = false;
+    });
+  })();
+
+  /* === SCROLL HINT FADE === */
+  (function () {
+    var hint = document.getElementById('heroScrollHint');
+    if (!hint) return;
+    var hidden = false;
+
+    window.addEventListener('scroll', function () {
+      if (hidden) return;
+      if (window.scrollY > 100) {
+        hint.style.opacity = '0';
+        hint.style.transition = 'opacity 0.4s ease';
+        hidden = true;
+      }
+    }, { passive: true });
   })();
   </script>
 </body>
