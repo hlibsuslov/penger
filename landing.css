@@ -34,6 +34,51 @@
   animation: heroFadeUp var(--duration-slow) var(--ease-out) both;
   animation-delay: 0.4s;
 }
+.lp-hero .lp-hero-stats {
+  animation: heroFadeUp var(--duration-slow) var(--ease-out) both;
+  animation-delay: 0.55s;
+}
+
+/* === HERO STATS === */
+.lp-hero-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border-default);
+  border: 1px solid var(--border-default);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 48px;
+}
+.lp-hero-stat {
+  background: var(--bg-surface);
+  padding: 36px 32px;
+}
+.lp-hero-stat-value {
+  font-family: var(--font-mono);
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--text-accent);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+.lp-hero-stat-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  color: var(--text-dim);
+  margin-bottom: 10px;
+}
+.lp-hero-stat-desc {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-label);
+  max-width: 280px;
+}
 
 /* === HERO === */
 .lp-hero {
@@ -570,6 +615,9 @@
   .lp-h2 { font-size: 28px; }
   .lp-subheadline { font-size: 15px; }
   .lp-section { padding: 60px 0; }
+  .lp-hero-stats { margin-top: 36px; }
+  .lp-hero-stat { padding: 28px 24px; }
+  .lp-hero-stat-value { font-size: 40px; }
   .lp-feature-grid { grid-template-columns: 1fr; }
   .lp-text { max-width: 100%; }
   .lp-privacy-grid { grid-template-columns: 1fr; gap: 16px; }
@@ -591,6 +639,10 @@
   .lp-h2 { font-size: 24px; }
   .lp-subheadline { font-size: 14px; }
   .lp-section { padding: 48px 0; }
+  .lp-hero-stats { grid-template-columns: 1fr; margin-top: 32px; }
+  .lp-hero-stat { padding: 24px 20px; }
+  .lp-hero-stat-value { font-size: 36px; }
+  .lp-hero-stat-desc { max-width: none; }
   .lp-anti-features li { font-size: 15px; padding: 16px 0; }
   .lp-privacy-card { padding: 26px 22px 28px; }
   .lp-encoding-point { gap: 14px; padding: 18px 0; }
@@ -662,6 +714,11 @@
   .lp-h2 { font-size: 20px; }
   .lp-subheadline { font-size: 13px; }
   .lp-section { padding: 32px 0; }
+  .lp-hero-stats { margin-top: 24px; }
+  .lp-hero-stat { padding: 20px 16px; }
+  .lp-hero-stat-value { font-size: 30px; }
+  .lp-hero-stat-label { font-size: 10px; }
+  .lp-hero-stat-desc { font-size: 12px; }
   .lp-feature-card { padding: 20px 16px; }
   .lp-feature-title { font-size: 14px; }
   .lp-feature-desc { font-size: 12px; }
