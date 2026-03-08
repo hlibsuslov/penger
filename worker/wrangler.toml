@@ -4,8 +4,8 @@ compatibility_date = "2024-09-01"
 
 [vars]
 ALLOWED_ORIGIN = "https://penger.io"
-MAX_INPUT_TOKENS = "800"
-MAX_OUTPUT_TOKENS = "500"
+MAX_INPUT_TOKENS = "1600"
+MAX_OUTPUT_TOKENS = "1000"
 RATE_LIMIT_RPM = "20"
 
 # Secret binding — set via: wrangler secret put OPENAI_API_KEY
