@@ -845,7 +845,7 @@
   .lp-subheadline { font-size: 15px; }
   .lp-section { padding: 60px 0; }
   .lp-hero-image { margin-top: -20px; margin-left: -16px; margin-right: -16px; }
-  .lp-hero-stats { margin-top: -20px; margin-bottom: 24px; margin-left: -16px; margin-right: -16px; }
+  .lp-hero-stats { margin-top: 12px; margin-bottom: 24px; margin-left: -16px; margin-right: -16px; }
   .lp-hero-stat { padding: 0 20px; }
   .lp-hero-stat-value { font-size: 32px; }
   .lp-hero-corner { width: 18px; height: 18px; }
@@ -875,7 +875,7 @@
   .lp-section { padding: 48px 0; }
   .lp-hero-image { margin-top: -15px; margin-left: -8px; margin-right: -8px; }
   .lp-hero-stats {
-    margin-top: -16px; margin-bottom: 20px;
+    margin-top: 12px; margin-bottom: 20px;
     margin-left: -8px; margin-right: -8px;
     display: grid; grid-template-columns: 1fr 1fr;
     gap: 16px 0;
