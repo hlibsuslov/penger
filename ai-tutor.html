@@ -409,7 +409,7 @@
     var chatEl = document.getElementById('tutorChat');
     var activeTimer = null;
     var SCENARIOS = null;
-    var history = [];       // breadcrumb: array of scenario keys visited
+    var history = [];       // array of scenario keys visited
     var isTyping = false;   // lock to prevent clicking during typewriter
 
     /* =========================================================
@@ -523,50 +523,6 @@
     }
 
     /* =========================================================
-       BREADCRUMB
-       ========================================================= */
-    function renderBreadcrumb() {
-      var existing = chatEl.querySelector('.tutor-breadcrumb');
-      if (existing) existing.remove();
-      if (history.length <= 1) return; // don't show on root
-
-      var bc = document.createElement('div');
-      bc.className = 'tutor-breadcrumb';
-
-      var homeBtn = document.createElement('button');
-      homeBtn.type = 'button';
-      homeBtn.className = 'tutor-bc-item tutor-bc-home';
-      homeBtn.textContent = 'Start';
-      homeBtn.addEventListener('click', function () {
-        if (isTyping) return;
-        startChat();
-      });
-      bc.appendChild(homeBtn);
-
-      // Show depth indicator
-      for (var i = 1; i < history.length; i++) {
-        var sep = document.createElement('span');
-        sep.className = 'tutor-bc-sep';
-        sep.textContent = '\u203A';
-        bc.appendChild(sep);
-
-        var label = document.createElement('span');
-        label.className = 'tutor-bc-item';
-        label.textContent = formatBcLabel(history[i]);
-        bc.appendChild(label);
-      }
-
-      chatEl.insertBefore(bc, chatEl.firstChild);
-    }
-
-    function formatBcLabel(key) {
-      // Convert "wallet_intro" -> "Intro", "seed_bip39" -> "BIP39"
-      var parts = key.split('_');
-      var label = parts.length > 1 ? parts.slice(1).join(' ') : parts[0];
-      return label.charAt(0).toUpperCase() + label.slice(1);
-    }
-
-    /* =========================================================
        RENDER MESSAGES
        ========================================================= */
     function addUserMsg(text) {
@@ -586,7 +542,6 @@
       // Track history
       history.push(scenarioKey);
       chatEl.setAttribute('data-scenario', scenarioKey);
-      renderBreadcrumb();
 
       // Typing indicator
       chatEl._autoScroll = true;   // new bot message → snap back to bottom
@@ -715,7 +670,7 @@
        Reset conversation history when scenario engine clears the chat */
     var observer = new MutationObserver(function () {
       if (chatEl.childNodes.length === 0 ||
-          (chatEl.childNodes.length <= 2 && chatEl.querySelector('.tutor-breadcrumb'))) {
+          chatEl.childNodes.length <= 1) {
         conversationHistory = [];
       }
     });
@@ -772,6 +727,9 @@
 
     /* === TYPEWRITER WITH INLINE MARKDOWN === */
     function typeTextFree(el, text, cb) {
+      /* Strip markdown headers (###, ##, #) — convert to **bold** lines */
+      text = text.replace(/^#{1,3}\s+(.+)$/gm, '**$1**');
+
       /* Strip unmatched ** so they never appear as raw asterisks.
          If ** count is odd, the last unpaired ** is removed. */
       var markerCount = (text.match(/\*\*/g) || []).length;
