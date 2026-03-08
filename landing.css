@@ -209,7 +209,7 @@
 
 /* === HERO === */
 .lp-hero {
-  padding: 96px 0 80px;
+  padding: 25px 0 80px;
   border-bottom: 1px solid var(--border-default);
   position: relative;
   overflow: hidden;
