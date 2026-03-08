@@ -799,46 +799,38 @@ h3 { font-size: 15px; font-weight: 600; }
 
 /* === SITE NAV (Desktop) === */
 .site-nav {
-  display: flex; align-items: center; gap: 2px;
+  display: flex; align-items: center; gap: 4px;
 }
 .nav-link {
-  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  font-family: var(--font-mono); font-size: 13px; font-weight: 600;
   text-transform: uppercase; letter-spacing: 0.06em;
-  color: var(--text-dim); text-decoration: none; background: none; border: none;
-  cursor: pointer; padding: 6px 10px; position: relative;
-  border-radius: 6px;
-  transition: color 0.2s ease, background 0.2s ease;
+  color: var(--text-dim); text-decoration: none; background: none;
+  border: none;
+  cursor: pointer; padding: 8px 14px; position: relative;
+  transition: color 0.25s ease;
 }
 .nav-link:hover {
   color: var(--text-label);
-  background: var(--bg-surface-hover);
 }
-.nav-link.active {
-  color: var(--text-accent);
-  background: var(--glow);
-}
-/* Active indicator dot — removed */
 
 /* === Nav Dropdown (Education) === */
 .nav-dropdown {
   position: relative;
 }
 .nav-dropdown-trigger {
-  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  font-family: var(--font-mono); font-size: 13px; font-weight: 600;
   text-transform: uppercase; letter-spacing: 0.06em;
-  color: var(--text-dim); background: none; border: none;
-  cursor: pointer; padding: 6px 10px; position: relative;
-  border-radius: 6px;
-  transition: color 0.2s ease, background 0.2s ease;
+  color: var(--text-dim); background: none;
+  border: none;
+  cursor: pointer; padding: 8px 14px; position: relative;
+  transition: color 0.25s ease;
   display: flex; align-items: center; gap: 5px;
 }
 .nav-dropdown-trigger:hover {
   color: var(--text-label);
-  background: var(--bg-surface-hover);
 }
-.nav-dropdown-trigger.active {
-  color: var(--text-accent);
-  background: var(--glow);
+.nav-dropdown.open .nav-dropdown-trigger {
+  color: var(--text-label);
 }
 .nav-dropdown-arrow {
   display: inline-block;
@@ -879,20 +871,16 @@ h3 { font-size: 15px; font-weight: 600; }
 }
 .nav-dropdown-link {
   display: flex; align-items: center; gap: 10px;
-  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  font-family: var(--font-mono); font-size: 13px; font-weight: 600;
   text-transform: uppercase; letter-spacing: 0.05em;
   color: var(--text-dim); text-decoration: none;
-  padding: 10px 14px;
+  padding: 12px 16px;
   border-radius: 6px;
-  transition: color 0.15s ease, background 0.15s ease;
+  transition: color 0.2s ease, background 0.2s ease;
 }
 .nav-dropdown-link:hover {
   color: var(--text-accent);
   background: var(--bg-surface-hover);
-}
-.nav-dropdown-link.active {
-  color: var(--text-accent);
-  background: var(--glow);
 }
 .nav-dropdown-icon {
   width: 28px; height: 28px;
