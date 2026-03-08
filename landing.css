@@ -46,44 +46,24 @@
 /* === HERO IMAGE === */
 .lp-hero-image {
   position: relative;
-  margin-top: 48px;
+  z-index: 1;
+  margin-top: -28px;
   margin-left: -32px;
   margin-right: -32px;
-  border-radius: 16px;
-  overflow: hidden;
-}
-.lp-hero-image::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: 16px;
-  border: 1px solid var(--border-default);
-  pointer-events: none;
-  z-index: 1;
-}
-.lp-hero-image::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 16px;
-  box-shadow:
-    0 0 60px 20px var(--glow),
-    inset 0 0 40px 10px rgba(0,0,0,0.03);
-  pointer-events: none;
-  z-index: 2;
 }
 .lp-hero-image img {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 16px;
 }
 
 /* === HERO STATS === */
 .lp-hero-stats {
   display: flex;
   gap: 0;
-  margin-top: 28px;
+  position: relative;
+  z-index: 2;
+  margin-top: -24px;
   margin-bottom: 32px;
 }
 .lp-hero-stat {
@@ -126,7 +106,7 @@
 .lp-h1 {
   font-family: var(--font-sans); font-size: 56px; font-weight: 700;
   letter-spacing: -0.04em; line-height: 1.05;
-  color: var(--text-accent); margin-bottom: 24px;
+  color: var(--text-accent); margin-bottom: 0;
 }
 .lp-subheadline {
   font-family: var(--font-sans); font-size: 16px; line-height: 1.85;
@@ -636,11 +616,6 @@
 @media (prefers-color-scheme: dark) {
   .lp-plate { filter: drop-shadow(0 8px 32px rgba(255, 255, 255, 0.06)); }
   .lp-privacy-card:hover { box-shadow: 0 2px 16px rgba(255, 255, 255, 0.03); }
-  .lp-hero-image::after {
-    box-shadow:
-      0 0 80px 30px rgba(255,255,255,0.04),
-      inset 0 0 40px 10px rgba(255,255,255,0.02);
-  }
 }
 
 /* ====================================================================
@@ -652,10 +627,8 @@
   .lp-h2 { font-size: 28px; }
   .lp-subheadline { font-size: 15px; }
   .lp-section { padding: 60px 0; }
-  .lp-hero-image { margin-top: 36px; margin-left: -16px; margin-right: -16px; border-radius: 12px; }
-  .lp-hero-image::before { border-radius: 12px; }
-  .lp-hero-image img { border-radius: 12px; }
-  .lp-hero-stats { margin-top: 24px; margin-bottom: 24px; }
+  .lp-hero-image { margin-top: -20px; margin-left: -16px; margin-right: -16px; }
+  .lp-hero-stats { margin-top: -20px; margin-bottom: 24px; }
   .lp-hero-stat { padding: 0 24px; }
   .lp-hero-stat-value { font-size: 40px; }
   .lp-feature-grid { grid-template-columns: 1fr; }
@@ -679,10 +652,8 @@
   .lp-h2 { font-size: 24px; }
   .lp-subheadline { font-size: 14px; }
   .lp-section { padding: 48px 0; }
-  .lp-hero-image { margin-top: 28px; margin-left: -8px; margin-right: -8px; border-radius: 10px; }
-  .lp-hero-image::before { border-radius: 10px; }
-  .lp-hero-image img { border-radius: 10px; }
-  .lp-hero-stats { margin-top: 20px; margin-bottom: 20px; }
+  .lp-hero-image { margin-top: -15px; margin-left: -8px; margin-right: -8px; }
+  .lp-hero-stats { margin-top: -16px; margin-bottom: 20px; }
   .lp-hero-stat { padding: 0 18px; }
   .lp-hero-stat-value { font-size: 28px; }
   .lp-anti-features li { font-size: 15px; padding: 16px 0; }
