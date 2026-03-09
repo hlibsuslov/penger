@@ -1,30 +1,6 @@
 (function () {
   'use strict';
 
-  /* ===== THEME: sync meta theme-color & favicon with system preference ===== */
-  var meta = document.querySelector('meta[name="theme-color"]');
-  var faviconLink = document.querySelector('link[rel="icon"]');
-
-  var faviconMap = {
-    'index.html':      'p',
-    'ai-tutor.html':   'a',
-    'guides.html':     'e',
-    'dictionary.html':  'd',
-    'contacts.html':   'c',
-    'simulators.html': 's',
-    'about-us.html':   'i'
-  };
-  var page = window.location.pathname.split('/').pop() || 'index.html';
-  var prefix = faviconMap[page] || (page.indexOf('guide-') === 0 ? 'e' : 'p');
-
-  function syncTheme(dark) {
-    if (meta) meta.content = dark ? '#0A0A0A' : '#FAFAFA';
-    if (faviconLink) faviconLink.href = '/svg/' + prefix + '_' + (dark ? 'b' : 'w') + '.svg?v=3';
-  }
-  var mql = window.matchMedia('(prefers-color-scheme: dark)');
-  syncTheme(mql.matches);
-  mql.addEventListener('change', function (e) { syncTheme(e.matches); });
-
   /* ===== MOBILE NAV HAMBURGER ===== */
   var navHamburger = document.getElementById('navHamburger');
   var siteNav = document.getElementById('siteNav');
