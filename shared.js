@@ -6,15 +6,15 @@
   var faviconLink = document.querySelector('link[rel="icon"]');
 
   var faviconMap = {
-    'index.html':      'p',
-    'ai-tutor.html':   'a',
-    'guides.html':     'e',
-    'dictionary.html':  'd',
-    'contacts.html':   'c',
-    'simulators.html': 's',
-    'about-us.html':   'i'
+    'index':      'p',
+    'ai-tutor':   'a',
+    'guides':     'e',
+    'dictionary':  'd',
+    'contacts':   'c',
+    'simulators': 's',
+    'about-us':   'i'
   };
-  var page = window.location.pathname.split('/').pop() || 'index.html';
+  var page = (window.location.pathname.split('/').pop() || 'index').replace(/\.html$/, '');
   var prefix = faviconMap[page] || (page.indexOf('guide-') === 0 ? 'e' : 'p');
 
   function syncTheme(dark) {
