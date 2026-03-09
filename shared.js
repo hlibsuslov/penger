@@ -1,8 +1,6 @@
 (function () {
   'use strict';
 
-  /* ===== THEME: favicon is handled by inline <script> in each page ===== */
-
   /* ===== MOBILE NAV HAMBURGER ===== */
   var navHamburger = document.getElementById('navHamburger');
   var siteNav = document.getElementById('siteNav');
