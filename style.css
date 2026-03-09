@@ -907,7 +907,7 @@ h3 { font-size: 15px; font-weight: 600; }
 }
 
 /* Hide mobile-only nav elements on desktop */
-.nav-caption, .nav-spacer, .nav-link--footer { display: none; }
+.nav-caption, .nav-spacer { display: none; }
 .nav-mobile-group { display: none; }
 /* Desktop-only nav link */
 .nav-link--desktop { display: inline-flex; }
@@ -1469,30 +1469,6 @@ body.nav-open {
     opacity: 0.7;
   }
 
-  /* ── Footer links ── */
-  .nav-link--footer {
-    display: block;
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    color: var(--text-dim);
-    padding: 14px 24px;
-  }
-  .nav-link--footer:hover { color: var(--text-label); }
-  .nav-link--footer.active {
-    color: var(--text-accent);
-    background: rgba(255, 255, 255, 0.045);
-  }
-  .nav-link--footer.active::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 6px; bottom: 6px;
-    width: 2px;
-    background: var(--text-accent);
-    border-radius: 0 2px 2px 0;
-    opacity: 0.7;
-  }
-
   .nav-hamburger { display: flex; }
 
   /* ── Light theme overrides ── */
@@ -1511,8 +1487,6 @@ body.nav-open {
     .nav-link:focus-visible { background: rgba(0, 0, 0, 0.03); }
     .nav-link.active { background: rgba(0, 0, 0, 0.04); }
     .nav-link.active::before { opacity: 0.8; }
-    .nav-link--footer.active { background: rgba(0, 0, 0, 0.04); }
-    .nav-link--footer.active::before { opacity: 0.8; }
   }
 
   /* Hero responsive */
