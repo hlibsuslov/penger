@@ -236,8 +236,8 @@
   margin-bottom: 24px;
 }
 .founder-avatar {
-  width: 110px;
-  height: 110px;
+  width: clamp(80px, 18vw, 120px);
+  aspect-ratio: 1;
   flex-shrink: 0;
   border-radius: 50%;
   overflow: hidden;
@@ -248,7 +248,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: center 20%;
   display: block;
 }
 
@@ -406,7 +406,6 @@
   .about-hero h1 { font-size: 32px; }
   .principles-grid { grid-template-columns: 1fr; }
   .specs-grid { grid-template-columns: 1fr 1fr; }
-  .founder-avatar { width: 96px; height: 96px; }
   .founder-name { font-size: 20px; }
 }
 
@@ -431,7 +430,6 @@
   .edu-link-title { font-size: 13px; }
   .edu-link-desc { font-size: 11px; }
   .founder-card { padding: 32px 20px; }
-  .founder-avatar { width: 88px; height: 88px; }
   .founder-name { font-size: 19px; }
   .founder-bio { font-size: 13px; }
   .founder-tag { font-size: 9px; padding: 4px 10px; }
@@ -456,8 +454,8 @@
   .spec-item { padding: 14px 6px; }
   .spec-value { font-size: 16px; }
   .founder-card { padding: 28px 16px; }
-  .founder-photo-wrap { margin-bottom: 20px; }
-  .founder-avatar { width: 76px; height: 76px; border-width: 2px; }
+  .founder-photo-wrap { margin-bottom: 18px; }
+  .founder-avatar { border-width: 2px; }
   .founder-name { font-size: 18px; }
   .founder-bio { font-size: 12px; }
   .founder-divider { margin: 16px auto; }
