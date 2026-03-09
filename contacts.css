@@ -61,8 +61,8 @@
   margin-bottom: 14px;
 }
 .contact-card-icon {
-  width: 18px;
-  height: 18px;
+  width: 28px;
+  height: 28px;
   color: var(--text-accent);
   display: inline-flex;
   align-items: center;
@@ -129,8 +129,8 @@
   opacity: 0.85;
 }
 .contact-card-btn svg {
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
   flex-shrink: 0;
 }
 
@@ -157,8 +157,8 @@
   border-color: var(--border-active);
 }
 .copy-email-btn svg {
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
   flex-shrink: 0;
 }
 .copy-email-btn.copied {
@@ -268,8 +268,8 @@
   gap: 8px;
 }
 .channel-platform-icon {
-  width: 16px;
-  height: 16px;
+  width: 22px;
+  height: 22px;
   color: var(--text-accent);
   display: inline-flex;
   align-items: center;
@@ -320,8 +320,8 @@
   border-color: var(--border-active);
 }
 .channel-copy-btn svg {
-  width: 11px;
-  height: 11px;
+  width: 14px;
+  height: 14px;
   flex-shrink: 0;
 }
 .channel-copy-btn.copied {
@@ -405,8 +405,8 @@
     gap: 6px;
   }
   .channel-platform-icon {
-    width: 14px;
-    height: 14px;
+    width: 18px;
+    height: 18px;
   }
   .channel-handle {
     font-size: 13px;
@@ -426,7 +426,7 @@
   .contacts-hero .body-text { font-size: 13px; }
   .contacts-cards-section { padding: 24px 0; }
   .contact-card { padding: 18px 14px; }
-  .contact-card-icon { width: 16px; height: 16px; }
+  .contact-card-icon { width: 22px; height: 22px; }
   .contact-card-label { font-size: 9px; }
   .contact-card-value { font-size: 13px; }
   .contact-card-desc { font-size: 12px; }
@@ -440,6 +440,6 @@
   .channels-section { padding: 24px 0; }
   .channel-row { padding: 12px 14px; }
   .channel-platform { font-size: 10px; }
-  .channel-platform-icon { width: 13px; height: 13px; }
+  .channel-platform-icon { width: 16px; height: 16px; }
   .channel-handle { font-size: 12px; }
 }

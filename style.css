@@ -883,20 +883,22 @@ h3 { font-size: 15px; font-weight: 600; }
   background: var(--bg-surface-hover);
 }
 .nav-dropdown-icon {
-  width: 28px; height: 28px;
+  width: 36px; height: 36px;
   display: flex; align-items: center; justify-content: center;
   background: var(--bg-highlight);
-  border-radius: 6px;
+  border-radius: 8px;
   flex-shrink: 0;
   color: var(--text-primary);
 }
 .nav-dropdown-icon svg {
   display: block;
+  width: 22px;
+  height: 22px;
 }
 .icon-ai-tutor {
   display: block;
-  width: 16px;
-  height: 16px;
+  width: 22px;
+  height: 22px;
 }
 .nav-dropdown-sep {
   height: 1px;
@@ -1413,13 +1415,13 @@ body.nav-open {
     align-items: center;
   }
   .nav-mobile-icon {
-    width: 24px; height: 24px;
+    width: 32px; height: 32px;
     display: inline-flex; align-items: center; justify-content: center;
     margin-right: 12px;
     flex-shrink: 0;
     opacity: 0.6;
   }
-  .nav-mobile-icon svg { display: block; width: 20px; height: 20px; }
+  .nav-mobile-icon svg { display: block; width: 26px; height: 26px; }
 
   /* ── Education caption (legacy, hidden) ── */
   .nav-caption {
