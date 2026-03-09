@@ -349,8 +349,8 @@
   display: block;
 }
 .lp-btn-icon {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -478,10 +478,10 @@
 
 .lp-privacy-icon {
   display: block;
-  width: 36px;
-  height: 36px;
+  width: 56px;
+  height: 56px;
   color: var(--text-label);
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   transition: color var(--duration-normal) var(--ease-default);
 }
 
@@ -950,7 +950,7 @@
   .lp-btn-group-how { margin-top: 24px; }
   .lp-btn-group-callout { margin-top: 16px; }
   .lp-btn-group-callout .lp-btn-primary { font-size: 12px; padding: 12px 24px; }
-  .lp-btn-group-callout .lp-btn-primary .lp-btn-icon { width: 30px; height: 30px; }
+  .lp-btn-group-callout .lp-btn-primary .lp-btn-icon { width: 36px; height: 36px; }
   .lp-btn-group-callout .lp-btn-outline { font-size: 11px; padding: 10px 20px; }
   .lp-cta-group { flex-direction: column; align-items: stretch; }
   .lp-btn-primary { text-align: center; justify-content: center; width: 100%; }
