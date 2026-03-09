@@ -221,28 +221,21 @@
 
 /* ---- Founder Card ---- */
 .founder-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
   margin-top: 4px;
-  padding: 40px 32px;
+  padding: 28px;
   background: var(--bg-surface);
   border: 1px solid var(--border-default);
   border-radius: 8px;
-  text-align: center;
-}
-
-/* Photo wrapper — centers the avatar */
-.founder-photo-wrap {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 24px;
 }
 .founder-avatar {
-  width: clamp(80px, 18vw, 120px);
-  height: clamp(80px, 18vw, 120px);
+  width: 72px;
+  height: 72px;
   flex-shrink: 0;
   border-radius: 50%;
   overflow: hidden;
-  border: 3px solid var(--border-default);
-  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.04);
 }
 .founder-avatar img {
   width: 100%;
@@ -251,15 +244,13 @@
   object-position: center center;
   display: block;
 }
-
-/* Body content — centered */
 .founder-body {
-  max-width: 480px;
-  margin: 0 auto;
+  flex: 1;
+  min-width: 0;
 }
 .founder-name {
   font-family: var(--font-sans);
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 700;
   color: var(--text-accent);
   line-height: 1.2;
@@ -269,76 +260,43 @@
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   color: var(--text-dim);
-  margin-top: 6px;
+  margin-top: 4px;
 }
-
-/* Divider */
-.founder-divider {
-  width: 48px;
-  height: 1px;
-  background: var(--border-active);
-  margin: 20px auto;
-}
-
-/* Bio */
 .founder-bio {
   font-family: var(--font-sans);
   font-size: 14px;
-  line-height: 1.85;
+  line-height: 1.75;
   color: var(--text-primary);
+  margin-top: 12px;
 }
-
-/* Tags */
-.founder-tags {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 20px;
-}
-.founder-tag {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-dim);
-  padding: 5px 12px;
-  border: 1px solid var(--border-default);
-  border-radius: 100px;
-}
-
-/* Social links */
 .founder-links {
   display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 24px;
+  gap: 8px;
+  margin-top: 14px;
 }
 .founder-link {
-  width: 36px;
-  height: 36px;
-  min-width: 36px;
-  min-height: 36px;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--text-dim);
   border: 1px solid var(--border-default);
-  border-radius: 50%;
+  border-radius: 6px;
   text-decoration: none;
-  transition: color var(--duration-fast) ease, border-color var(--duration-fast) ease, background var(--duration-fast) ease;
+  transition: color var(--duration-fast) ease, border-color var(--duration-fast) ease;
 }
 .founder-link:hover {
   color: var(--text-accent);
   border-color: var(--border-active);
-  background: var(--bg-surface-hover);
 }
 .founder-link svg {
-  width: 16px;
-  height: 16px;
+  width: 15px;
+  height: 15px;
   flex-shrink: 0;
   display: block;
 }
@@ -409,7 +367,6 @@
   .about-hero h1 { font-size: 32px; }
   .principles-grid { grid-template-columns: 1fr; }
   .specs-grid { grid-template-columns: 1fr 1fr; }
-  .founder-name { font-size: 20px; }
 }
 
 /* Phone */
@@ -432,10 +389,10 @@
   .edu-link-icon { width: 22px; height: 22px; }
   .edu-link-title { font-size: 13px; }
   .edu-link-desc { font-size: 11px; }
-  .founder-card { padding: 32px 20px; }
-  .founder-name { font-size: 19px; }
+  .founder-card { padding: 22px 20px; gap: 18px; }
+  .founder-avatar { width: 60px; height: 60px; }
+  .founder-name { font-size: 16px; }
   .founder-bio { font-size: 13px; }
-  .founder-tag { font-size: 9px; padding: 4px 10px; }
   .about-cta { padding: 40px 0; }
   .about-cta h2 { font-size: 24px; }
   .cta-buttons { flex-direction: column; align-items: center; }
@@ -456,14 +413,10 @@
   .specs-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
   .spec-item { padding: 14px 6px; }
   .spec-value { font-size: 16px; }
-  .founder-card { padding: 28px 16px; }
-  .founder-photo-wrap { margin-bottom: 18px; }
-  .founder-avatar { border-width: 2px; }
-  .founder-name { font-size: 18px; }
+  .founder-card { padding: 20px 16px; gap: 14px; }
+  .founder-avatar { width: 52px; height: 52px; }
+  .founder-name { font-size: 15px; }
   .founder-bio { font-size: 12px; }
-  .founder-divider { margin: 16px auto; }
-  .founder-tags { gap: 6px; margin-top: 16px; }
-  .founder-tag { font-size: 8px; padding: 3px 8px; }
   .about-cta { padding: 32px 0; }
   .about-cta h2 { font-size: 20px; }
   .cta-btn { font-size: 11px; padding: 9px 20px; }
