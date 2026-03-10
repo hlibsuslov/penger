@@ -55,8 +55,9 @@
 }
 .about-divider-icon img {
   display: block;
-  max-width: 120px;
+  width: 220px;
   height: auto;
+  opacity: 1;
 }
 
 
