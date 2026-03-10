@@ -47,6 +47,11 @@
   align-items: center;
   justify-content: center;
   padding: 12px 0;
+  color: var(--text-dim);
+  opacity: 0.45;
+}
+.about-divider-icon svg {
+  display: block;
 }
 .about-divider-icon img {
   display: block;
