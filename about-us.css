@@ -56,7 +56,7 @@
 .about-divider-icon img {
   display: block;
   width: 100%;
-  max-width: 220px;
+  max-width: 440px;
   height: auto;
   opacity: 1;
 }
@@ -385,7 +385,7 @@
   .about-section { padding: 32px 0; }
   .about-section h2 { font-size: 22px; }
   .about-text-block p { font-size: 13px; }
-  .about-divider-icon img { max-width: 180px; }
+  .about-divider-icon img { max-width: 360px; }
   .principle-card { padding: 20px 18px; }
   .principle-icon { width: 26px; height: 26px; margin-bottom: 10px; }
   .principle-title { font-size: 14px; }
@@ -415,7 +415,7 @@
   .about-section { padding: 24px 0; }
   .about-section h2 { font-size: 20px; }
   .about-text-block p { font-size: 12px; }
-  .about-divider-icon img { max-width: 160px; }
+  .about-divider-icon img { max-width: 320px; }
   .principle-card { padding: 16px 14px; }
   .principle-icon { width: 22px; height: 22px; }
   .principle-title { font-size: 13px; }
