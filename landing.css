@@ -21,10 +21,6 @@
   from { opacity: 0; transform: scale(0.96) translateY(16px); }
   to   { opacity: 1; transform: scale(1) translateY(0); }
 }
-@keyframes heroPulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
 @keyframes heroShimmer {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(100%); }
@@ -46,33 +42,29 @@
   to   { background-size: 100% 100%; }
 }
 
-.lp-hero .lp-pre-header {
+.lp-hero .lp-h1 {
   animation: heroFadeUp var(--duration-slow) var(--ease-out) both;
   animation-delay: 0.1s;
 }
-.lp-hero .lp-h1 {
-  animation: heroFadeUp var(--duration-slow) var(--ease-out) both;
-  animation-delay: 0.2s;
-}
 .lp-hero .lp-hero-image {
   animation: heroScaleIn 1s var(--ease-out) both;
+  animation-delay: 0.2s;
+}
+.lp-hero .lp-hero-stats {
+  animation: heroFadeUp var(--duration-slow) var(--ease-out) both;
   animation-delay: 0.3s;
 }
 .lp-hero .lp-subheadline {
   animation: heroFadeUp var(--duration-slow) var(--ease-out) both;
-  animation-delay: 0.5s;
+  animation-delay: 0.4s;
 }
 .lp-hero .lp-cta-group {
   animation: heroFadeUp var(--duration-slow) var(--ease-out) both;
-  animation-delay: 0.6s;
-}
-.lp-hero .lp-hero-stats {
-  animation: heroFadeUp var(--duration-slow) var(--ease-out) both;
-  animation-delay: 0.4s;
+  animation-delay: 0.5s;
 }
 .lp-hero .lp-hero-scroll-hint {
   animation: heroFadeUp var(--duration-slow) var(--ease-out) both;
-  animation-delay: 0.8s;
+  animation-delay: 0.7s;
 }
 
 /* === HERO BACKGROUND EFFECTS === */
@@ -217,27 +209,6 @@
 .lp-hero .container {
   position: relative;
   z-index: 1;
-}
-.lp-pre-header {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--text-dim);
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.lp-pre-header-dot {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--text-dim);
-  animation: heroPulse 2.5s ease-in-out infinite;
-  flex-shrink: 0;
 }
 .lp-h1 {
   font-family: var(--font-sans);
