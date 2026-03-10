@@ -47,11 +47,25 @@
   align-items: center;
   justify-content: center;
   padding: 12px 0;
-  color: var(--text-dim);
-  opacity: 0.45;
 }
-.about-divider-icon svg {
+.about-divider-icon img {
   display: block;
+  max-width: 120px;
+  height: auto;
+}
+.divider-img-dark {
+  display: none;
+}
+.divider-img-light {
+  display: block;
+}
+@media (prefers-color-scheme: dark) {
+  .divider-img-light {
+    display: none;
+  }
+  .divider-img-dark {
+    display: block;
+  }
 }
 
 /* Text blocks */
