@@ -281,12 +281,12 @@
   <main>
     <section class="section-intro">
       <div class="container">
-        <a href="guides.html" class="back-link anim-fade-in">&larr; All Guides</a>
-        <p class="label anim-fade-in">[ GUIDE / PASSPHRASE ]</p>
-        <h1 class="anim-fade-in">The 25th Word (Passphrase)</h1>
-        <p class="body-text anim-fade-in">How an optional BIP39 passphrase creates an additional layer of security on top of your seed phrase &mdash; enabling hidden wallets, plausible deniability, and protection against physical seed compromise.</p>
+        <a href="guides.html" class="back-link">&larr; All Guides</a>
+        <p class="label">[ GUIDE / PASSPHRASE ]</p>
+        <h1 >The 25th Word (Passphrase)</h1>
+        <p class="body-text">How an optional BIP39 passphrase creates an additional layer of security on top of your seed phrase &mdash; enabling hidden wallets, plausible deniability, and protection against physical seed compromise.</p>
 
-        <div class="level-toggle anim-fade-in" id="levelToggle">
+        <div class="level-toggle" id="levelToggle">
           <div class="pill-group">
             <button class="pill active" data-level="beginner" type="button">BEGINNER</button>
             <button class="pill" data-level="advanced" type="button">ADVANCED</button>
@@ -311,8 +311,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 id="b-what-is" class="anim-fade-in">What Is the 25th Word?</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="b-what-is" >What Is the 25th Word?</h2>
+          <div class="guide-text">
             <p>The "25th word" is an <strong>optional passphrase</strong> that you can add on top of your standard 12 or 24-word seed phrase. It is defined in the BIP39 specification and supported by most modern wallets.</p>
             <p>Unlike the seed words themselves (which come from a fixed list of 2,048 words), the passphrase is <strong>completely freeform</strong> &mdash; it can be any string of characters: letters, numbers, symbols, spaces, even Unicode characters. There are no restrictions on length or content.</p>
             <blockquote><p>Think of it this way: the seed phrase is the key to your vault, and the passphrase is the combination on the vault's secondary lock. Even if someone finds the key, they still cannot open the vault without the combination.</p></blockquote>
@@ -323,8 +323,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 id="b-how-works" class="anim-fade-in">How Does It Work?</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="b-how-works" >How Does It Work?</h2>
+          <div class="guide-text">
             <p>When your wallet converts your seed words into cryptographic keys, it uses a process called <strong>PBKDF2 key stretching</strong>. The passphrase is incorporated directly into this process as part of the salt:</p>
             <ol>
               <li>You enter your 12 or 24 seed words</li>
@@ -344,8 +344,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 id="b-hidden-wallets" class="anim-fade-in">Hidden Wallets and Plausible Deniability</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="b-hidden-wallets" >Hidden Wallets and Plausible Deniability</h2>
+          <div class="guide-text">
             <p>One of the most powerful features of the passphrase is the ability to create <strong>hidden wallets</strong> that provide plausible deniability under duress.</p>
             <h3>How It Works in Practice</h3>
             <p>You set up your wallet with a seed phrase and two different passphrases:</p>
@@ -365,8 +365,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 id="b-risks" class="anim-fade-in">Risks and Responsibilities</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="b-risks" >Risks and Responsibilities</h2>
+          <div class="guide-text">
             <p>The passphrase is a powerful tool, but it adds <strong>complexity and risk</strong> that you must manage carefully.</p>
             <h3>If You Lose the Passphrase</h3>
             <p>Unlike a website password, there is <strong>no recovery mechanism</strong> for a forgotten passphrase. If you forget it, you lose access to every asset stored in that passphrase-derived wallet permanently. Your seed phrase alone will only recover the base wallet (no passphrase).</p>
@@ -410,8 +410,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 id="a-cryptographic" class="anim-fade-in">Cryptographic Mechanism</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="a-cryptographic" >Cryptographic Mechanism</h2>
+          <div class="guide-text">
             <p>The BIP39 passphrase is integrated into the key derivation process at the PBKDF2 layer. Understanding the exact mechanism reveals why it is so effective:</p>
             <pre><code>seed = PBKDF2(
   PRF:        HMAC-SHA512,
@@ -437,8 +437,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 id="a-entropy-analysis" class="anim-fade-in">Passphrase Entropy Analysis</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="a-entropy-analysis" >Passphrase Entropy Analysis</h2>
+          <div class="guide-text">
             <p>The security benefit of a passphrase depends on its entropy. A weak passphrase can be brute-forced by an attacker who already has the seed phrase.</p>
             <h3>Attack Scenario</h3>
             <p>If an attacker obtains your 24 seed words but not your passphrase, they must brute-force the passphrase to access your funds. The cost of this attack depends on:</p>
@@ -474,8 +474,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 id="a-implementation" class="anim-fade-in">Implementation Across Wallet Software</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="a-implementation" >Implementation Across Wallet Software</h2>
+          <div class="guide-text">
             <p>While the BIP39 passphrase is a standard, its implementation varies across wallet software and hardware devices:</p>
             <h3>Hardware Wallets</h3>
             <ul>
@@ -500,8 +500,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 id="a-advanced-strategies" class="anim-fade-in">Advanced Passphrase Strategies</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="a-advanced-strategies" >Advanced Passphrase Strategies</h2>
+          <div class="guide-text">
             <p>Beyond the basic hidden wallet use case, the passphrase enables several advanced security configurations:</p>
             <h3>Multi-Tier Wallet Architecture</h3>
             <p>Use multiple passphrases with the same seed to create a tiered structure:</p>
@@ -526,8 +526,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 id="a-threat-model" class="anim-fade-in">Threat Model Integration</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="a-threat-model" >Threat Model Integration</h2>
+          <div class="guide-text">
             <p>The passphrase protects against specific threat scenarios and is ineffective against others. Understanding its place in your threat model is essential:</p>
             <h3>Effective Against</h3>
             <ul>
@@ -555,9 +555,9 @@
     <!-- ===== FAQ ===== -->
     <section class="section-block faq-section">
       <div class="container">
-        <p class="label anim-fade-in">[ FREQUENTLY ASKED QUESTIONS ]</p>
-        <h2 class="anim-fade-in">FAQ</h2>
-        <div class="faq-chat anim-fade-in">
+        <p class="label">[ FREQUENTLY ASKED QUESTIONS ]</p>
+        <h2 >FAQ</h2>
+        <div class="faq-chat">
 
           <div class="faq-item">
             <button class="faq-q-btn" type="button">
@@ -616,11 +616,11 @@
     <!-- ===== PASSPHRASE SIMULATOR ===== -->
     <section class="section-block" id="passphrase-simulator">
       <div class="container">
-        <p class="label anim-fade-in">[ INTERACTIVE SIMULATOR ]</p>
-        <h2 class="anim-fade-in">Passphrase Effect Simulator</h2>
-        <p class="body-text anim-fade-in">Type any passphrase and watch the BIP39 seed and Bitcoin addresses change in real time — one character at a time. The seed phrase below is a well-known BIP39 test vector, safe for demonstration only. Never enter your real seed phrase into any website.</p>
+        <p class="label">[ INTERACTIVE SIMULATOR ]</p>
+        <h2 >Passphrase Effect Simulator</h2>
+        <p class="body-text">Type any passphrase and watch the BIP39 seed and Bitcoin addresses change in real time — one character at a time. The seed phrase below is a well-known BIP39 test vector, safe for demonstration only. Never enter your real seed phrase into any website.</p>
 
-        <div class="sim-card anim-fade-in">
+        <div class="sim-card">
           <div class="sim-field">
             <div class="sim-field-label">Seed Phrase &nbsp;&mdash;&nbsp; fixed 12-word BIP39 test vector</div>
             <div class="sim-seed-display" id="simSeedDisplay" translate="no"></div>
@@ -637,7 +637,7 @@
           </div>
         </div>
 
-        <div id="simOutput" class="sim-output anim-fade-in">
+        <div id="simOutput" class="sim-output">
 
           <div id="simSpinner" class="sim-spinner" hidden>
             <span class="sim-spinner-dot"></span>

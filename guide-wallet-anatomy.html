@@ -135,12 +135,12 @@
   <main>
     <section class="section-intro">
       <div class="container">
-        <a href="guides.html" class="back-link anim-fade-in">&larr; All Guides</a>
-        <p class="label anim-fade-in">[ GUIDE / WALLETS ]</p>
-        <h1 class="anim-fade-in">Anatomy of a Wallet</h1>
-        <p class="body-text anim-fade-in">How cryptocurrency wallets work under the hood &mdash; from key derivation and address generation to transaction signing and broadcast.</p>
+        <a href="guides.html" class="back-link">&larr; All Guides</a>
+        <p class="label">[ GUIDE / WALLETS ]</p>
+        <h1 >Anatomy of a Wallet</h1>
+        <p class="body-text">How cryptocurrency wallets work under the hood &mdash; from key derivation and address generation to transaction signing and broadcast.</p>
 
-        <div class="level-toggle anim-fade-in" id="levelToggle">
+        <div class="level-toggle" id="levelToggle">
           <div class="pill-group">
             <button class="pill active" data-level="beginner" type="button">BEGINNER</button>
             <button class="pill" data-level="advanced" type="button">ADVANCED</button>
@@ -166,8 +166,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 class="anim-fade-in" id="b-what-wallet">What Is a Crypto Wallet?</h2>
-          <div class="guide-text anim-fade-in">
+          <h2  id="b-what-wallet">What Is a Crypto Wallet?</h2>
+          <div class="guide-text">
             <p>A cryptocurrency wallet is a tool that stores your <strong>private keys</strong> and allows you to send, receive, and manage digital assets. Despite the name, wallets don't actually store your coins or tokens &mdash; those exist as records on the blockchain. Your wallet holds the cryptographic keys that prove your ownership and authorize transfers.</p>
             <blockquote><p>A wallet is more like a keychain than a wallet. It doesn't hold money &mdash; it holds the keys that unlock your money on the blockchain.</p></blockquote>
             <p>Wallets come in many forms, each designed for different use cases:</p>
@@ -185,8 +185,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 class="anim-fade-in" id="b-keys">Public Keys vs. Private Keys</h2>
-          <div class="guide-text anim-fade-in">
+          <h2  id="b-keys">Public Keys vs. Private Keys</h2>
+          <div class="guide-text">
             <p>Every wallet is built on <strong>asymmetric cryptography</strong> &mdash; a system that uses two mathematically related but functionally different keys:</p>
             <ul>
               <li><strong>Private key</strong> &mdash; a secret 256-bit number that authorizes spending. This must never be shared with anyone. Whoever controls the private key controls the funds.</li>
@@ -204,8 +204,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 class="anim-fade-in" id="b-addresses">Addresses and Receiving Funds</h2>
-          <div class="guide-text anim-fade-in">
+          <h2  id="b-addresses">Addresses and Receiving Funds</h2>
+          <div class="guide-text">
             <p>An address is derived from your public key through a series of <strong>hashing and encoding</strong> steps. It is the string you share with others to receive funds &mdash; like a bank account number, but pseudonymous and verifiable by anyone on the network.</p>
             <h3>Address Formats in Bitcoin</h3>
             <ul>
@@ -225,8 +225,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 class="anim-fade-in" id="b-signing">Sending Funds &mdash; Transaction Signing</h2>
-          <div class="guide-text anim-fade-in">
+          <h2  id="b-signing">Sending Funds &mdash; Transaction Signing</h2>
+          <div class="guide-text">
             <p>When you send cryptocurrency, your wallet performs a precise sequence of steps:</p>
             <ol>
               <li><strong>Construct the transaction</strong> &mdash; specify the recipient address, amount, and fee</li>
@@ -243,8 +243,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 class="anim-fade-in" id="b-hd-wallets">HD Wallets &mdash; One Seed, Unlimited Keys</h2>
-          <div class="guide-text anim-fade-in">
+          <h2  id="b-hd-wallets">HD Wallets &mdash; One Seed, Unlimited Keys</h2>
+          <div class="guide-text">
             <p>Modern wallets are <strong>Hierarchical Deterministic (HD)</strong>, meaning they derive all private keys, public keys, and addresses from a single seed phrase using a tree-like structure.</p>
             <p>This design provides powerful advantages:</p>
             <ul>
@@ -279,8 +279,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 class="anim-fade-in" id="a-bip32">BIP32 Hierarchical Deterministic Derivation</h2>
-          <div class="guide-text anim-fade-in">
+          <h2  id="a-bip32">BIP32 Hierarchical Deterministic Derivation</h2>
+          <div class="guide-text">
             <p>BIP32 defines a <strong>tree structure</strong> for key derivation. Starting from a master key (derived from the BIP39 seed via <code>HMAC-SHA512</code>), child keys are generated at each level using the parent key and a 32-bit index.</p>
             <h3>Normal vs. Hardened Derivation</h3>
             <p>Each level in the tree can produce <code>2<sup>31</sup></code> normal child keys (indices 0 to 2<sup>31</sup>-1) and <code>2<sup>31</sup></code> hardened child keys (indices 2<sup>31</sup> to 2<sup>32</sup>-1, denoted with <code>'</code>).</p>
@@ -306,8 +306,8 @@ child_chain = I_R</code></pre>
 
       <section class="section-block">
         <div class="container">
-          <h2 class="anim-fade-in" id="a-ecdsa">ECDSA and Schnorr Signatures</h2>
-          <div class="guide-text anim-fade-in">
+          <h2  id="a-ecdsa">ECDSA and Schnorr Signatures</h2>
+          <div class="guide-text">
             <p>Bitcoin historically uses the <strong>secp256k1</strong> elliptic curve with ECDSA (Elliptic Curve Digital Signature Algorithm) for transaction signing. The Taproot upgrade (BIP340) introduced <strong>Schnorr signatures</strong> as an alternative.</p>
             <h3>ECDSA Signing Process</h3>
             <ol>
@@ -336,8 +336,8 @@ child_chain = I_R</code></pre>
 
       <section class="section-block">
         <div class="container">
-          <h2 class="anim-fade-in" id="a-xpub">Extended Public Keys (xpub) and Watch-Only</h2>
-          <div class="guide-text anim-fade-in">
+          <h2  id="a-xpub">Extended Public Keys (xpub) and Watch-Only</h2>
+          <div class="guide-text">
             <p>An <strong>extended public key</strong> (<code>xpub</code>) encodes the public key together with its chain code, enabling the derivation of all normal child public keys without access to any private key. This enables powerful use cases:</p>
             <ul>
               <li><strong>Watch-only wallets</strong> &mdash; monitor balances and generate receiving addresses without spending capability</li>
@@ -360,8 +360,8 @@ zpub / zprv  &larr; BIP84 (Native SegWit P2WPKH)</code></pre>
 
       <section class="section-block">
         <div class="container">
-          <h2 class="anim-fade-in" id="a-utxo">UTXO Model vs. Account Model</h2>
-          <div class="guide-text anim-fade-in">
+          <h2  id="a-utxo">UTXO Model vs. Account Model</h2>
+          <div class="guide-text">
             <p>How a wallet tracks and spends funds depends on the underlying blockchain model. The two dominant models are fundamentally different in design:</p>
             <h3>UTXO Model (Bitcoin, Litecoin, Cardano)</h3>
             <p>In the <strong>Unspent Transaction Output</strong> (UTXO) model, there is no concept of a "balance." Instead, your wallet scans the blockchain for unspent outputs assigned to your addresses. To spend, you <em>consume</em> one or more UTXOs as inputs and create new outputs:</p>
@@ -387,8 +387,8 @@ zpub / zprv  &larr; BIP84 (Native SegWit P2WPKH)</code></pre>
 
       <section class="section-block">
         <div class="container">
-          <h2 class="anim-fade-in" id="a-address-types">Address Types and Script Formats</h2>
-          <div class="guide-text anim-fade-in">
+          <h2  id="a-address-types">Address Types and Script Formats</h2>
+          <div class="guide-text">
             <p>Bitcoin supports multiple address types, each corresponding to a different <strong>script template</strong> that defines the spending conditions:</p>
             <h3>P2PKH (Pay-to-Public-Key-Hash)</h3>
             <p>The original Bitcoin address format. The locking script requires a signature and public key that hashes to the specified value. Addresses start with <code>1</code>.</p>
@@ -410,9 +410,9 @@ zpub / zprv  &larr; BIP84 (Native SegWit P2WPKH)</code></pre>
     <!-- ===== FAQ ===== -->
     <section class="section-block faq-section">
       <div class="container">
-        <p class="label anim-fade-in">[ FREQUENTLY ASKED QUESTIONS ]</p>
-        <h2 class="anim-fade-in">FAQ</h2>
-        <div class="faq-chat anim-fade-in">
+        <p class="label">[ FREQUENTLY ASKED QUESTIONS ]</p>
+        <h2 >FAQ</h2>
+        <div class="faq-chat">
 
           <div class="faq-item">
             <button class="faq-q-btn" type="button">

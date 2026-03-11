@@ -1083,11 +1083,6 @@ body.nav-open {
 .guide-content { display: none; }
 .guide-content.active {
   display: block;
-  animation: guideFadeIn 0.3s ease forwards;
-}
-@keyframes guideFadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 .guide-text {
   font-family: var(--font-sans); font-size: 14.5px; line-height: 1.9;

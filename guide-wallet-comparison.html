@@ -135,12 +135,12 @@
   <main>
     <section class="section-intro">
       <div class="container">
-        <a href="guides.html" class="back-link anim-fade-in">&larr; All Guides</a>
-        <p class="label anim-fade-in">[ GUIDE / WALLET TYPES ]</p>
-        <h1 class="anim-fade-in">Wallet Types Comparison</h1>
-        <p class="body-text anim-fade-in">Hot wallets, cold storage, hardware devices, multi-sig &mdash; understand the trade-offs of each approach and pick the right tool for your needs and threat model.</p>
+        <a href="guides.html" class="back-link">&larr; All Guides</a>
+        <p class="label">[ GUIDE / WALLET TYPES ]</p>
+        <h1 >Wallet Types Comparison</h1>
+        <p class="body-text">Hot wallets, cold storage, hardware devices, multi-sig &mdash; understand the trade-offs of each approach and pick the right tool for your needs and threat model.</p>
 
-        <div class="level-toggle anim-fade-in" id="levelToggle">
+        <div class="level-toggle" id="levelToggle">
           <div class="pill-group">
             <button class="pill active" data-level="beginner" type="button">BEGINNER</button>
             <button class="pill" data-level="advanced" type="button">ADVANCED</button>
@@ -165,8 +165,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 class="anim-fade-in" id="b-hot-cold">Hot Wallets vs. Cold Storage</h2>
-          <div class="guide-text anim-fade-in">
+          <h2  id="b-hot-cold">Hot Wallets vs. Cold Storage</h2>
+          <div class="guide-text">
             <p>The most fundamental distinction in wallet types is whether the private keys are ever exposed to an internet-connected device.</p>
             <h3>Hot Wallets</h3>
             <p><strong>Hot wallets</strong> are connected to the internet &mdash; mobile apps, browser extensions, desktop software. They provide convenience for everyday transactions but introduce risk because the keys exist on a device that could be compromised by malware, phishing, or remote exploits.</p>
@@ -188,8 +188,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 class="anim-fade-in" id="b-hardware">Hardware Wallets</h2>
-          <div class="guide-text anim-fade-in">
+          <h2  id="b-hardware">Hardware Wallets</h2>
+          <div class="guide-text">
             <p>Hardware wallets are dedicated physical devices designed with a single purpose: securely storing private keys and signing transactions. They contain a <strong>secure element chip</strong> that isolates key material from the host computer.</p>
             <h3>How They Work</h3>
             <ol>
@@ -218,8 +218,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 class="anim-fade-in" id="b-custody">Custodial vs. Self-Custodial</h2>
-          <div class="guide-text anim-fade-in">
+          <h2  id="b-custody">Custodial vs. Self-Custodial</h2>
+          <div class="guide-text">
             <p>The distinction between custodial and self-custodial is perhaps the most important decision in crypto. It determines who ultimately controls your funds.</p>
             <h3>Custodial Wallets</h3>
             <p>With a <strong>custodial wallet</strong> (exchange accounts like Coinbase, Binance, Kraken), a third party holds your private keys. This is convenient &mdash; no seed phrases to manage, easy password recovery &mdash; but introduces <strong>counterparty risk</strong>:</p>
@@ -239,8 +239,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 class="anim-fade-in" id="b-choosing">Choosing the Right Wallet</h2>
-          <div class="guide-text anim-fade-in">
+          <h2  id="b-choosing">Choosing the Right Wallet</h2>
+          <div class="guide-text">
             <p>There is no single "best" wallet &mdash; the right choice depends on your holdings, usage patterns, and threat model.</p>
             <h3>For Beginners</h3>
             <p>Start with a reputable <strong>self-custodial mobile wallet</strong>. Learn the basics: receiving, sending, backing up your seed phrase. Practice with small amounts before moving larger sums.</p>
@@ -273,8 +273,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 id="a-multisig" class="anim-fade-in">Multi-Signature (Multi-Sig) Wallets</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="a-multisig" >Multi-Signature (Multi-Sig) Wallets</h2>
+          <div class="guide-text">
             <p>Multi-sig wallets require <strong>M-of-N signatures</strong> to authorize a transaction. The spending conditions are encoded directly into the Bitcoin script, meaning the blockchain itself enforces the policy &mdash; no single compromised key can move funds.</p>
             <h3>Common Configurations</h3>
             <ul>
@@ -299,8 +299,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 id="a-airgap" class="anim-fade-in">Air-Gapped Signing and PSBTs</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="a-airgap" >Air-Gapped Signing and PSBTs</h2>
+          <div class="guide-text">
             <p>Air-gapped wallets provide the strongest isolation by ensuring the signing device <strong>never connects to any network</strong> &mdash; not via USB, Bluetooth, Wi-Fi, or NFC. Transactions are transferred via QR codes or microSD cards using the <strong>PSBT format</strong> (BIP174 / BIP370).</p>
             <h3>PSBT Workflow</h3>
             <ol>
@@ -324,8 +324,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 id="a-mpc" class="anim-fade-in">MPC Wallets and Threshold Signatures</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="a-mpc" >MPC Wallets and Threshold Signatures</h2>
+          <div class="guide-text">
             <p><strong>Multi-Party Computation</strong> (MPC) wallets split the key generation and signing process across multiple parties using cryptographic protocols. Unlike multi-sig, the complete private key <strong>never exists in one place</strong> &mdash; not even during key generation.</p>
             <h3>How MPC Signing Works</h3>
             <ol>
@@ -350,8 +350,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 id="a-secure-elements" class="anim-fade-in">Secure Elements and Firmware Verification</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="a-secure-elements" >Secure Elements and Firmware Verification</h2>
+          <div class="guide-text">
             <p>The security of a hardware wallet ultimately depends on its <strong>hardware architecture</strong> and the integrity of its firmware. Two critical components:</p>
             <h3>Secure Element (SE)</h3>
             <p>A secure element is a tamper-resistant chip designed to store and process sensitive data. Key properties:</p>
@@ -380,9 +380,9 @@
     <!-- ===== FAQ ===== -->
     <section class="section-block faq-section">
       <div class="container">
-        <p class="label anim-fade-in">[ FREQUENTLY ASKED QUESTIONS ]</p>
-        <h2 class="anim-fade-in">FAQ</h2>
-        <div class="faq-chat anim-fade-in">
+        <p class="label">[ FREQUENTLY ASKED QUESTIONS ]</p>
+        <h2 >FAQ</h2>
+        <div class="faq-chat">
 
           <div class="faq-item">
             <button class="faq-q-btn" type="button">
