@@ -12,11 +12,17 @@
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 const express = require('express');
+const compression = require('compression');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+/* =========================================================
+   COMPRESSION
+   ========================================================= */
+app.use(compression());
 
 /* =========================================================
    SECURITY MIDDLEWARE
