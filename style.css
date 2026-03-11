@@ -1102,6 +1102,19 @@ body.nav-open {
 .guide-text strong { font-weight: 700; color: var(--text-accent); }
 .guide-text em { font-style: italic; }
 
+/* Inline cross-links */
+.guide-text a {
+  color: var(--text-accent);
+  text-decoration: underline;
+  text-decoration-color: var(--border-default);
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color 0.2s ease;
+}
+.guide-text a:hover {
+  text-decoration-color: var(--text-accent);
+}
+
 /* Highlighted text */
 .guide-text mark {
   background: rgba(0,0,0,0.06); color: inherit;

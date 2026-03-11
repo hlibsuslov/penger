@@ -470,7 +470,7 @@
             <p>If an attacker obtains your 24 seed words but not your passphrase, they must brute-force the passphrase to access your funds. The cost of this attack depends on:</p>
             <ol>
               <li>The <strong>entropy of the passphrase</strong> (search space)</li>
-              <li>The <strong>cost of each guess</strong> (PBKDF2 with 2,048 iterations of HMAC-SHA512, followed by BIP32 derivation and address checking)</li>
+              <li>The <strong>cost of each guess</strong> (PBKDF2 with 2,048 iterations of HMAC-SHA512, followed by <a href="/guides/wallet-anatomy#a-bip32">BIP32</a> derivation and address checking)</li>
             </ol>
             <h3>Passphrase Entropy Guidelines</h3>
             <ul>
@@ -536,7 +536,7 @@
             <ul>
               <li><strong>No passphrase</strong> &mdash; decoy wallet with minimal funds</li>
               <li><strong>Passphrase A</strong> &mdash; medium-security wallet for regular transactions</li>
-              <li><strong>Passphrase B</strong> &mdash; high-security cold storage for long-term holdings</li>
+              <li><strong>Passphrase B</strong> &mdash; high-security <a href="/guides/wallet-comparison#b-hot-cold">cold storage</a> for long-term holdings</li>
             </ul>
             <p>Each tier has its own addresses, keys, and balances. Compromise of one passphrase does not affect the others.</p>
             <h3>Passphrase + Multi-Sig</h3>
