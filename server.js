@@ -70,6 +70,14 @@ app.get('/guides.html', (req, res) => {
 });
 
 /* =========================================================
+   301 REDIRECTS — any *.html page → clean URL
+   ========================================================= */
+app.get('/:page.html', (req, res) => {
+  var clean = req.params.page === 'index' ? '/' : '/' + req.params.page;
+  res.redirect(301, clean);
+});
+
+/* =========================================================
    STATIC FILES  (the entire site)
    ========================================================= */
 app.use(express.static(path.join(__dirname), {

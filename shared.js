@@ -42,10 +42,13 @@
 
   /* ===== ACTIVE NAV LINK ===== */
   var currentPath = window.location.pathname;
-  var currentPage = currentPath.split('/').pop() || 'index.html';
+  if (currentPath !== '/' && currentPath.endsWith('/')) {
+    currentPath = currentPath.slice(0, -1);
+  }
+
   document.querySelectorAll('.nav-link[href]').forEach(function (link) {
     var href = link.getAttribute('href');
-    if (href === currentPage || href === currentPath) {
+    if (href === currentPath) {
       link.classList.add('active');
     } else if (currentPath.indexOf('/guides/') === 0 && href === '/guides') {
       link.classList.add('active');
@@ -54,7 +57,7 @@
   /* Also mark dropdown links and trigger as active */
   document.querySelectorAll('.nav-dropdown-link[href]').forEach(function (link) {
     var href = link.getAttribute('href');
-    if (href === currentPage || href === currentPath || (currentPath.indexOf('/guides/') === 0 && href === '/guides')) {
+    if (href === currentPath || (currentPath.indexOf('/guides/') === 0 && href === '/guides')) {
       link.classList.add('active');
       var trigger = link.closest('.nav-dropdown');
       if (trigger) {
