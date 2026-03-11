@@ -34,6 +34,42 @@ app.use(helmet({
 app.use(express.json({ limit: '50kb' }));
 
 /* =========================================================
+   ACADEMY CLEAN URLs — /guides/:slug → guide-{slug}.html
+   ========================================================= */
+const GUIDE_SLUGS = new Set([
+  'seed-anatomy', 'wallet-anatomy', 'self-sovereignty',
+  'wallet-comparison', 'opsec', 'passphrase', 'multisig'
+]);
+
+app.get('/guides/:slug', (req, res, next) => {
+  if (GUIDE_SLUGS.has(req.params.slug)) {
+    return res.sendFile(path.join(__dirname, 'guide-' + req.params.slug + '.html'));
+  }
+  next();
+});
+
+/* =========================================================
+   301 REDIRECTS — old guide URLs → new clean paths
+   ========================================================= */
+app.get('/guide-:slug.html', (req, res, next) => {
+  if (GUIDE_SLUGS.has(req.params.slug)) {
+    return res.redirect(301, '/guides/' + req.params.slug);
+  }
+  next();
+});
+
+app.get('/guide-:slug', (req, res, next) => {
+  if (GUIDE_SLUGS.has(req.params.slug)) {
+    return res.redirect(301, '/guides/' + req.params.slug);
+  }
+  next();
+});
+
+app.get('/guides.html', (req, res) => {
+  res.redirect(301, '/guides');
+});
+
+/* =========================================================
    STATIC FILES  (the entire site)
    ========================================================= */
 app.use(express.static(path.join(__dirname), {

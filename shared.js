@@ -41,19 +41,20 @@
   });
 
   /* ===== ACTIVE NAV LINK ===== */
-  var currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  var currentPath = window.location.pathname;
+  var currentPage = currentPath.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav-link[href]').forEach(function (link) {
     var href = link.getAttribute('href');
-    if (href === currentPage) {
+    if (href === currentPage || href === currentPath) {
       link.classList.add('active');
-    } else if (currentPage.indexOf('guide-') === 0 && href === 'guides.html') {
+    } else if (currentPath.indexOf('/guides/') === 0 && href === '/guides') {
       link.classList.add('active');
     }
   });
   /* Also mark dropdown links and trigger as active */
   document.querySelectorAll('.nav-dropdown-link[href]').forEach(function (link) {
     var href = link.getAttribute('href');
-    if (href === currentPage || (currentPage.indexOf('guide-') === 0 && href === 'guides.html')) {
+    if (href === currentPage || href === currentPath || (currentPath.indexOf('/guides/') === 0 && href === '/guides')) {
       link.classList.add('active');
       var trigger = link.closest('.nav-dropdown');
       if (trigger) {
