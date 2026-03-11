@@ -14,7 +14,7 @@
   <meta name="format-detection" content="telephone=no, date=no, email=no, address=no">
   <meta name="author" content="PENGER">
   <meta property="og:type" content="article">
-  <meta property="og:url" content="https://mypenger.com/guide-multisig.html">
+  <meta property="og:url" content="https://mypenger.com/guides/multisig">
   <meta property="og:title" content="Multisignature (Multisig) — PENGER Academy">
   <meta property="og:description" content="How multi-key setups eliminate single points of failure. Quorum policies, vendor diversity, and Taproot-based privacy.">
   <meta property="og:image" content="https://mypenger.com/og-image.png">
@@ -31,11 +31,11 @@
   <meta name="twitter:title" content="Multisignature (Multisig) — PENGER Academy">
   <meta name="twitter:description" content="How multi-key setups eliminate single points of failure. Quorum policies, vendor diversity, and Taproot privacy.">
   <meta name="twitter:image" content="https://mypenger.com/og-image.png">
-  <link rel="canonical" href="https://mypenger.com/guide-multisig.html">
+  <link rel="canonical" href="https://mypenger.com/guides/multisig">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="/style.css">
   <title>Multisignature (Multisig) &mdash; PENGER Academy</title>
   <script type="application/ld+json">
   {
@@ -43,7 +43,7 @@
     "@type": "Article",
     "headline": "Multisignature (Multisig)",
     "description": "Multi-key setups that eliminate single points of failure. Learn quorum policies, vendor diversity, collaborative custody, and Taproot privacy.",
-    "url": "https://mypenger.com/guide-multisig.html",
+    "url": "https://mypenger.com/guides/multisig",
     "image": "https://mypenger.com/og-image.png",
     "author": {
       "@type": "Organization",
@@ -60,7 +60,7 @@
     "dateModified": "2026-03-11T00:00:00+00:00",
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "https://mypenger.com/guide-multisig.html"
+      "@id": "https://mypenger.com/guides/multisig"
     },
     "inLanguage": "en"
   }
@@ -71,8 +71,8 @@
     "@type": "BreadcrumbList",
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mypenger.com/" },
-      { "@type": "ListItem", "position": 2, "name": "Academy", "item": "https://mypenger.com/guides.html" },
-      { "@type": "ListItem", "position": 3, "name": "Multisignature (Multisig)", "item": "https://mypenger.com/guide-multisig.html" }
+      { "@type": "ListItem", "position": 2, "name": "Academy", "item": "https://mypenger.com/guides" },
+      { "@type": "ListItem", "position": 3, "name": "Multisignature (Multisig)", "item": "https://mypenger.com/guides/multisig" }
     ]
   }
   </script>
@@ -115,29 +115,29 @@
 
   <header class="site-header">
     <div class="container">
-      <a href="index.html" class="site-logo"><img src="PENGER.svg" alt="PENGER" height="20"></a>
+      <a href="/" class="site-logo"><img src="/PENGER.svg" alt="PENGER" height="20"></a>
       <nav class="site-nav" id="siteNav">
-        <a href="index.html" class="nav-link">Home</a>
+        <a href="/" class="nav-link">Home</a>
         <div class="nav-dropdown" id="navDropdown">
           <button class="nav-dropdown-trigger" type="button" aria-expanded="false" aria-haspopup="true">Education <span class="nav-dropdown-arrow"></span></button>
           <div class="nav-dropdown-menu" role="menu">
-            <a href="guides.html" class="nav-dropdown-link" role="menuitem"><span class="nav-dropdown-icon"><svg viewBox="0 0 512 512" width="16" height="16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M256 130L66 200l190 70 190-70z" stroke="currentColor" stroke-width="24" stroke-linejoin="round"/><path d="M136 258l120 44 120-44v72c0 70-240 70-240 0z"/><rect x="398" y="225" width="16" height="140"/><rect x="376" y="350" width="60" height="90" rx="20"/></svg></span> Academy</a>
-            <a href="simulators.html" class="nav-dropdown-link" role="menuitem"><span class="nav-dropdown-icon"><svg viewBox="0 0 491 531" width="16" height="16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M35 78h83v21H56v62H35z"/><path d="M335 78h83v83h-21V99h-62z"/><path d="M35 378h21v62h62v21H35z"/><path d="M335 461h83V378h-21v62h-62z"/><path d="M112 188l115-66 115 66-115 66z"/><path d="M99 209l115 66v135L99 344z"/><path d="M239 275l115-66v135L239 410z"/></svg></span> Simulators</a>
-            <a href="dictionary.html" class="nav-dropdown-link" role="menuitem"><span class="nav-dropdown-icon"><svg viewBox="0 0 512 512" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M128 64h128v104a48 48 0 0048 48h128v184a48 48 0 01-48 48H128a48 48 0 01-48-48V112a48 48 0 0148-48z" fill="currentColor"/><path d="M288 64l144 120H304a16 16 0 01-16-16z" fill="currentColor"/><path d="M166 280l48 104 42-85 42 85 48-104" fill="none" stroke="var(--bg-main)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Dictionary</a>
+            <a href="/guides" class="nav-dropdown-link" role="menuitem"><span class="nav-dropdown-icon"><svg viewBox="0 0 512 512" width="16" height="16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M256 130L66 200l190 70 190-70z" stroke="currentColor" stroke-width="24" stroke-linejoin="round"/><path d="M136 258l120 44 120-44v72c0 70-240 70-240 0z"/><rect x="398" y="225" width="16" height="140"/><rect x="376" y="350" width="60" height="90" rx="20"/></svg></span> Academy</a>
+            <a href="/simulators" class="nav-dropdown-link" role="menuitem"><span class="nav-dropdown-icon"><svg viewBox="0 0 491 531" width="16" height="16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M35 78h83v21H56v62H35z"/><path d="M335 78h83v83h-21V99h-62z"/><path d="M35 378h21v62h62v21H35z"/><path d="M335 461h83V378h-21v62h-62z"/><path d="M112 188l115-66 115 66-115 66z"/><path d="M99 209l115 66v135L99 344z"/><path d="M239 275l115-66v135L239 410z"/></svg></span> Simulators</a>
+            <a href="/dictionary" class="nav-dropdown-link" role="menuitem"><span class="nav-dropdown-icon"><svg viewBox="0 0 512 512" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M128 64h128v104a48 48 0 0048 48h128v184a48 48 0 01-48 48H128a48 48 0 01-48-48V112a48 48 0 0148-48z" fill="currentColor"/><path d="M288 64l144 120H304a16 16 0 01-16-16z" fill="currentColor"/><path d="M166 280l48 104 42-85 42 85 48-104" fill="none" stroke="var(--bg-main)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Dictionary</a>
             <div class="nav-dropdown-sep"></div>
-            <a href="ai-tutor.html" class="nav-dropdown-link" role="menuitem"><span class="nav-dropdown-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1001 1002" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M512 38L506 42 462 167 435 226 392 292 356 333 308 376 247 416 197 440 57 491 54 500 58 507 180 550 241 577 294 610 342 650 386 697 432 765 462 830 505 952 510 958 520 958 526 951 573 817 596 768 633 711 666 672 719 623 784 580 850 550 965 510 974 504 975 496 973 491 841 443 796 423 737 387 684 343 632 284 596 228 566 162 526 46 520 39Z"/></svg></span> AI Tutor</a>
+            <a href="/ai-tutor" class="nav-dropdown-link" role="menuitem"><span class="nav-dropdown-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1001 1002" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M512 38L506 42 462 167 435 226 392 292 356 333 308 376 247 416 197 440 57 491 54 500 58 507 180 550 241 577 294 610 342 650 386 697 432 765 462 830 505 952 510 958 520 958 526 951 573 817 596 768 633 711 666 672 719 623 784 580 850 550 965 510 974 504 975 496 973 491 841 443 796 423 737 387 684 343 632 284 596 228 566 162 526 46 520 39Z"/></svg></span> AI Tutor</a>
           </div>
         </div>
         <span class="nav-spacer"></span>
         <div class="nav-mobile-group">
-          <a href="guides.html" class="nav-link"><span class="nav-mobile-icon"><svg viewBox="0 0 512 512" width="16" height="16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M256 130L66 200l190 70 190-70z" stroke="currentColor" stroke-width="24" stroke-linejoin="round"/><path d="M136 258l120 44 120-44v72c0 70-240 70-240 0z"/><rect x="398" y="225" width="16" height="140"/><rect x="376" y="350" width="60" height="90" rx="20"/></svg></span>Academy</a>
-          <a href="simulators.html" class="nav-link"><span class="nav-mobile-icon"><svg viewBox="0 0 491 531" width="16" height="16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M35 78h83v21H56v62H35z"/><path d="M335 78h83v83h-21V99h-62z"/><path d="M35 378h21v62h62v21H35z"/><path d="M335 461h83V378h-21v62h-62z"/><path d="M112 188l115-66 115 66-115 66z"/><path d="M99 209l115 66v135L99 344z"/><path d="M239 275l115-66v135L239 410z"/></svg></span>Simulators</a>
-          <a href="dictionary.html" class="nav-link"><span class="nav-mobile-icon"><svg viewBox="0 0 512 512" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M128 64h128v104a48 48 0 0048 48h128v184a48 48 0 01-48 48H128a48 48 0 01-48-48V112a48 48 0 0148-48z" fill="currentColor"/><path d="M288 64l144 120H304a16 16 0 01-16-16z" fill="currentColor"/><path d="M166 280l48 104 42-85 42 85 48-104" fill="none" stroke="var(--bg-main)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Dictionary</a>
-          <a href="ai-tutor.html" class="nav-link"><span class="nav-mobile-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1001 1002" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M512 38L506 42 462 167 435 226 392 292 356 333 308 376 247 416 197 440 57 491 54 500 58 507 180 550 241 577 294 610 342 650 386 697 432 765 462 830 505 952 510 958 520 958 526 951 573 817 596 768 633 711 666 672 719 623 784 580 850 550 965 510 974 504 975 496 973 491 841 443 796 423 737 387 684 343 632 284 596 228 566 162 526 46 520 39Z"/></svg></span>AI Tutor</a>
+          <a href="/guides" class="nav-link"><span class="nav-mobile-icon"><svg viewBox="0 0 512 512" width="16" height="16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M256 130L66 200l190 70 190-70z" stroke="currentColor" stroke-width="24" stroke-linejoin="round"/><path d="M136 258l120 44 120-44v72c0 70-240 70-240 0z"/><rect x="398" y="225" width="16" height="140"/><rect x="376" y="350" width="60" height="90" rx="20"/></svg></span>Academy</a>
+          <a href="/simulators" class="nav-link"><span class="nav-mobile-icon"><svg viewBox="0 0 491 531" width="16" height="16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M35 78h83v21H56v62H35z"/><path d="M335 78h83v83h-21V99h-62z"/><path d="M35 378h21v62h62v21H35z"/><path d="M335 461h83V378h-21v62h-62z"/><path d="M112 188l115-66 115 66-115 66z"/><path d="M99 209l115 66v135L99 344z"/><path d="M239 275l115-66v135L239 410z"/></svg></span>Simulators</a>
+          <a href="/dictionary" class="nav-link"><span class="nav-mobile-icon"><svg viewBox="0 0 512 512" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M128 64h128v104a48 48 0 0048 48h128v184a48 48 0 01-48 48H128a48 48 0 01-48-48V112a48 48 0 0148-48z" fill="currentColor"/><path d="M288 64l144 120H304a16 16 0 01-16-16z" fill="currentColor"/><path d="M166 280l48 104 42-85 42 85 48-104" fill="none" stroke="var(--bg-main)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Dictionary</a>
+          <a href="/ai-tutor" class="nav-link"><span class="nav-mobile-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1001 1002" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M512 38L506 42 462 167 435 226 392 292 356 333 308 376 247 416 197 440 57 491 54 500 58 507 180 550 241 577 294 610 342 650 386 697 432 765 462 830 505 952 510 958 520 958 526 951 573 817 596 768 633 711 666 672 719 623 784 580 850 550 965 510 974 504 975 496 973 491 841 443 796 423 737 387 684 343 632 284 596 228 566 162 526 46 520 39Z"/></svg></span>AI Tutor</a>
         </div>
         <span class="nav-spacer"></span>
-        <a href="contacts.html" class="nav-link">Contacts</a>
-        <a href="about-us.html" class="nav-link">About Us</a>
+        <a href="/contacts" class="nav-link">Contacts</a>
+        <a href="/about-us" class="nav-link">About Us</a>
       </nav>
       <div class="header-controls">
         <button class="nav-hamburger" id="navHamburger" type="button" aria-label="Menu" aria-expanded="false">
@@ -155,7 +155,7 @@
   <main>
     <section class="section-intro">
       <div class="container">
-        <a href="guides.html" class="back-link">&larr; All Guides</a>
+        <a href="/guides" class="back-link">&larr; All Guides</a>
         <p class="label">[ GUIDE / MULTISIG ]</p>
         <h1 >Multisignature (Multisig)</h1>
         <p class="body-text">How multi-key setups eliminate single points of failure &mdash; from basic quorum policies to advanced multi-sig architectures for individuals and organizations.</p>
@@ -517,15 +517,15 @@ OP_CHECKMULTISIG</code></pre>
         <p class="label">[ READ NEXT ]</p>
         <h3>Continue Learning</h3>
         <div class="preview-grid">
-          <a class="preview-card" href="guide-wallet-comparison.html">
+          <a class="preview-card" href="/guides/wallet-comparison">
             <h4>Wallet Types Comparison</h4>
             <p>Hot wallets, cold wallets, hardware devices. Compare trade-offs and find the right fit for your setup.</p>
           </a>
-          <a class="preview-card" href="guide-passphrase.html">
+          <a class="preview-card" href="/guides/passphrase">
             <h4>The 25th Word (Passphrase)</h4>
             <p>How an optional BIP39 passphrase adds an extra security layer and enables hidden wallets.</p>
           </a>
-          <a class="preview-card" href="guide-self-sovereignty.html">
+          <a class="preview-card" href="/guides/self-sovereignty">
             <h4>Self-Sovereignty</h4>
             <p>The philosophy and practice of being your own bank &mdash; why self-custody matters and how to achieve it.</p>
           </a>
@@ -538,14 +538,14 @@ OP_CHECKMULTISIG</code></pre>
   <footer class="site-footer">
     <div class="container">
       <div class="footer-top">
-        <div class="footer-brand"><img src="PENGER.svg" alt="PENGER" height="16"></div>
+        <div class="footer-brand"><img src="/PENGER.svg" alt="PENGER" height="16"></div>
         <nav class="footer-nav" aria-label="Footer">
-          <a href="index.html" class="footer-link">Home</a>
-          <a href="simulators.html" class="footer-link">Simulators</a>
-          <a href="dictionary.html" class="footer-link">Dictionary</a>
-          <a href="guides.html" class="footer-link">Academy</a>
-          <a href="contacts.html" class="footer-link">Contacts</a>
-          <a href="about-us.html" class="footer-link">About Us</a>
+          <a href="/" class="footer-link">Home</a>
+          <a href="/simulators" class="footer-link">Simulators</a>
+          <a href="/dictionary" class="footer-link">Dictionary</a>
+          <a href="/guides" class="footer-link">Academy</a>
+          <a href="/contacts" class="footer-link">Contacts</a>
+          <a href="/about-us" class="footer-link">About Us</a>
         </nav>
       </div>
       <div class="footer-bottom">
@@ -556,6 +556,6 @@ OP_CHECKMULTISIG</code></pre>
   </footer>
 
 
-  <script src="shared.js"></script>
+  <script src="/shared.js"></script>
 </body>
 </html>

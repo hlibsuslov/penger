@@ -31,13 +31,13 @@ No software is involved at any step. The seed phrase never leaves the user's han
 
 A library of structured, jargon-light guides covering every aspect of crypto self-custody, from beginner fundamentals to advanced operational security:
 
-- [Anatomy of a Seed Phrase](https://mypenger.com/guide-seed-anatomy.html): How BIP39 seed phrases work — entropy generation, CSPRNG, word selection, SHA-256 checksum, master key derivation (PBKDF2, BIP32).
-- [Anatomy of a Wallet](https://mypenger.com/guide-wallet-anatomy.html): Wallet internals — key derivation, public/private key pairs, HD address generation, ECDSA/Schnorr signing, UTXO vs account models.
-- [Self-Sovereignty](https://mypenger.com/guide-self-sovereignty.html): Why self-custody matters, risks of custodial services and exchange failures, a practical three-stage roadmap to financial autonomy.
-- [Wallet Types Comparison](https://mypenger.com/guide-wallet-comparison.html): Hot wallets, cold storage, hardware devices, multi-sig setups. Custodial vs self-custodial trade-offs, air-gapped signing, MPC wallets, secure elements.
-- [Operational Security (OpSec)](https://mypenger.com/guide-opsec.html): Threat modeling, digital security habits, physical backup hygiene, social engineering defense, key ceremony protocols, inheritance planning.
-- [The 25th Word (Passphrase)](https://mypenger.com/guide-passphrase.html): How an optional BIP39 passphrase adds a security layer, enables hidden wallets with plausible deniability, and the risks of passphrase loss.
-- [Multisignature (Multisig)](https://mypenger.com/guide-multisig.html): Multi-key setups eliminating single points of failure — quorum policies (2-of-3, 3-of-5), Bitcoin Script, Taproot MuSig2, vendor diversity, collaborative custody.
+- [Anatomy of a Seed Phrase](https://mypenger.com/guides/seed-anatomy): How BIP39 seed phrases work — entropy generation, CSPRNG, word selection, SHA-256 checksum, master key derivation (PBKDF2, BIP32).
+- [Anatomy of a Wallet](https://mypenger.com/guides/wallet-anatomy): Wallet internals — key derivation, public/private key pairs, HD address generation, ECDSA/Schnorr signing, UTXO vs account models.
+- [Self-Sovereignty](https://mypenger.com/guides/self-sovereignty): Why self-custody matters, risks of custodial services and exchange failures, a practical three-stage roadmap to financial autonomy.
+- [Wallet Types Comparison](https://mypenger.com/guides/wallet-comparison): Hot wallets, cold storage, hardware devices, multi-sig setups. Custodial vs self-custodial trade-offs, air-gapped signing, MPC wallets, secure elements.
+- [Operational Security (OpSec)](https://mypenger.com/guides/opsec): Threat modeling, digital security habits, physical backup hygiene, social engineering defense, key ceremony protocols, inheritance planning.
+- [The 25th Word (Passphrase)](https://mypenger.com/guides/passphrase): How an optional BIP39 passphrase adds a security layer, enables hidden wallets with plausible deniability, and the risks of passphrase loss.
+- [Multisignature (Multisig)](https://mypenger.com/guides/multisig): Multi-key setups eliminating single points of failure — quorum policies (2-of-3, 3-of-5), Bitcoin Script, Taproot MuSig2, vendor diversity, collaborative custody.
 
 ## AI Tutor — Interactive Learning Assistant
 
