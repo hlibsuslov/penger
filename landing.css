@@ -612,7 +612,10 @@
 .lp-gdot { width: 22px; height: 16px; border-radius: 3px; flex-shrink: 0; }
 .lp-gdot.on { background: var(--punch-fill); }
 .lp-gdot.off { background: transparent; border: 1px solid var(--border-default); }
-.lp-guide-punch-word { font-family: var(--font-mono); font-size: 12px; font-weight: 500; color: var(--text-dim); margin-left: 8px; }
+.lp-guide-punch-content { display: flex; flex-direction: column; gap: 10px; }
+.lp-guide-punch-img { display: block; }
+.lp-guide-punch-img img { display: block; width: 100%; height: auto; border-radius: 4px; }
+.lp-guide-punch-word { font-family: var(--font-mono); font-size: 12px; font-weight: 500; color: var(--text-dim); }
 
 /* === BINARY CONVERSION CARD (Step 03) === */
 .lp-binary-card {
@@ -984,7 +987,7 @@
   .lp-guide-punch-row { flex-direction: column; align-items: flex-start; }
   .lp-gdot { width: 16px; height: 12px; border-radius: 2px; }
   .lp-guide-punch-dots { gap: 2px; }
-  .lp-guide-punch-word { margin-left: 0; margin-top: 6px; }
+  .lp-guide-punch-word { margin-left: 0; }
   .lp-guide-simulator-callout { padding: 18px 14px; }
   .lp-guide-callout-title { font-size: 15px; }
   .lp-guide-callout-text { font-size: 12px; }
