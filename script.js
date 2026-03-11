@@ -771,4 +771,20 @@
     }, 250);
   });
 
+  // Dict snap-back: auto-center on active row after user stops scrolling
+  document.querySelectorAll('.lp-guide-dict-body').forEach(function(body) {
+    var timer;
+    function snapBack() {
+      var active = body.querySelector('.lp-guide-dict-active');
+      if (!active) return;
+      var top = active.offsetTop - body.offsetTop - body.clientHeight / 2 + active.offsetHeight / 2;
+      body.scrollTo({ top: top, behavior: 'smooth' });
+    }
+    snapBack();
+    body.addEventListener('scroll', function() {
+      clearTimeout(timer);
+      timer = setTimeout(snapBack, 1200);
+    });
+  });
+
 })();

@@ -562,13 +562,29 @@
 }
 .lp-guide-val { font-family: var(--font-mono); font-size: 15px; font-weight: 600; color: var(--text-accent); }
 .lp-guide-hl { color: var(--text-accent-hover); }
-.lp-guide-dict { gap: 2px; padding: 12px 16px; }
+.lp-guide-dict { gap: 0; padding: 0; overflow: hidden; }
+.lp-guide-dict-head {
+  display: flex; align-items: center; gap: 16px;
+  padding: 8px 16px;
+  font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .06em;
+  color: var(--text-dim);
+  border-bottom: 1px solid var(--border-default);
+}
+.lp-guide-dict-body {
+  max-height: 140px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  scroll-behavior: smooth;
+  padding: 4px 0;
+}
 .lp-guide-dict-row {
   display: flex; align-items: center; gap: 16px;
   font-family: var(--font-mono); font-size: 14px; font-weight: 500;
-  color: var(--text-dim); padding: 4px 8px; border-radius: 4px;
+  color: var(--text-dim); padding: 4px 16px;
 }
-.lp-guide-dict-idx { width: 36px; text-align: right; flex-shrink: 0; }
+.lp-guide-dict-idx { width: 40px; text-align: right; flex-shrink: 0; }
 .lp-guide-dict-active {
   color: var(--text-accent-hover); font-weight: 700;
   background: rgba(255, 255, 255, 0.04);
@@ -985,6 +1001,8 @@
   .lp-guide-tag { width: auto; margin-bottom: 4px; }
   .lp-guide-binary-scroll { margin: 0 -10px; padding: 0 10px; }
   .lp-guide-example { padding: 12px 10px; }
+  .lp-guide-dict-body { max-height: 120px; }
+  .lp-guide-dict-row { padding: 4px 10px; font-size: 13px; }
   .lp-gdot { border-radius: 2px; }
   .lp-guide-punch-dots { gap: 2px; }
   .lp-guide-simulator-callout { padding: 18px 14px; }
