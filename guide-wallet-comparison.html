@@ -159,6 +159,7 @@
             <li><a href="#b-hardware">Hardware Wallets</a></li>
             <li><a href="#b-custody">Custodial vs. Self-Custodial</a></li>
             <li><a href="#b-choosing">Choosing the Right Wallet</a></li>
+            <li><a href="#b-hw-checklist">Hardware Wallet Purchase &amp; Lifecycle Checklist</a></li>
           </ol>
         </nav>
       </div>
@@ -251,6 +252,67 @@
             <div class="callout callout-info">
               <span class="callout-label">Key Principle</span>
               Security should scale with holdings. A $500 portfolio doesn't need the same setup as a $500,000 portfolio. Over-engineering small amounts wastes time; under-securing large amounts risks catastrophic loss.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="b-hw-checklist" >Hardware Wallet Purchase &amp; Lifecycle Checklist</h2>
+          <div class="guide-text">
+            <p>A hardware wallet is only as trustworthy as its <strong>supply chain</strong> and <strong>firmware</strong>. Buying the right device from the right source &mdash; and knowing when to upgrade &mdash; is a critical part of your security posture.</p>
+
+            <h3>Why You Must Never Buy From Resellers or Intermediaries</h3>
+            <p>Purchasing a hardware wallet from Amazon, eBay, AliExpress, or any third-party seller introduces a <strong>supply chain attack vector</strong> that can completely undermine the device's security:</p>
+            <ul>
+              <li><strong>Pre-seeded devices</strong> &mdash; the attacker opens the package, initializes the wallet, records the seed phrase, repackages the device with a "recovery card" pre-filled with the attacker's seed. The victim loads funds onto a wallet the attacker already controls.</li>
+              <li><strong>Modified firmware</strong> &mdash; the attacker replaces or patches the firmware to exfiltrate seeds, leak private keys through covert channels, or generate weak entropy that the attacker can predict.</li>
+              <li><strong>Hardware tampering</strong> &mdash; physical implants (additional chips, modified circuits) can intercept signing operations or transmit data wirelessly.</li>
+              <li><strong>Counterfeit devices</strong> &mdash; entirely fake devices that look identical to the original but contain no secure element and no genuine security protections.</li>
+            </ul>
+            <p>These are not theoretical attacks. <strong>Documented cases</strong> include Ledger devices sold on eBay with pre-filled seed cards, and Trezor clones on AliExpress that passed visual inspection but contained modified microcontrollers.</p>
+            <div class="callout callout-warning">
+              <span class="callout-label">Only One Safe Source</span>
+              Always purchase directly from the manufacturer's official website. Not from their Amazon "official store," not from a "certified reseller" &mdash; from the manufacturer directly. The small savings from a third-party seller is not worth the risk of losing everything.
+            </div>
+
+            <h3>Why You Should Buy the Latest Hardware Wallet Models</h3>
+            <p>Hardware wallet security is not static. Each new generation addresses vulnerabilities discovered in previous models and incorporates improved hardware protections:</p>
+            <ul>
+              <li><strong>Secure element upgrades</strong> &mdash; newer chips have stronger side-channel resistance, better fault-injection protection, and higher certification levels (EAL6+ vs. EAL5+)</li>
+              <li><strong>Firmware architecture improvements</strong> &mdash; newer models often redesign the trust boundary between the secure element and the main processor, reducing the attack surface</li>
+              <li><strong>Better randomness</strong> &mdash; improved hardware random number generators (TRNG) with multiple entropy sources and health checks</li>
+              <li><strong>Physical tamper detection</strong> &mdash; newer devices include tamper-evident enclosures, voltage sensors, and mesh shields that older models lack</li>
+            </ul>
+
+            <h3>Real Vulnerabilities in Older Models</h3>
+            <p>The "old but working" mentality is dangerous in hardware security. Older models have <strong>known, published vulnerabilities</strong> that attackers can exploit with physical access:</p>
+            <ul>
+              <li><strong>Trezor One / Trezor T</strong> &mdash; voltage glitching attacks demonstrated by security researchers (Kraken Security Labs, 2020) can extract the seed from the device's flash memory in approximately 15 minutes of physical access. This is possible because these models lack a certified secure element.</li>
+              <li><strong>Ledger Nano S (original)</strong> &mdash; early firmware versions were vulnerable to supply chain attacks due to weaker attestation mechanisms. Fixed in later firmware, but hardware limitations remain.</li>
+              <li><strong>KeepKey</strong> &mdash; similar architecture to Trezor One, vulnerable to the same class of fault-injection attacks due to the use of a general-purpose microcontroller without a secure element.</li>
+            </ul>
+
+            <h3>When and How to Migrate to a New Device</h3>
+            <p>Consider upgrading your hardware wallet when:</p>
+            <ul>
+              <li>The manufacturer announces a <strong>security advisory</strong> affecting your model that cannot be patched in firmware alone</li>
+              <li>Your device model has reached <strong>end of life</strong> and no longer receives firmware updates</li>
+              <li>A new generation offers <strong>fundamentally better hardware protection</strong> (e.g., adding a secure element where the old model had none)</li>
+              <li>Your holdings have grown to a level where the <strong>cost of a new device is negligible</strong> compared to the value it protects</li>
+            </ul>
+            <p>Migration procedure:</p>
+            <ol>
+              <li>Purchase the new device directly from the manufacturer</li>
+              <li>Initialize the new device and generate a <strong>new seed phrase</strong> (do not reuse the old seed)</li>
+              <li>Create proper physical backups of the new seed on metal</li>
+              <li>Transfer funds from the old wallet to the new wallet via on-chain transactions</li>
+              <li>After confirming all funds have moved, <strong>factory-reset the old device</strong></li>
+            </ol>
+            <div class="callout callout-info">
+              <span class="callout-label">Why Generate a New Seed?</span>
+              If your old device had a hardware vulnerability, the seed could have been compromised without your knowledge. Generating a fresh seed on the new, more secure hardware ensures you are starting clean. The cost is a single on-chain transaction fee &mdash; a small price for certainty.
             </div>
           </div>
         </div>

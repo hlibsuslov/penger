@@ -300,6 +300,7 @@
             <li><a href="#a-trust">Trust Models and Verification</a></li>
             <li><a href="#a-node">Running Your Own Node</a></li>
             <li><a href="#a-privacy">Privacy as a Sovereignty Pillar</a></li>
+            <li><a href="#a-tracking">Fund Tracking and Diversification Checklist</a></li>
             <li><a href="#a-layers">Sovereignty Stack: Layers of Independence</a></li>
             <li><a href="#a-future">Future of Self-Sovereignty</a></li>
           </ol>
@@ -391,6 +392,62 @@
             <div class="callout callout-tip">
               <span class="callout-label">Practical Privacy</span>
               Perfect on-chain privacy is extremely difficult to achieve. Focus on practical measures: never reuse addresses, use your own node via Tor, be mindful of UTXO management, and avoid linking KYC-connected addresses to privacy-sensitive activity.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="a-tracking" >Fund Tracking and Diversification Checklist</h2>
+          <div class="guide-text">
+            <p>True sovereignty requires not only controlling your keys but also understanding <strong>where your data flows</strong> when you check balances, and ensuring your assets are not concentrated in a single point of failure.</p>
+
+            <h3>The "All Eggs in One Basket" Mistake</h3>
+            <p>Storing all your crypto assets in a single wallet, protected by a single seed phrase, in a single physical location creates a <strong>catastrophic single point of failure</strong>. If that one seed is compromised, lost, or destroyed, everything is gone.</p>
+            <p>Diversification applies to multiple dimensions:</p>
+            <ul>
+              <li><strong>Multiple wallets</strong> &mdash; distribute holdings across separate seeds so that compromising one does not expose all assets</li>
+              <li><strong>Multiple access schemes</strong> &mdash; use a combination of single-sig (for smaller, accessible amounts) and multi-sig or passphrase-protected wallets (for larger holdings)</li>
+              <li><strong>Multiple backup locations</strong> &mdash; store seed backups in geographically separated secure locations so that a localized disaster (fire, flood, theft) does not destroy all copies</li>
+              <li><strong>Multiple hardware vendors</strong> &mdash; using devices from different manufacturers avoids correlated firmware vulnerabilities</li>
+            </ul>
+            <div class="callout callout-tip">
+              <span class="callout-label">Practical Rule</span>
+              Ask yourself: "If <em>this one thing</em> were compromised or destroyed, would I lose everything?" If the answer is yes for any single item &mdash; a seed, a location, a device, or an access method &mdash; you need more diversification.
+            </div>
+
+            <h3>Blockbook and Third-Party Balance Tracking</h3>
+            <p><strong>Blockbook</strong> is an open-source blockchain indexer developed by SatoshiLabs (the company behind Trezor). It serves as the backend infrastructure that allows wallet software to query balances, transaction history, and UTXO data without running a full node locally.</p>
+            <p>When you use Trezor Suite or other wallets that rely on Blockbook, your requests are routed through <strong>Trezor's server infrastructure</strong>. This means:</p>
+            <ul>
+              <li><strong>IP address exposure</strong> &mdash; Trezor's servers see your IP address and can correlate it with the addresses you query</li>
+              <li><strong>Address clustering</strong> &mdash; the server sees which addresses belong to the same session, allowing it to infer your full wallet balance and transaction patterns</li>
+              <li><strong>Timing metadata</strong> &mdash; the server knows when you check your balance, how often, and from what geographic region</li>
+              <li><strong>Third-party trust</strong> &mdash; you are trusting SatoshiLabs to not log, share, or be compelled to hand over this data</li>
+            </ul>
+
+            <h3>Why "Local" Tracking May Not Be Local</h3>
+            <p>Many wallet applications present themselves as "local" or "desktop" software, giving the impression that your data stays on your machine. In reality, these applications typically need to <strong>query an external server</strong> to retrieve blockchain data:</p>
+            <ul>
+              <li><strong>Trezor Suite</strong> &mdash; connects to Trezor's Blockbook instances to fetch balance and transaction data</li>
+              <li><strong>Ledger Live</strong> &mdash; connects to Ledger's explorer nodes for the same purpose</li>
+              <li><strong>Electrum</strong> (default config) &mdash; connects to random public Electrum servers, each of which sees your queried addresses</li>
+            </ul>
+            <p>The only way to eliminate this trust is to <strong>run your own node</strong> and configure your wallet to use it exclusively. Solutions like Umbrel, RaspiBlitz, Start9, or myNode make this significantly easier than it was even a few years ago.</p>
+
+            <h3>Controlling Where and How You Track Your Funds</h3>
+            <p>To maintain sovereignty over your financial data:</p>
+            <ul>
+              <li><strong>Run your own Bitcoin full node</strong> &mdash; eliminates reliance on any third-party server for balance and transaction queries</li>
+              <li><strong>Use Tor for wallet connections</strong> &mdash; even with your own node, Tor prevents ISP-level surveillance of your Bitcoin traffic</li>
+              <li><strong>Avoid web-based block explorers</strong> for checking your own addresses &mdash; each lookup links your IP to the addresses you searched</li>
+              <li><strong>Use watch-only wallets carefully</strong> &mdash; if your watch-only wallet connects to a third-party server, that server can see all your addresses</li>
+              <li><strong>Separate checking from spending</strong> &mdash; use a dedicated, privacy-configured setup for monitoring balances, and a separate air-gapped setup for signing transactions</li>
+            </ul>
+            <div class="callout callout-warning">
+              <span class="callout-label">Privacy Reality Check</span>
+              If you use Trezor Suite, Ledger Live, or any wallet with default settings, the manufacturer's servers know your full balance, all your addresses, and your IP. This is the cost of convenience. Running your own node is the only way to take this information back.
             </div>
           </div>
         </div>

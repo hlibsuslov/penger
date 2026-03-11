@@ -166,6 +166,7 @@
             <li><a href="#b-order">Why Does Order Matter?</a></li>
             <li><a href="#b-checksum">The Checksum &mdash; Built-In Error Detection</a></li>
             <li><a href="#b-storage">Storing Your Seed Phrase Safely</a></li>
+            <li><a href="#b-security-checklist">Seed Phrase Security Checklist</a></li>
           </ol>
         </nav>
       </div>
@@ -268,6 +269,123 @@
               <li>Sending it via email, messaging apps, or any digital channel</li>
               <li>Storing it alongside your hardware wallet (defeats the purpose of separate backup)</li>
             </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <h2 id="b-security-checklist" >Seed Phrase Security Checklist</h2>
+          <div class="guide-text">
+            <p>Your seed phrase is not a password, not a login, and not an account number. It is the <strong>cryptographic root of all your funds</strong> &mdash; a single piece of data from which every private key, every address, and every transaction authorization is derived. If someone obtains your seed phrase, they have <em>complete and irreversible</em> control over every asset it protects. There is no recovery, no dispute process, no customer support. Understanding this is the foundation of every security decision below.</p>
+
+            <h3>Why You Must Never Store Only Part of a Seed Phrase</h3>
+            <p>A common misconception is that hiding or omitting a few words from your written backup makes it secure &mdash; that an attacker who finds 10 of your 12 words would be unable to guess the rest. This is <strong>dangerously wrong</strong>.</p>
+            <p>Each word in a BIP39 seed phrase is drawn from a list of 2,048 words. If an attacker knows the positions of the missing words, the number of possible combinations to try is:</p>
+
+            <pre><code>Missing words    Combinations         Time to crack
+─────────────────────────────────────────────────────
+1 word           2,048                Instant
+2 words          4,194,304            Seconds
+3 words          8,589,934,592        Minutes to hours
+4 words          17,592,186,044,416   Days to weeks
+5 words          ~3.6 &times; 10^16        Months (dedicated hardware)
+6 words          ~7.4 &times; 10^19        Years (but feasible for nation-state)</code></pre>
+
+            <p>With just 1&ndash;2 words missing, an attacker can recover the full phrase <strong>in seconds</strong> using freely available open-source tools. Even 3&ndash;4 missing words are within reach of a moderately resourced adversary. The checksum built into BIP39 further narrows the search space by eliminating invalid combinations automatically.</p>
+
+            <div class="callout callout-warning">
+              <span class="callout-label">Critical</span>
+              Storing 10 of 12 words is not "90% safe." It reduces security from 128 bits to roughly 22 bits &mdash; a reduction by a factor of 10<sup>32</sup>. An attacker does not need to guess your full phrase; they only need the missing piece.
+            </div>
+
+            <h3>Why the "Skip a Word" or "Add an Extra Word" Scheme Does Not Work</h3>
+            <p>Some users attempt to "improve" their backup by deliberately omitting one word, rearranging word order, or inserting a fake extra word. These schemes provide a <strong>false sense of security</strong>:</p>
+            <ul>
+              <li><strong>Omitting one word</strong> &mdash; leaves only 2,048 possibilities, crackable in under a second</li>
+              <li><strong>Swapping two words</strong> &mdash; an attacker simply tries all <code>n &times; (n-1) / 2</code> pair permutations (66 for 12 words)</li>
+              <li><strong>Adding a fake word</strong> &mdash; the attacker tries removing each word one at a time (12&ndash;24 attempts) and checking if the remainder forms a valid seed</li>
+              <li><strong>Custom word reordering</strong> &mdash; if the attacker knows all the words but not the order, they face <code>12!</code> permutations (~479 million), which is brute-forceable in hours</li>
+            </ul>
+            <p>None of these approaches come close to the security margin that a properly stored, complete seed phrase provides. If you need an additional layer of protection, use a <strong>BIP39 passphrase (25th word)</strong> &mdash; it is cryptographically designed for this purpose.</p>
+
+            <h3>Why a Seed Phrase Must Never Be Stored in a Password Manager</h3>
+            <p>Password managers are excellent tools for managing account credentials. However, storing your seed phrase in one fundamentally <strong>changes your security model</strong>:</p>
+            <ul>
+              <li>Your entire crypto wealth becomes protected by a single master password &mdash; if that password is phished, keylogged, or brute-forced, everything is lost</li>
+              <li>Password managers run on internet-connected devices, exposing the seed to malware, clipboard hijacking, and memory-scraping attacks</li>
+              <li>Cloud-synced password managers (1Password, Bitwarden, LastPass) store encrypted vaults on third-party servers &mdash; breaches have occurred (LastPass 2022), and future decryption is a risk</li>
+              <li>The seed phrase exists in a digital form that can be copied, exfiltrated, and transmitted silently &mdash; unlike a metal plate in a safe</li>
+            </ul>
+
+            <h3>Why a Seed Phrase Must Never Be Stored in the Cloud</h3>
+            <p>Cloud storage &mdash; Google Drive, iCloud, Dropbox, OneDrive &mdash; is designed for convenience and sharing, not for protecting irreversible cryptographic secrets:</p>
+            <ul>
+              <li>Even with 2FA, a compromised session token, OAuth vulnerability, or social-engineered account recovery can grant full access</li>
+              <li>Cloud providers can be compelled by legal process to hand over your data</li>
+              <li>Deleted files often persist in backups, trash, and version history &mdash; you cannot guarantee permanent deletion</li>
+              <li>Files may be indexed, cached, or processed by AI/ML pipelines without your knowledge</li>
+              <li>Your seed phrase becomes as secure as the <em>weakest</em> device logged into your cloud account</li>
+            </ul>
+
+            <h3>Why Making Many Digital Copies Is Dangerous</h3>
+            <p>Every digital copy of your seed phrase is a potential leak point. Unlike a physical backup that requires physical access to steal, a digital file can be:</p>
+            <ul>
+              <li>Exfiltrated silently by malware without any visible sign of compromise</li>
+              <li>Included in automated backups (Time Machine, Google Photos, iCloud sync) that you forgot about</li>
+              <li>Recovered from "deleted" storage using forensic tools</li>
+              <li>Intercepted during sync, upload, or transfer operations</li>
+            </ul>
+            <p>The fundamental principle: <strong>seed phrases belong in the physical world, not the digital one</strong>. Zero digital copies is the only safe number.</p>
+
+            <h3>Why You Must Never Enter a Seed Phrase on Any Website</h3>
+            <p>No legitimate wallet, service, or support team will ever ask you to enter your seed phrase into a website. Any site that requests your seed phrase is either:</p>
+            <ul>
+              <li>A <strong>phishing site</strong> designed to steal your funds instantly</li>
+              <li>A <strong>compromised legitimate site</strong> where an attacker has injected malicious code</li>
+              <li>A <strong>scam</strong> posing as wallet recovery, airdrop claim, or "verification" tool</li>
+            </ul>
+            <p>Even if the URL looks correct, the site could be a pixel-perfect clone served via a homograph attack (using look-alike Unicode characters in the domain) or DNS poisoning. Your seed phrase should only ever be entered into a <strong>hardware wallet device</strong> or a <strong>verified, offline wallet application</strong> during legitimate recovery.</p>
+
+            <div class="callout callout-warning">
+              <span class="callout-label">Absolute Rule</span>
+              If a website asks for your seed phrase &mdash; close it immediately. No exceptions, no matter how urgent or official it appears. Legitimate wallet software runs on your device, not in a browser tab.
+            </div>
+
+            <h3>Common Mistakes When Storing a Seed Phrase</h3>
+            <ul>
+              <li>Taking a photo or screenshot of the seed phrase (syncs to cloud, accessible to any app with photo permissions)</li>
+              <li>Saving it as a note in a phone app (Notes, Google Keep, Evernote &mdash; all are cloud-synced and searchable)</li>
+              <li>Emailing or messaging it to yourself "for safekeeping"</li>
+              <li>Storing the seed phrase alongside the hardware wallet (a single theft compromises both)</li>
+              <li>Writing it on a scrap of paper without a secure storage location</li>
+              <li>Not verifying the backup by performing a test recovery</li>
+              <li>Assuming someone else (a spouse, a friend) "knows where it is" without explicit documentation</li>
+            </ul>
+
+            <h3>Common False Beliefs About Seed Phrase Security</h3>
+            <ul>
+              <li><strong>"My phone is encrypted, so a photo is safe"</strong> &mdash; encryption protects against physical access, not against malware running on the unlocked device or cloud sync</li>
+              <li><strong>"I use 2FA on everything, so cloud storage is fine"</strong> &mdash; 2FA protects login, not data already stored; a single session compromise bypasses it</li>
+              <li><strong>"I'll memorize it"</strong> &mdash; human memory is unreliable over years; illness, injury, or stress can make recall impossible</li>
+              <li><strong>"Splitting the phrase between two locations is just as good as Shamir's"</strong> &mdash; naive splitting leaves each half with dangerously low entropy; SLIP39 is the cryptographically sound alternative</li>
+              <li><strong>"A 24-word phrase is overkill; I can safely use fewer words"</strong> &mdash; the word count determines entropy; using fewer words does not "simplify" security, it weakens it</li>
+            </ul>
+
+            <h3>The Correct Storage Model</h3>
+            <p>A properly stored seed phrase follows these principles:</p>
+            <ul>
+              <li><strong>Physical only</strong> &mdash; written on paper or stamped on metal. Zero digital copies anywhere.</li>
+              <li><strong>Offline always</strong> &mdash; never entered into any internet-connected device except during legitimate wallet recovery</li>
+              <li><strong>Geographically distributed</strong> &mdash; at least two physical copies in separate secure locations (fireproof safe, safety deposit box, trusted family member's secure storage)</li>
+              <li><strong>Durable medium</strong> &mdash; metal plates resist fire, water, and corrosion for decades; paper degrades</li>
+              <li><strong>Verified backup</strong> &mdash; test recovery on a separate device at least once to confirm the backup is correct and complete</li>
+              <li><strong>Documented for inheritance</strong> &mdash; a sealed letter of instruction stored with your will, explaining the location and recovery process</li>
+            </ul>
+            <div class="callout callout-tip">
+              <span class="callout-label">Summary</span>
+              The correct number of digital copies of your seed phrase is zero. The correct number of physical copies is two or more, in separate secure locations, on durable media, tested and documented.
+            </div>
           </div>
         </div>
       </section>
