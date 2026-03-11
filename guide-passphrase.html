@@ -331,10 +331,11 @@
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">What is the 25th word (BIP39 passphrase) and how does it work?</p>
           <h2 id="b-what-is" >What Is the 25th Word?</h2>
           <div class="guide-text">
-            <p>The "25th word" is an <strong>optional passphrase</strong> that you can add on top of your standard 12 or 24-word seed phrase. It is defined in the BIP39 specification and supported by most modern wallets.</p>
-            <p>Unlike the seed words themselves (which come from a fixed list of 2,048 words), the passphrase is <strong>completely freeform</strong> &mdash; it can be any string of characters: letters, numbers, symbols, spaces, even Unicode characters. There are no restrictions on length or content.</p>
+            <p>The "25th word" is an <strong>optional passphrase</strong> that you can add on top of your standard 12 or 24-word <a href="/guides/seed-anatomy#b-what-is">seed phrase</a>. It is defined in the BIP39 specification and supported by most modern wallets.</p>
+            <p>Unlike the seed words themselves (which come from a fixed <a href="/guides/seed-anatomy#a-wordlist">list of 2,048 words</a>), the passphrase is <strong>completely freeform</strong> &mdash; it can be any string of characters: letters, numbers, symbols, spaces, even Unicode characters. There are no restrictions on length or content.</p>
             <blockquote><p>Think of it this way: the seed phrase is the key to your vault, and the passphrase is the combination on the vault's secondary lock. Even if someone finds the key, they still cannot open the vault without the combination.</p></blockquote>
             <p>The critical property of the passphrase is that <strong>every different passphrase generates a completely different wallet</strong>. Your 24 words with no passphrase leads to wallet A. The same 24 words with passphrase "apple" leads to an entirely separate wallet B. Passphrase "Apple" (capital A) leads to yet another wallet C. Each is independent, with its own keys and addresses.</p>
           </div>
@@ -343,6 +344,7 @@
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">How does a BIP39 passphrase change your wallet?</p>
           <h2 id="b-how-works" >How Does It Work?</h2>
           <div class="guide-text">
             <p>When your wallet converts your seed words into cryptographic keys, it uses a process called <strong>PBKDF2 key stretching</strong>. The passphrase is incorporated directly into this process as part of the salt:</p>
@@ -364,6 +366,7 @@
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">How do hidden wallets and plausible deniability work?</p>
           <h2 id="b-hidden-wallets" >Hidden Wallets and Plausible Deniability</h2>
           <div class="guide-text">
             <p>One of the most powerful features of the passphrase is the ability to create <strong>hidden wallets</strong> that provide plausible deniability under duress.</p>
@@ -373,7 +376,7 @@
               <li><strong>No passphrase</strong> (or a simple passphrase) &mdash; leads to a "decoy" wallet with a small, believable balance</li>
               <li><strong>Your real passphrase</strong> &mdash; leads to your primary wallet with the majority of your holdings</li>
             </ul>
-            <p>If someone forces you to reveal your seed phrase (physical coercion, legal compulsion, etc.), you hand over the seed words. They access the decoy wallet and see a balance that looks legitimate. There is <strong>no way to prove</strong> that additional passphrase-protected wallets exist &mdash; the attacker cannot even detect whether a passphrase was ever used.</p>
+            <p>If someone forces you to reveal your seed phrase (physical coercion, legal compulsion, etc.), you hand over the seed words. This is a key part of your <a href="/guides/opsec#b-threats">threat model</a>. They access the decoy wallet and see a balance that looks legitimate. There is <strong>no way to prove</strong> that additional passphrase-protected wallets exist &mdash; the attacker cannot even detect whether a passphrase was ever used.</p>
             <blockquote><p>Since every passphrase (including an empty one) produces a valid wallet, there is no technical indicator that reveals whether you are using a passphrase or how many passphrase-wallets you have. This is cryptographic plausible deniability.</p></blockquote>
             <div class="callout callout-warning">
               <span class="callout-label">Important</span>
@@ -385,6 +388,7 @@
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">What are the risks of using a passphrase with your seed phrase?</p>
           <h2 id="b-risks" >Risks and Responsibilities</h2>
           <div class="guide-text">
             <p>The passphrase is a powerful tool, but it adds <strong>complexity and risk</strong> that you must manage carefully.</p>
@@ -430,6 +434,7 @@
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">How does the passphrase cryptographic mechanism work?</p>
           <h2 id="a-cryptographic" >Cryptographic Mechanism</h2>
           <div class="guide-text">
             <p>The BIP39 passphrase is integrated into the key derivation process at the PBKDF2 layer. Understanding the exact mechanism reveals why it is so effective:</p>
@@ -457,6 +462,7 @@
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">How much entropy does a passphrase add to seed phrase security?</p>
           <h2 id="a-entropy-analysis" >Passphrase Entropy Analysis</h2>
           <div class="guide-text">
             <p>The security benefit of a passphrase depends on its entropy. A weak passphrase can be brute-forced by an attacker who already has the seed phrase.</p>
@@ -494,6 +500,7 @@
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">How do different wallet software implement BIP39 passphrases?</p>
           <h2 id="a-implementation" >Implementation Across Wallet Software</h2>
           <div class="guide-text">
             <p>While the BIP39 passphrase is a standard, its implementation varies across wallet software and hardware devices:</p>
@@ -520,6 +527,7 @@
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">What are advanced passphrase strategies for maximum security?</p>
           <h2 id="a-advanced-strategies" >Advanced Passphrase Strategies</h2>
           <div class="guide-text">
             <p>Beyond the basic hidden wallet use case, the passphrase enables several advanced security configurations:</p>
@@ -532,10 +540,10 @@
             </ul>
             <p>Each tier has its own addresses, keys, and balances. Compromise of one passphrase does not affect the others.</p>
             <h3>Passphrase + Multi-Sig</h3>
-            <p>For maximum security, combine the passphrase with a multi-sig setup. Each cosigner's key can be passphrase-protected independently, creating a layered defense: an attacker must obtain M seed phrases <em>and</em> their corresponding passphrases to sign a transaction.</p>
+            <p>For maximum security, combine the passphrase with a <a href="/guides/multisig#b-what-is">multi-sig</a> setup. Each cosigner's key can be passphrase-protected independently, creating a layered defense: an attacker must obtain M seed phrases <em>and</em> their corresponding passphrases to sign a transaction.</p>
             <h3>Geographic Separation Pattern</h3>
             <ul>
-              <li><strong>Location A</strong> (home safe) &mdash; Seed phrase backup on metal plate</li>
+              <li><strong>Location A</strong> (home safe) &mdash; Seed phrase backup on <a href="/">metal plate</a></li>
               <li><strong>Location B</strong> (bank safety deposit box) &mdash; Passphrase backup on metal plate</li>
               <li><strong>Location C</strong> (trusted family member) &mdash; Second copy of seed phrase (for disaster recovery)</li>
             </ul>
@@ -546,6 +554,7 @@
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">How does a passphrase integrate into your threat model?</p>
           <h2 id="a-threat-model" >Threat Model Integration</h2>
           <div class="guide-text">
             <p>The passphrase protects against specific threat scenarios and is ineffective against others. Understanding its place in your threat model is essential:</p>
@@ -565,7 +574,7 @@
             </ul>
             <div class="callout callout-tip">
               <span class="callout-label">Defense in Depth</span>
-              The passphrase is one layer in a multi-layer defense. It should complement (not replace) proper seed storage, hardware wallet usage, and operational security practices. No single measure is sufficient on its own.
+              The passphrase is one layer in a multi-layer defense. It should complement (not replace) proper seed storage, <a href="/guides/wallet-comparison#b-hardware">hardware wallet</a> usage, and <a href="/guides/opsec#b-what-opsec">operational security</a> practices. No single measure is sufficient on its own.
             </div>
           </div>
         </div>

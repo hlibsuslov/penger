@@ -193,11 +193,12 @@
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">What is a seed phrase and why is it important?</p>
           <h2 id="b-what-is" >What Is a Seed Phrase?</h2>
           <div class="guide-text">
-            <p>A seed phrase (also called a <strong>mnemonic phrase</strong> or <strong>recovery phrase</strong>) is a set of <strong>12 to 24 English words</strong> that serves as the master backup for your entire cryptocurrency wallet. These words are selected from a standardized list of exactly 2,048 words defined by the <strong>BIP39 specification</strong> &mdash; an open standard adopted by virtually every modern wallet.</p>
+            <p>A seed phrase (also called a <strong>mnemonic phrase</strong> or <strong>recovery phrase</strong>) is a set of <strong>12 to 24 English words</strong> that serves as the master backup for your entire <a href="/guides/wallet-anatomy#b-what-wallet">cryptocurrency wallet</a>. These words are selected from a standardized list of exactly 2,048 words defined by the <strong>BIP39 specification</strong> &mdash; an open standard adopted by virtually every modern wallet.</p>
             <blockquote><p>Think of a seed phrase like the master key to an entire building. From this single key, every room key (private key) and every lock (address) can be regenerated. Lose the master key, and every room becomes permanently inaccessible.</p></blockquote>
-            <p>Unlike a traditional password, a seed phrase cannot be reset or recovered by a support team. There is no "forgot password" mechanism in self-custody crypto. If you lose your seed phrase and your wallet device is destroyed, your funds are gone forever &mdash; locked on the blockchain with no way to access them.</p>
+            <p>Unlike a traditional password, a seed phrase cannot be reset or recovered by a support team. There is no "forgot password" mechanism in <a href="/guides/self-sovereignty#b-what-is">self-custody</a> crypto. If you lose your seed phrase and your wallet device is destroyed, your funds are gone forever &mdash; locked on the blockchain with no way to access them.</p>
             <h3>Why 12 or 24 Words?</h3>
             <p>The word count directly corresponds to the amount of <strong>randomness (entropy)</strong> used to generate the phrase. More words means more entropy and a larger space of possible combinations:</p>
             <ul>
@@ -213,6 +214,7 @@
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">How are seed phrase words chosen?</p>
           <h2 id="b-how-chosen" >How Are the Words Chosen?</h2>
           <div class="guide-text">
             <p>Your wallet does not pick words at random from a dictionary. Instead, it uses a rigorous, deterministic process rooted in cryptography:</p>
@@ -238,6 +240,7 @@
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">Why does the order of seed phrase words matter?</p>
           <h2 id="b-order" >Why Does Order Matter?</h2>
           <div class="guide-text">
             <p>The order of your seed words is <strong>absolutely critical</strong>. Changing the position of even a single word produces a completely different wallet with entirely different keys and addresses. Your original funds would be inaccessible.</p>
@@ -253,6 +256,7 @@
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">How does the BIP39 checksum detect errors in a seed phrase?</p>
           <h2 id="b-checksum" >The Checksum &mdash; Built-In Error Detection</h2>
           <div class="guide-text">
             <p>One of the most elegant features of BIP39 is the <strong>checksum</strong> &mdash; a built-in error-detection mechanism that catches mistakes when you enter your seed phrase.</p>
@@ -268,12 +272,13 @@
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">How should you store a seed phrase safely?</p>
           <h2 id="b-storage" >Storing Your Seed Phrase Safely</h2>
           <div class="guide-text">
             <p>Your seed phrase is the single most valuable piece of information in your crypto setup. How you store it determines whether your funds are safe for decades or vulnerable to a single mistake.</p>
             <h3>Recommended Practices</h3>
             <ul>
-              <li><strong>Write it on paper</strong> or stamp it onto a <strong>metal plate</strong> &mdash; metal resists fire, water, and corrosion</li>
+              <li><strong>Write it on paper</strong> or stamp it onto a <a href="/"><strong>metal plate</strong></a> &mdash; metal resists fire, water, and corrosion</li>
               <li>Store in a <strong>secure, private location</strong> (fireproof safe, safety deposit box)</li>
               <li>Consider creating <strong>multiple copies</strong> in geographically separate locations for disaster resilience</li>
               <li>Never store digitally &mdash; no photos, no cloud storage, no text files, no password managers</li>
@@ -287,7 +292,7 @@
               <li>Taking a screenshot or photo of the seed phrase</li>
               <li>Typing it into any website, app, or form (except during legitimate wallet recovery)</li>
               <li>Sending it via email, messaging apps, or any digital channel</li>
-              <li>Storing it alongside your hardware wallet (defeats the purpose of separate backup)</li>
+              <li>Storing it alongside your <a href="/guides/wallet-comparison#b-hardware">hardware wallet</a> (defeats the purpose of separate backup)</li>
             </ul>
           </div>
         </div>
@@ -295,9 +300,10 @@
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">What are the most common seed phrase security mistakes?</p>
           <h2 id="b-security-checklist" >Seed Phrase Security Checklist</h2>
           <div class="guide-text">
-            <p>Your seed phrase is not a password, not a login, and not an account number. It is the <strong>cryptographic root of all your funds</strong> &mdash; a single piece of data from which every private key, every address, and every transaction authorization is derived. If someone obtains your seed phrase, they have <em>complete and irreversible</em> control over every asset it protects. There is no recovery, no dispute process, no customer support. Understanding this is the foundation of every security decision below.</p>
+            <p>Your seed phrase is not a password, not a login, and not an account number. It is the <strong>cryptographic root of all your funds</strong> &mdash; a single piece of data from which every <a href="/guides/wallet-anatomy#b-keys">private key</a>, every address, and every transaction authorization is derived. If someone obtains your seed phrase, they have <em>complete and irreversible</em> control over every asset it protects. There is no recovery, no dispute process, no customer support. Understanding this is the foundation of every security decision below.</p>
 
             <h3>Why You Must Never Store Only Part of a Seed Phrase</h3>
             <p>A common misconception is that hiding or omitting a few words from your written backup makes it secure &mdash; that an attacker who finds 10 of your 12 words would be unable to guess the rest. This is <strong>dangerously wrong</strong>.</p>
@@ -327,7 +333,7 @@
               <li><strong>Adding a fake word</strong> &mdash; the attacker tries removing each word one at a time (12&ndash;24 attempts) and checking if the remainder forms a valid seed</li>
               <li><strong>Custom word reordering</strong> &mdash; if the attacker knows all the words but not the order, they face <code>12!</code> permutations (~479 million), which is brute-forceable in hours</li>
             </ul>
-            <p>None of these approaches come close to the security margin that a properly stored, complete seed phrase provides. If you need an additional layer of protection, use a <strong>BIP39 passphrase (25th word)</strong> &mdash; it is cryptographically designed for this purpose.</p>
+            <p>None of these approaches come close to the security margin that a properly stored, complete seed phrase provides. If you need an additional layer of protection, use a <a href="/guides/passphrase#b-what-is"><strong>BIP39 passphrase (25th word)</strong></a> &mdash; it is cryptographically designed for this purpose.</p>
 
             <h3>Why a Seed Phrase Must Never Be Stored in a Password Manager</h3>
             <p>Password managers are excellent tools for managing account credentials. However, storing your seed phrase in one fundamentally <strong>changes your security model</strong>:</p>
@@ -361,7 +367,7 @@
             <h3>Why You Must Never Enter a Seed Phrase on Any Website</h3>
             <p>No legitimate wallet, service, or support team will ever ask you to enter your seed phrase into a website. Any site that requests your seed phrase is either:</p>
             <ul>
-              <li>A <strong>phishing site</strong> designed to steal your funds instantly</li>
+              <li>A <a href="/guides/opsec#b-social"><strong>phishing site</strong></a> designed to steal your funds instantly</li>
               <li>A <strong>compromised legitimate site</strong> where an attacker has injected malicious code</li>
               <li>A <strong>scam</strong> posing as wallet recovery, airdrop claim, or "verification" tool</li>
             </ul>
@@ -398,7 +404,7 @@
               <li><strong>Physical only</strong> &mdash; written on paper or stamped on metal. Zero digital copies anywhere.</li>
               <li><strong>Offline always</strong> &mdash; never entered into any internet-connected device except during legitimate wallet recovery</li>
               <li><strong>Geographically distributed</strong> &mdash; at least two physical copies in separate secure locations (fireproof safe, safety deposit box, trusted family member's secure storage)</li>
-              <li><strong>Durable medium</strong> &mdash; metal plates resist fire, water, and corrosion for decades; paper degrades</li>
+              <li><strong>Durable medium</strong> &mdash; <a href="/">metal plates</a> resist fire, water, and corrosion for decades; paper degrades</li>
               <li><strong>Verified backup</strong> &mdash; test recovery on a separate device at least once to confirm the backup is correct and complete</li>
               <li><strong>Documented for inheritance</strong> &mdash; a sealed letter of instruction stored with your will, explaining the location and recovery process</li>
             </ul>
@@ -428,6 +434,7 @@
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">How do entropy sources and CSPRNG work in seed generation?</p>
           <h2 id="a-entropy" >Entropy Sources and CSPRNG</h2>
           <div class="guide-text">
             <p>BIP39 seed generation begins with a <strong>cryptographically secure pseudo-random number generator</strong> (CSPRNG). The quality of the entropy source is the foundation of the entire security model &mdash; if the randomness is predictable or biased, the resulting seed phrase is compromised regardless of word count.</p>
@@ -459,6 +466,7 @@
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">How does the SHA-256 checksum mechanism verify a seed phrase?</p>
           <h2 id="a-checksum" >SHA-256 Checksum Mechanism</h2>
           <div class="guide-text">
             <p>After generating raw entropy, the system computes a <strong>SHA-256 hash</strong> of the entropy bytes. The first <em>N</em> bits of this hash (where <code>N = entropy_bits / 32</code>) are appended to the entropy as a checksum.</p>
@@ -484,11 +492,12 @@
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">How is a master key derived from a mnemonic phrase?</p>
           <h2 id="a-derivation" >From Mnemonic to Master Key (BIP32/BIP44)</h2>
           <div class="guide-text">
             <p>The mnemonic phrase is not used directly as a cryptographic key. Instead, it undergoes a key-stretching process to produce a <strong>512-bit seed</strong>, which then feeds into hierarchical deterministic key derivation.</p>
             <h3>PBKDF2 Key Stretching</h3>
-            <p>The mnemonic string (space-separated words, UTF-8 NFKD-normalized) is passed through <code>PBKDF2-HMAC-SHA512</code> with <strong>2,048 iterations</strong>. The salt is the string <code>"mnemonic"</code> concatenated with an optional user-supplied passphrase (the "25th word"):</p>
+            <p>The mnemonic string (space-separated words, UTF-8 NFKD-normalized) is passed through <code>PBKDF2-HMAC-SHA512</code> with <strong>2,048 iterations</strong>. The salt is the string <code>"mnemonic"</code> concatenated with an optional user-supplied <a href="/guides/passphrase#b-how-works">passphrase</a> (the "25th word"):</p>
             <pre><code>seed = PBKDF2(
   password: mnemonic_string,     // "abandon ability able ..."
   salt:     "mnemonic" + passphrase, // "mnemonic" or "mnemonicMySecret"
@@ -519,6 +528,7 @@ m/86'/0'/0'/0/0   &larr; Bitcoin Taproot (P2TR)</code></pre>
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">How was the BIP39 wordlist designed?</p>
           <h2 id="a-wordlist" >Wordlist Design and Multilingual Support</h2>
           <div class="guide-text">
             <p>The BIP39 English wordlist was engineered with strict constraints to minimize ambiguity and transcription errors across different contexts (handwriting, phone dictation, poor lighting):</p>
@@ -540,6 +550,7 @@ m/86'/0'/0'/0/0   &larr; Bitcoin Taproot (P2TR)</code></pre>
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">What are the known attack vectors against seed phrases?</p>
           <h2 id="a-attacks" >Attack Vectors and Entropy Analysis</h2>
           <div class="guide-text">
             <p>Understanding the threat landscape for seed phrases helps calibrate security decisions. The primary attack vectors are:</p>
@@ -557,7 +568,7 @@ m/86'/0'/0'/0/0   &larr; Bitcoin Taproot (P2TR)</code></pre>
               Never split your seed phrase into parts thinking each part is independently secure. If an attacker obtains any significant portion, the remaining entropy may be brute-forceable. Use Shamir's Secret Sharing (SLIP39) instead for threshold-based backup splitting.
             </div>
             <h3>Side-Channel and Social Attacks</h3>
-            <p>In practice, most seed phrase compromises do not involve brute-force. They come from phishing (fake wallet recovery pages), malware (clipboard hijacking, keyloggers), physical theft of backup material, and social engineering. Strong entropy is necessary but not sufficient &mdash; operational security is equally critical.</p>
+            <p>In practice, most seed phrase compromises do not involve brute-force. They come from phishing (fake wallet recovery pages), malware (clipboard hijacking, keyloggers), physical theft of backup material, and social engineering. Strong entropy is necessary but not sufficient &mdash; <a href="/guides/opsec#b-what-opsec">operational security</a> is equally critical.</p>
           </div>
         </div>
       </section>

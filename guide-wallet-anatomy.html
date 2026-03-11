@@ -186,6 +186,7 @@
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">What is a crypto wallet and how does it work?</p>
           <h2  id="b-what-wallet">What Is a Crypto Wallet?</h2>
           <div class="guide-text">
             <p>A cryptocurrency wallet is a tool that stores your <strong>private keys</strong> and allows you to send, receive, and manage digital assets. Despite the name, wallets don't actually store your coins or tokens &mdash; those exist as records on the blockchain. Your wallet holds the cryptographic keys that prove your ownership and authorize transfers.</p>
@@ -195,8 +196,8 @@
               <li><strong>Mobile apps</strong> &mdash; convenient, always with you, ideal for everyday transactions</li>
               <li><strong>Desktop software</strong> &mdash; more control, larger screen, suitable for managing multiple accounts</li>
               <li><strong>Browser extensions</strong> &mdash; seamless interaction with DeFi protocols and dApps</li>
-              <li><strong>Hardware devices</strong> &mdash; maximum security, keys are generated and stored on a dedicated chip that never connects to the internet</li>
-              <li><strong>Paper wallets</strong> &mdash; a printed private key or seed phrase for long-term cold storage (now largely deprecated in favor of hardware wallets)</li>
+              <li><a href="/guides/wallet-comparison#b-hardware"><strong>Hardware devices</strong></a> &mdash; maximum security, keys are generated and stored on a dedicated chip that never connects to the internet</li>
+              <li><strong>Paper wallets</strong> &mdash; a printed private key or <a href="/guides/seed-anatomy#b-what-is">seed phrase</a> for long-term <a href="/guides/wallet-comparison#b-hot-cold">cold storage</a> (now largely deprecated in favor of hardware wallets)</li>
             </ul>
             <p>Regardless of the form, every wallet performs the same core functions: key storage, address generation, transaction creation, and signature production.</p>
           </div>
@@ -205,6 +206,7 @@
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">What is the difference between a public key and a private key?</p>
           <h2  id="b-keys">Public Keys vs. Private Keys</h2>
           <div class="guide-text">
             <p>Every wallet is built on <strong>asymmetric cryptography</strong> &mdash; a system that uses two mathematically related but functionally different keys:</p>
@@ -224,6 +226,7 @@
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">How are cryptocurrency addresses generated?</p>
           <h2  id="b-addresses">Addresses and Receiving Funds</h2>
           <div class="guide-text">
             <p>An address is derived from your public key through a series of <strong>hashing and encoding</strong> steps. It is the string you share with others to receive funds &mdash; like a bank account number, but pseudonymous and verifiable by anyone on the network.</p>
@@ -245,6 +248,7 @@
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">How does transaction signing work in crypto?</p>
           <h2  id="b-signing">Sending Funds &mdash; Transaction Signing</h2>
           <div class="guide-text">
             <p>When you send cryptocurrency, your wallet performs a precise sequence of steps:</p>
@@ -263,9 +267,10 @@
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">What is an HD wallet and why does it use one seed for many keys?</p>
           <h2  id="b-hd-wallets">HD Wallets &mdash; One Seed, Unlimited Keys</h2>
           <div class="guide-text">
-            <p>Modern wallets are <strong>Hierarchical Deterministic (HD)</strong>, meaning they derive all private keys, public keys, and addresses from a single seed phrase using a tree-like structure.</p>
+            <p>Modern wallets are <strong>Hierarchical Deterministic (HD)</strong>, meaning they derive all private keys, public keys, and addresses from a single <a href="/guides/seed-anatomy#b-what-is">seed phrase</a> using a tree-like structure.</p>
             <p>This design provides powerful advantages:</p>
             <ul>
               <li><strong>Single backup</strong> &mdash; one seed phrase protects all current and future keys</li>
@@ -299,9 +304,10 @@
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">How does BIP32 hierarchical deterministic derivation work?</p>
           <h2  id="a-bip32">BIP32 Hierarchical Deterministic Derivation</h2>
           <div class="guide-text">
-            <p>BIP32 defines a <strong>tree structure</strong> for key derivation. Starting from a master key (derived from the BIP39 seed via <code>HMAC-SHA512</code>), child keys are generated at each level using the parent key and a 32-bit index.</p>
+            <p>BIP32 defines a <strong>tree structure</strong> for key derivation. Starting from a master key (derived from the <a href="/guides/seed-anatomy#a-derivation">BIP39 seed</a> via <code>HMAC-SHA512</code>), child keys are generated at each level using the parent key and a 32-bit index.</p>
             <h3>Normal vs. Hardened Derivation</h3>
             <p>Each level in the tree can produce <code>2<sup>31</sup></code> normal child keys (indices 0 to 2<sup>31</sup>-1) and <code>2<sup>31</sup></code> hardened child keys (indices 2<sup>31</sup> to 2<sup>32</sup>-1, denoted with <code>'</code>).</p>
             <ul>
@@ -326,9 +332,10 @@ child_chain = I_R</code></pre>
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">How do ECDSA and Schnorr signatures secure transactions?</p>
           <h2  id="a-ecdsa">ECDSA and Schnorr Signatures</h2>
           <div class="guide-text">
-            <p>Bitcoin historically uses the <strong>secp256k1</strong> elliptic curve with ECDSA (Elliptic Curve Digital Signature Algorithm) for transaction signing. The Taproot upgrade (BIP340) introduced <strong>Schnorr signatures</strong> as an alternative.</p>
+            <p>Bitcoin historically uses the <strong>secp256k1</strong> elliptic curve with ECDSA (Elliptic Curve Digital Signature Algorithm) for transaction signing. The <a href="/guides/multisig#a-taproot">Taproot</a> upgrade (BIP340) introduced <strong>Schnorr signatures</strong> as an alternative.</p>
             <h3>ECDSA Signing Process</h3>
             <ol>
               <li>Generate a random nonce <code>k</code> (using RFC 6979 deterministic nonce generation)</li>
@@ -341,7 +348,7 @@ child_chain = I_R</code></pre>
             <h3>Schnorr Signatures (BIP340)</h3>
             <p>Schnorr signatures offer several advantages over ECDSA:</p>
             <ul>
-              <li><strong>Linearity</strong> &mdash; signatures can be aggregated (key aggregation for multi-sig looks like a single signature on-chain)</li>
+              <li><strong>Linearity</strong> &mdash; signatures can be aggregated (key aggregation for <a href="/guides/multisig#b-what-is">multi-sig</a> looks like a single signature on-chain)</li>
               <li><strong>Provable security</strong> &mdash; security reduction directly to the discrete logarithm problem</li>
               <li><strong>Smaller and faster</strong> &mdash; 64-byte signatures vs. variable-length DER-encoded ECDSA</li>
               <li><strong>Batch verification</strong> &mdash; multiple signatures can be verified faster than individually</li>
@@ -356,6 +363,7 @@ child_chain = I_R</code></pre>
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">What are extended public keys (xpub) and watch-only wallets?</p>
           <h2  id="a-xpub">Extended Public Keys (xpub) and Watch-Only</h2>
           <div class="guide-text">
             <p>An <strong>extended public key</strong> (<code>xpub</code>) encodes the public key together with its chain code, enabling the derivation of all normal child public keys without access to any private key. This enables powerful use cases:</p>
@@ -380,6 +388,7 @@ zpub / zprv  &larr; BIP84 (Native SegWit P2WPKH)</code></pre>
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">What is the difference between the UTXO model and account model?</p>
           <h2  id="a-utxo">UTXO Model vs. Account Model</h2>
           <div class="guide-text">
             <p>How a wallet tracks and spends funds depends on the underlying blockchain model. The two dominant models are fundamentally different in design:</p>
@@ -407,13 +416,14 @@ zpub / zprv  &larr; BIP84 (Native SegWit P2WPKH)</code></pre>
 
       <section class="section-block">
         <div class="container">
+          <p class="section-question">What are the different Bitcoin address types and script formats?</p>
           <h2  id="a-address-types">Address Types and Script Formats</h2>
           <div class="guide-text">
             <p>Bitcoin supports multiple address types, each corresponding to a different <strong>script template</strong> that defines the spending conditions:</p>
             <h3>P2PKH (Pay-to-Public-Key-Hash)</h3>
             <p>The original Bitcoin address format. The locking script requires a signature and public key that hashes to the specified value. Addresses start with <code>1</code>.</p>
             <h3>P2SH (Pay-to-Script-Hash)</h3>
-            <p>Allows arbitrary spending conditions encoded in a script. The sender only needs the hash of the script &mdash; the full script is revealed at spending time. This enables multi-sig, time-locks, and other complex conditions. Addresses start with <code>3</code>.</p>
+            <p>Allows arbitrary spending conditions encoded in a script. The sender only needs the hash of the script &mdash; the full script is revealed at spending time. This enables <a href="/guides/multisig#b-what-is">multi-sig</a>, time-locks, and other complex conditions. Addresses start with <code>3</code>.</p>
             <h3>P2WPKH (Native SegWit)</h3>
             <p>Segregated Witness version 0. Moves signature data to a separate "witness" structure outside the base transaction, reducing the effective size and thus the fee. Addresses use <strong>Bech32</strong> encoding and start with <code>bc1q</code>.</p>
             <h3>P2TR (Taproot)</h3>

@@ -1186,6 +1186,15 @@ body.nav-open {
   border-radius: 8px; max-width: 400px;
 }
 
+/* SEO question above section headings */
+.section-question {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  font-style: italic;
+  margin-bottom: 0.25rem;
+  letter-spacing: -0.01em;
+}
+
 /* Article h2 spacing — extra breathing room below section headings */
 .section-block h2 {
   margin-bottom: 20px;
