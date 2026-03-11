@@ -135,12 +135,12 @@
   <main>
     <section class="section-intro">
       <div class="container">
-        <a href="guides.html" class="back-link anim-fade-in">&larr; All Guides</a>
-        <p class="label anim-fade-in">[ GUIDE / MULTISIG ]</p>
-        <h1 class="anim-fade-in">Multisignature (Multisig)</h1>
-        <p class="body-text anim-fade-in">How multi-key setups eliminate single points of failure &mdash; from basic quorum policies to advanced multi-sig architectures for individuals and organizations.</p>
+        <a href="guides.html" class="back-link">&larr; All Guides</a>
+        <p class="label">[ GUIDE / MULTISIG ]</p>
+        <h1 >Multisignature (Multisig)</h1>
+        <p class="body-text">How multi-key setups eliminate single points of failure &mdash; from basic quorum policies to advanced multi-sig architectures for individuals and organizations.</p>
 
-        <div class="level-toggle anim-fade-in" id="levelToggle">
+        <div class="level-toggle" id="levelToggle">
           <div class="pill-group">
             <button class="pill active" data-level="beginner" type="button">BEGINNER</button>
             <button class="pill" data-level="advanced" type="button">ADVANCED</button>
@@ -165,8 +165,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 id="b-what-is" class="anim-fade-in">What Is Multisig?</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="b-what-is" >What Is Multisig?</h2>
+          <div class="guide-text">
             <p><strong>Multisignature</strong> (multisig) is a security model where <strong>multiple separate keys</strong> are required to authorize a transaction. Instead of a single private key controlling access to funds, a multisig wallet requires a defined number of approvals from a group of key holders.</p>
             <p>This is expressed as <strong>M-of-N</strong>, where:</p>
             <ul>
@@ -186,8 +186,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 id="b-why" class="anim-fade-in">Why Use Multisig?</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="b-why" >Why Use Multisig?</h2>
+          <div class="guide-text">
             <p>Multisig solves the <strong>single point of failure</strong> problem that plagues standard single-key wallets. With a regular wallet, the security of your entire holdings depends on one seed phrase &mdash; if it is stolen, copied, or lost, everything is at risk.</p>
             <h3>Key Benefits</h3>
             <ul>
@@ -207,8 +207,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 id="b-configs" class="anim-fade-in">Common Configurations</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="b-configs" >Common Configurations</h2>
+          <div class="guide-text">
             <h3>2-of-3 &mdash; Personal Sovereignty</h3>
             <p>The most popular configuration for individuals. Three keys, each stored on a different device or medium in a different location:</p>
             <ul>
@@ -240,8 +240,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 id="b-setup" class="anim-fade-in">Setting Up Your First Multisig</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="b-setup" >Setting Up Your First Multisig</h2>
+          <div class="guide-text">
             <p>Setting up a multisig wallet requires careful planning. Here is the general process for a 2-of-3 setup:</p>
             <ol>
               <li><strong>Choose your coordinator software</strong> &mdash; Sparrow Wallet, Electrum, or Nunchuk are popular options with built-in multisig support</li>
@@ -278,8 +278,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 id="a-scripts" class="anim-fade-in">Bitcoin Script and Multisig Transactions</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="a-scripts" >Bitcoin Script and Multisig Transactions</h2>
+          <div class="guide-text">
             <p>Multisig in Bitcoin is enforced at the protocol level through <strong>Bitcoin Script</strong> &mdash; a stack-based programming language embedded in every transaction. The spending conditions are not enforced by wallet software; they are enforced by every node on the network.</p>
             <h3>OP_CHECKMULTISIG</h3>
             <p>The original multisig mechanism uses the <code>OP_CHECKMULTISIG</code> opcode. A 2-of-3 redeem script looks like:</p>
@@ -306,8 +306,8 @@ OP_CHECKMULTISIG</code></pre>
 
       <section class="section-block">
         <div class="container">
-          <h2 id="a-descriptors" class="anim-fade-in">Output Descriptors and Wallet Recovery</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="a-descriptors" >Output Descriptors and Wallet Recovery</h2>
+          <div class="guide-text">
             <p><strong>Output descriptors</strong> (defined in BIPs 380-386) are a standardized way to describe the spending conditions for a set of addresses. For multisig wallets, the descriptor encodes everything needed to reconstruct the wallet:</p>
             <pre><code>wsh(sortedmulti(2,
   [fingerprint_1/48h/0h/0h/2h]xpub_1/0/*,
@@ -341,8 +341,8 @@ OP_CHECKMULTISIG</code></pre>
 
       <section class="section-block">
         <div class="container">
-          <h2 id="a-taproot" class="anim-fade-in">Taproot Multisig and MuSig2</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="a-taproot" >Taproot Multisig and MuSig2</h2>
+          <div class="guide-text">
             <p>Bitcoin's Taproot upgrade (activated November 2021) introduced <strong>Schnorr signatures</strong> and <strong>MAST (Merkelized Abstract Syntax Trees)</strong>, which fundamentally improve multisig privacy and efficiency.</p>
             <h3>Key Path Spending with MuSig2</h3>
             <p><strong>MuSig2</strong> is a Schnorr-based multi-signature scheme where all N participants cooperatively produce a single aggregate signature. On-chain, this is <strong>indistinguishable</strong> from a regular single-signature Taproot transaction:</p>
@@ -370,8 +370,8 @@ OP_CHECKMULTISIG</code></pre>
 
       <section class="section-block">
         <div class="container">
-          <h2 id="a-key-management" class="anim-fade-in">Key Management and Vendor Diversity</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="a-key-management" >Key Management and Vendor Diversity</h2>
+          <div class="guide-text">
             <p>The security of a multisig setup depends not just on the quorum policy but on the <strong>independence and diversity</strong> of the keys.</p>
             <h3>Vendor Diversity Principle</h3>
             <p>Use hardware wallets from <strong>different manufacturers</strong> for each key in your multisig setup. This protects against:</p>
@@ -404,8 +404,8 @@ OP_CHECKMULTISIG</code></pre>
 
       <section class="section-block">
         <div class="container">
-          <h2 id="a-collaborative" class="anim-fade-in">Collaborative Custody Services</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="a-collaborative" >Collaborative Custody Services</h2>
+          <div class="guide-text">
             <p><strong>Collaborative custody</strong> is a model where a third-party service holds one key in a multisig setup, providing recovery assistance and additional security without taking custodial control of your funds.</p>
             <h3>Typical 2-of-3 Collaborative Model</h3>
             <ul>
@@ -433,9 +433,9 @@ OP_CHECKMULTISIG</code></pre>
     <!-- ===== FAQ ===== -->
     <section class="section-block faq-section">
       <div class="container">
-        <p class="label anim-fade-in">[ FREQUENTLY ASKED QUESTIONS ]</p>
-        <h2 class="anim-fade-in">FAQ</h2>
-        <div class="faq-chat anim-fade-in">
+        <p class="label">[ FREQUENTLY ASKED QUESTIONS ]</p>
+        <h2 >FAQ</h2>
+        <div class="faq-chat">
 
           <div class="faq-item">
             <button class="faq-q-btn" type="button">

@@ -141,12 +141,12 @@
   <main>
     <section class="section-intro">
       <div class="container">
-        <a href="guides.html" class="back-link anim-fade-in">&larr; All Guides</a>
-        <p class="label anim-fade-in">[ GUIDE / SEED PHRASES ]</p>
-        <h1 class="anim-fade-in">Anatomy of a Seed Phrase</h1>
-        <p class="body-text anim-fade-in">Everything you need to know about BIP39 seed phrases &mdash; from entropy generation and word selection to checksum verification and master key derivation. Choose your level below.</p>
+        <a href="guides.html" class="back-link">&larr; All Guides</a>
+        <p class="label">[ GUIDE / SEED PHRASES ]</p>
+        <h1 >Anatomy of a Seed Phrase</h1>
+        <p class="body-text">Everything you need to know about BIP39 seed phrases &mdash; from entropy generation and word selection to checksum verification and master key derivation. Choose your level below.</p>
 
-        <div class="level-toggle anim-fade-in" id="levelToggle">
+        <div class="level-toggle" id="levelToggle">
           <div class="pill-group">
             <button class="pill active" data-level="beginner" type="button">BEGINNER</button>
             <button class="pill" data-level="advanced" type="button">ADVANCED</button>
@@ -172,8 +172,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 id="b-what-is" class="anim-fade-in">What Is a Seed Phrase?</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="b-what-is" >What Is a Seed Phrase?</h2>
+          <div class="guide-text">
             <p>A seed phrase (also called a <strong>mnemonic phrase</strong> or <strong>recovery phrase</strong>) is a set of <strong>12 to 24 English words</strong> that serves as the master backup for your entire cryptocurrency wallet. These words are selected from a standardized list of exactly 2,048 words defined by the <strong>BIP39 specification</strong> &mdash; an open standard adopted by virtually every modern wallet.</p>
             <blockquote><p>Think of a seed phrase like the master key to an entire building. From this single key, every room key (private key) and every lock (address) can be regenerated. Lose the master key, and every room becomes permanently inaccessible.</p></blockquote>
             <p>Unlike a traditional password, a seed phrase cannot be reset or recovered by a support team. There is no "forgot password" mechanism in self-custody crypto. If you lose your seed phrase and your wallet device is destroyed, your funds are gone forever &mdash; locked on the blockchain with no way to access them.</p>
@@ -192,8 +192,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 id="b-how-chosen" class="anim-fade-in">How Are the Words Chosen?</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="b-how-chosen" >How Are the Words Chosen?</h2>
+          <div class="guide-text">
             <p>Your wallet does not pick words at random from a dictionary. Instead, it uses a rigorous, deterministic process rooted in cryptography:</p>
             <ol>
               <li>A <strong>cryptographically secure random number generator</strong> (CSPRNG) produces a sequence of random bits called <em>entropy</em> &mdash; for example, 128 random bits for a 12-word phrase</li>
@@ -217,8 +217,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 id="b-order" class="anim-fade-in">Why Does Order Matter?</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="b-order" >Why Does Order Matter?</h2>
+          <div class="guide-text">
             <p>The order of your seed words is <strong>absolutely critical</strong>. Changing the position of even a single word produces a completely different wallet with entirely different keys and addresses. Your original funds would be inaccessible.</p>
             <div class="callout callout-warning">
               <span class="callout-label">Important</span>
@@ -232,8 +232,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 id="b-checksum" class="anim-fade-in">The Checksum &mdash; Built-In Error Detection</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="b-checksum" >The Checksum &mdash; Built-In Error Detection</h2>
+          <div class="guide-text">
             <p>One of the most elegant features of BIP39 is the <strong>checksum</strong> &mdash; a built-in error-detection mechanism that catches mistakes when you enter your seed phrase.</p>
             <p>The last word of your seed phrase is <em>partially</em> determined by the checksum. This means that not all combinations of 12 or 24 BIP39 words form a valid seed phrase. If you accidentally misspell a word, swap two words, or transcribe a word incorrectly, the checksum will almost certainly fail &mdash; and the wallet will alert you to the error instead of generating a wrong wallet.</p>
             <blockquote><p>The checksum is like a check digit on a credit card number. It does not make the system more secure against attackers, but it protects <em>you</em> from your own transcription mistakes.</p></blockquote>
@@ -247,8 +247,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 id="b-storage" class="anim-fade-in">Storing Your Seed Phrase Safely</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="b-storage" >Storing Your Seed Phrase Safely</h2>
+          <div class="guide-text">
             <p>Your seed phrase is the single most valuable piece of information in your crypto setup. How you store it determines whether your funds are safe for decades or vulnerable to a single mistake.</p>
             <h3>Recommended Practices</h3>
             <ul>
@@ -290,8 +290,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 id="a-entropy" class="anim-fade-in">Entropy Sources and CSPRNG</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="a-entropy" >Entropy Sources and CSPRNG</h2>
+          <div class="guide-text">
             <p>BIP39 seed generation begins with a <strong>cryptographically secure pseudo-random number generator</strong> (CSPRNG). The quality of the entropy source is the foundation of the entire security model &mdash; if the randomness is predictable or biased, the resulting seed phrase is compromised regardless of word count.</p>
             <h3>Platform-Specific Entropy Sources</h3>
             <p>On modern systems, CSPRNGs are typically backed by operating system entropy pools:</p>
@@ -321,8 +321,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 id="a-checksum" class="anim-fade-in">SHA-256 Checksum Mechanism</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="a-checksum" >SHA-256 Checksum Mechanism</h2>
+          <div class="guide-text">
             <p>After generating raw entropy, the system computes a <strong>SHA-256 hash</strong> of the entropy bytes. The first <em>N</em> bits of this hash (where <code>N = entropy_bits / 32</code>) are appended to the entropy as a checksum.</p>
             <h3>Step-by-Step Process</h3>
             <ol>
@@ -346,8 +346,8 @@
 
       <section class="section-block">
         <div class="container">
-          <h2 id="a-derivation" class="anim-fade-in">From Mnemonic to Master Key (BIP32/BIP44)</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="a-derivation" >From Mnemonic to Master Key (BIP32/BIP44)</h2>
+          <div class="guide-text">
             <p>The mnemonic phrase is not used directly as a cryptographic key. Instead, it undergoes a key-stretching process to produce a <strong>512-bit seed</strong>, which then feeds into hierarchical deterministic key derivation.</p>
             <h3>PBKDF2 Key Stretching</h3>
             <p>The mnemonic string (space-separated words, UTF-8 NFKD-normalized) is passed through <code>PBKDF2-HMAC-SHA512</code> with <strong>2,048 iterations</strong>. The salt is the string <code>"mnemonic"</code> concatenated with an optional user-supplied passphrase (the "25th word"):</p>
@@ -381,8 +381,8 @@ m/86'/0'/0'/0/0   &larr; Bitcoin Taproot (P2TR)</code></pre>
 
       <section class="section-block">
         <div class="container">
-          <h2 id="a-wordlist" class="anim-fade-in">Wordlist Design and Multilingual Support</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="a-wordlist" >Wordlist Design and Multilingual Support</h2>
+          <div class="guide-text">
             <p>The BIP39 English wordlist was engineered with strict constraints to minimize ambiguity and transcription errors across different contexts (handwriting, phone dictation, poor lighting):</p>
             <ul>
               <li><strong>4-character uniqueness</strong> &mdash; no two words share the same first four letters, enabling unambiguous abbreviation on constrained displays</li>
@@ -402,8 +402,8 @@ m/86'/0'/0'/0/0   &larr; Bitcoin Taproot (P2TR)</code></pre>
 
       <section class="section-block">
         <div class="container">
-          <h2 id="a-attacks" class="anim-fade-in">Attack Vectors and Entropy Analysis</h2>
-          <div class="guide-text anim-fade-in">
+          <h2 id="a-attacks" >Attack Vectors and Entropy Analysis</h2>
+          <div class="guide-text">
             <p>Understanding the threat landscape for seed phrases helps calibrate security decisions. The primary attack vectors are:</p>
             <h3>Brute-Force Attacks</h3>
             <p>A 128-bit entropy seed (12 words) provides a search space of 2<sup>128</sup> &asymp; 3.4 &times; 10<sup>38</sup> possible keys. At 10 billion guesses per second (far beyond current capability for full key derivation), exhausting this space would take approximately 10<sup>21</sup> years. This is secure against any classical computing attack.</p>
@@ -428,9 +428,9 @@ m/86'/0'/0'/0/0   &larr; Bitcoin Taproot (P2TR)</code></pre>
     <!-- ===== FAQ SECTION ===== -->
     <section class="section-block faq-section">
       <div class="container">
-        <p class="label anim-fade-in">[ FREQUENTLY ASKED QUESTIONS ]</p>
-        <h2 class="anim-fade-in">FAQ</h2>
-        <div class="faq-chat anim-fade-in">
+        <p class="label">[ FREQUENTLY ASKED QUESTIONS ]</p>
+        <h2 >FAQ</h2>
+        <div class="faq-chat">
 
           <div class="faq-item">
             <button class="faq-q-btn" type="button">
