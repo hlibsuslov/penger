@@ -728,9 +728,8 @@ h3 { font-size: 15px; font-weight: 600; }
   .word-detail-inner { font-size: 10px; padding: 10px 10px; }
   .detail-word-name { font-size: 14px; }
   .detail-bits-positions { display: none; }
-  .detail-bit { width: 20px; height: 16px; font-size: 9px; }
+  .detail-dot { width: 10px; height: 10px; }
   .detail-formula { font-size: 10px; }
-  .detail-punch-dot { width: 10px; height: 10px; }
   .plate-vis { padding: 12px 8px; --cell-w: 22px; --col-gap: 3px; --row-gap: 3px; }
   .plate-vis.wc-md { --cell-w: 18px; }
   .plate-vis.wc-lg { --cell-w: 14px; }
@@ -1647,22 +1646,21 @@ body.nav-open {
   font-family: var(--font-mono); font-size: 12px; color: var(--text-label);
 }
 
-/* Binary bits with position labels */
-.detail-bits-labeled { margin-bottom: 6px; }
-.detail-bits-positions { display: flex; gap: 3px; margin-bottom: 2px; }
+/* Position labels + dots (matches dict-example-dot style) */
+.detail-bits-labeled { margin-bottom: 4px; }
+.detail-bits-positions { display: flex; gap: 4px; margin-bottom: 3px; }
 .detail-pos-label {
-  width: 26px; text-align: center;
-  font-family: var(--font-mono); font-size: 7px; font-weight: 600;
+  width: 12px; text-align: center;
+  font-family: var(--font-mono); font-size: 7px; font-weight: 400;
   color: var(--text-dim);
 }
-.detail-bits-row { display: flex; gap: 3px; }
-.detail-bit {
-  width: 26px; height: 18px; border-radius: 3px;
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+.detail-pos-label.active { font-weight: 700; color: var(--text-accent); }
+.detail-bits-row { display: inline-flex; gap: 4px; }
+.detail-dot {
+  width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
 }
-.detail-bit.b1 { background: var(--punch-fill); color: var(--bg-main); }
-.detail-bit.b0 { background: var(--punch-empty); color: var(--text-dim); border: 1px solid var(--border-hover); }
+.detail-dot.on { background: var(--punch-fill); }
+.detail-dot.off { background: var(--punch-empty); border: 1px solid var(--border-hover); box-sizing: border-box; }
 
 /* Calculation formula */
 .detail-formula {
@@ -1670,20 +1668,6 @@ body.nav-open {
   color: var(--text-dim); margin-top: 4px;
 }
 .detail-formula strong { color: var(--text-accent); font-weight: 700; }
-
-/* Punch pattern — compact horizontal */
-.detail-punch-section {
-  display: flex; align-items: center; gap: 10px; margin-top: 8px;
-}
-.detail-punch-label {
-  font-family: var(--font-mono); font-size: 10px; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.04em;
-  color: var(--text-label); white-space: nowrap;
-}
-.detail-punch-dots { display: flex; gap: 4px; }
-.detail-punch-dot { width: 12px; height: 12px; border-radius: 50%; }
-.detail-punch-dot.on { background: var(--punch-fill); }
-.detail-punch-dot.off { background: var(--punch-empty); border: 1px solid var(--border-hover); box-sizing: border-box; }
 
 /* ====================================================================
    ACADEMY PAGE SECTIONS

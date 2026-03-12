@@ -169,16 +169,16 @@
     }
     html += '</div>';
 
-    // Binary bits with position labels
+    // Bits: position labels + dots (like main menu example)
     html += '<div class="detail-bits-labeled">';
     html += '<div class="detail-bits-positions">';
     for (var p = 0; p < BIT_COUNT; p++) {
-      html += '<span class="detail-pos-label">' + BIT_POSITIONS[p] + '</span>';
+      html += '<span class="detail-pos-label' + (bin[p] === '1' ? ' active' : '') + '">' + BIT_POSITIONS[p] + '</span>';
     }
     html += '</div>';
     html += '<div class="detail-bits-row">';
     for (var i = 0; i < bin.length; i++) {
-      html += '<span class="detail-bit ' + (bin[i] === '1' ? 'b1' : 'b0') + '">' + bin[i] + '</span>';
+      html += '<span class="detail-dot ' + (bin[i] === '1' ? 'on' : 'off') + '"></span>';
     }
     html += '</div>';
     html += '</div>';
@@ -193,16 +193,6 @@
       html += activeParts.join(' + ') + ' = <strong>' + displayIdx + '</strong>';
       html += '</div>';
     }
-
-    // Punch pattern (compact horizontal)
-    html += '<div class="detail-punch-section">';
-    html += '<span class="detail-punch-label">Punch pattern</span>';
-    html += '<span class="detail-punch-dots">';
-    for (var d = 0; d < bin.length; d++) {
-      html += '<span class="detail-punch-dot ' + (bin[d] === '1' ? 'on' : 'off') + '"></span>';
-    }
-    html += '</span>';
-    html += '</div>';
 
     return html;
   }
