@@ -332,7 +332,7 @@
   height: 100%;
   display: block;
 }
-.lp-btn-large { padding: 16px 40px; font-size: 14px; }
+.lp-btn-large { padding: 16px 40px; font-size: 15px; font-family: var(--font-sans); font-weight: 800; }
 .lp-link-secondary {
   font-family: var(--font-mono); font-size: 12px; font-weight: 500;
   text-transform: uppercase; letter-spacing: 0.06em;
@@ -586,7 +586,7 @@
 .lp-guide-dict-idx { width: 40px; text-align: right; flex-shrink: 0; }
 .lp-guide-dict-active {
   color: var(--text-accent-hover); font-weight: 700;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--bg-highlight);
 }
 .lp-guide-dim { font-family: var(--font-mono); font-size: 12px; font-weight: 400; color: var(--text-label); overflow-wrap: break-word; word-break: break-word; min-width: 0; }
 .lp-guide-dim strong { color: var(--text-accent); font-weight: 700; }
