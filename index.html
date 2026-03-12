@@ -897,7 +897,7 @@
     var rowHeight = 0, viewH = 0, centerOffset = 0, maxOffset = 0;
     var offset = 0, velocity = 0, activeIndex = 0;
     var animating = false, phase = 'idle', rafId = null;
-    var dragStartY = 0, dragStartOff = 0;
+    var dragging = false, dragStartY = 0, dragStartOff = 0;
 
     function recalcGeometry() {
       rowHeight    = rows[0].offsetHeight;
@@ -961,6 +961,31 @@
       startAnim();
     }
 
+    /* Touch */
+    body.addEventListener('touchstart', function (e) {
+      stopAnim(); phase = 'dragging'; dragging = true;
+      var t = e.touches[0];
+      dragStartY = t.clientY; dragStartOff = offset;
+    }, { passive: true });
+
+    body.addEventListener('touchmove', function (e) {
+      if (!dragging) return;
+      var t = e.touches[0];
+      offset = dragStartOff + (dragStartY - t.clientY);
+      render();
+    }, { passive: true });
+
+    body.addEventListener('touchend', function () {
+      if (!dragging) return;
+      dragging = false;
+      springBack();
+    }, { passive: true });
+    body.addEventListener('touchcancel', function () {
+      if (!dragging) return;
+      dragging = false;
+      springBack();
+    }, { passive: true });
+
     /* Mouse drag */
     var mouseDragging = false;
     body.addEventListener('mousedown', function (e) {
@@ -988,6 +1013,7 @@
 
     body.style.userSelect = 'none';
     body.style.webkitUserSelect = 'none';
+    body.style.touchAction = 'pan-x';
 
     /* Resize */
     function handleResize() {
@@ -1002,7 +1028,7 @@
       window.addEventListener('resize', handleResize);
     }
 
-    /* Init — defer to ensure layout is complete */
+    /* Init */
     function init() {
       recalcGeometry();
       if (!rowHeight || !viewH) {
@@ -1015,7 +1041,7 @@
       offset = getOffsetForIdx(activeIndex);
       render();
     }
-    requestAnimationFrame(init);
+    init();
   })();
   </script>
 </body>
