@@ -1630,6 +1630,42 @@ body.nav-open {
 }
 
 /* ====================================================================
+   SIMULATOR EXAMPLE: DOTS (desktop) vs GRID (mobile)
+   ==================================================================== */
+.dict-example-dots {
+  display: flex; gap: 4px; align-items: center;
+}
+.dict-example-dot {
+  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+  background: var(--punch-empty); border: 1px solid var(--border-hover);
+}
+.dict-example-dot.on { background: var(--punch-fill); border-color: var(--punch-fill); }
+
+.sim-example-grid { display: none; }
+.sim-example-dots { display: block; }
+
+@media (max-width: 600px) {
+  .sim-example-grid { display: block; }
+  .sim-example-dots { display: none; }
+}
+
+/* FAQ embedded examples */
+.faq-example { margin-top: 14px; }
+.faq-example .dict-example-bar {
+  margin-bottom: 0;
+  border: none;
+  padding: 14px 0 0;
+  background: transparent;
+}
+
+/* Simulator disclaimer */
+.sim-disclaimer-section { padding-top: 0; }
+.sim-disclaimer p {
+  font-family: var(--font-sans); font-size: 13.5px; line-height: 1.75;
+  margin: 0; color: var(--text-primary);
+}
+
+/* ====================================================================
    ARTICLE PREVIEW CARDS (END OF GUIDE PAGES)
    ==================================================================== */
 .article-previews {

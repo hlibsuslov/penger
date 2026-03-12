@@ -748,6 +748,36 @@
   initExampleDots('genExampleDots', 1);   // index 1 = abandon
   initExampleDots('decExampleDots', 1);   // index 1 = abandon
 
+  /* ===== DICTIONARY-STYLE EXAMPLE GRIDS (mobile view + FAQ) ===== */
+  function initExampleGrid(gridId, formulaId, exampleIdx) {
+    var grid = document.getElementById(gridId);
+    var formula = document.getElementById(formulaId);
+    if (!grid) return;
+    var bin = toBinary(exampleIdx);
+    var html = '';
+    for (var i = 0; i < bin.length; i++) {
+      var isOn = bin[i] === '1';
+      html += '<div class="detail-binary-col">';
+      html += '<div class="detail-binary-cell ' + (isOn ? 'on' : 'off') + '"><span class="detail-binary-digit">' + bin[i] + '</span></div>';
+      html += '<span class="detail-binary-weight' + (isOn ? ' active' : '') + '">' + BIT_POSITIONS[i] + '</span>';
+      html += '</div>';
+    }
+    grid.innerHTML = html;
+    if (formula) {
+      var parts = [];
+      for (var f = 0; f < bin.length; f++) {
+        if (bin[f] === '1') parts.push('<strong>' + BIT_POSITIONS[f] + '</strong>');
+      }
+      formula.innerHTML = parts.join(' + ') + ' = <strong>' + exampleIdx + '</strong>';
+    }
+  }
+  // Example grids for generate/decode tabs (shown on mobile)
+  initExampleGrid('genExampleGrid', 'genExampleFormula', 1);
+  initExampleGrid('decExampleGrid', 'decExampleFormula', 1);
+  // FAQ embedded examples
+  initExampleGrid('faqExampleGrid1', 'faqExampleFormula1', 985);   // inner
+  initExampleGrid('faqExampleGrid2', 'faqExampleFormula2', 256);   // butter
+
   /* Theme toggle is handled by shared.js */
 
   /* ===== RESIZE HANDLER FOR MATRICES ===== */
