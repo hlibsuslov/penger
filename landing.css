@@ -600,7 +600,7 @@
 .lp-guide-punch-dots { display: grid; grid-template-columns: repeat(12, 1fr); gap: 8px; width: 100%; }
 .lp-gdot { aspect-ratio: 1; width: 100%; border-radius: 5px; }
 .lp-gdot.on { background: var(--punch-fill); }
-.lp-gdot.off { background: transparent; border: 2px solid var(--border-off); }
+.lp-gdot.off { background: transparent; border: 1.5px solid var(--border-off); }
 .lp-guide-punch-img { display: block; width: 100%; }
 .lp-guide-punch-img img { display: block; width: 100%; height: auto; border-radius: 4px; }
 .lp-guide-punch-word { font-family: var(--font-mono); font-size: 12px; font-weight: 500; color: var(--text-dim); }
@@ -673,7 +673,7 @@
   min-width: 0;
 }
 .lp-binary-cell.on { background: var(--punch-fill); }
-.lp-binary-cell.off { background: transparent; border: 2px solid var(--border-off); }
+.lp-binary-cell.off { background: transparent; border: 1.5px solid var(--border-off); }
 .lp-binary-digit {
   font-family: var(--font-mono); font-size: 14px; font-weight: 700;
   line-height: 1;
