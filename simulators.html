@@ -113,18 +113,17 @@
           <p class="body-text">Generate a cryptographically random BIP39 seed phrase with proper SHA-256 checksum. Each word index (1&ndash;2048) is encoded as a 12-bit binary value and visualized as a dot matrix for metal backup encoding.</p>
 
           <div class="dict-example-bar" style="margin-top: 20px;">
-            <div class="dict-example-label">
-              <p>Example:</p>
-              <span class="dict-example-idx">0001</span> = <span class="dict-example-word">Abandon</span>
+            <div class="dict-example-label">Example</div>
+            <div class="dict-example-row">
+              <span class="dict-example-idx">0001</span>
+              <span class="dict-example-eq">=</span>
+              <span class="dict-example-word">Abandon</span>
             </div>
             <div class="dict-example-visual">
               <div class="dict-example-dots-wrap">
                 <div class="dict-example-dots" id="genExampleDots"></div>
               </div>
             </div>
-            <p class="dict-example-hint">
-              12-bit index: Hole=1, Blank=0. Read columns top (MSB) &rarr; bottom (LSB).
-            </p>
           </div>
 
           <div style="margin-top: 20px;">
@@ -182,18 +181,17 @@
           <p class="body-text">Input binary patterns by clicking dots on the grid. Each column decodes into a BIP39 word in real time. Valid indices are 1&ndash;2048; all zeros (000000000000) and any value &gt;2048 are marked invalid.</p>
 
           <div class="dict-example-bar" style="margin-top: 20px;">
-            <div class="dict-example-label">
-              <p>Example:</p>
-              <span class="dict-example-idx">0001</span> = <span class="dict-example-word">Abandon</span>
+            <div class="dict-example-label">Example</div>
+            <div class="dict-example-row">
+              <span class="dict-example-idx">0001</span>
+              <span class="dict-example-eq">=</span>
+              <span class="dict-example-word">Abandon</span>
             </div>
             <div class="dict-example-visual">
               <div class="dict-example-dots-wrap">
                 <div class="dict-example-dots" id="decExampleDots"></div>
               </div>
             </div>
-            <p class="dict-example-hint">
-              Click the dots in each column to toggle bits. The column header shows the live computed index. Row labels show bit weight and bit number.
-            </p>
           </div>
 
           <div style="margin-top: 20px;">

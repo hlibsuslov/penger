@@ -78,6 +78,7 @@
 
     var gridContainer = document.getElementById('dictExampleGrid');
     var wordEl = document.getElementById('dictExampleWord');
+    var formulaEl = document.getElementById('dictExampleFormula');
     if (!gridContainer || !wordEl) return;
 
     var html = '';
@@ -90,6 +91,15 @@
     }
     gridContainer.innerHTML = html;
     wordEl.textContent = word;
+
+    // Render formula
+    if (formulaEl) {
+      var parts = [];
+      for (var f = 0; f < BIT_COUNT; f++) {
+        if (bin[f] === '1') parts.push('<strong>' + BIT_POSITIONS[f] + '</strong>');
+      }
+      formulaEl.innerHTML = parts.join(' + ') + ' = <strong>' + exampleIdx + '</strong>';
+    }
   }
 
   /* ===== DICTIONARY LOGIC ===== */
@@ -214,20 +224,32 @@
     var shown = Math.min(dictVisible, dictFiltered.length);
     var remaining = dictFiltered.length - shown;
 
-    if (remaining <= 0) {
-      pagEl.innerHTML = '';
-      return;
+    var html = '';
+
+    if (remaining > 0) {
+      html +=
+        '<button class="show-more-btn" type="button">' +
+        '<span class="show-more-label">Show more</span>' +
+        '<span class="show-more-count">' + shown + ' / ' + dictFiltered.length + '</span>' +
+        '</button>';
     }
 
-    var nextBatch = Math.min(remaining, DICT_PAGE_SIZE);
-    pagEl.innerHTML =
-      '<button class="show-more-btn" type="button">' +
-      'Show more (' + shown + ' / ' + dictFiltered.length + ')' +
-      '</button>';
+    if (shown > DICT_PAGE_SIZE) {
+      html += '<button class="back-to-top-btn" type="button">&uarr; Back to top</button>';
+    }
 
-    pagEl.onclick = function () {
-      dictVisible += DICT_PAGE_SIZE;
-      renderDict(true);
+    pagEl.innerHTML = html;
+
+    pagEl.onclick = function (e) {
+      var btn = e.target.closest('button');
+      if (!btn) return;
+      if (btn.classList.contains('show-more-btn')) {
+        dictVisible += DICT_PAGE_SIZE;
+        renderDict(true);
+      } else if (btn.classList.contains('back-to-top-btn')) {
+        var listEl = $('dictList');
+        if (listEl) listEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     };
   }
 
