@@ -517,6 +517,9 @@
   font-family: var(--font-sans); font-size: 14px; line-height: 1.8;
   color: var(--text-label); max-width: 560px;
 }
+.lp-guide-step-text a {
+  color: inherit; text-decoration: underline;
+}
 .lp-guide-arrow { text-align: center; font-size: 20px; color: var(--text-dim); padding: 12px 0; line-height: 1; }
 .lp-guide-example {
   margin-top: 18px; padding: 16px 18px;
