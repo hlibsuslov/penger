@@ -158,36 +158,89 @@
     var word = getWordByIndex(displayIdx);
     var bin = toBinary(displayIdx);
     var html = '';
+    var punchCount = 0;
+    for (var c = 0; c < bin.length; c++) { if (bin[c] === '1') punchCount++; }
+
+    // Header: word name + index
     html += '<div class="detail-word-header">';
     html += '<span class="detail-word-name" translate="no">' + word + '</span>';
-    html += '<span class="detail-word-index">Word #' + wordNum + ' \u2014 Index: ' + String(displayIdx).padStart(4, '0') + '</span>';
+    if (wordNum) {
+      html += '<span class="detail-word-index">Word #' + wordNum + ' \u2014 Index: ' + String(displayIdx).padStart(4, '0') + '</span>';
+    } else {
+      html += '<span class="detail-word-index">Index: ' + String(displayIdx).padStart(4, '0') + '</span>';
+    }
+    html += '</div>';
+
+    // Quick stats strip
+    html += '<div class="detail-stats">';
+    html += '<span class="detail-stat"><span class="detail-stat-label">Binary</span><span class="detail-stat-value">' + bin + '</span></span>';
+    html += '<span class="detail-stat"><span class="detail-stat-label">Punches</span><span class="detail-stat-value">' + punchCount + ' / ' + BIT_COUNT + '</span></span>';
+    html += '<span class="detail-stat"><span class="detail-stat-label">Skips</span><span class="detail-stat-value">' + (BIT_COUNT - punchCount) + ' / ' + BIT_COUNT + '</span></span>';
+    html += '</div>';
+
+    // Section: Binary breakdown
+    html += '<div class="detail-section-label">Binary breakdown</div>';
+
+    // Visual 12-bit row with position labels
+    html += '<div class="detail-bits-labeled">';
+    html += '<div class="detail-bits-positions">';
+    for (var p = 0; p < BIT_COUNT; p++) {
+      html += '<span class="detail-pos-label">' + BIT_POSITIONS[p] + '</span>';
+    }
     html += '</div>';
     html += '<div class="detail-bits-row">';
     for (var i = 0; i < bin.length; i++) {
       html += '<span class="detail-bit ' + (bin[i] === '1' ? 'b1' : 'b0') + '">' + bin[i] + '</span>';
     }
     html += '</div>';
+    html += '</div>';
+
+    // Calculation formula
+    var activeParts = [];
+    for (var f = 0; f < BIT_COUNT; f++) {
+      if (bin[f] === '1') activeParts.push(BIT_POSITIONS[f]);
+    }
+    if (activeParts.length > 0) {
+      html += '<div class="detail-formula">';
+      html += activeParts.join(' + ') + ' = <strong>' + displayIdx + '</strong>';
+      html += '</div>';
+    }
+
+    // Section: Bit-by-bit table
+    html += '<div class="detail-section-label">Bit-by-bit breakdown</div>';
     html += '<table class="detail-table">';
-    html += '<thead><tr><th>Bit Weight</th><th>Value</th><th>Running Sum</th><th>Action</th></tr></thead><tbody>';
+    html += '<thead><tr><th>#</th><th>Weight</th><th>Bit</th><th>Running total</th><th>Action</th></tr></thead><tbody>';
+
     var runSum = 0;
     for (var b = 0; b < BIT_COUNT; b++) {
       var pos = BIT_POSITIONS[b];
       var bitVal = parseInt(bin[b], 10);
       if (bitVal === 1) runSum += pos;
-      html += '<tr>'
-        + '<td class="td-pos">' + pos + '</td>'
-        + '<td class="' + (bitVal === 1 ? 'td-active' : '') + '">' + bitVal + '</td>'
-        + '<td class="' + (bitVal === 1 ? 'td-sum' : '') + '">' + (bitVal === 1 ? runSum : '&mdash;') + '</td>'
-        + '<td>' + (bitVal === 1 ? '<svg class="action-icon punch" width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5" fill="currentColor"/></svg> punch' : '<svg class="action-icon skip" width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg> skip') + '</td>'
-        + '</tr>';
+      var action = bitVal === 1
+        ? '<svg class="action-icon punch" width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5" fill="currentColor"/></svg> Punch'
+        : '<svg class="action-icon skip" width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg> Skip';
+      html += '<tr class="' + (bitVal === 1 ? 'row-active' : '') + '">' +
+        '<td class="td-pos">' + (b + 1) + '</td>' +
+        '<td class="td-pos">' + pos + '</td>' +
+        '<td class="' + (bitVal === 1 ? 'td-active' : '') + '">' + bitVal + '</td>' +
+        '<td class="' + (bitVal === 1 ? 'td-sum' : '') + '">' + (bitVal === 1 ? runSum : '\u2014') + '</td>' +
+        '<td>' + action + '</td>' +
+        '</tr>';
     }
     html += '</tbody></table>';
-    html += '<div class="detail-punch-label">Punch pattern (top &rarr; bottom):</div>';
-    html += '<div class="detail-punch-dots">';
+
+    // Section: Punch pattern
+    html += '<div class="detail-section-label">Punch pattern <span class="detail-section-hint">(top \u2192 bottom on plate)</span></div>';
+    html += '<div class="detail-punch-visual">';
     for (var d = 0; d < bin.length; d++) {
+      html += '<div class="detail-punch-row">';
+      html += '<span class="detail-punch-pos">' + BIT_POSITIONS[d] + '</span>';
       html += '<span class="detail-punch-dot ' + (bin[d] === '1' ? 'on' : 'off') + '"></span>';
+      html += '<span class="detail-punch-action">' + (bin[d] === '1' ? 'Punch' : 'Skip') + '</span>';
+      html += '</div>';
     }
     html += '</div>';
+
     return html;
   }
 
