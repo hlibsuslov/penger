@@ -158,36 +158,42 @@
     var word = getWordByIndex(displayIdx);
     var bin = toBinary(displayIdx);
     var html = '';
+
+    // Header: word + index
     html += '<div class="detail-word-header">';
     html += '<span class="detail-word-name" translate="no">' + word + '</span>';
-    html += '<span class="detail-word-index">Word #' + wordNum + ' \u2014 Index: ' + String(displayIdx).padStart(4, '0') + '</span>';
+    if (wordNum) {
+      html += '<span class="detail-word-index">#' + wordNum + ' \u2014 ' + String(displayIdx).padStart(4, '0') + '</span>';
+    } else {
+      html += '<span class="detail-word-index">' + String(displayIdx).padStart(4, '0') + '</span>';
+    }
+    html += '</div>';
+
+    // Bits: position labels + dots (like main menu example)
+    html += '<div class="detail-bits-labeled">';
+    html += '<div class="detail-bits-positions">';
+    for (var p = 0; p < BIT_COUNT; p++) {
+      html += '<span class="detail-pos-label' + (bin[p] === '1' ? ' active' : '') + '">' + BIT_POSITIONS[p] + '</span>';
+    }
     html += '</div>';
     html += '<div class="detail-bits-row">';
     for (var i = 0; i < bin.length; i++) {
-      html += '<span class="detail-bit ' + (bin[i] === '1' ? 'b1' : 'b0') + '">' + bin[i] + '</span>';
+      html += '<span class="detail-dot ' + (bin[i] === '1' ? 'on' : 'off') + '"></span>';
     }
     html += '</div>';
-    html += '<table class="detail-table">';
-    html += '<thead><tr><th>Bit Weight</th><th>Value</th><th>Running Sum</th><th>Action</th></tr></thead><tbody>';
-    var runSum = 0;
-    for (var b = 0; b < BIT_COUNT; b++) {
-      var pos = BIT_POSITIONS[b];
-      var bitVal = parseInt(bin[b], 10);
-      if (bitVal === 1) runSum += pos;
-      html += '<tr>'
-        + '<td class="td-pos">' + pos + '</td>'
-        + '<td class="' + (bitVal === 1 ? 'td-active' : '') + '">' + bitVal + '</td>'
-        + '<td class="' + (bitVal === 1 ? 'td-sum' : '') + '">' + (bitVal === 1 ? runSum : '&mdash;') + '</td>'
-        + '<td>' + (bitVal === 1 ? '<svg class="action-icon punch" width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5" fill="currentColor"/></svg> punch' : '<svg class="action-icon skip" width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg> skip') + '</td>'
-        + '</tr>';
-    }
-    html += '</tbody></table>';
-    html += '<div class="detail-punch-label">Punch pattern (top &rarr; bottom):</div>';
-    html += '<div class="detail-punch-dots">';
-    for (var d = 0; d < bin.length; d++) {
-      html += '<span class="detail-punch-dot ' + (bin[d] === '1' ? 'on' : 'off') + '"></span>';
-    }
     html += '</div>';
+
+    // Formula
+    var activeParts = [];
+    for (var f = 0; f < BIT_COUNT; f++) {
+      if (bin[f] === '1') activeParts.push(BIT_POSITIONS[f]);
+    }
+    if (activeParts.length > 0) {
+      html += '<div class="detail-formula">';
+      html += activeParts.join(' + ') + ' = <strong>' + displayIdx + '</strong>';
+      html += '</div>';
+    }
+
     return html;
   }
 
