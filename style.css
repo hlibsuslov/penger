@@ -722,12 +722,14 @@ h3 { font-size: 15px; font-weight: 600; }
   .pill { padding: 8px 12px; font-size: 12px; }
 
   .word-row {
-    grid-template-columns: 24px 1fr;
+    grid-template-columns: 36px 1fr auto;
     gap: 3px 8px; padding: 10px 28px 10px 8px; font-size: 12px;
   }
-  .word-row .w-index { grid-column: 2; text-align: left; font-size: 11px; }
-  .word-row .w-binary { grid-column: 2; font-size: 11px; }
-  .word-row .w-dots { grid-column: 2; }
+  .word-row .w-num { display: none; }
+  .word-row .w-index { grid-column: 1; grid-row: 1; text-align: right; font-size: 11px; }
+  .word-row .w-word { grid-column: 2; grid-row: 1; }
+  .word-row .w-dots { grid-column: 3; grid-row: 1; justify-self: end; }
+  .word-row .w-binary { display: none; }
   .word-row.table-head { display: none; }
   .word-row:not(.table-head)::after { right: 8px; }
 
