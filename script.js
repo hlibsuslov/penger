@@ -771,67 +771,95 @@
     }, 250);
   });
 
-  // Dict picker: spring-physics snap-to-center (wheel / picker behavior)
+  // Dict picker: full custom scroll engine with spring physics (wheel / picker)
   document.querySelectorAll('.lp-guide-dict-body').forEach(function(body) {
-    var STIFFNESS = 180;
-    var DAMPING = 22;
-    var DT = 1 / 60;
-    var SETTLE_VEL = 0.1;
-    var SETTLE_POS = 0.3;
-    var SNAP_DELAY_TOUCH = 150;
-    var SNAP_DELAY_WHEEL = 300;
+    // --- Physics tuning ---
+    var SPRING_STIFFNESS = 300;   // snap-back spring force
+    var SPRING_DAMPING   = 28;    // snap-back damping (critical ~2*sqrt(stiffness))
+    var DECEL_RATE       = 0.97;  // momentum friction per frame (lower = more friction)
+    var RUBBER_FACTOR    = 0.35;  // overscroll rubber-band resistance
+    var SETTLE_VEL       = 0.15;  // velocity threshold to stop animation
+    var SETTLE_POS       = 0.25;  // position threshold to stop animation
+    var DT               = 1 / 60;
+    var VELOCITY_SCALE   = 1.0;   // touch velocity multiplier for momentum
+    var WHEEL_AMOUNT     = 40;    // pixels per wheel delta unit
     var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Collect real rows (no spacers)
+    // --- DOM setup ---
     var rows = Array.prototype.slice.call(body.querySelectorAll('.lp-guide-dict-row'));
     if (!rows.length) return;
 
-    var rowHeight = rows[0].offsetHeight;
-    var activeIndex = -1;
-    var animating = false;
-    var programmaticScroll = false;
-    var springPos = 0;
-    var springVel = 0;
-    var springTarget = 0;
-    var snapTimer = null;
-    var topSpacer = null;
-    var bottomSpacer = null;
+    // Wrap rows in a track container for transform-based scrolling
+    var track = document.createElement('div');
+    track.className = 'lp-guide-dict-track';
+    while (body.firstChild) track.appendChild(body.firstChild);
+    body.appendChild(track);
 
-    // --- Spacers ---
-    function calcSpacerHeight() {
-      return Math.floor((body.clientHeight - rowHeight) / 2);
+    // --- State ---
+    var rowHeight    = rows[0].offsetHeight;
+    var viewH        = body.clientHeight;
+    var centerOffset = 0; // px from top of track to center the first row
+    var maxOffset    = 0; // maximum scroll offset (last row centerable)
+    var offset       = 0; // current virtual scroll position (0 = first row centered)
+    var velocity     = 0;
+    var activeIndex  = -1;
+    var animating    = false;
+    var phase        = 'idle'; // 'idle' | 'dragging' | 'momentum' | 'spring'
+    var rafId        = null;
+
+    // Touch / mouse tracking
+    var dragging     = false;
+    var dragStartY   = 0;
+    var dragStartOff = 0;
+    var lastTouchY   = 0;
+    var lastTouchT   = 0;
+    var touchVel     = 0;
+
+    // --- Geometry ---
+    function recalcGeometry() {
+      rowHeight    = rows[0].offsetHeight;
+      viewH        = body.clientHeight;
+      centerOffset = Math.floor((viewH - rowHeight) / 2);
+      maxOffset    = Math.max(0, (rows.length - 1) * rowHeight);
     }
 
-    function insertSpacers() {
-      var h = calcSpacerHeight();
-      topSpacer = document.createElement('div');
-      topSpacer.className = 'lp-guide-dict-spacer';
-      topSpacer.style.height = h + 'px';
-      body.insertBefore(topSpacer, body.firstChild);
-      bottomSpacer = document.createElement('div');
-      bottomSpacer.className = 'lp-guide-dict-spacer';
-      bottomSpacer.style.height = h + 'px';
-      body.appendChild(bottomSpacer);
-    }
-
-    function updateSpacers() {
-      var h = calcSpacerHeight();
-      if (topSpacer) topSpacer.style.height = h + 'px';
-      if (bottomSpacer) bottomSpacer.style.height = h + 'px';
-    }
-
-    // --- Index / scroll helpers ---
-    function getCenterIndex() {
-      var idx = Math.round(body.scrollTop / rowHeight);
+    function getIdxForOffset(off) {
+      var idx = Math.round(off / rowHeight);
       return Math.max(0, Math.min(idx, rows.length - 1));
     }
 
-    function getTargetScroll(idx) {
+    function getOffsetForIdx(idx) {
       return idx * rowHeight;
     }
 
+    // Clamp offset within bounds (no rubber-band)
+    function clampOffset(off) {
+      return Math.max(0, Math.min(off, maxOffset));
+    }
+
+    // Rubber-band: allow overscroll but with increasing resistance
+    function rubberBand(off) {
+      if (off < 0) return off * RUBBER_FACTOR;
+      if (off > maxOffset) return maxOffset + (off - maxOffset) * RUBBER_FACTOR;
+      return off;
+    }
+
+    // Inverse rubber-band: convert visual offset back to logical
+    function inverseRubber(visualOff) {
+      if (visualOff < 0) return visualOff / RUBBER_FACTOR;
+      if (visualOff > maxOffset) return maxOffset + (visualOff - maxOffset) / RUBBER_FACTOR;
+      return visualOff;
+    }
+
+    // --- Rendering ---
+    function applyTransform(off) {
+      var visualOff = rubberBand(off);
+      track.style.transform = 'translateY(' + (centerOffset - visualOff) + 'px)';
+    }
+
     function updateActiveRow() {
-      var idx = getCenterIndex();
+      var visualOff = rubberBand(offset);
+      var idx = getIdxForOffset(visualOff);
       if (idx === activeIndex) return;
       if (activeIndex >= 0 && activeIndex < rows.length) {
         rows[activeIndex].classList.remove('lp-guide-dict-active');
@@ -840,104 +868,235 @@
       rows[activeIndex].classList.add('lp-guide-dict-active');
     }
 
-    // --- Spring animation ---
-    function startSpring(target) {
-      springTarget = target;
-      springPos = body.scrollTop;
-      springVel = 0;
-      if (reducedMotion) {
-        programmaticScroll = true;
-        body.scrollTop = springTarget;
-        animating = false;
-        updateActiveRow();
-        requestAnimationFrame(function() { programmaticScroll = false; });
-        return;
-      }
-      if (!animating) {
-        animating = true;
-        requestAnimationFrame(tick);
-      }
+    function render() {
+      applyTransform(offset);
+      updateActiveRow();
+    }
+
+    // --- Animation loop ---
+    function startAnim() {
+      if (animating) return;
+      animating = true;
+      rafId = requestAnimationFrame(tick);
+    }
+
+    function stopAnim() {
+      animating = false;
+      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
     }
 
     function tick() {
       if (!animating) return;
-      var force = -STIFFNESS * (springPos - springTarget) - DAMPING * springVel;
-      springVel += force * DT;
-      springPos += springVel * DT;
 
-      programmaticScroll = true;
-      body.scrollTop = springPos;
+      if (phase === 'momentum') {
+        // Apply deceleration
+        offset += velocity * DT * 60;
+        velocity *= DECEL_RATE;
 
-      updateActiveRow();
+        // If overscrolling, switch to spring immediately
+        if (offset < 0 || offset > maxOffset) {
+          phase = 'spring';
+          // Carry velocity into spring
+        }
 
-      if (Math.abs(springVel) < SETTLE_VEL && Math.abs(springPos - springTarget) < SETTLE_POS) {
-        body.scrollTop = springTarget;
-        animating = false;
-        programmaticScroll = false;
-        updateActiveRow();
+        // If velocity is low enough, snap to nearest
+        if (Math.abs(velocity) < 1.5) {
+          phase = 'spring';
+          velocity = 0;
+        }
+
+        render();
+        rafId = requestAnimationFrame(tick);
+
+      } else if (phase === 'spring') {
+        var target = getOffsetForIdx(getIdxForOffset(clampOffset(offset)));
+        var displacement = offset - target;
+        var springForce = -SPRING_STIFFNESS * displacement - SPRING_DAMPING * velocity;
+        velocity += springForce * DT;
+        offset += velocity * DT;
+
+        render();
+
+        if (Math.abs(velocity) < SETTLE_VEL && Math.abs(offset - target) < SETTLE_POS) {
+          offset = target;
+          velocity = 0;
+          phase = 'idle';
+          render();
+          stopAnim();
+          return;
+        }
+        rafId = requestAnimationFrame(tick);
+
+      } else {
+        stopAnim();
+      }
+    }
+
+    // --- Snap (for reduced motion or programmatic) ---
+    function snapToIndex(idx, animate) {
+      var target = getOffsetForIdx(idx);
+      if (!animate || reducedMotion) {
+        offset = target;
+        velocity = 0;
+        phase = 'idle';
+        stopAnim();
+        render();
         return;
       }
-      requestAnimationFrame(tick);
+      phase = 'spring';
+      startAnim();
     }
 
-    function cancelSpring() {
-      animating = false;
-      springVel = 0;
-      clearTimeout(snapTimer);
-      snapTimer = null;
+    // --- Touch handling ---
+    function onTouchStart(e) {
+      stopAnim();
+      phase = 'dragging';
+      dragging = true;
+      var touch = e.touches[0];
+      dragStartY   = touch.clientY;
+      dragStartOff = offset;
+      lastTouchY   = touch.clientY;
+      lastTouchT   = Date.now();
+      touchVel     = 0;
     }
 
-    function scheduleSnap(delay) {
-      clearTimeout(snapTimer);
-      snapTimer = setTimeout(function() {
-        var idx = getCenterIndex();
-        startSpring(getTargetScroll(idx));
-      }, delay);
-    }
+    function onTouchMove(e) {
+      if (!dragging) return;
+      var touch = e.touches[0];
+      var dy = dragStartY - touch.clientY;
+      // Compute logical offset (inverse rubber-band for overscroll resistance)
+      offset = dragStartOff + dy;
 
-    // --- Event listeners ---
-    body.addEventListener('scroll', function() {
-      if (programmaticScroll) {
-        programmaticScroll = false;
-        return;
+      // Track velocity with smoothing
+      var now = Date.now();
+      var dt = now - lastTouchT;
+      if (dt > 0) {
+        var instantVel = (lastTouchY - touch.clientY) / dt * 1000;
+        touchVel = touchVel * 0.6 + instantVel * 0.4; // smoothed
       }
-      updateActiveRow();
-      scheduleSnap(SNAP_DELAY_WHEEL);
-    }, { passive: true });
+      lastTouchY = touch.clientY;
+      lastTouchT = now;
 
-    body.addEventListener('touchstart', function() {
-      cancelSpring();
-    }, { passive: true });
+      render();
+    }
 
-    body.addEventListener('touchend', function() {
-      scheduleSnap(SNAP_DELAY_TOUCH);
-    }, { passive: true });
+    function onTouchEnd() {
+      if (!dragging) return;
+      dragging = false;
 
-    body.addEventListener('mousedown', function() {
-      cancelSpring();
-    });
+      velocity = touchVel * VELOCITY_SCALE;
 
-    body.addEventListener('mouseup', function() {
-      scheduleSnap(SNAP_DELAY_TOUCH);
-    });
+      // If outside bounds or low velocity, go straight to spring
+      if (offset < 0 || offset > maxOffset || Math.abs(velocity) < 80) {
+        phase = 'spring';
+      } else {
+        phase = 'momentum';
+      }
+      startAnim();
+    }
 
-    body.addEventListener('wheel', function() {
-      cancelSpring();
-      scheduleSnap(SNAP_DELAY_WHEEL);
-    }, { passive: true });
+    // --- Mouse drag handling ---
+    var mouseDragging = false;
+    function onMouseDown(e) {
+      // Ignore right-click
+      if (e.button !== 0) return;
+      e.preventDefault();
+      stopAnim();
+      phase = 'dragging';
+      mouseDragging = true;
+      dragStartY   = e.clientY;
+      dragStartOff = offset;
+      lastTouchY   = e.clientY;
+      lastTouchT   = Date.now();
+      touchVel     = 0;
+
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
+    }
+
+    function onMouseMove(e) {
+      if (!mouseDragging) return;
+      var dy = dragStartY - e.clientY;
+      offset = dragStartOff + dy;
+
+      var now = Date.now();
+      var dt = now - lastTouchT;
+      if (dt > 0) {
+        var instantVel = (lastTouchY - e.clientY) / dt * 1000;
+        touchVel = touchVel * 0.6 + instantVel * 0.4;
+      }
+      lastTouchY = e.clientY;
+      lastTouchT = now;
+
+      render();
+    }
+
+    function onMouseUp() {
+      if (!mouseDragging) return;
+      mouseDragging = false;
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+
+      velocity = touchVel * VELOCITY_SCALE;
+      if (offset < 0 || offset > maxOffset || Math.abs(velocity) < 80) {
+        phase = 'spring';
+      } else {
+        phase = 'momentum';
+      }
+      startAnim();
+    }
+
+    // --- Wheel handling ---
+    function onWheel(e) {
+      e.preventDefault();
+      // During spring/momentum, absorb wheel and redirect
+      if (phase === 'spring' || phase === 'momentum') {
+        stopAnim();
+        velocity = 0;
+      }
+
+      var delta = e.deltaY;
+      // Normalize deltaMode
+      if (e.deltaMode === 1) delta *= rowHeight; // lines
+      else if (e.deltaMode === 2) delta *= viewH; // pages
+      else delta = delta * (WHEEL_AMOUNT / 100); // pixels — scale down
+
+      offset = clampOffset(offset + delta);
+      render();
+
+      // After wheel stops, spring to nearest
+      clearTimeout(onWheel._timer);
+      onWheel._timer = setTimeout(function() {
+        phase = 'spring';
+        startAnim();
+      }, 120);
+    }
+
+    // --- Event binding ---
+    body.addEventListener('touchstart', onTouchStart, { passive: true });
+    body.addEventListener('touchmove', onTouchMove, { passive: true });
+    body.addEventListener('touchend', onTouchEnd, { passive: true });
+    body.addEventListener('touchcancel', onTouchEnd, { passive: true });
+    body.addEventListener('mousedown', onMouseDown);
+    body.addEventListener('wheel', onWheel, { passive: false });
+
+    // Prevent text selection during drag
+    body.style.userSelect = 'none';
+    body.style.webkitUserSelect = 'none';
+    body.style.touchAction = 'none';
 
     // --- Resize handling ---
     var resizeTimer = null;
     function handleResize() {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(function() {
-        rowHeight = rows[0].offsetHeight;
-        updateSpacers();
-        cancelSpring();
-        var target = getTargetScroll(activeIndex >= 0 ? activeIndex : 0);
-        programmaticScroll = true;
-        body.scrollTop = target;
-        requestAnimationFrame(function() { programmaticScroll = false; });
+        recalcGeometry();
+        var idx = activeIndex >= 0 ? activeIndex : 0;
+        offset = getOffsetForIdx(idx);
+        velocity = 0;
+        phase = 'idle';
+        stopAnim();
+        render();
       }, 100);
     }
 
@@ -948,7 +1107,7 @@
     }
 
     // --- Init ---
-    insertSpacers();
+    recalcGeometry();
 
     // Determine initial active row from HTML markup
     var initialActive = body.querySelector('.lp-guide-dict-active');
@@ -958,9 +1117,8 @@
     if (activeIndex < 0) activeIndex = 0;
 
     // Center on initial active row (no animation)
-    programmaticScroll = true;
-    body.scrollTop = getTargetScroll(activeIndex);
-    requestAnimationFrame(function() { programmaticScroll = false; });
+    offset = getOffsetForIdx(activeIndex);
+    render();
   });
 
 })();
