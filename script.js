@@ -858,14 +858,7 @@
     }
 
     function updateActiveRow() {
-      var visualOff = rubberBand(offset);
-      var idx = getIdxForOffset(visualOff);
-      if (idx === activeIndex) return;
-      if (activeIndex >= 0 && activeIndex < rows.length) {
-        rows[activeIndex].classList.remove('lp-guide-dict-active');
-      }
-      activeIndex = idx;
-      rows[activeIndex].classList.add('lp-guide-dict-active');
+      // Active row is fixed — don't change highlight on scroll
     }
 
     function render() {
@@ -909,7 +902,7 @@
         rafId = requestAnimationFrame(tick);
 
       } else if (phase === 'spring') {
-        var target = getOffsetForIdx(getIdxForOffset(clampOffset(offset)));
+        var target = getOffsetForIdx(activeIndex);
         var displacement = offset - target;
         var springForce = -SPRING_STIFFNESS * displacement - SPRING_DAMPING * velocity;
         velocity += springForce * DT;
@@ -984,14 +977,9 @@
       if (!dragging) return;
       dragging = false;
 
-      velocity = touchVel * VELOCITY_SCALE;
-
-      // If outside bounds or low velocity, go straight to spring
-      if (offset < 0 || offset > maxOffset || Math.abs(velocity) < 80) {
-        phase = 'spring';
-      } else {
-        phase = 'momentum';
-      }
+      // Always snap back to the initial active row
+      phase = 'spring';
+      velocity = 0;
       startAnim();
     }
 
@@ -1037,12 +1025,9 @@
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
 
-      velocity = touchVel * VELOCITY_SCALE;
-      if (offset < 0 || offset > maxOffset || Math.abs(velocity) < 80) {
-        phase = 'spring';
-      } else {
-        phase = 'momentum';
-      }
+      // Always snap back to the initial active row
+      phase = 'spring';
+      velocity = 0;
       startAnim();
     }
 
