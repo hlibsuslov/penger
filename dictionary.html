@@ -134,11 +134,11 @@
 
         <!-- EXAMPLE ANIMATION -->
         <div class="dict-example-bar">
-          <div class="dict-example-label">
-            <strong>How to read an index</strong>
-          </div>
-          <div class="dict-example-label" style="margin-top:1px;">
-            Example: <span class="dict-example-idx">0985</span> = <span class="dict-example-word" id="dictExampleWord" style="margin-top:2px;">inner</span>
+          <div class="dict-example-label">How to read an index</div>
+          <div class="dict-example-row">
+            <span class="dict-example-idx">0985</span>
+            <span class="dict-example-eq">=</span>
+            <span class="dict-example-word" id="dictExampleWord">inner</span>
           </div>
 
           <div class="dict-example-grid-wrap">
@@ -147,9 +147,9 @@
             </div>
           </div>
 
-          <p class="dict-example-hint">
-            Filled = punch, empty = skip. Left to right (MSB &rarr; LSB) = top to bottom on plate.
-          </p>
+          <div class="dict-example-formula" id="dictExampleFormula">
+            <!-- Filled by dictionary.js -->
+          </div>
         </div>
 
         <!-- SEARCH + COUNT -->
@@ -158,7 +158,7 @@
             type="text"
             class="dict-search"
             id="dictSearch"
-            placeholder="Search word or index (e.g. 0985)..."
+            placeholder="Search word or index..."
             autocomplete="off"
             autocorrect="off"
             autocapitalize="none"
