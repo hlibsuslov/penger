@@ -169,24 +169,21 @@
     }
     html += '</div>';
 
-    // Bits: position labels + dots (like main menu example)
-    html += '<div class="detail-bits-labeled">';
-    html += '<div class="detail-bits-positions">';
-    for (var p = 0; p < BIT_COUNT; p++) {
-      html += '<span class="detail-pos-label' + (bin[p] === '1' ? ' active' : '') + '">' + BIT_POSITIONS[p] + '</span>';
+    // Binary grid (lp-binary-col style)
+    html += '<div class="detail-binary-cells">';
+    for (var i = 0; i < BIT_COUNT; i++) {
+      var isOn = bin[i] === '1';
+      html += '<div class="detail-binary-col">';
+      html += '<div class="detail-binary-cell ' + (isOn ? 'on' : 'off') + '"><span class="detail-binary-digit">' + bin[i] + '</span></div>';
+      html += '<span class="detail-binary-weight' + (isOn ? ' active' : '') + '">' + BIT_POSITIONS[i] + '</span>';
+      html += '</div>';
     }
-    html += '</div>';
-    html += '<div class="detail-bits-row">';
-    for (var i = 0; i < bin.length; i++) {
-      html += '<span class="detail-dot ' + (bin[i] === '1' ? 'on' : 'off') + '"></span>';
-    }
-    html += '</div>';
     html += '</div>';
 
     // Formula
     var activeParts = [];
     for (var f = 0; f < BIT_COUNT; f++) {
-      if (bin[f] === '1') activeParts.push(BIT_POSITIONS[f]);
+      if (bin[f] === '1') activeParts.push('<strong>' + BIT_POSITIONS[f] + '</strong>');
     }
     if (activeParts.length > 0) {
       html += '<div class="detail-formula">';

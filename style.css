@@ -727,8 +727,11 @@ h3 { font-size: 15px; font-weight: 600; }
 
   .word-detail-inner { font-size: 10px; padding: 10px 10px; }
   .detail-word-name { font-size: 14px; }
-  .detail-bits-positions { display: none; }
-  .detail-dot { width: 10px; height: 10px; }
+  .detail-binary-cells { gap: 2px; }
+  .detail-binary-col { gap: 2px; }
+  .detail-binary-cell { border-radius: 3px; }
+  .detail-binary-digit { font-size: 9px; }
+  .detail-binary-weight { font-size: 6px; }
   .detail-formula { font-size: 10px; }
   .plate-vis { padding: 12px 8px; --cell-w: 22px; --col-gap: 3px; --row-gap: 3px; }
   .plate-vis.wc-md { --cell-w: 18px; }
@@ -1646,26 +1649,35 @@ body.nav-open {
   font-family: var(--font-mono); font-size: 12px; color: var(--text-label);
 }
 
-/* Position labels + dots (matches dict-example-dot style) */
-.detail-bits-labeled { margin-bottom: 4px; }
-.detail-bits-positions { display: flex; gap: 4px; margin-bottom: 3px; }
-.detail-pos-label {
-  width: 12px; text-align: center;
-  font-family: var(--font-mono); font-size: 7px; font-weight: 400;
-  color: var(--text-dim);
+/* Binary grid — mirrors lp-binary-col / lp-binary-cell from landing */
+.detail-binary-cells {
+  display: grid; grid-template-columns: repeat(12, 1fr);
+  gap: 4px; margin-bottom: 6px;
 }
-.detail-pos-label.active { font-weight: 700; color: var(--text-accent); }
-.detail-bits-row { display: inline-flex; gap: 4px; }
-.detail-dot {
-  width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
+.detail-binary-col {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
 }
-.detail-dot.on { background: var(--punch-fill); }
-.detail-dot.off { background: var(--punch-empty); border: 1px solid var(--border-hover); box-sizing: border-box; }
+.detail-binary-cell {
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; aspect-ratio: 1; border-radius: 4px;
+}
+.detail-binary-cell.on { background: var(--punch-fill); }
+.detail-binary-cell.off { background: transparent; border: 1.5px solid var(--border-active); }
+.detail-binary-digit {
+  font-family: var(--font-mono); font-size: 13px; font-weight: 700; line-height: 1;
+}
+.detail-binary-cell.on .detail-binary-digit { color: var(--bg-main); }
+.detail-binary-cell.off .detail-binary-digit { color: var(--text-dim); }
+.detail-binary-weight {
+  font-family: var(--font-mono); font-size: 8px; font-weight: 400;
+  color: var(--text-dim); line-height: 1; text-align: center; white-space: nowrap;
+}
+.detail-binary-weight.active { font-weight: 700; color: var(--text-accent); }
 
 /* Calculation formula */
 .detail-formula {
   font-family: var(--font-mono); font-size: 11px; line-height: 1.5;
-  color: var(--text-dim); margin-top: 4px;
+  color: var(--text-dim); margin-top: 2px;
 }
 .detail-formula strong { color: var(--text-accent); font-weight: 700; }
 
