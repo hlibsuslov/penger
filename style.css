@@ -726,18 +726,11 @@ h3 { font-size: 15px; font-weight: 600; }
   .dict-row .dr-dots { grid-column: 2; }
 
   .word-detail-inner { font-size: 10px; padding: 10px 10px; }
-  .detail-word-name { font-size: 16px; }
-  .detail-stats { gap: 10px; padding: 6px 8px; }
-  .detail-stat-value { font-size: 11px; }
+  .detail-word-name { font-size: 14px; }
   .detail-bits-positions { display: none; }
-  .detail-bit { width: 20px; height: 16px; font-size: 10px; }
-  .detail-formula { font-size: 11px; padding: 4px 8px; }
-  .detail-table { font-size: 10px; }
-  .detail-table th { font-size: 9px; padding: 3px 6px; }
-  .detail-table td { padding: 3px 6px; }
-  .detail-punch-pos { width: 28px; font-size: 9px; }
-  .detail-punch-dot { width: 12px; height: 12px; }
-  .detail-punch-action { font-size: 9px; }
+  .detail-bit { width: 20px; height: 16px; font-size: 9px; }
+  .detail-formula { font-size: 10px; }
+  .detail-punch-dot { width: 10px; height: 10px; }
   .plate-vis { padding: 12px 8px; --cell-w: 22px; --col-gap: 3px; --row-gap: 3px; }
   .plate-vis.wc-md { --cell-w: 18px; }
   .plate-vis.wc-lg { --cell-w: 14px; }
@@ -1641,137 +1634,56 @@ body.nav-open {
 }
 
 /* ====================================================================
-   IMPROVED WORD DETAIL (DICTIONARY EXPANDED ROW)
+   WORD DETAIL (DICTIONARY / SIMULATOR EXPANDED ROW)
    ==================================================================== */
 .detail-word-header {
-  display: flex; align-items: baseline; gap: 12px; margin-bottom: 10px; flex-wrap: wrap;
+  display: flex; align-items: baseline; gap: 10px; margin-bottom: 8px; flex-wrap: wrap;
 }
 .detail-word-name {
-  font-family: var(--font-mono); font-size: 20px; font-weight: 700;
+  font-family: var(--font-mono); font-size: 17px; font-weight: 700;
   color: var(--text-accent);
 }
 .detail-word-index {
-  font-family: var(--font-mono); font-size: 13px; color: var(--text-label);
+  font-family: var(--font-mono); font-size: 12px; color: var(--text-label);
 }
 
-/* Quick stats strip */
-.detail-stats {
-  display: flex; gap: 16px; flex-wrap: wrap;
-  margin-bottom: 16px; padding: 8px 12px;
-  background: var(--bg-surface); border-radius: 4px;
-  border: 1px solid var(--border-default);
-}
-.detail-stat {
-  display: flex; align-items: center; gap: 6px;
-}
-.detail-stat-label {
-  font-family: var(--font-mono); font-size: 10px; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.04em;
-  color: var(--text-dim);
-}
-.detail-stat-value {
-  font-family: var(--font-mono); font-size: 12px; font-weight: 700;
-  color: var(--text-accent); letter-spacing: 0.5px;
-}
-
-/* Section labels */
-.detail-section-label {
-  font-family: var(--font-mono); font-size: 10px; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.06em;
-  color: var(--text-label); margin-bottom: 8px; margin-top: 14px;
-  padding-bottom: 4px; border-bottom: 1px solid var(--border-default);
-}
-.detail-section-hint {
-  font-weight: 400; text-transform: none; letter-spacing: 0;
-  color: var(--text-dim); font-size: 10px;
-}
-
-/* Binary breakdown with position labels */
-.detail-bits-labeled {
-  margin-bottom: 6px;
-}
-.detail-bits-positions {
-  display: flex; gap: 3px; margin-bottom: 2px;
-}
+/* Binary bits with position labels */
+.detail-bits-labeled { margin-bottom: 6px; }
+.detail-bits-positions { display: flex; gap: 3px; margin-bottom: 2px; }
 .detail-pos-label {
   width: 26px; text-align: center;
   font-family: var(--font-mono); font-size: 7px; font-weight: 600;
-  color: var(--text-dim); letter-spacing: 0;
+  color: var(--text-dim);
 }
-.detail-bits-row {
-  display: flex; gap: 3px; flex-wrap: wrap;
-}
+.detail-bits-row { display: flex; gap: 3px; }
 .detail-bit {
-  width: 26px; height: 20px; border-radius: 3px;
+  width: 26px; height: 18px; border-radius: 3px;
   display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
 }
-.detail-bit.b1 {
-  background: var(--punch-fill); color: var(--bg-main);
-}
-.detail-bit.b0 {
-  background: var(--punch-empty); color: var(--text-dim);
-  border: 1px solid var(--border-hover);
-}
+.detail-bit.b1 { background: var(--punch-fill); color: var(--bg-main); }
+.detail-bit.b0 { background: var(--punch-empty); color: var(--text-dim); border: 1px solid var(--border-hover); }
 
 /* Calculation formula */
 .detail-formula {
-  font-family: var(--font-mono); font-size: 12px; line-height: 1.6;
-  color: var(--text-primary); margin-top: 6px; margin-bottom: 4px;
-  padding: 6px 10px; background: var(--bg-surface); border-radius: 3px;
-  border: 1px solid var(--border-default);
+  font-family: var(--font-mono); font-size: 11px; line-height: 1.5;
+  color: var(--text-dim); margin-top: 4px;
 }
-.detail-formula strong {
-  color: var(--text-accent); font-weight: 700;
-}
+.detail-formula strong { color: var(--text-accent); font-weight: 700; }
 
-/* Bit-by-bit table */
-.detail-table {
-  font-family: var(--font-mono); font-size: 11px;
-  border-collapse: collapse; width: 100%; margin-bottom: 8px;
+/* Punch pattern — compact horizontal */
+.detail-punch-section {
+  display: flex; align-items: center; gap: 10px; margin-top: 8px;
 }
-.detail-table th {
-  text-align: left; padding: 5px 8px;
-  color: var(--text-label); font-weight: 600; font-size: 10px;
+.detail-punch-label {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 600;
   text-transform: uppercase; letter-spacing: 0.04em;
-  border-bottom: 1px solid var(--border-default);
+  color: var(--text-label); white-space: nowrap;
 }
-.detail-table td {
-  padding: 4px 8px; color: var(--text-primary); vertical-align: middle;
-  border-bottom: 1px solid var(--border-default);
-}
-.detail-table tr:last-child td { border-bottom: none; }
-.detail-table tr.row-active { background: rgba(255,255,255,0.02); }
-.detail-table .td-pos { color: var(--text-dim); }
-.detail-table .td-active { color: var(--text-accent); font-weight: 700; }
-.detail-table .td-sum { color: var(--text-accent); font-weight: 700; }
-.action-icon {
-  display: inline-block; vertical-align: middle; position: relative; top: -1px; margin-right: 4px;
-}
-.action-icon.punch { color: var(--text-accent); }
-.action-icon.skip { color: var(--text-dim); }
-
-/* Punch pattern — vertical layout with labels */
-.detail-punch-visual {
-  display: flex; flex-direction: column; gap: 2px;
-}
-.detail-punch-row {
-  display: flex; align-items: center; gap: 8px; padding: 1px 0;
-}
-.detail-punch-pos {
-  width: 36px; text-align: right;
-  font-family: var(--font-mono); font-size: 10px; color: var(--text-dim);
-}
-.detail-punch-dot {
-  width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0;
-}
+.detail-punch-dots { display: flex; gap: 4px; }
+.detail-punch-dot { width: 12px; height: 12px; border-radius: 50%; }
 .detail-punch-dot.on { background: var(--punch-fill); }
 .detail-punch-dot.off { background: var(--punch-empty); border: 1px solid var(--border-hover); box-sizing: border-box; }
-.detail-punch-action {
-  font-family: var(--font-mono); font-size: 10px; font-weight: 600;
-  color: var(--text-dim);
-}
-.detail-punch-row .detail-punch-dot.on + .detail-punch-action { color: var(--text-accent); }
 
 /* ====================================================================
    ACADEMY PAGE SECTIONS
