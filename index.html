@@ -573,7 +573,6 @@
   </footer>
 
   <script src="shared.js" defer></script>
-  <script src="script.js" defer></script>
   <script>
   document.addEventListener('DOMContentLoaded', function () {
     var stage = document.querySelector('.lp-plate-stage');
@@ -873,6 +872,187 @@
         hidden = true;
       }
     }, { passive: true });
+  })();
+
+  /* === DICT PICKER: scroll with spring snap-back to active row === */
+  (function () {
+    var body = document.querySelector('.lp-guide-dict-body');
+    if (!body) return;
+
+    var SPRING_STIFFNESS = 300;
+    var SPRING_DAMPING   = 28;
+    var RUBBER_FACTOR    = 0.35;
+    var SETTLE_VEL       = 0.15;
+    var SETTLE_POS       = 0.25;
+    var DT               = 1 / 60;
+    var WHEEL_AMOUNT     = 40;
+
+    var rows = Array.prototype.slice.call(body.querySelectorAll('.lp-guide-dict-row'));
+    if (!rows.length) return;
+
+    var track = document.createElement('div');
+    track.className = 'lp-guide-dict-track';
+    while (body.firstChild) track.appendChild(body.firstChild);
+    body.appendChild(track);
+
+    var rowHeight = 0, viewH = 0, centerOffset = 0, maxOffset = 0;
+    var offset = 0, velocity = 0, activeIndex = 0;
+    var animating = false, phase = 'idle', rafId = null;
+    var dragging = false, dragStartY = 0, dragStartOff = 0;
+    var lastTouchY = 0, lastTouchT = 0, touchVel = 0;
+
+    function recalcGeometry() {
+      rowHeight    = rows[0].offsetHeight;
+      viewH        = body.clientHeight;
+      centerOffset = Math.floor((viewH - rowHeight) / 2);
+      maxOffset    = Math.max(0, (rows.length - 1) * rowHeight);
+    }
+
+    function getOffsetForIdx(idx) { return idx * rowHeight; }
+
+    function clampOffset(off) { return Math.max(0, Math.min(off, maxOffset)); }
+
+    function rubberBand(off) {
+      if (off < 0) return off * RUBBER_FACTOR;
+      if (off > maxOffset) return maxOffset + (off - maxOffset) * RUBBER_FACTOR;
+      return off;
+    }
+
+    function render() {
+      var visualOff = rubberBand(offset);
+      track.style.transform = 'translateY(' + (centerOffset - visualOff) + 'px)';
+    }
+
+    function startAnim() {
+      if (animating) return;
+      animating = true;
+      rafId = requestAnimationFrame(tick);
+    }
+
+    function stopAnim() {
+      animating = false;
+      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+    }
+
+    function tick() {
+      if (!animating) return;
+      if (phase === 'spring') {
+        var target = getOffsetForIdx(activeIndex);
+        var displacement = offset - target;
+        var springForce = -SPRING_STIFFNESS * displacement - SPRING_DAMPING * velocity;
+        velocity += springForce * DT;
+        offset += velocity * DT;
+        render();
+        if (Math.abs(velocity) < SETTLE_VEL && Math.abs(offset - target) < SETTLE_POS) {
+          offset = target;
+          velocity = 0;
+          phase = 'idle';
+          render();
+          stopAnim();
+          return;
+        }
+        rafId = requestAnimationFrame(tick);
+      } else {
+        stopAnim();
+      }
+    }
+
+    function springBack() {
+      phase = 'spring';
+      velocity = 0;
+      startAnim();
+    }
+
+    /* Touch */
+    body.addEventListener('touchstart', function (e) {
+      stopAnim(); phase = 'dragging'; dragging = true;
+      var t = e.touches[0];
+      dragStartY = t.clientY; dragStartOff = offset;
+      lastTouchY = t.clientY; lastTouchT = Date.now(); touchVel = 0;
+    }, { passive: true });
+
+    body.addEventListener('touchmove', function (e) {
+      if (!dragging) return;
+      var t = e.touches[0];
+      offset = dragStartOff + (dragStartY - t.clientY);
+      render();
+    }, { passive: true });
+
+    body.addEventListener('touchend', function () {
+      if (!dragging) return;
+      dragging = false;
+      springBack();
+    }, { passive: true });
+    body.addEventListener('touchcancel', function () {
+      if (!dragging) return;
+      dragging = false;
+      springBack();
+    }, { passive: true });
+
+    /* Mouse drag */
+    var mouseDragging = false;
+    body.addEventListener('mousedown', function (e) {
+      if (e.button !== 0) return;
+      e.preventDefault();
+      stopAnim(); phase = 'dragging'; mouseDragging = true;
+      dragStartY = e.clientY; dragStartOff = offset;
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
+    });
+
+    function onMouseMove(e) {
+      if (!mouseDragging) return;
+      offset = dragStartOff + (dragStartY - e.clientY);
+      render();
+    }
+
+    function onMouseUp() {
+      if (!mouseDragging) return;
+      mouseDragging = false;
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+      springBack();
+    }
+
+    /* Wheel */
+    var wheelTimer = null;
+    body.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      if (phase === 'spring') { stopAnim(); velocity = 0; }
+      var delta = e.deltaY;
+      if (e.deltaMode === 1) delta *= rowHeight;
+      else if (e.deltaMode === 2) delta *= viewH;
+      else delta = delta * (WHEEL_AMOUNT / 100);
+      offset = clampOffset(offset + delta);
+      render();
+      clearTimeout(wheelTimer);
+      wheelTimer = setTimeout(springBack, 120);
+    }, { passive: false });
+
+    body.style.userSelect = 'none';
+    body.style.webkitUserSelect = 'none';
+    body.style.touchAction = 'none';
+
+    /* Resize */
+    function handleResize() {
+      recalcGeometry();
+      offset = getOffsetForIdx(activeIndex);
+      velocity = 0; phase = 'idle';
+      stopAnim(); render();
+    }
+    if (typeof ResizeObserver !== 'undefined') {
+      new ResizeObserver(handleResize).observe(body);
+    } else {
+      window.addEventListener('resize', handleResize);
+    }
+
+    /* Init */
+    recalcGeometry();
+    var initialActive = body.querySelector('.lp-guide-dict-active');
+    if (initialActive) activeIndex = rows.indexOf(initialActive);
+    if (activeIndex < 0) activeIndex = 0;
+    offset = getOffsetForIdx(activeIndex);
+    render();
   })();
   </script>
 </body>
