@@ -221,6 +221,7 @@
 .lp-btn-shimmer {
   position: relative;
   overflow: hidden;
+  font-family: var(--font-sans); font-size: 14px; font-weight: 800;
 }
 .lp-btn-shimmer::after {
   content: '';
@@ -274,7 +275,7 @@
 .lp-btn-primary {
   background: var(--text-accent); color: var(--bg-main);
   border: 1px solid var(--text-accent);
-  font-family: var(--font-sans); font-size: 14px; font-weight: 800;
+  font-family: var(--font-mono); font-size: 13px; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.06em;
   padding: 14px 32px; border-radius: 4px; text-decoration: none;
   display: inline-flex; align-items: center; justify-content: center;
