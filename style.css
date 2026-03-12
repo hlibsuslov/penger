@@ -1653,7 +1653,7 @@ body.nav-open {
   width: 24px; height: 24px; border-radius: 4px;
 }
 .detail-binary-cell.on { background: var(--punch-fill); }
-.detail-binary-cell.off { background: transparent; border: 1.5px solid var(--border-active); }
+.detail-binary-cell.off { background: transparent; border: 1px solid var(--border-active); }
 .detail-binary-digit {
   font-family: var(--font-mono); font-size: 11px; font-weight: 700; line-height: 1;
 }
