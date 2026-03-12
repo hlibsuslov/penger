@@ -110,7 +110,7 @@
         <div class="container">
           <p class="label">[ BIP39 / BINARY ENCODER ]</p>
           <h1>Seed Phrase Generator</h1>
-          <p class="body-text">Generate a cryptographically random BIP39 seed phrase with proper SHA-256 checksum. Each word index (1&ndash;2048) is encoded as a 12-bit binary value and visualized as a dot matrix for metal backup encoding.</p>
+          <p class="body-text">Generate a random BIP39 seed phrase with SHA-256 checksum. Each word is mapped to an index (1&ndash;2048) and visualized as a dot pattern for metal plate backup.</p>
 
           <div class="dict-example-bar" style="margin-top: 20px;">
             <div class="dict-example-label">Example</div>
@@ -155,7 +155,7 @@
         <div class="container">
           <p class="label">[ DOT MATRIX ]</p>
           <h2>Dot Matrix Layout</h2>
-          <p class="body-text" style="margin-top: 8px;">Each column is a word&rsquo;s punch pattern (top &rarr; bottom). Rows = bit weights (2048 down to 1). Filled = punch hole (1). Empty = skip (0).</p>
+          <p class="body-text" style="margin-top: 8px;">Each column represents one word. Filled dot = punch, empty = skip. Rows correspond to bit weights from 2048 (top) to 1 (bottom).</p>
           <div id="genPlateContainer"></div>
         </div>
       </section>
@@ -164,7 +164,7 @@
         <div class="container">
           <p class="label">[ WORD TABLE ]</p>
           <h2>Index / Binary Breakdown</h2>
-          <p class="body-text" style="margin-top: 8px;">Click any row to see the step-by-step binary conversion. The &ldquo;Punch&rdquo; column shows the punch pattern (top &rarr; bottom): filled = punch hole, empty = skip.</p>
+          <p class="body-text" style="margin-top: 8px;">Click any row to expand the binary breakdown and see how the index is calculated.</p>
           <div class="word-table" id="genWordTable"></div>
         </div>
       </section>
@@ -178,7 +178,7 @@
         <div class="container">
           <p class="label">[ BIP39 / BINARY DECODER ]</p>
           <h1>Binary Decoder</h1>
-          <p class="body-text">Input binary patterns by clicking dots on the grid. Each column decodes into a BIP39 word in real time. Valid indices are 1&ndash;2048; all zeros (000000000000) and any value &gt;2048 are marked invalid.</p>
+          <p class="body-text">Click dots on the grid to input binary patterns. Each column decodes into a BIP39 word in real time. Valid indices: 1&ndash;2048.</p>
 
           <div class="dict-example-bar" style="margin-top: 20px;">
             <div class="dict-example-label">Example</div>
@@ -211,7 +211,7 @@
         <div class="container">
           <p class="label">[ INPUT GRID ]</p>
           <h2>Click to Toggle Dots</h2>
-          <p class="body-text" style="margin-top: 8px;">Each column is one word&rsquo;s punch pattern (top &rarr; bottom). Click a dot to toggle punch/skip. Rows = bit weights 2048 down to 1. All zeros = invalid.</p>
+          <p class="body-text" style="margin-top: 8px;">Click a dot to toggle it. Each column is one word, rows are bit weights from 2048 (top) to 1 (bottom).</p>
 
           <div id="decodeMatrixContainer"></div>
 

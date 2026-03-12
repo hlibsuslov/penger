@@ -223,7 +223,7 @@
 
   function renderGenWords(indices) {
     var table = $('genWordTable');
-    table.innerHTML = '<div class="word-row table-head"><span>#</span><span>Word</span><span>Index</span><span>Binary (12-bit)</span><span>Punch</span></div>';
+    table.innerHTML = '<div class="word-row table-head"><span>#</span><span>Word</span><span>Index</span><span>Punch</span></div>';
 
     indices.forEach(function (displayIdx, i) {
       var word = getWordByIndex(displayIdx);
@@ -234,7 +234,6 @@
         '<span class="w-num">' + String(i + 1).padStart(2, '0') + '</span>' +
         '<span class="w-word" translate="no">' + word + '</span>' +
         '<span class="w-index">' + displayIdx + '</span>' +
-        '<span class="w-binary">' + formatBinaryHTML(bin) + '</span>' +
         '<span class="w-dots">' + buildMiniDotsHTML(bin) + '</span>';
 
       var detail = document.createElement('div');
@@ -617,7 +616,7 @@
     var words = [];
     var anyInput = false;
     var hasInvalid = false;
-    var tableHTML = '<div class="decode-word-row table-head"><span>#</span><span>Index</span><span>Binary (12-bit)</span><span>Punch</span><span>Word</span></div>';
+    var tableHTML = '<div class="decode-word-row table-head"><span>#</span><span>Index</span><span>Punch</span><span>Word</span></div>';
 
     for (var w = 0; w < count; w++) {
       var bits = decodeBits[w];
@@ -660,7 +659,6 @@
       tableHTML += '<div class="' + rowClass + '">' +
         '<span class="dw-num">' + String(w + 1).padStart(2, '0') + '</span>' +
         '<span class="dw-index">' + displayIdxStr + '</span>' +
-        '<span class="dw-binary">' + binHTML + '</span>' +
         '<span class="dw-dots">' + dotsHTML + '</span>' +
         '<span class="dw-word" translate="no">' + wordDisplay + '</span></div>';
     }
