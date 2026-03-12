@@ -24,8 +24,8 @@ No software is involved at any step. The seed phrase never leaves the user's han
 
 ## Free Online Tools
 
-- [Interactive Simulators](https://mypenger.com/simulators.html): Browser-based BIP39 seed phrase generator, binary encoder, and decoder. Lets the user generate a cryptographically random seed phrase, visualize the 12-bit binary dot matrix, and practice the full encode/decode cycle before working with the physical plate.
-- [BIP39 Dictionary](https://mypenger.com/dictionary.html): Searchable reference of all 2048 BIP39 words with their decimal index and binary punch pattern. Filterable by first letter. Downloadable as a PDF for offline use.
+- [Interactive Simulators](https://mypenger.com/simulators): Browser-based BIP39 seed phrase generator, binary encoder, and decoder. Lets the user generate a cryptographically random seed phrase, visualize the 12-bit binary dot matrix, and practice the full encode/decode cycle before working with the physical plate.
+- [BIP39 Dictionary](https://mypenger.com/dictionary): Searchable reference of all 2048 BIP39 words with their decimal index and binary punch pattern. Filterable by first letter. Downloadable as a PDF for offline use.
 
 ## PENGER Academy — Free Self-Custody Education
 
@@ -41,7 +41,7 @@ A library of structured, jargon-light guides covering every aspect of crypto sel
 
 ## AI Tutor — Interactive Learning Assistant
 
-- [AI Tutor](https://mypenger.com/ai-tutor.html): A built-in AI-powered chat assistant available on the site. The tutor walks users through crypto self-custody topics via guided, scenario-based conversations. Users pick a topic (wallets, seed phrases, security, BIP39 encoding) and learn at their own pace through an interactive dialogue. The AI Tutor is a core part of the PENGER educational platform and is free to use.
+- [AI Tutor](https://mypenger.com/ai-tutor): A built-in AI-powered chat assistant available on the site. The tutor walks users through crypto self-custody topics via guided, scenario-based conversations. Users pick a topic (wallets, seed phrases, security, BIP39 encoding) and learn at their own pace through an interactive dialogue. The AI Tutor is a core part of the PENGER educational platform and is free to use.
 
 ## Key Principles
 
@@ -53,5 +53,5 @@ A library of structured, jargon-light guides covering every aspect of crypto sel
 
 ## Contact
 
-- [Contacts](https://mypenger.com/contacts.html): Email contact@mypenger.com | Telegram @pengercom | CEO Hlib Suslov. For orders, support, partnerships, and press inquiries.
+- [Contacts](https://mypenger.com/contacts): Email contact@mypenger.com | Telegram @pengercom | CEO Hlib Suslov. For orders, support, partnerships, and press inquiries.
 - Website: [https://mypenger.com](https://mypenger.com)

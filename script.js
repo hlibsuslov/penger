@@ -771,33 +771,196 @@
     }, 250);
   });
 
-  // Dict snap-back: auto-center on active row after user stops scrolling
+  // Dict picker: spring-physics snap-to-center (wheel / picker behavior)
   document.querySelectorAll('.lp-guide-dict-body').forEach(function(body) {
-    var timer;
-    var isUserScrolling = false;
-    function snapBack() {
-      var active = body.querySelector('.lp-guide-dict-active');
-      if (!active) return;
-      var top = active.offsetTop - body.offsetTop - body.clientHeight / 2 + active.offsetHeight / 2;
-      isUserScrolling = false;
-      body.scrollTo({ top: top, behavior: 'smooth' });
+    var STIFFNESS = 180;
+    var DAMPING = 22;
+    var DT = 1 / 60;
+    var SETTLE_VEL = 0.1;
+    var SETTLE_POS = 0.3;
+    var SNAP_DELAY_TOUCH = 150;
+    var SNAP_DELAY_WHEEL = 300;
+    var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Collect real rows (no spacers)
+    var rows = Array.prototype.slice.call(body.querySelectorAll('.lp-guide-dict-row'));
+    if (!rows.length) return;
+
+    var rowHeight = rows[0].offsetHeight;
+    var activeIndex = -1;
+    var animating = false;
+    var programmaticScroll = false;
+    var springPos = 0;
+    var springVel = 0;
+    var springTarget = 0;
+    var snapTimer = null;
+    var topSpacer = null;
+    var bottomSpacer = null;
+
+    // --- Spacers ---
+    function calcSpacerHeight() {
+      return Math.floor((body.clientHeight - rowHeight) / 2);
     }
-    snapBack();
-    body.addEventListener('scroll', function() {
-      if (!isUserScrolling) {
-        isUserScrolling = true;
+
+    function insertSpacers() {
+      var h = calcSpacerHeight();
+      topSpacer = document.createElement('div');
+      topSpacer.className = 'lp-guide-dict-spacer';
+      topSpacer.style.height = h + 'px';
+      body.insertBefore(topSpacer, body.firstChild);
+      bottomSpacer = document.createElement('div');
+      bottomSpacer.className = 'lp-guide-dict-spacer';
+      bottomSpacer.style.height = h + 'px';
+      body.appendChild(bottomSpacer);
+    }
+
+    function updateSpacers() {
+      var h = calcSpacerHeight();
+      if (topSpacer) topSpacer.style.height = h + 'px';
+      if (bottomSpacer) bottomSpacer.style.height = h + 'px';
+    }
+
+    // --- Index / scroll helpers ---
+    function getCenterIndex() {
+      var idx = Math.round(body.scrollTop / rowHeight);
+      return Math.max(0, Math.min(idx, rows.length - 1));
+    }
+
+    function getTargetScroll(idx) {
+      return idx * rowHeight;
+    }
+
+    function updateActiveRow() {
+      var idx = getCenterIndex();
+      if (idx === activeIndex) return;
+      if (activeIndex >= 0 && activeIndex < rows.length) {
+        rows[activeIndex].classList.remove('lp-guide-dict-active');
       }
-      clearTimeout(timer);
-      timer = setTimeout(snapBack, 800);
+      activeIndex = idx;
+      rows[activeIndex].classList.add('lp-guide-dict-active');
+    }
+
+    // --- Spring animation ---
+    function startSpring(target) {
+      springTarget = target;
+      springPos = body.scrollTop;
+      springVel = 0;
+      if (reducedMotion) {
+        programmaticScroll = true;
+        body.scrollTop = springTarget;
+        animating = false;
+        updateActiveRow();
+        requestAnimationFrame(function() { programmaticScroll = false; });
+        return;
+      }
+      if (!animating) {
+        animating = true;
+        requestAnimationFrame(tick);
+      }
+    }
+
+    function tick() {
+      if (!animating) return;
+      var force = -STIFFNESS * (springPos - springTarget) - DAMPING * springVel;
+      springVel += force * DT;
+      springPos += springVel * DT;
+
+      programmaticScroll = true;
+      body.scrollTop = springPos;
+
+      updateActiveRow();
+
+      if (Math.abs(springVel) < SETTLE_VEL && Math.abs(springPos - springTarget) < SETTLE_POS) {
+        body.scrollTop = springTarget;
+        animating = false;
+        programmaticScroll = false;
+        updateActiveRow();
+        return;
+      }
+      requestAnimationFrame(tick);
+    }
+
+    function cancelSpring() {
+      animating = false;
+      springVel = 0;
+      clearTimeout(snapTimer);
+      snapTimer = null;
+    }
+
+    function scheduleSnap(delay) {
+      clearTimeout(snapTimer);
+      snapTimer = setTimeout(function() {
+        var idx = getCenterIndex();
+        startSpring(getTargetScroll(idx));
+      }, delay);
+    }
+
+    // --- Event listeners ---
+    body.addEventListener('scroll', function() {
+      if (programmaticScroll) {
+        programmaticScroll = false;
+        return;
+      }
+      updateActiveRow();
+      scheduleSnap(SNAP_DELAY_WHEEL);
     }, { passive: true });
+
+    body.addEventListener('touchstart', function() {
+      cancelSpring();
+    }, { passive: true });
+
     body.addEventListener('touchend', function() {
-      clearTimeout(timer);
-      timer = setTimeout(snapBack, 400);
+      scheduleSnap(SNAP_DELAY_TOUCH);
     }, { passive: true });
-    body.addEventListener('mouseup', function() {
-      clearTimeout(timer);
-      timer = setTimeout(snapBack, 400);
+
+    body.addEventListener('mousedown', function() {
+      cancelSpring();
     });
+
+    body.addEventListener('mouseup', function() {
+      scheduleSnap(SNAP_DELAY_TOUCH);
+    });
+
+    body.addEventListener('wheel', function() {
+      cancelSpring();
+      scheduleSnap(SNAP_DELAY_WHEEL);
+    }, { passive: true });
+
+    // --- Resize handling ---
+    var resizeTimer = null;
+    function handleResize() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function() {
+        rowHeight = rows[0].offsetHeight;
+        updateSpacers();
+        cancelSpring();
+        var target = getTargetScroll(activeIndex >= 0 ? activeIndex : 0);
+        programmaticScroll = true;
+        body.scrollTop = target;
+        requestAnimationFrame(function() { programmaticScroll = false; });
+      }, 100);
+    }
+
+    if (typeof ResizeObserver !== 'undefined') {
+      new ResizeObserver(handleResize).observe(body);
+    } else {
+      window.addEventListener('resize', handleResize);
+    }
+
+    // --- Init ---
+    insertSpacers();
+
+    // Determine initial active row from HTML markup
+    var initialActive = body.querySelector('.lp-guide-dict-active');
+    if (initialActive) {
+      activeIndex = rows.indexOf(initialActive);
+    }
+    if (activeIndex < 0) activeIndex = 0;
+
+    // Center on initial active row (no animation)
+    programmaticScroll = true;
+    body.scrollTop = getTargetScroll(activeIndex);
+    requestAnimationFrame(function() { programmaticScroll = false; });
   });
 
 })();
