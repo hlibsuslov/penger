@@ -16,6 +16,7 @@
   --border-default: #E0E0E0;
   --border-hover: #CFCFCF;
   --border-active: #BBBBBB;
+  --border-off: #999999;
   --border-success: rgba(0,0,0,0.28);
   --glow: rgba(0,0,0,0.06);
   --punch-fill: #0A0A0A;
@@ -48,6 +49,7 @@
     --border-default: rgba(255,255,255,0.10);
     --border-hover: rgba(255,255,255,0.16);
     --border-active: rgba(255,255,255,0.25);
+    --border-off: rgba(255,255,255,0.35);
     --border-success: rgba(255,255,255,0.28);
     --glow: rgba(255,255,255,0.04);
     --punch-fill: #D0D0D0;

@@ -771,7 +771,31 @@
     }, 250);
   });
 
-  // Dict snap-back: auto-center on active row after user stops scrolling
+  // Dict snap-back: auto-center on active row with spring animation
+  function springScrollTo(element, targetTop, duration) {
+    var startTop = element.scrollTop;
+    var distance = targetTop - startTop;
+    if (Math.abs(distance) < 1) return;
+    var startTime = null;
+    var animId = null;
+    function springEase(t) {
+      return 1 - Math.exp(-6 * t) * Math.cos(4 * Math.PI * t);
+    }
+    function step(timestamp) {
+      if (!startTime) startTime = timestamp;
+      var progress = Math.min((timestamp - startTime) / duration, 1);
+      element.scrollTop = startTop + distance * springEase(progress);
+      if (progress < 1) {
+        animId = requestAnimationFrame(step);
+      }
+    }
+    if (element._springAnim) cancelAnimationFrame(element._springAnim);
+    element._springAnim = requestAnimationFrame(function(ts) {
+      animId = requestAnimationFrame(step);
+      element._springAnim = animId;
+    });
+  }
+
   document.querySelectorAll('.lp-guide-dict-body').forEach(function(body) {
     var timer;
     var isUserScrolling = false;
@@ -780,7 +804,7 @@
       if (!active) return;
       var top = active.offsetTop - body.offsetTop - body.clientHeight / 2 + active.offsetHeight / 2;
       isUserScrolling = false;
-      body.scrollTo({ top: top, behavior: 'smooth' });
+      springScrollTo(body, top, 500);
     }
     snapBack();
     body.addEventListener('scroll', function() {
@@ -788,15 +812,15 @@
         isUserScrolling = true;
       }
       clearTimeout(timer);
-      timer = setTimeout(snapBack, 800);
+      timer = setTimeout(snapBack, 300);
     }, { passive: true });
     body.addEventListener('touchend', function() {
       clearTimeout(timer);
-      timer = setTimeout(snapBack, 400);
+      timer = setTimeout(snapBack, 300);
     }, { passive: true });
     body.addEventListener('mouseup', function() {
       clearTimeout(timer);
-      timer = setTimeout(snapBack, 400);
+      timer = setTimeout(snapBack, 300);
     });
   });
 

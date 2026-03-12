@@ -274,7 +274,7 @@
 .lp-btn-primary {
   background: var(--text-accent); color: var(--bg-main);
   border: 1px solid var(--text-accent);
-  font-family: var(--font-mono); font-size: 13px; font-weight: 700;
+  font-family: var(--font-sans); font-size: 14px; font-weight: 800;
   text-transform: uppercase; letter-spacing: 0.06em;
   padding: 14px 32px; border-radius: 4px; text-decoration: none;
   display: inline-flex; align-items: center; justify-content: center;
@@ -600,7 +600,7 @@
 .lp-guide-punch-dots { display: grid; grid-template-columns: repeat(12, 1fr); gap: 8px; width: 100%; }
 .lp-gdot { aspect-ratio: 1; width: 100%; border-radius: 5px; }
 .lp-gdot.on { background: var(--punch-fill); }
-.lp-gdot.off { background: transparent; border: 1.5px solid var(--border-active); }
+.lp-gdot.off { background: transparent; border: 2px solid var(--border-off); }
 .lp-guide-punch-img { display: block; width: 100%; }
 .lp-guide-punch-img img { display: block; width: 100%; height: auto; border-radius: 4px; }
 .lp-guide-punch-word { font-family: var(--font-mono); font-size: 12px; font-weight: 500; color: var(--text-dim); }
@@ -626,13 +626,16 @@
 }
 .lp-binary-grid {
   --lp-binary-edge-size: 22px;
+  position: relative;
   display: flex; align-items: center; gap: 0;
-  overflow: hidden;
+  overflow: visible;
+  margin-left: var(--lp-binary-edge-size);
+  margin-right: var(--lp-binary-edge-size);
 }
 .lp-binary-edge-label {
   font-family: var(--font-mono); font-size: 9px; font-weight: 700;
   text-transform: uppercase; letter-spacing: .08em;
-  color: var(--text-accent); flex-shrink: 0;
+  color: var(--text-accent);
   writing-mode: vertical-rl;
   text-orientation: mixed;
   display: inline-flex;
@@ -642,20 +645,22 @@
   height: var(--lp-binary-edge-size);
   line-height: 1;
   padding: 0;
+  position: absolute;
+  top: 50%;
 }
 .lp-binary-edge-top {
-  transform: rotate(180deg);
-  align-self: center;
+  transform: rotate(180deg) translateY(50%);
+  left: calc(-1 * var(--lp-binary-edge-size));
 }
 .lp-binary-edge-bottom {
-  align-self: center;
+  transform: translateY(-50%);
+  right: calc(-1 * var(--lp-binary-edge-size));
 }
 .lp-binary-cells {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: 8px;
-  flex: 1;
-  min-width: 0;
+  width: 100%;
 }
 .lp-binary-col {
   display: flex; flex-direction: column; align-items: center;
@@ -668,7 +673,7 @@
   min-width: 0;
 }
 .lp-binary-cell.on { background: var(--punch-fill); }
-.lp-binary-cell.off { background: transparent; border: 1.5px solid var(--border-active); }
+.lp-binary-cell.off { background: transparent; border: 2px solid var(--border-off); }
 .lp-binary-digit {
   font-family: var(--font-mono); font-size: 14px; font-weight: 700;
   line-height: 1;
@@ -836,11 +841,11 @@
   .lp-plate { width: min(420px, 110vw); max-width: none; }
   .lp-plate-stage { height: clamp(380px, 58vh, 520px); }
   .lp-hero { padding: 25px 0 40px; }
-  .lp-h1 { font-size: 30px; }
+  .lp-h1 { font-size: 30px; margin-bottom: 12px; }
   .lp-h2 { font-size: 24px; }
   .lp-subheadline { font-size: 14px; }
   .lp-section { padding: 48px 0; }
-  .lp-hero-image { margin-top: -15px; margin-left: -8px; margin-right: -8px; }
+  .lp-hero-image { margin-top: 0; margin-left: -8px; margin-right: -8px; }
   .lp-hero-image { margin-bottom: 0; }
   .lp-hero-tagline { font-size: 18px; }
   .lp-hero-corner { width: 14px; height: 14px; }
@@ -884,7 +889,7 @@
   }
   .lp-guide-punch-dots { gap: 4px; }
   .lp-binary-card { padding: 14px; gap: 12px; }
-  .lp-binary-grid { --lp-binary-edge-size: 14px; margin: 0 -6px; }
+  .lp-binary-grid { --lp-binary-edge-size: 14px; margin-left: 14px; margin-right: 14px; }
   .lp-binary-edge-label { font-size: 6px; }
   .lp-binary-cells { gap: 4px; }
   .lp-binary-col { gap: 3px; }
@@ -918,7 +923,7 @@
   .lp-plate { width: min(380px, 108vw); }
   .lp-plate-stage { height: clamp(340px, 50vh, 440px); }
   .lp-hero { padding: 25px 0 24px; }
-  .lp-h1 { font-size: 24px; }
+  .lp-h1 { font-size: 24px; margin-bottom: 10px; }
   .lp-h2 { font-size: 20px; }
   .lp-subheadline { font-size: 13px; }
   .lp-section { padding: 32px 0; }
@@ -964,7 +969,7 @@
   .lp-binary-cell { border-radius: 2px; }
   .lp-binary-cells { gap: 2px; }
   .lp-binary-col { gap: 2px; }
-  .lp-binary-grid { --lp-binary-edge-size: 12px; margin: 0 -4px; }
+  .lp-binary-grid { --lp-binary-edge-size: 12px; margin-left: 12px; margin-right: 12px; }
   .lp-binary-edge-label { font-size: 5px; }
   .lp-binary-index-val { font-size: 14px; }
   .lp-binary-formula { font-size: 10px; }
