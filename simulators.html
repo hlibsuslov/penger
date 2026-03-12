@@ -16,51 +16,128 @@
   <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="description" content="Free offline BIP39 seed phrase generator, binary encoder, decoder and complete 2048-word dictionary. Convert mnemonic words to 12-bit binary for metal backup.">
-  <meta name="keywords" content="BIP39, seed phrase, mnemonic, binary encoder, crypto backup, bitcoin wallet, seed generator, binary decoder, 2048 wordlist, dot matrix">
-  <meta name="robots" content="index, follow">
+  <meta name="description" content="Free offline BIP39 seed phrase generator and binary encoder/decoder. Convert mnemonic words to 12-bit binary dot patterns for titanium plate backup. Generate 12, 15, 18, 21 or 24-word seed phrases with SHA-256 checksum.">
+  <meta name="keywords" content="BIP39, seed phrase generator, mnemonic generator, binary encoder, binary decoder, crypto backup, bitcoin wallet backup, seed phrase to binary, convert seed phrase binary, BIP39 binary, 2048 wordlist, dot matrix, seed phrase dot pattern, metal backup, titanium backup, offline seed generator, mnemonic to binary, seed phrase encoder, seed phrase decoder, crypto seed storage, bitcoin seed phrase, seed phrase punch card, seed phrase steel plate, cold storage backup, 12 word seed phrase, 24 word seed phrase, seed phrase binary converter, BIP39 encoder, BIP39 decoder, mnemonic binary conversion, seed phrase visualization">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
   <meta name="author" content="PENGER">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://mypenger.com/simulators">
-  <meta property="og:title" content="Interactive Simulators — PENGER">
-  <meta property="og:description" content="Generate BIP39 seed phrases and encode them as 12-bit binary patterns. Practice encoding and decoding offline before punching your titanium plate.">
+  <meta property="og:title" content="BIP39 Seed Phrase Generator & Binary Encoder — Free Offline Tool | PENGER">
+  <meta property="og:description" content="Generate random BIP39 seed phrases and convert them to binary dot patterns for titanium plate backup. Offline encoder and decoder with SHA-256 checksum. Supports 12 to 24 words.">
   <meta property="og:image" content="https://mypenger.com/og-image.png">
   <meta property="og:site_name" content="PENGER">
   <meta property="og:locale" content="en_US">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Interactive Simulators — PENGER">
-  <meta name="twitter:description" content="Generate BIP39 seed phrases and encode them as 12-bit binary patterns. Practice offline before punching your titanium plate.">
+  <meta name="twitter:title" content="BIP39 Seed Phrase Generator & Binary Encoder — Free Offline Tool">
+  <meta name="twitter:description" content="Generate BIP39 seed phrases, convert to 12-bit binary, and visualize dot patterns for metal plate backup. 100% offline, no data transmitted.">
   <meta name="twitter:image" content="https://mypenger.com/og-image.png">
   <link rel="canonical" href="https://mypenger.com/simulators">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <title>Interactive Simulators &mdash; PENGER</title>
+  <title>BIP39 Seed Phrase Generator &amp; Binary Encoder/Decoder &mdash; Free Offline Tool | PENGER</title>
   <script type="application/ld+json">
-  {
+  [{
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "Interactive Simulators — PENGER",
+    "name": "BIP39 Seed Phrase Generator & Binary Encoder",
     "url": "https://mypenger.com/simulators",
-    "description": "Free offline BIP39 seed phrase generator, binary encoder, decoder and complete 2048-word dictionary. Convert mnemonic words to 12-bit binary for metal backup.",
-    "applicationCategory": "EducationalApplication",
+    "description": "Free offline BIP39 seed phrase generator and binary encoder/decoder. Convert mnemonic words to 12-bit binary dot patterns for titanium plate backup. Supports 12, 15, 18, 21 and 24-word phrases with SHA-256 checksum.",
+    "applicationCategory": "SecurityApplication",
     "operatingSystem": "All",
+    "browserRequirements": "Requires JavaScript",
+    "softwareVersion": "1.0",
+    "permissions": "none",
     "offers": {
       "@type": "Offer",
       "price": "0",
       "priceCurrency": "USD"
-    }
-  }
+    },
+    "creator": {
+      "@type": "Organization",
+      "name": "PENGER",
+      "url": "https://mypenger.com"
+    },
+    "featureList": [
+      "BIP39 seed phrase generation with SHA-256 checksum",
+      "12-bit binary encoding and decoding",
+      "Dot matrix visualization for metal plate backup",
+      "Support for 12, 15, 18, 21 and 24-word phrases",
+      "100% offline — no data transmitted",
+      "Interactive binary decoder with click-to-toggle grid"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mypenger.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Simulators", "item": "https://mypenger.com/simulators" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is a BIP39 seed phrase?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A BIP39 seed phrase (mnemonic phrase) is a set of 12 to 24 words chosen from a standardized list of 2048 words. It serves as a human-readable backup of your cryptocurrency wallet's private keys. Each word maps to an index (1–2048) that can be represented as a 12-bit binary value."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you convert a seed phrase to binary?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Each BIP39 word corresponds to an index number from 1 to 2048. This index is converted to a 12-bit binary value (e.g., index 985 = 001111011001). The binary representation can then be punched as a dot pattern on a metal plate — filled dot means 1, empty means 0."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why use a metal plate backup for seed phrases?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Paper backups are vulnerable to fire, water, and degradation. A titanium or steel plate backup stores your seed phrase as punched dot patterns that are fireproof, waterproof, and virtually indestructible. The binary encoding makes it compact and tamper-evident."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this seed phrase generator safe to use?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "This tool runs entirely in your browser with no network requests. No data is transmitted or stored on any server. The random generation uses the Web Crypto API (crypto.getRandomValues) for cryptographically secure randomness. For real wallet backups, always use your hardware wallet's built-in generator."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What do the dots on the metal plate mean?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Each column on the plate represents one word from your seed phrase. The 12 rows correspond to bit weights from 2048 (top) to 1 (bottom). A filled/punched dot means binary 1, an empty dot means binary 0. Reading the dots from top to bottom gives you the binary index of the word."
+        }
+      }
+    ]
+  }]
   </script>
 </head>
 <body class="page-simulators">
-  <noscript><p style="padding:40px;text-align:center;font-size:16px;">This application requires JavaScript to function.</p></noscript>
+  <noscript>
+    <div style="padding:40px;max-width:640px;margin:0 auto;font-size:15px;line-height:1.8;">
+      <h1>BIP39 Seed Phrase Generator &amp; Binary Encoder/Decoder</h1>
+      <p>This free offline tool generates BIP39 mnemonic seed phrases with SHA-256 checksum and converts them to 12-bit binary dot patterns for titanium metal plate backup.</p>
+      <p><strong>Features:</strong> Generate 12, 15, 18, 21 or 24-word seed phrases. Encode mnemonic words to binary. Decode binary patterns back to BIP39 words. Visualize dot matrix layouts for metal plate punching.</p>
+      <p>JavaScript is required to use the interactive simulator. Please enable JavaScript in your browser settings.</p>
+    </div>
+  </noscript>
 
   <!-- ===== SHARED HEADER / NAV ===== -->
   <header class="site-header">
     <div class="container">
-      <a href="/" class="site-logo"><img src="PENGER.svg" alt="PENGER" height="20"></a>
+      <a href="/" class="site-logo"><img src="PENGER.svg" alt="PENGER — Titanium Seed Phrase Backup Kit" height="20"></a>
       <nav class="site-nav" id="siteNav">
         <a href="/" class="nav-link">Home</a>
         <div class="nav-dropdown" id="navDropdown">
@@ -109,8 +186,8 @@
       <section class="section-intro">
         <div class="container">
           <p class="label">[ BIP39 / BINARY ENCODER ]</p>
-          <h1>Seed Phrase Generator</h1>
-          <p class="body-text">Generate a random BIP39 seed phrase with SHA-256 checksum. Each word is mapped to an index (1&ndash;2048) and visualized as a dot pattern for metal plate backup.</p>
+          <h1>BIP39 Seed Phrase Generator</h1>
+          <p class="body-text">Generate a random BIP39 mnemonic seed phrase with SHA-256 checksum. Each word is mapped to a binary index (1&ndash;2048) and converted to a dot pattern for metal plate backup. Supports 12, 15, 18, 21 and 24-word phrases.</p>
 
           <div class="dict-example-bar" style="margin-top: 20px;">
             <div class="dict-example-label">Example</div>
@@ -154,8 +231,8 @@
       <section class="section-block result-area" id="genPlateSection" hidden>
         <div class="container">
           <p class="label">[ DOT MATRIX ]</p>
-          <h2>Dot Matrix Layout</h2>
-          <p class="body-text" style="margin-top: 8px;">Each column represents one word. Filled dot = punch, empty = skip. Rows correspond to bit weights from 2048 (top) to 1 (bottom).</p>
+          <h2>Seed Phrase Dot Matrix for Metal Plate</h2>
+          <p class="body-text" style="margin-top: 8px;">Each column represents one word from your seed phrase. A filled dot means punch (binary 1), empty means skip (binary 0). Rows are bit weights from 2048 (top) to 1 (bottom).</p>
           <div id="genPlateContainer"></div>
         </div>
       </section>
@@ -163,8 +240,8 @@
       <section class="section-block result-area" id="genWordsSection" hidden>
         <div class="container">
           <p class="label">[ WORD TABLE ]</p>
-          <h2>Index / Binary Breakdown</h2>
-          <p class="body-text" style="margin-top: 8px;">Click any row to expand the binary breakdown and see how the index is calculated.</p>
+          <h2>Word Index &amp; Binary Breakdown</h2>
+          <p class="body-text" style="margin-top: 8px;">Click any row to see how the BIP39 word index is converted to 12-bit binary and how bit weights sum to the index number.</p>
           <div class="word-table" id="genWordTable"></div>
         </div>
       </section>
@@ -177,8 +254,8 @@
       <section class="section-intro">
         <div class="container">
           <p class="label">[ BIP39 / BINARY DECODER ]</p>
-          <h1>Binary Decoder</h1>
-          <p class="body-text">Click dots on the grid to input binary patterns. Each column decodes into a BIP39 word in real time. Valid indices: 1&ndash;2048.</p>
+          <h1>BIP39 Binary Decoder</h1>
+          <p class="body-text">Decode binary dot patterns back into BIP39 seed phrase words. Click dots on the grid to input a pattern &mdash; each column decodes into a mnemonic word in real time. Valid indices: 1&ndash;2048.</p>
 
           <div class="dict-example-bar" style="margin-top: 20px;">
             <div class="dict-example-label">Example</div>
@@ -210,8 +287,8 @@
       <section class="section-block">
         <div class="container">
           <p class="label">[ INPUT GRID ]</p>
-          <h2>Click to Toggle Dots</h2>
-          <p class="body-text" style="margin-top: 8px;">Click a dot to toggle it. Each column is one word, rows are bit weights from 2048 (top) to 1 (bottom).</p>
+          <h2>Interactive Binary Input Grid</h2>
+          <p class="body-text" style="margin-top: 8px;">Click a dot to toggle between punched (1) and empty (0). Each column encodes one seed phrase word. Rows represent bit weights from 2048 (top) to 1 (bottom).</p>
 
           <div id="decodeMatrixContainer"></div>
 
@@ -224,7 +301,7 @@
       <section class="section-block">
         <div class="container">
           <p class="label">[ DECODED RESULT ]</p>
-          <h2>Seed Phrase</h2>
+          <h2>Decoded Seed Phrase</h2>
 
           <div class="decode-seed-output" id="decodeSeedOutput">
             <span class="seed-word empty-word">waiting for input...</span>
@@ -236,6 +313,40 @@
       </section>
     </div>
 
+    <!-- ==================== FAQ ==================== -->
+    <section class="section-block faq-section">
+      <div class="container">
+        <p class="label">[ FAQ ]</p>
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-chat" id="simFaq">
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">What is a BIP39 seed phrase and why does it matter?<span class="faq-arrow">&#x203A;</span></button>
+            <div class="faq-bubble-wrap"><div class="faq-bubble">A BIP39 seed phrase (also called a mnemonic phrase) is a set of 12 to 24 words from a standardized 2048-word list. It is the master backup of your cryptocurrency wallet &mdash; from these words, all your private keys can be derived. Losing your seed phrase means losing access to your funds permanently.</div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">How does seed phrase to binary conversion work?<span class="faq-arrow">&#x203A;</span></button>
+            <div class="faq-bubble-wrap"><div class="faq-bubble">Each BIP39 word maps to an index number between 1 and 2048. This index is encoded as a 12-bit binary value. For example, the word &ldquo;inner&rdquo; has index 985, which in binary is 001111011001. Each bit (1 or 0) becomes a dot on the metal plate &mdash; filled means punch, empty means skip.</div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">Why store a seed phrase on a metal plate instead of paper?<span class="faq-arrow">&#x203A;</span></button>
+            <div class="faq-bubble-wrap"><div class="faq-bubble">Paper backups degrade over time and are vulnerable to fire, water, and physical damage. A titanium plate can survive temperatures above 1,600&deg;C, is waterproof, and resists corrosion. The binary dot pattern format is compact, tamper-evident, and can encode a full 24-word seed phrase on a single plate.</div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">Is this seed phrase generator secure?<span class="faq-arrow">&#x203A;</span></button>
+            <div class="faq-bubble-wrap"><div class="faq-bubble">This tool runs 100% in your browser &mdash; no data is ever sent to any server. Random generation uses the Web Crypto API (crypto.getRandomValues) for cryptographically secure randomness. The page works fully offline. For actual wallet backups, we recommend using your hardware wallet&rsquo;s built-in seed generator and this tool only for practice and verification.</div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">What do 12, 15, 18, 21 and 24-word seed phrases mean?<span class="faq-arrow">&#x203A;</span></button>
+            <div class="faq-bubble-wrap"><div class="faq-bubble">The word count determines the entropy (randomness) of your seed. 12 words = 128 bits, 15 = 160 bits, 18 = 192 bits, 21 = 224 bits, 24 = 256 bits. More words mean stronger security. Most hardware wallets use 12 or 24 words. The last word includes a SHA-256 checksum to catch transcription errors.</div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">How do I read the dot pattern on a metal plate?<span class="faq-arrow">&#x203A;</span></button>
+            <div class="faq-bubble-wrap"><div class="faq-bubble">Each column on the plate represents one seed word. The 12 rows correspond to bit weights: 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1 (top to bottom). A punched dot = 1, empty = 0. Add up the bit weights for all punched positions to get the word index, then look it up in the BIP39 dictionary.</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <div class="dot-tooltip" id="dotTooltip"></div>
@@ -244,7 +355,7 @@
   <footer class="site-footer">
     <div class="container">
       <div class="footer-top">
-        <div class="footer-brand"><img src="PENGER.svg" alt="PENGER" height="16"></div>
+        <div class="footer-brand"><img src="PENGER.svg" alt="PENGER — Titanium Seed Phrase Backup" height="16"></div>
         <nav class="footer-nav" aria-label="Footer">
           <a href="/" class="footer-link">Home</a>
           <a href="/dictionary" class="footer-link">Dictionary</a>
@@ -254,7 +365,7 @@
           <a href="/about-us" class="footer-link">About Us</a>
         </nav>
       </div>
-      <p class="footer-disclaimer">This tool runs fully offline in your browser &mdash; no data is transmitted. For real wallet backups, always use your hardware wallet's built-in seed generator.</p>
+      <p class="footer-disclaimer">This BIP39 seed phrase tool runs fully offline in your browser &mdash; no data is transmitted or stored. For real cryptocurrency wallet backups, always use your hardware wallet&rsquo;s built-in seed generator and verify independently.</p>
       <div class="footer-bottom">
         <span>&copy; 2026 PENGER</span>
         <span>100% CLIENT-SIDE / NO TRACKING</span>
