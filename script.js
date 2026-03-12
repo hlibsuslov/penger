@@ -774,16 +774,29 @@
   // Dict snap-back: auto-center on active row after user stops scrolling
   document.querySelectorAll('.lp-guide-dict-body').forEach(function(body) {
     var timer;
+    var isUserScrolling = false;
     function snapBack() {
       var active = body.querySelector('.lp-guide-dict-active');
       if (!active) return;
       var top = active.offsetTop - body.offsetTop - body.clientHeight / 2 + active.offsetHeight / 2;
+      isUserScrolling = false;
       body.scrollTo({ top: top, behavior: 'smooth' });
     }
     snapBack();
     body.addEventListener('scroll', function() {
+      if (!isUserScrolling) {
+        isUserScrolling = true;
+      }
       clearTimeout(timer);
-      timer = setTimeout(snapBack, 1200);
+      timer = setTimeout(snapBack, 800);
+    }, { passive: true });
+    body.addEventListener('touchend', function() {
+      clearTimeout(timer);
+      timer = setTimeout(snapBack, 400);
+    }, { passive: true });
+    body.addEventListener('mouseup', function() {
+      clearTimeout(timer);
+      timer = setTimeout(snapBack, 400);
     });
   });
 
