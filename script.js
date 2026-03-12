@@ -777,6 +777,7 @@
   // FAQ embedded examples
   initExampleGrid('faqExampleGrid1', 'faqExampleFormula1', 985);   // inner
   initExampleGrid('faqExampleGrid2', 'faqExampleFormula2', 256);   // butter
+  initExampleGrid('faqExampleGrid3', 'faqExampleFormula3', 1024);  // letter
 
   /* Theme toggle is handled by shared.js */
 
