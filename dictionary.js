@@ -76,15 +76,19 @@
     var bin = toBinary(exampleIdx); // "001111011001"
     var word = getWordByIndex(exampleIdx); // "inner"
 
-    var dotsContainer = document.getElementById('dictExampleDots');
+    var gridContainer = document.getElementById('dictExampleGrid');
     var wordEl = document.getElementById('dictExampleWord');
-    if (!dotsContainer || !wordEl) return;
+    if (!gridContainer || !wordEl) return;
 
     var html = '';
-    for (var i = 0; i < bin.length; i++) {
-      html += '<span class="dict-example-dot ' + (bin[i] === '1' ? 'on' : 'off') + '"></span>';
+    for (var i = 0; i < BIT_COUNT; i++) {
+      var isOn = bin[i] === '1';
+      html += '<div class="detail-binary-col">';
+      html += '<div class="detail-binary-cell ' + (isOn ? 'on' : 'off') + '"><span class="detail-binary-digit">' + bin[i] + '</span></div>';
+      html += '<span class="detail-binary-weight' + (isOn ? ' active' : '') + '">' + BIT_POSITIONS[i] + '</span>';
+      html += '</div>';
     }
-    dotsContainer.innerHTML = html;
+    gridContainer.innerHTML = html;
     wordEl.textContent = word;
   }
 
@@ -170,7 +174,6 @@
       row.innerHTML =
         '<span class="dr-idx">' + String(displayIdx).padStart(4, '0') + '</span>' +
         '<span class="dr-word" translate="no">' + word + '</span>' +
-        '<span class="dr-binary">' + formatBinaryHTML(bin) + '</span>' +
         '<span class="dr-dots">' + dotsHTML + '</span>';
 
       var detail = document.createElement('div');
