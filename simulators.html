@@ -151,6 +151,70 @@
           "@type": "Answer",
           "text": "Even if a website claims to be offline and secure, your device may be compromised by malware, keyloggers, or malicious browser extensions. Your seed phrase is the master key to all your funds — once exposed, your cryptocurrency can be stolen instantly and irreversibly. Always generate and handle real seed phrases only on trusted hardware wallets."
         }
+      },
+      {
+        "@type": "Question",
+        "name": "What do 12, 15, 18, 21 and 24-word seed phrases mean?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The word count determines the entropy (randomness) of your seed. 12 words = 128 bits, 15 = 160 bits, 18 = 192 bits, 21 = 224 bits, 24 = 256 bits. More words mean stronger security. Most hardware wallets use 12 or 24 words. The last word includes a SHA-256 checksum to catch transcription errors."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I read the dot pattern on a metal plate?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Each column on the plate represents one seed word. The 12 rows correspond to bit weights: 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1 (top to bottom). A punched dot = 1, empty = 0. Add up the bit weights for all punched positions to get the word index, then look it up in the BIP39 dictionary."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the BIP39 word list and where does it come from?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "BIP39 (Bitcoin Improvement Proposal 39) defines a standard list of 2048 English words used to encode wallet entropy as a mnemonic phrase. The words were carefully chosen to be unambiguous — no two words share the same first four letters. The list is an open standard maintained by the Bitcoin community."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I use any words as a seed phrase?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Only the 2048 words from the BIP39 standard list are valid. Each word maps to a specific index (1–2048), and the last word contains a SHA-256 checksum that depends on all the others. A random set of English words would almost certainly fail checksum validation."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between a seed phrase and a private key?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A seed phrase is a human-readable master backup from which all your private keys are mathematically derived through hierarchical derivation paths (BIP32/BIP44). One seed phrase can generate billions of private keys. A private key controls one specific address. Losing a seed phrase means losing access to every address derived from it."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many possible seed phrases exist?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A 12-word seed phrase has 128 bits of entropy, giving approximately 3.4 × 10^38 possible combinations. A 24-word phrase has 256 bits — about 1.16 × 10^77 possibilities. Brute-forcing a valid seed phrase is computationally infeasible with any current or foreseeable technology."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a passphrase (25th word)?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A passphrase is an optional extra string added on top of your seed phrase for additional security. Unlike seed words, it can be any text. Adding a passphrase creates a completely different set of derived keys and wallet addresses. If you forget the passphrase, you cannot access the funds, even with the correct seed phrase."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What happens if I enter an invalid pattern in the Decoder?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "If a column results in an index of 0 (all dots empty) or greater than 2048, it will be flagged as an invalid word. The status badge shows VALID when all indices fall within 1–2048, or INVALID otherwise. The Decoder maps individual columns to words and does not verify the SHA-256 checksum of the full phrase."
+        }
       }
     ]
   }]
@@ -444,6 +508,46 @@
           <div class="faq-item">
             <button class="faq-q-btn" type="button">Why should I never enter my real seed phrase into any website?<span class="faq-arrow">&#x203A;</span></button>
             <div class="faq-bubble-wrap"><div class="faq-bubble">Even if a website claims to be offline and secure, your device may be compromised by malware, keyloggers, or malicious browser extensions that can capture everything you type. Your seed phrase is the master key to all your funds &mdash; once exposed, your cryptocurrency can be stolen instantly and irreversibly. Always generate and handle real seed phrases only on trusted hardware wallets in an air-gapped environment.</div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">What is the BIP39 word list and where does it come from?<span class="faq-arrow">&#x203A;</span></button>
+            <div class="faq-bubble-wrap"><div class="faq-bubble">
+              <p>BIP39 (Bitcoin Improvement Proposal 39) defines a standard list of 2048 English words used to encode wallet entropy as a mnemonic phrase. The words were carefully chosen to be unambiguous &mdash; no two words share the same first four letters, making them easy to identify even if partially damaged. The list is an open standard maintained by the Bitcoin community.</p>
+              <div class="faq-example">
+                <div class="dict-example-bar">
+                  <div class="dict-example-label">Example</div>
+                  <div class="dict-example-row">
+                    <span class="dict-example-idx">1024</span>
+                    <span class="dict-example-eq">=</span>
+                    <span class="dict-example-word">letter</span>
+                  </div>
+                  <div class="dict-example-grid-wrap">
+                    <div class="detail-binary-cells" id="faqExampleGrid3"></div>
+                  </div>
+                  <div class="dict-example-formula" id="faqExampleFormula3"></div>
+                </div>
+              </div>
+            </div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">Can I use any words as a seed phrase?<span class="faq-arrow">&#x203A;</span></button>
+            <div class="faq-bubble-wrap"><div class="faq-bubble">No. Only the 2048 words from the BIP39 standard list are valid. Each word maps to a specific index (1&ndash;2048), and the last word contains a SHA-256 checksum that depends on all the others. A random set of English words would almost certainly fail checksum validation and would not produce a working wallet. You can browse the full list on our <a href="/dictionary" style="color:var(--text-accent);text-decoration:underline;">Dictionary</a> page.</div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">What is the difference between a seed phrase and a private key?<span class="faq-arrow">&#x203A;</span></button>
+            <div class="faq-bubble-wrap"><div class="faq-bubble">A seed phrase is a human-readable master backup from which all your private keys are mathematically derived. One seed phrase can generate billions of private keys through hierarchical derivation paths (BIP32/BIP44). A private key is a single cryptographic number that controls one specific address. Losing a private key means losing access to that address; losing a seed phrase means losing access to every address derived from it.</div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">How many possible seed phrases exist?<span class="faq-arrow">&#x203A;</span></button>
+            <div class="faq-bubble-wrap"><div class="faq-bubble">A 12-word seed phrase has 128 bits of entropy, giving approximately 3.4 &times; 10<sup>38</sup> possible combinations. A 24-word phrase has 256 bits &mdash; about 1.16 &times; 10<sup>77</sup> possibilities. For comparison, the estimated number of atoms in the observable universe is around 10<sup>80</sup>. Brute-forcing a valid seed phrase is computationally infeasible with any current or foreseeable technology.</div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">What is a passphrase (25th word)?<span class="faq-arrow">&#x203A;</span></button>
+            <div class="faq-bubble-wrap"><div class="faq-bubble">A passphrase (sometimes called the &ldquo;25th word&rdquo;) is an optional extra string you can add on top of your seed phrase for additional security. Unlike seed words, the passphrase is not limited to the BIP39 list &mdash; it can be any text. Adding a passphrase creates a completely different set of derived keys and wallet addresses. If you forget the passphrase, you will not be able to access the funds in that wallet, even with the correct seed phrase.</div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">What happens if I enter an invalid pattern in the Decoder?<span class="faq-arrow">&#x203A;</span></button>
+            <div class="faq-bubble-wrap"><div class="faq-bubble">If a column in the Decoder grid results in an index of 0 (all dots empty) or greater than 2048, it will be flagged as an invalid word. The status badge above the decoded phrase shows VALID when all word indices fall within the 1&ndash;2048 range, or INVALID otherwise. Note that the Decoder maps individual columns to words &mdash; it does not verify the SHA-256 checksum of the full phrase.</div></div>
           </div>
         </div>
       </div>
