@@ -745,8 +745,8 @@
     }
     container.innerHTML = html;
   }
-  initExampleDots('genExampleDots', 1);   // index 1 = abandon
-  initExampleDots('decExampleDots', 1);   // index 1 = abandon
+  initExampleDots('genExampleDots', 1060);  // index 1060 = love
+  initExampleDots('decExampleDots', 1060);  // index 1060 = love
 
   /* ===== DICTIONARY-STYLE EXAMPLE GRIDS (mobile view + FAQ) ===== */
   function initExampleGrid(gridId, formulaId, exampleIdx) {
@@ -772,8 +772,8 @@
     }
   }
   // Example grids for generate/decode tabs (shown on mobile)
-  initExampleGrid('genExampleGrid', 'genExampleFormula', 1);
-  initExampleGrid('decExampleGrid', 'decExampleFormula', 1);
+  initExampleGrid('genExampleGrid', 'genExampleFormula', 1060);
+  initExampleGrid('decExampleGrid', 'decExampleFormula', 1060);
   // FAQ embedded examples
   initExampleGrid('faqExampleGrid1', 'faqExampleFormula1', 985);   // inner
   initExampleGrid('faqExampleGrid2', 'faqExampleFormula2', 256);   // butter
