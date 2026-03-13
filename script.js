@@ -328,8 +328,14 @@
 
     var matrices = [];
     if (shouldSplit) {
-      matrices.push(createMatrix(0, 12, 'PENGER BINARY ENCODER (PART 1)', indices));
-      matrices.push(createMatrix(12, count, 'PENGER BINARY ENCODER (PART 2)', indices));
+      var m1 = createMatrix(0, 12, 'PENGER BINARY ENCODER (PART 1)', indices);
+      var m2 = createMatrix(12, count, 'PENGER BINARY ENCODER (PART 2)', indices);
+      if (count - 12 < 12) {
+        setPlateWc(m2.plateVis, 12);
+        m2.plateVis.classList.add('plate-vis-part2');
+      }
+      matrices.push(m1);
+      matrices.push(m2);
     } else {
       matrices.push(createMatrix(0, count, 'PENGER BINARY ENCODER', indices));
     }
@@ -730,6 +736,7 @@
       tabPanels.forEach(function (p) { p.classList.remove('active'); });
       btn.classList.add('active');
       $('panel-' + target).classList.add('active');
+      window.scrollTo(0, 0);
       if (target === 'decode' && !decodeInitialized) initDecode();
     });
   });
