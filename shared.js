@@ -142,6 +142,12 @@
 
   /* ===== FAQ TYPEWRITER DIALOGUE ===== */
   function initFaqTypewriter() {
+    /* Save original content before any interaction */
+    document.querySelectorAll('.faq-bubble').forEach(function (bubble) {
+      bubble.setAttribute('data-html', bubble.innerHTML);
+      bubble.setAttribute('data-text', bubble.textContent.trim());
+    });
+
     document.querySelectorAll('.faq-chat').forEach(function (chat) {
       chat.addEventListener('click', function (e) {
         var btn = e.target.closest('.faq-q-btn');
@@ -152,7 +158,9 @@
         var bubble = item.querySelector('.faq-bubble');
         if (!bubbleWrap || !bubble) return;
 
+        var originalHtml = bubble.getAttribute('data-html') || '';
         var fullText = bubble.getAttribute('data-text') || '';
+        var hasHtml = /<[a-z][\s\S]*>/i.test(originalHtml.trim());
 
         if (item.classList.contains('open')) {
           item.classList.remove('open');
@@ -171,27 +179,35 @@
         });
 
         item.classList.add('open');
-        bubble.innerHTML = '';
-        bubbleWrap.style.maxHeight = '60px';
 
-        var cursor = document.createElement('span');
-        cursor.className = 'faq-cursor';
-        bubble.appendChild(cursor);
+        if (hasHtml) {
+          /* HTML content (with examples) — show immediately, animate expand */
+          bubble.innerHTML = originalHtml;
+          bubbleWrap.style.maxHeight = bubble.scrollHeight + 16 + 'px';
+        } else {
+          /* Plain text — typewriter effect */
+          bubble.innerHTML = '';
+          bubbleWrap.style.maxHeight = '60px';
 
-        var chars = fullText.split('');
-        var idx = 0;
-        item._typeTimer = setInterval(function () {
-          if (idx >= chars.length) {
-            clearInterval(item._typeTimer);
-            item._typeTimer = null;
-            cursor.remove();
-            return;
-          }
-          cursor.insertAdjacentText('beforebegin', chars[idx]);
-          idx++;
-          var h = bubble.scrollHeight;
-          bubbleWrap.style.maxHeight = Math.max(60, h + 16) + 'px';
-        }, 18);
+          var cursor = document.createElement('span');
+          cursor.className = 'faq-cursor';
+          bubble.appendChild(cursor);
+
+          var chars = fullText.split('');
+          var idx = 0;
+          item._typeTimer = setInterval(function () {
+            if (idx >= chars.length) {
+              clearInterval(item._typeTimer);
+              item._typeTimer = null;
+              cursor.remove();
+              return;
+            }
+            cursor.insertAdjacentText('beforebegin', chars[idx]);
+            idx++;
+            var h = bubble.scrollHeight;
+            bubbleWrap.style.maxHeight = Math.max(60, h + 16) + 'px';
+          }, 18);
+        }
       });
     });
   }
