@@ -612,6 +612,7 @@
 .lp-gdot { aspect-ratio: 1; width: 100%; border-radius: 5px; }
 .lp-gdot.on { background: var(--punch-fill); }
 .lp-gdot.off { background: transparent; border: 1.5px solid var(--border-active); }
+.lp-guide-arrow-down { width: 28px; height: 28px; color: var(--text-dim); flex-shrink: 0; }
 .lp-guide-punch-img { display: block; width: 100%; }
 .lp-guide-punch-img img { display: block; width: 100%; height: auto; border-radius: 4px; }
 .lp-guide-punch-word { font-family: var(--font-mono); font-size: 12px; font-weight: 500; color: var(--text-dim); }
