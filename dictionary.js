@@ -72,7 +72,7 @@
 
   /* ===== EXAMPLE ANIMATION INIT ===== */
   function initDictExample() {
-    var exampleIdx = 985;
+    var exampleIdx = 1060;
     var bin = toBinary(exampleIdx); // "001111011001"
     var word = getWordByIndex(exampleIdx); // "inner"
 
