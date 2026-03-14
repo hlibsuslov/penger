@@ -439,115 +439,67 @@
         <div class="faq-chat" id="simFaq">
           <div class="faq-item">
             <button class="faq-q-btn" type="button">What is a BIP39 seed phrase and why does it matter?<span class="faq-arrow">&#x203A;</span></button>
-            <div class="faq-bubble-wrap"><div class="faq-bubble">A BIP39 seed phrase (also called a mnemonic phrase) is a set of 12 to 24 words from a standardized 2048-word list. It is the master backup of your cryptocurrency wallet &mdash; from these words, all your private keys can be derived. Losing your seed phrase means losing access to your funds permanently.</div></div>
+            <div class="faq-bubble-wrap"><div class="faq-bubble">A BIP39 seed phrase is a set of <strong>12 to 24 words</strong> from a standardized 2048-word list. It is the <strong>master backup</strong> of your cryptocurrency wallet &mdash; from these words, all your private keys can be derived. Losing your seed phrase means <strong>losing access to your funds permanently</strong>, which is why a durable, offline backup on a <a href="/" style="color:var(--text-accent);text-decoration:underline;">Penger titanium plate</a> is essential.</div></div>
           </div>
           <div class="faq-item">
             <button class="faq-q-btn" type="button">How does seed phrase to binary conversion work?<span class="faq-arrow">&#x203A;</span></button>
-            <div class="faq-bubble-wrap"><div class="faq-bubble">
-              <p>Each BIP39 word maps to an index number between 1 and 2048. This index is encoded as a 12-bit binary value. Each bit (1 or 0) becomes a dot on the metal plate &mdash; filled means punch, empty means skip.</p>
-              <div class="faq-example">
-                <div class="dict-example-bar">
-                  <div class="dict-example-label">Example</div>
-                  <div class="dict-example-row">
-                    <span class="dict-example-idx">0985</span>
-                    <span class="dict-example-eq">=</span>
-                    <span class="dict-example-word">INNER</span>
-                  </div>
-                  <div class="dict-example-grid-wrap">
-                    <div class="detail-binary-cells" id="faqExampleGrid1"></div>
-                  </div>
-                  <div class="dict-example-formula" id="faqExampleFormula1"></div>
-                </div>
-              </div>
-            </div></div>
+            <div class="faq-bubble-wrap"><div class="faq-bubble">Each BIP39 word maps to an index number between <strong>1 and 2048</strong>. This index is encoded as a <strong>12-bit binary value</strong>. Each bit (1 or 0) becomes a dot on the metal plate &mdash; filled means <strong>punch</strong>, empty means <strong>skip</strong>. This is exactly the format used on the <a href="/" style="color:var(--text-accent);text-decoration:underline;">Penger plate</a>, making it easy to encode your full seed phrase in a compact, tamper-evident pattern.</div></div>
           </div>
           <div class="faq-item">
             <button class="faq-q-btn" type="button">Why store a seed phrase on a metal plate instead of paper?<span class="faq-arrow">&#x203A;</span></button>
-            <div class="faq-bubble-wrap"><div class="faq-bubble">Paper backups degrade over time and are vulnerable to fire, water, and physical damage. A titanium plate can survive temperatures above 1,600&deg;C, is waterproof, and resists corrosion. The binary dot pattern format is compact, tamper-evident, and can encode a full 24-word seed phrase on a single plate.</div></div>
+            <div class="faq-bubble-wrap"><div class="faq-bubble">Paper backups <strong>degrade over time</strong> and are vulnerable to fire, water, and physical damage. A titanium plate can survive temperatures above <strong>1,600&deg;C</strong>, is waterproof, and resists corrosion. The <a href="/" style="color:var(--text-accent);text-decoration:underline;">Penger plate</a> uses a binary dot pattern format that is <strong>compact</strong>, <strong>tamper-evident</strong>, and can encode a full 24-word seed phrase on a single plate.</div></div>
           </div>
           <div class="faq-item">
             <button class="faq-q-btn" type="button">Is this seed phrase generator secure?<span class="faq-arrow">&#x203A;</span></button>
-            <div class="faq-bubble-wrap"><div class="faq-bubble">This tool runs 100% in your browser &mdash; no data is ever sent to any server. Random generation uses the Web Crypto API (crypto.getRandomValues) for cryptographically secure randomness. The page works fully offline. However, we <strong>strongly advise against</strong> using any generated seed phrase for a real wallet. For actual wallet backups, always use your hardware wallet&rsquo;s built-in seed generator.</div></div>
+            <div class="faq-bubble-wrap"><div class="faq-bubble">This tool runs <strong>100% in your browser</strong> &mdash; no data is ever sent to any server. Random generation uses the <strong>Web Crypto API</strong> for cryptographically secure randomness, and the page works fully offline. However, <strong>never use any generated seed phrase for a real wallet</strong>. For actual wallet backups, always use your hardware wallet&rsquo;s built-in seed generator and store the result on a <a href="/" style="color:var(--text-accent);text-decoration:underline;">Penger titanium plate</a>.</div></div>
           </div>
           <div class="faq-item">
             <button class="faq-q-btn" type="button">What do 12, 15, 18, 21 and 24-word seed phrases mean?<span class="faq-arrow">&#x203A;</span></button>
-            <div class="faq-bubble-wrap"><div class="faq-bubble">The word count determines the entropy (randomness) of your seed. 12 words = 128 bits, 15 = 160 bits, 18 = 192 bits, 21 = 224 bits, 24 = 256 bits. More words mean stronger security. Most hardware wallets use 12 or 24 words. The last word includes a SHA-256 checksum to catch transcription errors.</div></div>
+            <div class="faq-bubble-wrap"><div class="faq-bubble">The word count determines the <strong>entropy</strong> (randomness) of your seed. <strong>12 words = 128 bits</strong>, 15 = 160 bits, 18 = 192 bits, 21 = 224 bits, <strong>24 words = 256 bits</strong>. More words mean stronger security. Most hardware wallets use 12 or 24 words. The last word includes a <strong>SHA-256 checksum</strong> to catch transcription errors. The <a href="/" style="color:var(--text-accent);text-decoration:underline;">Penger plate</a> supports all word counts up to 24.</div></div>
           </div>
           <div class="faq-item">
             <button class="faq-q-btn" type="button">How do I read the dot pattern on a metal plate?<span class="faq-arrow">&#x203A;</span></button>
-            <div class="faq-bubble-wrap"><div class="faq-bubble">
-              <p>Each column on the plate represents one seed word. The 12 rows correspond to bit weights: 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1 (top to bottom). A punched dot = 1, empty = 0. Add up the bit weights for all punched positions to get the word index, then look it up in the BIP39 dictionary.</p>
-              <div class="faq-example">
-                <div class="dict-example-bar">
-                  <div class="dict-example-label">Example</div>
-                  <div class="dict-example-row">
-                    <span class="dict-example-idx">0256</span>
-                    <span class="dict-example-eq">=</span>
-                    <span class="dict-example-word">BUTTER</span>
-                  </div>
-                  <div class="dict-example-grid-wrap">
-                    <div class="detail-binary-cells" id="faqExampleGrid2"></div>
-                  </div>
-                  <div class="dict-example-formula" id="faqExampleFormula2"></div>
-                </div>
-              </div>
-            </div></div>
+            <div class="faq-bubble-wrap"><div class="faq-bubble">Each column on the plate represents one seed word. The 12 rows correspond to bit weights: <strong>2048, 1024, 512, &hellip; 4, 2, 1</strong> (top to bottom). A punched dot = <strong>1</strong>, empty = <strong>0</strong>. Add up the bit weights for all punched positions to get the word index, then look it up in the <a href="/dictionary" style="color:var(--text-accent);text-decoration:underline;">BIP39 dictionary</a>. Use the Decoder tab above to practice reading patterns before working with your <a href="/" style="color:var(--text-accent);text-decoration:underline;">Penger plate</a>.</div></div>
           </div>
           <div class="faq-item">
             <button class="faq-q-btn" type="button">What is the difference between the Generator and the Decoder?<span class="faq-arrow">&#x203A;</span></button>
-            <div class="faq-bubble-wrap"><div class="faq-bubble">The Generator creates a random BIP39 seed phrase with a valid SHA-256 checksum and then converts each word to its binary dot pattern. The Decoder works in reverse &mdash; you input a binary dot pattern by clicking dots on the grid, and the tool converts each column back into the corresponding BIP39 word. Together they let you practice encoding and decoding seed phrases for metal plate backups.</div></div>
+            <div class="faq-bubble-wrap"><div class="faq-bubble">The <strong>Generator</strong> creates a random BIP39 seed phrase with a valid SHA-256 checksum and converts each word to its binary dot pattern. The <strong>Decoder</strong> works in reverse &mdash; you input a binary dot pattern by clicking dots on the grid, and it converts each column back into the corresponding BIP39 word. Together they let you <strong>practice encoding and decoding</strong> seed phrases before committing to a permanent <a href="/" style="color:var(--text-accent);text-decoration:underline;">Penger titanium backup</a>.</div></div>
           </div>
           <div class="faq-item">
             <button class="faq-q-btn" type="button">Can I use this tool offline?<span class="faq-arrow">&#x203A;</span></button>
-            <div class="faq-bubble-wrap"><div class="faq-bubble">Yes. All computation happens entirely in your browser using JavaScript. No network requests are made &mdash; the page even blocks fetch, WebSocket, and XMLHttpRequest APIs as a privacy hardening measure. You can disconnect from the internet before using the tool for an extra layer of security.</div></div>
+            <div class="faq-bubble-wrap"><div class="faq-bubble">Yes. All computation happens <strong>entirely in your browser</strong> using JavaScript. No network requests are made &mdash; the page even blocks fetch, WebSocket, and XMLHttpRequest APIs as a <strong>privacy hardening measure</strong>. You can disconnect from the internet before using the tool for an extra layer of security.</div></div>
           </div>
           <div class="faq-item">
             <button class="faq-q-btn" type="button">What is a SHA-256 checksum in a seed phrase?<span class="faq-arrow">&#x203A;</span></button>
-            <div class="faq-bubble-wrap"><div class="faq-bubble">The last word in a BIP39 seed phrase is not fully random &mdash; part of it is a checksum derived from the SHA-256 hash of the entropy bits. This checksum allows wallets to detect transcription errors. If you change even one word, the checksum will not match, and the phrase will be flagged as invalid.</div></div>
+            <div class="faq-bubble-wrap"><div class="faq-bubble">The last word in a BIP39 seed phrase is <strong>not fully random</strong> &mdash; part of it is a checksum derived from the SHA-256 hash of the entropy bits. This checksum allows wallets to <strong>detect transcription errors</strong>. If you change even one word, the checksum will not match and the phrase will be flagged as invalid &mdash; another reason to store your phrase on a durable <a href="/" style="color:var(--text-accent);text-decoration:underline;">Penger plate</a> rather than relying on handwritten copies.</div></div>
           </div>
           <div class="faq-item">
             <button class="faq-q-btn" type="button">Why should I never enter my real seed phrase into any website?<span class="faq-arrow">&#x203A;</span></button>
-            <div class="faq-bubble-wrap"><div class="faq-bubble">Even if a website claims to be offline and secure, your device may be compromised by malware, keyloggers, or malicious browser extensions that can capture everything you type. Your seed phrase is the master key to all your funds &mdash; once exposed, your cryptocurrency can be stolen instantly and irreversibly. Always generate and handle real seed phrases only on trusted hardware wallets in an air-gapped environment.</div></div>
+            <div class="faq-bubble-wrap"><div class="faq-bubble">Even if a website claims to be offline and secure, your device may be compromised by <strong>malware, keyloggers, or malicious browser extensions</strong> that can capture everything you type. Your seed phrase is the <strong>master key to all your funds</strong> &mdash; once exposed, your cryptocurrency can be stolen <strong>instantly and irreversibly</strong>. Always generate and handle real seed phrases only on trusted hardware wallets, and back them up physically on a <a href="/" style="color:var(--text-accent);text-decoration:underline;">Penger titanium plate</a>.</div></div>
           </div>
           <div class="faq-item">
             <button class="faq-q-btn" type="button">What is the BIP39 word list and where does it come from?<span class="faq-arrow">&#x203A;</span></button>
-            <div class="faq-bubble-wrap"><div class="faq-bubble">
-              <p>BIP39 (Bitcoin Improvement Proposal 39) defines a standard list of 2048 English words used to encode wallet entropy as a mnemonic phrase. The words were carefully chosen to be unambiguous &mdash; no two words share the same first four letters, making them easy to identify even if partially damaged. The list is an open standard maintained by the Bitcoin community.</p>
-              <div class="faq-example">
-                <div class="dict-example-bar">
-                  <div class="dict-example-label">Example</div>
-                  <div class="dict-example-row">
-                    <span class="dict-example-idx">1024</span>
-                    <span class="dict-example-eq">=</span>
-                    <span class="dict-example-word">LETTER</span>
-                  </div>
-                  <div class="dict-example-grid-wrap">
-                    <div class="detail-binary-cells" id="faqExampleGrid3"></div>
-                  </div>
-                  <div class="dict-example-formula" id="faqExampleFormula3"></div>
-                </div>
-              </div>
-            </div></div>
+            <div class="faq-bubble-wrap"><div class="faq-bubble">BIP39 (Bitcoin Improvement Proposal 39) defines a standard list of <strong>2048 English words</strong> used to encode wallet entropy as a mnemonic phrase. The words were carefully chosen to be <strong>unambiguous</strong> &mdash; no two words share the same first four letters, making them easy to identify even if partially damaged. You can browse the full list on our <a href="/dictionary" style="color:var(--text-accent);text-decoration:underline;">Dictionary</a> page.</div></div>
           </div>
           <div class="faq-item">
             <button class="faq-q-btn" type="button">Can I use any words as a seed phrase?<span class="faq-arrow">&#x203A;</span></button>
-            <div class="faq-bubble-wrap"><div class="faq-bubble">No. Only the 2048 words from the BIP39 standard list are valid. Each word maps to a specific index (1&ndash;2048), and the last word contains a SHA-256 checksum that depends on all the others. A random set of English words would almost certainly fail checksum validation and would not produce a working wallet. You can browse the full list on our <a href="/dictionary" style="color:var(--text-accent);text-decoration:underline;">Dictionary</a> page.</div></div>
+            <div class="faq-bubble-wrap"><div class="faq-bubble">No. Only the <strong>2048 words</strong> from the BIP39 standard list are valid. Each word maps to a specific index (<strong>1&ndash;2048</strong>), and the last word contains a SHA-256 checksum that depends on all the others. A random set of English words would almost certainly <strong>fail checksum validation</strong>. Browse the full list on our <a href="/dictionary" style="color:var(--text-accent);text-decoration:underline;">Dictionary</a> page.</div></div>
           </div>
           <div class="faq-item">
             <button class="faq-q-btn" type="button">What is the difference between a seed phrase and a private key?<span class="faq-arrow">&#x203A;</span></button>
-            <div class="faq-bubble-wrap"><div class="faq-bubble">A seed phrase is a human-readable master backup from which all your private keys are mathematically derived. One seed phrase can generate billions of private keys through hierarchical derivation paths (BIP32/BIP44). A private key is a single cryptographic number that controls one specific address. Losing a private key means losing access to that address; losing a seed phrase means losing access to every address derived from it.</div></div>
+            <div class="faq-bubble-wrap"><div class="faq-bubble">A seed phrase is a <strong>human-readable master backup</strong> from which all your private keys are mathematically derived. One seed phrase can generate <strong>billions of private keys</strong> through hierarchical derivation paths (BIP32/BIP44). Losing a seed phrase means losing access to <strong>every address</strong> derived from it &mdash; making a permanent backup on a <a href="/" style="color:var(--text-accent);text-decoration:underline;">Penger titanium plate</a> critical.</div></div>
           </div>
           <div class="faq-item">
             <button class="faq-q-btn" type="button">How many possible seed phrases exist?<span class="faq-arrow">&#x203A;</span></button>
-            <div class="faq-bubble-wrap"><div class="faq-bubble">A 12-word seed phrase has 128 bits of entropy, giving approximately 3.4 &times; 10<sup>38</sup> possible combinations. A 24-word phrase has 256 bits &mdash; about 1.16 &times; 10<sup>77</sup> possibilities. For comparison, the estimated number of atoms in the observable universe is around 10<sup>80</sup>. Brute-forcing a valid seed phrase is computationally infeasible with any current or foreseeable technology.</div></div>
+            <div class="faq-bubble-wrap"><div class="faq-bubble">A 12-word seed phrase has 128 bits of entropy &mdash; approximately <strong>3.4 &times; 10<sup>38</sup></strong> possible combinations. A 24-word phrase has 256 bits &mdash; about <strong>1.16 &times; 10<sup>77</sup></strong> possibilities. For comparison, the estimated number of atoms in the observable universe is around 10<sup>80</sup>. Brute-forcing a valid seed phrase is <strong>computationally infeasible</strong> with any current or foreseeable technology.</div></div>
           </div>
           <div class="faq-item">
             <button class="faq-q-btn" type="button">What is a passphrase (25th word)?<span class="faq-arrow">&#x203A;</span></button>
-            <div class="faq-bubble-wrap"><div class="faq-bubble">A passphrase (sometimes called the &ldquo;25th word&rdquo;) is an optional extra string you can add on top of your seed phrase for additional security. Unlike seed words, the passphrase is not limited to the BIP39 list &mdash; it can be any text. Adding a passphrase creates a completely different set of derived keys and wallet addresses. If you forget the passphrase, you will not be able to access the funds in that wallet, even with the correct seed phrase.</div></div>
+            <div class="faq-bubble-wrap"><div class="faq-bubble">A passphrase (sometimes called the <strong>&ldquo;25th word&rdquo;</strong>) is an optional extra string you can add on top of your seed phrase for additional security. Unlike seed words, it can be <strong>any text</strong>. Adding a passphrase creates a <strong>completely different set</strong> of derived keys and wallet addresses. If you forget the passphrase, you will not be able to access the funds &mdash; even with the correct seed phrase. Store both your seed phrase and passphrase hint securely, for example on separate <a href="/" style="color:var(--text-accent);text-decoration:underline;">Penger plates</a>.</div></div>
           </div>
           <div class="faq-item">
             <button class="faq-q-btn" type="button">What happens if I enter an invalid pattern in the Decoder?<span class="faq-arrow">&#x203A;</span></button>
-            <div class="faq-bubble-wrap"><div class="faq-bubble">If a column in the Decoder grid results in an index of 0 (all dots empty) or greater than 2048, it will be flagged as an invalid word. The status badge above the decoded phrase shows VALID when all word indices fall within the 1&ndash;2048 range, or INVALID otherwise. Note that the Decoder maps individual columns to words &mdash; it does not verify the SHA-256 checksum of the full phrase.</div></div>
+            <div class="faq-bubble-wrap"><div class="faq-bubble">If a column results in an index of <strong>0</strong> (all dots empty) or <strong>greater than 2048</strong>, it will be flagged as an invalid word. The status badge shows <strong>VALID</strong> when all word indices fall within the 1&ndash;2048 range, or <strong>INVALID</strong> otherwise. The Decoder maps individual columns to words &mdash; it does not verify the SHA-256 checksum of the full phrase.</div></div>
           </div>
         </div>
       </div>
