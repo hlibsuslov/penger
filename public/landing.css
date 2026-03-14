@@ -248,7 +248,8 @@
 }
 .lp-hero-link-arrow {
   transition: transform 0.3s ease;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
 }
 .lp-hero-link:hover .lp-hero-link-arrow {
   transform: translateX(3px);
@@ -666,10 +667,10 @@
 }
 .lp-binary-edge-top {
   transform: rotate(180deg);
-  align-self: center;
+  align-self: flex-start;
 }
 .lp-binary-edge-bottom {
-  align-self: center;
+  align-self: flex-start;
 }
 .lp-binary-cells {
   display: grid;
