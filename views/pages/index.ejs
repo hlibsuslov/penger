@@ -18,16 +18,26 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "WebApplication",
+    "@type": "Product",
     "name": "PENGER v1.0",
+    "description": "<%= typeof ogDescription !== 'undefined' && ogDescription ? ogDescription : pageDescription %>",
     "url": "<%= canonicalBase %><%= langPrefix %>/",
-    "description": "<%= pageDescription %>",
-    "applicationCategory": "SecurityApplication",
-    "operatingSystem": "All",
+    "image": "<%= canonicalBase %>/imagepackage.png",
+    "brand": { "@type": "Brand", "name": "PENGER" },
+    "manufacturer": { "@type": "Organization", "name": "PENGER", "url": "<%= canonicalBase %>" },
+    "category": "Security Equipment",
+    "material": "Grade 2 Titanium (ASTM B265)",
     "offers": {
       "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
+      "price": "49",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/PreOrder",
+      "url": "<%= canonicalBase %><%= langPrefix %>/#order",
+      "shippingDetails": {
+        "@type": "OfferShippingDetails",
+        "shippingRate": { "@type": "MonetaryAmount", "value": "0", "currency": "USD" },
+        "shippingDestination": { "@type": "DefinedRegion", "addressCountry": "WORLDWIDE" }
+      }
     }
   }
   </script>
@@ -38,12 +48,33 @@
     "name": "PENGER",
     "url": "<%= canonicalBase %>",
     "logo": "<%= canonicalBase %>/PENGER.svg",
+    "image": "<%= canonicalBase %>/imagepackage.png",
     "description": "<%= pageDescription %>",
+    "email": "contact@mypenger.com",
+    "founder": {
+      "@type": "Person",
+      "name": "Hlib Suslov",
+      "jobTitle": "CEO & Founder"
+    },
     "contactPoint": {
       "@type": "ContactPoint",
       "email": "contact@mypenger.com",
-      "contactType": "customer support"
-    }
+      "contactType": "customer support",
+      "availableLanguage": ["English", "Ukrainian"]
+    },
+    "sameAs": [
+      "https://t.me/pengercom"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "PENGER",
+    "url": "<%= canonicalBase %>",
+    "inLanguage": ["en", "uk"],
+    "publisher": { "@type": "Organization", "name": "PENGER", "url": "<%= canonicalBase %>" }
   }
   </script>
 </head>

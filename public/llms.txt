@@ -51,6 +51,14 @@ A library of structured, jargon-light guides covering every aspect of crypto sel
 - **Binary encoding, not plaintext**: Words are stored as binary dot patterns (not letters), adding an obfuscation layer to visual inspection.
 - **Built to last**: Titanium is fireproof, waterproof, and corrosion-resistant — designed for multi-decade or multi-generational storage.
 
+## Languages
+
+PENGER website is available in two languages:
+- English (default): [https://mypenger.com](https://mypenger.com)
+- Ukrainian: [https://mypenger.com/uk/](https://mypenger.com/uk/) — full Ukrainian localization of all pages, guides, tools, and AI Tutor.
+
+All pages, guides, simulators, and the AI Tutor are available in both English and Ukrainian.
+
 ## Contact
 
 - [Contacts](https://mypenger.com/contacts): Email contact@mypenger.com | Telegram @pengercom | CEO Hlib Suslov. For orders, support, partnerships, and press inquiries.

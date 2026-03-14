@@ -3,6 +3,31 @@
 <head>
   <%- include('../../partials/head') %>
   <title><%= pageTitle %></title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "<%= pageTitle %>",
+    "description": "<%= pageDescription %>",
+    "url": "<%= canonicalBase %><%= langPrefix %>/guides/<%= pageSlug %>",
+    "inLanguage": "<%= lang %>",
+    "author": { "@type": "Organization", "name": "PENGER", "url": "<%= canonicalBase %>" },
+    "publisher": { "@type": "Organization", "name": "PENGER", "logo": { "@type": "ImageObject", "url": "<%= canonicalBase %>/PENGER.svg" } },
+    "mainEntityOfPage": "<%= canonicalBase %><%= langPrefix %>/guides/<%= pageSlug %>",
+    "isPartOf": { "@type": "CollectionPage", "name": "<%= lang === 'uk' ? 'Академія — PENGER' : 'Academy — PENGER' %>", "url": "<%= canonicalBase %><%= langPrefix %>/guides" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "<%= lang === 'uk' ? 'Головна' : 'Home' %>", "item": "<%= canonicalBase %><%= langPrefix %>/" },
+      { "@type": "ListItem", "position": 2, "name": "<%= lang === 'uk' ? 'Академія' : 'Academy' %>", "item": "<%= canonicalBase %><%= langPrefix %>/guides" },
+      { "@type": "ListItem", "position": 3, "name": "<%= pageTitle.replace(' — PENGER Academy', '').replace(' — Академія PENGER', '') %>" }
+    ]
+  }
+  </script>
 </head>
 <body>
   <noscript><p style="padding:40px;text-align:center;font-size:16px;">JavaScript is required.</p></noscript>

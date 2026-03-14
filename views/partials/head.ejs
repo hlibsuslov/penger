@@ -1,34 +1,44 @@
-  <meta charset="UTF-8">
-  <link rel="icon" href="<%= typeof favicon !== 'undefined' ? favicon : '/svg/p.svg' %>" type="image/svg+xml">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="format-detection" content="telephone=no, date=no, email=no, address=no">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#FAFAFA" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#0A0A0A" media="(prefers-color-scheme: dark)">
-  <meta name="referrer" content="no-referrer">
-  <meta name="description" content="<%= pageDescription %>">
-  <meta name="keywords" content="<%= typeof pageKeywords !== 'undefined' ? pageKeywords : '' %>">
-  <meta name="robots" content="<%= typeof pageRobots !== 'undefined' ? pageRobots : 'index, follow' %>">
-  <meta name="author" content="PENGER">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="<%= canonicalBase %><%= langPrefix %><%= currentPath %>">
-  <meta property="og:title" content="<%= pageTitle %>">
-  <meta property="og:description" content="<%= typeof ogDescription !== 'undefined' ? ogDescription : pageDescription %>">
-  <meta property="og:image" content="<%= canonicalBase %>/og-image.png">
-  <meta property="og:site_name" content="PENGER">
-  <meta property="og:locale" content="<%= lang === 'uk' ? 'uk_UA' : 'en_US' %>">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="<%= pageTitle %>">
-  <meta name="twitter:description" content="<%= typeof ogDescription !== 'undefined' ? ogDescription : pageDescription %>">
-  <meta name="twitter:image" content="<%= canonicalBase %>/og-image.png">
-  <link rel="canonical" href="<%= canonicalBase %><%= langPrefix %><%= currentPath === '/' ? '' : currentPath %>">
-  <link rel="alternate" hreflang="en" href="<%= canonicalBase %><%= currentPath === '/' ? '' : currentPath %>">
-  <link rel="alternate" hreflang="uk" href="<%= canonicalBase %>/uk<%= currentPath === '/' ? '' : currentPath %>">
-  <link rel="alternate" hreflang="x-default" href="<%= canonicalBase %><%= currentPath === '/' ? '' : currentPath %>">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
-  <link rel="stylesheet" href="/style.css">
-  <script>window.PENGER_I18N=<%- JSON.stringify(t.js) %>;</script>
+<meta charset="UTF-8">
+<link rel="icon" href="<%= typeof favicon !== 'undefined' ? favicon : '/svg/p.svg' %>" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no, date=no, email=no, address=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#FAFAFA" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0A0A0A" media="(prefers-color-scheme: dark)">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="<%= pageDescription %>">
+<meta name="keywords" content="<%= typeof pageKeywords !== 'undefined' ? pageKeywords : '' %>">
+<meta name="robots" content="<%= typeof pageRobots !== 'undefined' ? pageRobots : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' %>">
+<meta name="author" content="PENGER">
+<meta name="publisher" content="PENGER">
+<meta http-equiv="content-language" content="<%= lang %>">
+<% if (lang === 'uk') { %><meta name="geo.region" content="UA">
+<meta name="geo.placename" content="Україна">
+<% } %>
+<meta property="og:type" content="website">
+<meta property="og:url" content="<%= canonicalBase %><%= langPrefix %><%= currentPath === '/' ? '' : currentPath %>">
+<meta property="og:title" content="<%= pageTitle %>">
+<meta property="og:description" content="<%= typeof ogDescription !== 'undefined' && ogDescription ? ogDescription : pageDescription %>">
+<meta property="og:image" content="<%= canonicalBase %>/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="<%= pageTitle %>">
+<meta property="og:site_name" content="PENGER">
+<meta property="og:locale" content="<%= lang === 'uk' ? 'uk_UA' : 'en_US' %>">
+<meta property="og:locale:alternate" content="<%= lang === 'uk' ? 'en_US' : 'uk_UA' %>">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="<%= pageTitle %>">
+<meta name="twitter:description" content="<%= typeof ogDescription !== 'undefined' && ogDescription ? ogDescription : pageDescription %>">
+<meta name="twitter:image" content="<%= canonicalBase %>/og-image.png">
+<meta name="twitter:image:alt" content="<%= pageTitle %>">
+<link rel="canonical" href="<%= canonicalBase %><%= langPrefix %><%= currentPath === '/' ? '' : currentPath %>">
+<link rel="alternate" hreflang="en" href="<%= canonicalBase %><%= currentPath === '/' ? '' : currentPath %>">
+<link rel="alternate" hreflang="uk" href="<%= canonicalBase %>/uk<%= currentPath === '/' ? '' : currentPath %>">
+<link rel="alternate" hreflang="x-default" href="<%= canonicalBase %><%= currentPath === '/' ? '' : currentPath %>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="/style.css">
+<script>window.PENGER_I18N=<%- JSON.stringify(t.js) %>;</script>

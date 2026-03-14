@@ -19,7 +19,7 @@
     "title": "PENGER v1.0 — Final Backup for Digital Wealth",
     "metaDescription": "PENGER v1.0 — Aerospace-grade titanium seed phrase storage. A premium physical backup for digital capital owners who think in decades.",
     "ogDescription": "Indestructible titanium vault for your seed phrase. Secure your crypto capital for generations with an error-proof binary grid.",
-    "keywords": "titanium seed phrase storage, crypto backup, BIP39 metal plate, cold storage, seed phrase vault, self-custody, bitcoin backup, hardware wallet backup",
+    "keywords": "titanium seed phrase storage, crypto backup, BIP39 metal plate, cold storage, seed phrase vault, self-custody, bitcoin backup, hardware wallet backup, metal seed phrase plate, fireproof crypto backup, seed phrase metal plate, titanium crypto storage, indestructible seed backup, cryptocurrency seed storage, seed phrase engraving plate",
     "heroH1": "The final backup for your",
     "heroH1Highlight": "digital wealth.",
     "heroTagline": "Paper burns. Hard drives fail. Memory fades.",
@@ -163,7 +163,7 @@
   "guides": {
     "title": "Academy — PENGER",
     "metaDescription": "PENGER Academy — Free, in-depth guides on seed phrases, wallets, self-custody, and operational security. Beginner and advanced levels.",
-    "keywords": "crypto education, seed phrase guide, wallet security, self-custody tutorial, BIP39 guide, crypto security, PENGER academy"
+    "keywords": "crypto education, seed phrase guide, wallet security, self-custody tutorial, BIP39 guide, crypto security, PENGER academy, cryptocurrency learning, blockchain education, crypto self-custody guide, seed phrase tutorial, wallet backup guide"
   },
   "guidePages": {
     "backLink": "← All Guides",
@@ -218,7 +218,7 @@
   "simulators": {
     "title": "Simulators — PENGER",
     "metaDescription": "Interactive BIP39 seed phrase tools. Generate random mnemonics with SHA-256 checksum and decode binary dot patterns back into words. Runs 100% offline in your browser.",
-    "keywords": "BIP39 generator, seed phrase simulator, binary encoder, mnemonic decoder, crypto tools, PENGER simulators",
+    "keywords": "BIP39 generator, seed phrase simulator, binary encoder, mnemonic decoder, crypto tools, PENGER simulators, seed phrase generator online, BIP39 word list tool, mnemonic phrase generator, binary seed encoder, offline crypto tool, seed phrase practice tool",
     "tabGenerate": "GENERATE",
     "tabDecode": "DECODE",
     "genLabel": "[ BIP39 / BINARY ENCODER ]",
@@ -288,7 +288,7 @@
   "dictionary": {
     "title": "Dictionary — PENGER",
     "metaDescription": "Complete BIP39 wordlist — all 2048 words with binary indices. Search, explore and understand the standard used by every major cryptocurrency wallet.",
-    "keywords": "BIP39 wordlist, BIP39 dictionary, seed phrase words, mnemonic word list, crypto dictionary",
+    "keywords": "BIP39 wordlist, BIP39 dictionary, seed phrase words, mnemonic word list, crypto dictionary, BIP39 2048 words, seed phrase word lookup, BIP39 word index, mnemonic wordlist search, cryptocurrency word list",
     "label": "[ BIP39 WORD INDEX ]",
     "h1": "Dictionary",
     "intro": "All 2048 words of the BIP39 standard, each mapped to a unique 12-bit index (1–2048). The index determines the punch pattern (top → bottom) on a metal backup plate — filled = punch hole, empty = skip. Click any word to see the full breakdown.",
@@ -301,7 +301,7 @@
   "aiTutor": {
     "title": "AI Tutor — PENGER",
     "metaDescription": "Learn crypto self-custody with PENGER's AI Tutor. Interactive guided lessons on wallets, seed phrases, blockchain, DeFi, and security.",
-    "keywords": "crypto tutor, AI learning, blockchain education, wallet tutorial, seed phrase learning",
+    "keywords": "crypto tutor, AI learning, blockchain education, wallet tutorial, seed phrase learning, crypto AI assistant, learn cryptocurrency, interactive crypto education, self-custody learning, crypto security tutor",
     "label": "[ INTERACTIVE LEARNING ]",
     "h1": "AI Tutor",
     "intro": "Learn crypto self-custody step by step. Pick a topic and follow the guided conversation — the tutor will walk you through key concepts at your own pace.",
@@ -313,7 +313,7 @@
   "aboutUs": {
     "title": "About Us — PENGER",
     "metaDescription": "PENGER builds aerospace-grade titanium seed phrase storage for cryptocurrency self-custody. Learn about our mission, team, and product.",
-    "keywords": "PENGER about, titanium seed phrase, crypto backup company, self-custody team",
+    "keywords": "PENGER about, titanium seed phrase, crypto backup company, self-custody team, PENGER team, seed phrase backup manufacturer, titanium plate company, crypto security company",
     "heroLabel": "[ ABOUT US ]",
     "heroH1": "Physical Sovereignty for the Digital Age",
     "heroDesc": "We build tools that bridge the gap between digital wealth and physical permanence. No clouds. No servers. No third parties. Just titanium and mathematics.",
@@ -360,7 +360,7 @@
   "contacts": {
     "title": "Contacts — PENGER",
     "metaDescription": "Contact PENGER — Reach out via email or Telegram for orders, support, and partnership inquiries. We typically respond within 24 hours.",
-    "keywords": "PENGER contact, customer support, titanium backup support, crypto storage help, PENGER email, PENGER Telegram",
+    "keywords": "PENGER contact, customer support, titanium backup support, crypto storage help, PENGER email, PENGER Telegram, seed phrase backup support, order PENGER, buy titanium plate",
     "heroLabel": "[ CONTACT US ]",
     "heroH1": "Get in Touch",
     "heroDesc": "Have questions about Penger, need support with your order, or want to discuss a partnership? Reach out through any of the channels below.",
