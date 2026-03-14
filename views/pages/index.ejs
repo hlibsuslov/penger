@@ -70,6 +70,21 @@
     "publisher": { "@type": "Organization", "name": "PENGER", "url": "<%= canonicalBase %>" }
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "PENGER — Site Navigation",
+    "itemListElement": [
+      { "@type": "SiteNavigationElement", "position": 1, "name": "<%= lang === 'uk' ? 'Академія' : 'Academy' %>", "url": "<%= canonicalBase %><%= langPrefix %>/guides" },
+      { "@type": "SiteNavigationElement", "position": 2, "name": "<%= lang === 'uk' ? 'Симулятори' : 'Simulators' %>", "url": "<%= canonicalBase %><%= langPrefix %>/simulators" },
+      { "@type": "SiteNavigationElement", "position": 3, "name": "<%= lang === 'uk' ? 'Словник' : 'Dictionary' %>", "url": "<%= canonicalBase %><%= langPrefix %>/dictionary" },
+      { "@type": "SiteNavigationElement", "position": 4, "name": "<%= lang === 'uk' ? 'AI Тьютор' : 'AI Tutor' %>", "url": "<%= canonicalBase %><%= langPrefix %>/ai-tutor" },
+      { "@type": "SiteNavigationElement", "position": 5, "name": "<%= lang === 'uk' ? 'Про нас' : 'About Us' %>", "url": "<%= canonicalBase %><%= langPrefix %>/about-us" },
+      { "@type": "SiteNavigationElement", "position": 6, "name": "<%= lang === 'uk' ? 'Контакти' : 'Contacts' %>", "url": "<%= canonicalBase %><%= langPrefix %>/contacts" }
+    ]
+  }
+  </script>
 </head>
 <body>
   <noscript><p style="padding:40px;text-align:center;font-size:16px;">JavaScript is required.</p></noscript>
