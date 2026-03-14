@@ -622,7 +622,6 @@
     var words = [];
     var anyInput = false;
     var hasInvalid = false;
-    var tableHTML = '<div class="decode-word-row table-head"><span>#</span><span>Index</span><span>Punch</span><span>Word</span></div>';
 
     for (var w = 0; w < count; w++) {
       var bits = decodeBits[w];
@@ -636,40 +635,47 @@
       var isEmpty = !decodeTouched[w];
       var valid = isValidIndex(displayIdx);
       var word = valid ? getWordByIndex(displayIdx) : null;
-      // index 0 means all bits off and untouched — treat as empty placeholder
       var isInvalid = decodeTouched[w] && !valid;
       if (isInvalid) hasInvalid = true;
 
       words.push({ word: word, displayIdx: displayIdx, empty: isEmpty, invalid: isInvalid, bin: binStr });
-
-      var binHTML = '';
-      for (var bi = 0; bi < binStr.length; bi++) {
-        binHTML += binStr[bi] === '1' ? '<span class="bit-one">' + binStr[bi] + '</span>' : binStr[bi];
-      }
-
-      var rowClass = 'decode-word-row';
-      if (isEmpty) rowClass += ' empty';
-      if (isInvalid) rowClass += ' invalid';
-
-      var displayIdxStr = isEmpty ? '\u2014' : String(displayIdx);
-      var wordDisplay;
-      if (isEmpty) {
-        wordDisplay = '\u2014';
-      } else if (isInvalid) {
-        wordDisplay = '\u2014';
-      } else {
-        wordDisplay = word;
-      }
-
-      var dotsHTML = isEmpty ? '' : buildMiniDotsHTML(binStr);
-      tableHTML += '<div class="' + rowClass + '">' +
-        '<span class="dw-num">' + String(w + 1).padStart(2, '0') + '</span>' +
-        '<span class="dw-index">' + displayIdxStr + '</span>' +
-        '<span class="dw-dots">' + dotsHTML + '</span>' +
-        '<span class="dw-word" translate="no">' + wordDisplay + '</span></div>';
     }
 
-    $('decodeWordTable').innerHTML = tableHTML;
+    var table = $('decodeWordTable');
+    table.innerHTML = '<div class="word-row table-head"><span>#</span><span>Word</span><span>Index</span><span>Punch</span></div>';
+
+    words.forEach(function (wi, i) {
+      var wordDisplay = wi.empty ? '\u2014' : (wi.invalid ? '\u2014' : wi.word);
+      var displayIdxStr = wi.empty ? '\u2014' : String(wi.displayIdx);
+      var dotsHTML = wi.empty ? '' : buildMiniDotsHTML(wi.bin);
+
+      var row = document.createElement('div');
+      row.className = 'word-row' + (wi.empty ? ' empty' : '') + (wi.invalid ? ' invalid' : '');
+      row.innerHTML =
+        '<span class="w-num">' + String(i + 1).padStart(2, '0') + '</span>' +
+        '<span class="w-word" translate="no">' + wordDisplay + '</span>' +
+        '<span class="w-index">' + displayIdxStr + '</span>' +
+        '<span class="w-dots">' + dotsHTML + '</span>';
+
+      var detail = document.createElement('div');
+      detail.className = 'word-detail';
+      if (!wi.empty && !wi.invalid) {
+        detail.innerHTML = '<div class="word-detail-inner">' + buildDetailHTML(wi.displayIdx, i + 1) + '</div>';
+      }
+
+      row.addEventListener('click', function () {
+        if (wi.empty || wi.invalid) return;
+        var isExpanded = row.classList.contains('expanded');
+        table.querySelectorAll('.word-row.expanded').forEach(function (other) {
+          if (other !== row) { other.classList.remove('expanded'); var od = other.nextElementSibling; if (od && od.classList.contains('word-detail')) od.style.maxHeight = '0'; }
+        });
+        if (isExpanded) { row.classList.remove('expanded'); detail.style.maxHeight = '0'; }
+        else { row.classList.add('expanded'); detail.style.maxHeight = detail.scrollHeight + 'px'; }
+      });
+
+      table.appendChild(row);
+      table.appendChild(detail);
+    });
 
     var seedHTML = '';
     for (var s = 0; s < words.length; s++) {
