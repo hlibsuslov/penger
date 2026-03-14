@@ -1,12 +1,15 @@
 # ============================================================
 # robots.txt — mypenger.com
 # PENGER: Titanium seed phrase backup kit + self-custody academy
+# Last updated: 2026-03-14
 # ============================================================
 
 # ----- Default: all crawlers --------------------------------
 User-agent: *
 Allow: /
 Disallow: /worker/
+Disallow: /payment-success
+Disallow: /payment-failed
 Disallow: /payment-success.html
 Disallow: /payment-failed.html
 Disallow: /guide-TEMPLATE.html
@@ -17,60 +20,96 @@ Disallow: /package-lock.json
 Disallow: /tutor-scenarios.json
 Disallow: /node_modules/
 Disallow: /api/
+Disallow: /*.json$
 
 # ----- AI / LLM crawlers -----------------------------------
 # We welcome AI crawlers to index our educational content
 # (academy guides, BIP39 dictionary, simulator descriptions,
 # AI Tutor landing page) so that LLMs can accurately describe
 # our product and direct users to our resources.
-#
-# Product pages, guides, tools, and the AI Tutor page are
-# all allowed. Only internal/utility routes are blocked above.
 
 User-agent: GPTBot
 Allow: /
+Allow: /uk/
 Disallow: /worker/
-Disallow: /payment-success.html
-Disallow: /payment-failed.html
+Disallow: /payment-success
+Disallow: /payment-failed
 Disallow: /api/
 
 User-agent: ChatGPT-User
 Allow: /
+Allow: /uk/
 Disallow: /worker/
-Disallow: /payment-success.html
-Disallow: /payment-failed.html
+Disallow: /payment-success
+Disallow: /payment-failed
 Disallow: /api/
 
 User-agent: ClaudeBot
 Allow: /
+Allow: /uk/
 Disallow: /worker/
-Disallow: /payment-success.html
-Disallow: /payment-failed.html
+Disallow: /payment-success
+Disallow: /payment-failed
 Disallow: /api/
 
 User-agent: Claude-Web
 Allow: /
+Allow: /uk/
 Disallow: /worker/
-Disallow: /payment-success.html
-Disallow: /payment-failed.html
+Disallow: /payment-success
+Disallow: /payment-failed
 Disallow: /api/
 
 User-agent: PerplexityBot
 Allow: /
+Allow: /uk/
 Disallow: /worker/
-Disallow: /payment-success.html
-Disallow: /payment-failed.html
+Disallow: /payment-success
+Disallow: /payment-failed
 Disallow: /api/
 
 User-agent: Amazonbot
 Allow: /
+Allow: /uk/
 Disallow: /worker/
-Disallow: /payment-success.html
-Disallow: /payment-failed.html
+Disallow: /payment-success
+Disallow: /payment-failed
 Disallow: /api/
 
 User-agent: Google-Extended
 Allow: /
+
+User-agent: Applebot
+Allow: /
+Allow: /uk/
+Disallow: /worker/
+Disallow: /payment-success
+Disallow: /payment-failed
+Disallow: /api/
+
+User-agent: Bytespider
+Allow: /
+Allow: /uk/
+Disallow: /worker/
+Disallow: /payment-success
+Disallow: /payment-failed
+Disallow: /api/
+
+User-agent: cohere-ai
+Allow: /
+Allow: /uk/
+Disallow: /worker/
+Disallow: /payment-success
+Disallow: /payment-failed
+Disallow: /api/
+
+User-agent: meta-externalagent
+Allow: /
+Allow: /uk/
+Disallow: /worker/
+Disallow: /payment-success
+Disallow: /payment-failed
+Disallow: /api/
 
 # ----- Aggressive / spam crawlers --------------------------
 User-agent: AhrefsBot
@@ -89,6 +128,12 @@ User-agent: BLEXBot
 Disallow: /
 
 User-agent: DataForSeoBot
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+User-agent: Sogou
 Disallow: /
 
 # ----- Sitemaps & LLM metadata -----------------------------
