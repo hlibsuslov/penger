@@ -424,6 +424,22 @@ h3 { font-size: 15px; font-weight: 600; }
   align-items: center;
 }
 
+/* Allow plate sections to expand beyond the 800px container for wide matrices (e.g. 24 words) */
+@media (min-width: 769px) {
+  #genPlateSection > .container,
+  #decodeGridSection > .container {
+    max-width: fit-content;
+    min-width: min(800px, 100%);
+  }
+}
+
+/* Second split plate on mobile: keep first plate's width, left-align inner content */
+.plate-vis.plate-vis-part2 .plate-title,
+.plate-vis.plate-vis-part2 .plate-subtitle { text-align: left; }
+.plate-vis.plate-vis-part2 .word-header { justify-content: flex-start; }
+.plate-vis.plate-vis-part2 .plate-rows { align-items: flex-start; }
+.plate-vis.plate-vis-part2 .plate-legend { justify-content: flex-start; }
+
 /* === DECODE PLATE === */
 #decodeMatrixContainer {
   display: flex;
