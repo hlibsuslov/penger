@@ -1,0 +1,127 @@
+<!DOCTYPE html><html lang="<%= lang %>">
+<head>
+  <%- include('../partials/head') %>
+  <% if (typeof extraCss !== 'undefined') { extraCss.forEach(function(css) { %>
+  <link rel="stylesheet" href="/<%= css %>">
+  <% }); } %>
+  <title><%= pageTitle %></title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "<%= pageTitle %>",
+    "url": "<%= canonicalBase %><%= langPrefix %>/dictionary",
+    "description": "<%= pageDescription %>",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": "BIP39 Word List",
+    "description": "<%= pageDescription %>",
+    "url": "<%= canonicalBase %><%= langPrefix %>/dictionary",
+    "license": "https://opensource.org/licenses/MIT",
+    "creator": {
+      "@type": "Organization",
+      "name": "PENGER"
+    }
+  }
+  </script>
+</head>
+<body class="page-dictionary">
+  <noscript><p style="padding:40px;text-align:center;font-size:16px;">JavaScript is required.</p></noscript>
+  <%- include('../partials/header') %>
+
+  <main>
+    <!-- SECTION INTRO -->
+    <section class="section-intro">
+      <div class="container">
+        <p class="label"><%= t.dictionary.label %></p>
+        <h1><%= t.dictionary.h1 %></h1>
+        <p class="body-text">
+          <%= t.dictionary.intro %>
+        </p>
+      </div>
+    </section>
+
+    <!-- PDF DOWNLOAD -->
+    <section class="dict-pdf-section">
+      <div class="container">
+        <button class="dict-pdf-btn" type="button" id="dictPdfBtn">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M10 3v10m0 0l-3.5-3.5M10 13l3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4 15.5h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+          <%= t.dictionary.downloadPdf %>
+        </button>
+        <p class="dict-pdf-hint"><%= t.dictionary.downloadDesc %></p>
+      </div>
+    </section>
+
+    <!-- DICTIONARY SECTION -->
+    <section class="section-block">
+      <div class="container">
+
+        <!-- EXAMPLE ANIMATION -->
+        <div class="dict-example-bar">
+          <div class="dict-example-label"><%= t.dictionary.howToRead %></div>
+          <div class="dict-example-row">
+            <span class="dict-example-idx">1060</span>
+            <span class="dict-example-eq">=</span>
+            <span class="dict-example-word" id="dictExampleWord">love</span>
+          </div>
+
+          <div class="dict-example-grid-wrap">
+            <div class="detail-binary-cells" id="dictExampleGrid">
+              <!-- Filled by dictionary.js -->
+            </div>
+          </div>
+
+          <div class="dict-example-formula" id="dictExampleFormula">
+            <!-- Filled by dictionary.js -->
+          </div>
+        </div>
+
+        <!-- SEARCH + COUNT -->
+        <div class="dict-controls">
+          <input
+            type="text"
+            class="dict-search"
+            id="dictSearch"
+            placeholder="<%= t.dictionary.searchPlaceholder %>"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="none"
+            spellcheck="false"
+            translate="no"
+          >
+          <span class="dict-count" id="dictCount"><%= t.dictionary.totalWords %></span>
+        </div>
+
+        <!-- ALPHABET FILTER -->
+        <div class="dict-alpha" id="dictAlpha"></div>
+
+        <!-- WORD LIST -->
+        <div class="dict-list" id="dictList"></div>
+
+        <!-- PAGINATION -->
+        <div class="dict-pagination" id="dictPagination"></div>
+
+      </div>
+    </section>
+  </main>
+
+  <%- include('../partials/footer') %>
+
+  <script src="/shared.js?v=2"></script>
+  <script src="/dictionary.js"></script>
+</body>
+</html>

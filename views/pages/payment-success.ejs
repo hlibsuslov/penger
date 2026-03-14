@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>">
+<head>
+  <%- include('../partials/head') %>
+  <% if (typeof extraCss !== 'undefined') { extraCss.forEach(function(css) { %>
+  <link rel="stylesheet" href="/<%= css %>">
+  <% }); } %>
+  <title><%= pageTitle %></title>
+  <style>
+    .status-page {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: calc(100vh - var(--header-h) - 140px);
+      text-align: center; padding: 48px 24px;
+    }
+    .status-label {
+      font-family: var(--font-mono); font-size: 12px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--text-label); margin-bottom: 24px;
+    }
+    .status-icon {
+      width: 64px; height: 64px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 24px;
+      border: 2px solid var(--border-success);
+      color: var(--text-accent);
+    }
+    .status-icon svg { width: 28px; height: 28px; }
+    .status-title {
+      font-family: var(--font-sans); font-size: 28px; font-weight: 700;
+      color: var(--text-accent); letter-spacing: -0.02em;
+      margin-bottom: 12px; line-height: 1.2;
+    }
+    .status-message {
+      font-family: var(--font-sans); font-size: 14px; line-height: 1.8;
+      color: var(--text-label); max-width: 440px; margin-bottom: 28px;
+    }
+    .status-order-info {
+      padding: 16px 20px; border-radius: 6px;
+      background: var(--bg-surface); border: 1px solid var(--border-default);
+      margin-bottom: 28px; text-align: left; max-width: 360px; width: 100%;
+    }
+    .status-order-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 6px 0; font-family: var(--font-mono); font-size: 11px;
+      border-bottom: 1px solid var(--border-default);
+    }
+    .status-order-row:last-child { border-bottom: none; }
+    .status-order-key { color: var(--text-dim); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+    .status-order-val { color: var(--text-accent); font-weight: 600; }
+    .status-actions {
+      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+    }
+    .status-note {
+      font-family: var(--font-mono); font-size: 11px;
+      color: var(--text-dim); margin-top: 20px;
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    @media (max-width: 520px) {
+      .status-page { padding: 36px 20px; }
+      .status-title { font-size: 22px; }
+      .status-message { font-size: 13px; }
+      .status-icon { width: 56px; height: 56px; }
+      .status-icon svg { width: 24px; height: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <noscript><p style="padding:40px;text-align:center;font-size:16px;">JavaScript is required.</p></noscript>
+
+  <%- include('../partials/header') %>
+
+  <!-- ===== PAYMENT SUCCESS ===== -->
+  <main class="status-page" role="main">
+
+    <p class="status-label"><%= t.paymentSuccess.label %></p>
+
+    <div class="status-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+    </div>
+
+    <h1 class="status-title"><%= t.paymentSuccess.h1 %></h1>
+
+    <p class="status-message"><%= t.paymentSuccess.desc %></p>
+
+    <div class="status-order-info">
+      <div class="status-order-row">
+        <span class="status-order-key"><%= t.paymentSuccess.status.split(': ')[0] %></span>
+        <span class="status-order-val"><%= t.paymentSuccess.status.split(': ')[1] %></span>
+      </div>
+      <div class="status-order-row">
+        <span class="status-order-key"><%= t.paymentSuccess.product.split(': ')[0] %></span>
+        <span class="status-order-val"><%= t.paymentSuccess.product.split(': ')[1] %></span>
+      </div>
+      <div class="status-order-row">
+        <span class="status-order-key"><%= t.paymentSuccess.shipping.split(': ')[0] %></span>
+        <span class="status-order-val"><%= t.paymentSuccess.shipping.split(': ')[1] %></span>
+      </div>
+    </div>
+
+    <div class="status-actions">
+      <a href="<%= langPrefix %>/" class="btn btn-primary"><%= t.paymentSuccess.backHome %></a>
+      <a href="<%= langPrefix %>/guides" class="btn btn-secondary"><%= t.paymentSuccess.startLearning %></a>
+    </div>
+
+    <p class="status-note"><%= t.paymentSuccess.emailNote %></p>
+
+  </main>
+
+  <%- include('../partials/footer') %>
+
+  <script src="/shared.js?v=2"></script>
+</body>
+</html>

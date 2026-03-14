@@ -1,0 +1,96 @@
+# ============================================================
+# robots.txt — mypenger.com
+# PENGER: Titanium seed phrase backup kit + self-custody academy
+# ============================================================
+
+# ----- Default: all crawlers --------------------------------
+User-agent: *
+Allow: /
+Disallow: /worker/
+Disallow: /payment-success.html
+Disallow: /payment-failed.html
+Disallow: /guide-TEMPLATE.html
+Disallow: /404.html
+Disallow: /server.js
+Disallow: /package.json
+Disallow: /package-lock.json
+Disallow: /tutor-scenarios.json
+Disallow: /node_modules/
+Disallow: /api/
+
+# ----- AI / LLM crawlers -----------------------------------
+# We welcome AI crawlers to index our educational content
+# (academy guides, BIP39 dictionary, simulator descriptions,
+# AI Tutor landing page) so that LLMs can accurately describe
+# our product and direct users to our resources.
+#
+# Product pages, guides, tools, and the AI Tutor page are
+# all allowed. Only internal/utility routes are blocked above.
+
+User-agent: GPTBot
+Allow: /
+Disallow: /worker/
+Disallow: /payment-success.html
+Disallow: /payment-failed.html
+Disallow: /api/
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /worker/
+Disallow: /payment-success.html
+Disallow: /payment-failed.html
+Disallow: /api/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /worker/
+Disallow: /payment-success.html
+Disallow: /payment-failed.html
+Disallow: /api/
+
+User-agent: Claude-Web
+Allow: /
+Disallow: /worker/
+Disallow: /payment-success.html
+Disallow: /payment-failed.html
+Disallow: /api/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /worker/
+Disallow: /payment-success.html
+Disallow: /payment-failed.html
+Disallow: /api/
+
+User-agent: Amazonbot
+Allow: /
+Disallow: /worker/
+Disallow: /payment-success.html
+Disallow: /payment-failed.html
+Disallow: /api/
+
+User-agent: Google-Extended
+Allow: /
+
+# ----- Aggressive / spam crawlers --------------------------
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+User-agent: DataForSeoBot
+Disallow: /
+
+# ----- Sitemaps & LLM metadata -----------------------------
+Sitemap: https://mypenger.com/sitemap.xml
+LLMs: https://mypenger.com/llms.txt
