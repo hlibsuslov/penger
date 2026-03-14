@@ -448,7 +448,7 @@ h3 { font-size: 15px; font-weight: 600; }
     max-width: none;
   }
   .plate-vis.plate-vis-part2 .plate-title,
-  .plate-vis.plate-vis-part2 .plate-subtitle { text-align: left; }
+  .plate-vis.plate-vis-part2 .plate-subtitle { text-align: center; }
   .plate-vis.plate-vis-part2 .plate-legend { justify-content: flex-start; }
 }
 
