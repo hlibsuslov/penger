@@ -319,7 +319,7 @@ h3 { font-size: 15px; font-weight: 600; }
 }
 .plate-subtitle {
   font-family: var(--font-mono); font-size: 10px; color: var(--text-dim); text-align: center;
-  margin-bottom: 16px; letter-spacing: 0.04em;
+  margin-bottom: 8px; letter-spacing: 0.04em;
 }
 .word-header { display: flex; align-items: flex-end; gap: var(--col-gap); margin-bottom: 6px; padding-left: 48px; }
 
@@ -433,12 +433,20 @@ h3 { font-size: 15px; font-weight: 600; }
   }
 }
 
-/* Second split plate on mobile: keep first plate's width, left-align inner content */
-.plate-vis.plate-vis-part2 .plate-title,
-.plate-vis.plate-vis-part2 .plate-subtitle { text-align: left; }
-.plate-vis.plate-vis-part2 .word-header { justify-content: flex-start; }
-.plate-vis.plate-vis-part2 .plate-rows { align-items: flex-start; }
-.plate-vis.plate-vis-part2 .plate-legend { justify-content: flex-start; }
+/* Mobile split: second plate stretches to first plate's width, content left-aligned */
+@media (max-width: 768px) {
+  #genPlateContainer:has(.plate-vis-part2) {
+    align-items: stretch;
+    width: fit-content;
+    max-width: 100%;
+  }
+  .plate-vis.plate-vis-part2 {
+    max-width: none;
+  }
+  .plate-vis.plate-vis-part2 .plate-title,
+  .plate-vis.plate-vis-part2 .plate-subtitle { text-align: left; }
+  .plate-vis.plate-vis-part2 .plate-legend { justify-content: flex-start; }
+}
 
 /* === DECODE PLATE === */
 #decodeMatrixContainer {
