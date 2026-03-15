@@ -1646,11 +1646,6 @@ body.nav-open {
 .sim-example-grid { display: block; }
 .sim-example-dots { display: none; }
 
-@media (max-width: 600px) {
-  .sim-example-grid { display: none; }
-  .sim-example-dots { display: block; }
-}
-
 /* FAQ embedded examples */
 .faq-example { margin-top: 14px; }
 .faq-example .dict-example-bar {
