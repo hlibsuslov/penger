@@ -1643,13 +1643,8 @@ body.nav-open {
 }
 .dict-example-dot.on { background: var(--punch-fill); border-color: var(--punch-fill); }
 
-.sim-example-grid { display: none; }
-.sim-example-dots { display: block; }
-
-@media (max-width: 600px) {
-  .sim-example-grid { display: block; }
-  .sim-example-dots { display: none; }
-}
+.sim-example-grid { display: block; }
+.sim-example-dots { display: none; }
 
 /* FAQ embedded examples */
 .faq-example { margin-top: 14px; }
