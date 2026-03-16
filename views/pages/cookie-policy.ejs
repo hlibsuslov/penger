@@ -2,6 +2,9 @@
 <html lang="<%= lang %>">
 <head>
   <%- include('../partials/head') %>
+  <% if (typeof extraCss !== 'undefined') { extraCss.forEach(function(css) { %>
+  <link rel="stylesheet" href="/<%= css %>">
+  <% }); } %>
   <title><%= pageTitle %></title>
   <script type="application/ld+json">
   {

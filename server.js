@@ -158,7 +158,7 @@ var PAGE_CONFIGS = {
   '/contacts': { view: 'pages/contacts', dataKey: 'contacts', css: ['contacts.css'] },
   '/payment-success': { view: 'pages/payment-success', dataKey: 'paymentSuccess', css: [] },
   '/payment-failed': { view: 'pages/payment-failed', dataKey: 'paymentFailed', css: [] },
-  '/cookie-policy': { view: 'pages/cookie-policy', dataKey: 'cookiePolicy', css: [] },
+  '/cookie-policy': { view: 'pages/cookie-policy', dataKey: 'cookiePolicy', css: ['about-us.css'] },
 };
 
 Object.keys(PAGE_CONFIGS).forEach(function (route) {
