@@ -79,6 +79,10 @@
 
 <script>
 (function() {
+  // Ensure gtag exists (head.ejs defines it, but fallback for cached pages)
+  window.dataLayer = window.dataLayer || [];
+  if (typeof gtag === 'undefined') { window.gtag = function() { dataLayer.push(arguments); }; }
+
   var POLICY_VERSION = '1.0';
   var CONSENT_KEY = 'penger_consent';
   var CONSENT_TTL = 365 * 24 * 60 * 60 * 1000;
