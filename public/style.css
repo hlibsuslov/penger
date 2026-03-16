@@ -2395,6 +2395,13 @@ body.nav-open {
 /* =======================================================================
    COOKIE POLICY PAGE
    ======================================================================= */
+.cp-meta {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-label);
+  margin-top: 16px;
+  letter-spacing: 0.02em;
+}
 .cp-subhead {
   font-size: 14px;
   font-weight: 600;
@@ -2411,13 +2418,26 @@ body.nav-open {
   margin-bottom: 4px;
   line-height: 1.7;
 }
+.cp-list li a {
+  color: var(--text-accent);
+  text-decoration: underline;
+}
+.cp-note {
+  margin-top: 12px;
+  color: var(--text-label);
+  font-size: 13px;
+}
+.cp-link {
+  color: var(--text-accent);
+  text-decoration: underline;
+}
 .cp-table-wrap {
   overflow-x: auto;
   margin-top: 12px;
   -webkit-overflow-scrolling: touch;
 }
 .cp-table {
-  width: 100%;
+  min-width: 900px;
   border-collapse: collapse;
   font-size: 12px;
   line-height: 1.6;
@@ -2445,15 +2465,15 @@ body.nav-open {
   background: var(--bg-highlight);
   padding: 1px 4px;
   border-radius: 3px;
+  word-break: break-word;
 }
 .cp-svc-desc {
   font-size: 11px;
   color: var(--text-label);
   display: block;
-  margin-top: 4px;
   line-height: 1.5;
 }
 @media (max-width: 520px) {
-  .cp-table { font-size: 11px; }
+  .cp-table { font-size: 11px; min-width: 700px; }
   .cp-table th, .cp-table td { padding: 8px; }
 }

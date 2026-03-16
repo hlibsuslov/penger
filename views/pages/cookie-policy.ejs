@@ -32,22 +32,25 @@
 
   <main>
 
-    <!-- ===== HERO ===== -->
+    <!-- ===== HERO / INTRO ===== -->
     <section class="about-hero">
       <div class="container">
         <p class="label"><%= t.cookiePolicy.heroLabel %></p>
         <h1><%- t.cookiePolicy.heroH1 %></h1>
         <p class="body-text"><%- t.cookiePolicy.heroDesc %></p>
+        <p class="cp-meta"><%- t.cookiePolicy.heroVersion.replace('%VERSION%', t.cookiePolicy.policyVersion).replace('%DATE%', t.cookiePolicy.lastUpdated) %></p>
       </div>
     </section>
 
-    <!-- ===== WHAT ARE COOKIES ===== -->
+    <!-- ===== WHAT ARE COOKIES & SIMILAR TECHNOLOGIES ===== -->
     <section class="about-section">
       <div class="container">
         <p class="label"><%= t.cookiePolicy.whatLabel %></p>
         <h2><%= t.cookiePolicy.whatH2 %></h2>
         <div class="about-text-block">
-          <p><%- t.cookiePolicy.whatText %></p>
+          <p><%- t.cookiePolicy.whatCookies %></p>
+          <p><%- t.cookiePolicy.whatLocalStorage %></p>
+          <p><%- t.cookiePolicy.whatPurpose %></p>
         </div>
       </div>
     </section>
@@ -68,23 +71,6 @@
       </div>
     </section>
 
-    <!-- ===== PURPOSES ===== -->
-    <section class="about-section">
-      <div class="container">
-        <p class="label"><%= t.cookiePolicy.purposeLabel %></p>
-        <h2><%= t.cookiePolicy.purposeH2 %></h2>
-        <div class="about-text-block">
-          <ul class="cp-list">
-            <li><%- t.cookiePolicy.purpose1 %></li>
-            <li><%- t.cookiePolicy.purpose2 %></li>
-            <li><%- t.cookiePolicy.purpose3 %></li>
-            <li><%- t.cookiePolicy.purpose4 %></li>
-            <li><%- t.cookiePolicy.purpose5 %></li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
     <!-- ===== SERVICES TABLE ===== -->
     <section class="about-section">
       <div class="container">
@@ -95,21 +81,27 @@
             <table class="cp-table">
               <thead>
                 <tr>
-                  <th><%= t.cookiePolicy.svcTableName %></th>
-                  <th><%= t.cookiePolicy.svcTableCategory %></th>
-                  <th><%= t.cookiePolicy.svcTableCookies %></th>
-                  <th><%= t.cookiePolicy.svcTableLifetime %></th>
-                  <th><%= t.cookiePolicy.svcTablePolicy %></th>
+                  <th><%= t.cookiePolicy.svcColService %></th>
+                  <th><%= t.cookiePolicy.svcColProvider %></th>
+                  <th><%= t.cookiePolicy.svcColCategory %></th>
+                  <th><%= t.cookiePolicy.svcColPurpose %></th>
+                  <th><%= t.cookiePolicy.svcColData %></th>
+                  <th><%= t.cookiePolicy.svcColStorage %></th>
+                  <th><%= t.cookiePolicy.svcColLoaded %></th>
+                  <th><%= t.cookiePolicy.svcColPolicy %></th>
                 </tr>
               </thead>
               <tbody>
-                <% var svcs = [1,2,3,4]; svcs.forEach(function(i) { %>
+                <% [1,2,3,4].forEach(function(i) { %>
                 <tr>
-                  <td><strong><%= t.cookiePolicy['svc'+i+'Name'] %></strong><br><span class="cp-svc-desc"><%- t.cookiePolicy['svc'+i+'Desc'] %></span></td>
+                  <td><strong><%= t.cookiePolicy['svc'+i+'Name'] %></strong></td>
+                  <td><%= t.cookiePolicy['svc'+i+'Provider'] %></td>
                   <td><%= t.cookiePolicy['svc'+i+'Category'] %></td>
-                  <td><code><%= t.cookiePolicy['svc'+i+'Cookies'] %></code></td>
-                  <td><%= t.cookiePolicy['svc'+i+'Lifetime'] %></td>
-                  <td><a href="<%= t.cookiePolicy['svc'+i+'Policy'] %>" target="_blank" rel="noopener noreferrer" style="color:var(--text-accent);text-decoration:underline;">Link</a></td>
+                  <td><span class="cp-svc-desc"><%- t.cookiePolicy['svc'+i+'Purpose'] %></span></td>
+                  <td><span class="cp-svc-desc"><%- t.cookiePolicy['svc'+i+'Data'] %></span></td>
+                  <td><code><%= t.cookiePolicy['svc'+i+'Storage'] %></code></td>
+                  <td><%= t.cookiePolicy['svc'+i+'Loaded'] %></td>
+                  <td><a href="<%= t.cookiePolicy['svc'+i+'Policy'] %>" target="_blank" rel="noopener noreferrer" class="cp-link">Link</a></td>
                 </tr>
                 <% }); %>
               </tbody>
@@ -119,7 +111,7 @@
       </div>
     </section>
 
-    <!-- ===== DATA COLLECTED ===== -->
+    <!-- ===== DATA & SIGNALS ===== -->
     <section class="about-section">
       <div class="container">
         <p class="label"><%= t.cookiePolicy.dataLabel %></p>
@@ -134,25 +126,22 @@
             <li><%- t.cookiePolicy.data5 %></li>
             <li><%- t.cookiePolicy.data6 %></li>
             <li><%- t.cookiePolicy.data7 %></li>
+            <li><%- t.cookiePolicy.data8 %></li>
           </ul>
-          <p style="margin-top:12px;color:var(--text-label);font-size:13px;"><%- t.cookiePolicy.dataNote %></p>
+          <p class="cp-note"><%- t.cookiePolicy.dataNote %></p>
         </div>
       </div>
     </section>
 
-    <!-- ===== COOKIE LIFETIMES ===== -->
+    <!-- ===== WHEN TECHNOLOGIES LOAD ===== -->
     <section class="about-section">
       <div class="container">
-        <p class="label"><%= t.cookiePolicy.lifetimeLabel %></p>
-        <h2><%= t.cookiePolicy.lifetimeH2 %></h2>
+        <p class="label"><%= t.cookiePolicy.loadingLabel %></p>
+        <h2><%= t.cookiePolicy.loadingH2 %></h2>
         <div class="about-text-block">
-          <p><%- t.cookiePolicy.lifetimeText %></p>
-          <ul class="cp-list">
-            <li><%- t.cookiePolicy.lifetime1 %></li>
-            <li><%- t.cookiePolicy.lifetime2 %></li>
-            <li><%- t.cookiePolicy.lifetime3 %></li>
-            <li><%- t.cookiePolicy.lifetime4 %></li>
-          </ul>
+          <p><%- t.cookiePolicy.loadingText1 %></p>
+          <p><%- t.cookiePolicy.loadingText2 %></p>
+          <p><%- t.cookiePolicy.loadingText3 %></p>
         </div>
       </div>
     </section>
@@ -165,19 +154,39 @@
         <div class="about-text-block">
           <p><%- t.cookiePolicy.manageText1 %></p>
           <p><%- t.cookiePolicy.manageText2 %></p>
+          <p><%- t.cookiePolicy.manageText3 %></p>
           <h3 class="cp-subhead"><%= t.cookiePolicy.browserTitle %></h3>
           <p><%- t.cookiePolicy.browserText %></p>
         </div>
       </div>
     </section>
 
-    <!-- ===== THIRD-PARTY ===== -->
+    <!-- ===== CONSENT STORAGE & RETENTION ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.cookiePolicy.retentionLabel %></p>
+        <h2><%= t.cookiePolicy.retentionH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.cookiePolicy.retentionText1 %></p>
+          <p><%- t.cookiePolicy.retentionText2 %></p>
+          <p><%- t.cookiePolicy.retentionText3 %></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== THIRD PARTIES ===== -->
     <section class="about-section">
       <div class="container">
         <p class="label"><%= t.cookiePolicy.thirdPartyLabel %></p>
         <h2><%= t.cookiePolicy.thirdPartyH2 %></h2>
         <div class="about-text-block">
           <p><%- t.cookiePolicy.thirdPartyText %></p>
+          <ul class="cp-list">
+            <li><%- t.cookiePolicy.thirdParty1 %></li>
+            <li><%- t.cookiePolicy.thirdParty2 %></li>
+            <li><%- t.cookiePolicy.thirdParty3 %></li>
+          </ul>
+          <p style="margin-top:12px;"><%- t.cookiePolicy.thirdPartyNote %></p>
         </div>
       </div>
     </section>
@@ -188,8 +197,9 @@
         <p class="label"><%= t.cookiePolicy.updatesLabel %></p>
         <h2><%= t.cookiePolicy.updatesH2 %></h2>
         <div class="about-text-block">
-          <p><%- t.cookiePolicy.updatesText %></p>
-          <p style="margin-top:8px;font-family:var(--font-mono);font-size:12px;color:var(--text-label);"><%= t.cookiePolicy.updatesVersion %></p>
+          <p><%- t.cookiePolicy.updatesText1 %></p>
+          <p><%- t.cookiePolicy.updatesText2 %></p>
+          <p><%- t.cookiePolicy.updatesText3 %></p>
         </div>
       </div>
     </section>
@@ -200,7 +210,9 @@
         <p class="label"><%= t.cookiePolicy.contactLabel %></p>
         <h2><%= t.cookiePolicy.contactH2 %></h2>
         <div class="about-text-block">
-          <p><%- t.cookiePolicy.contactText %> <a href="mailto:<%= t.cookiePolicy.contactEmail %>" style="color:var(--text-accent);text-decoration:underline;"><%= t.cookiePolicy.contactEmail %></a></p>
+          <p><strong><%= t.cookiePolicy.contactCompany %></strong></p>
+          <p><%- t.cookiePolicy.contactText %></p>
+          <p><a href="mailto:<%= t.cookiePolicy.contactEmail %>" class="cp-link"><%= t.cookiePolicy.contactEmail %></a></p>
         </div>
       </div>
     </section>
