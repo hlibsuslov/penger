@@ -1,27 +1,28 @@
 <%# ===== COOKIE CONSENT BANNER + SETTINGS MODAL ===== %>
-<%# CMP-lite: Banner (layer 1) + Settings modal (layer 2) + GTM Consent Mode %>
-<% var ck = t.cookie || {}; if (ck.bannerTitle) { %>
+<%# Zero dependency on t.cookie — all text hardcoded with lang switch %>
+<% var isUk = (typeof lang !== 'undefined' && lang === 'uk'); %>
+
 <!-- LAYER 1: Cookie Banner -->
-<div id="cb-banner" class="cb-banner" style="display:none;" role="dialog" aria-label="<%= ck.bannerTitle %>" aria-modal="false">
+<div id="cb-banner" class="cb-banner" style="display:none;" role="dialog" aria-label="<%= isUk ? 'Ми використовуємо cookies' : 'We use cookies' %>" aria-modal="false">
   <div class="cb-banner-inner">
     <div class="cb-banner-body">
-      <p class="cb-banner-title"><%= ck.bannerTitle %></p>
-      <p class="cb-banner-text"><%= ck.bannerText %></p>
-      <a href="<%= langPrefix %>/cookie-policy" class="cb-banner-link"><%= ck.learnMore %></a>
+      <p class="cb-banner-title"><%= isUk ? 'Ми використовуємо cookies' : 'We use cookies' %></p>
+      <p class="cb-banner-text"><%= isUk ? 'Ми використовуємо обов\u2019язкові cookies для роботи сайту, а також — з вашої згоди — аналітичні та маркетингові cookies для вимірювання ефективності, аналізу поведінки та реклами.' : 'We use strictly necessary cookies to run the site, and — with your consent — analytics and marketing cookies to measure performance, analyze behavior, and serve ads.' %></p>
+      <a href="<%= langPrefix %>/cookie-policy" class="cb-banner-link"><%= isUk ? 'Детальніше в Політиці cookies' : 'Learn more in our Cookie Policy' %></a>
     </div>
     <div class="cb-banner-actions">
-      <button id="cb-accept-all" class="cb-btn cb-btn--primary"><%= ck.acceptAll %></button>
-      <button id="cb-reject-all" class="cb-btn cb-btn--primary"><%= ck.rejectAll %></button>
-      <button id="cb-customize" class="cb-btn cb-btn--secondary"><%= ck.customize %></button>
+      <button id="cb-accept-all" class="cb-btn cb-btn--primary"><%= isUk ? 'Прийняти все' : 'Accept All' %></button>
+      <button id="cb-reject-all" class="cb-btn cb-btn--primary"><%= isUk ? 'Відхилити все' : 'Reject All' %></button>
+      <button id="cb-customize" class="cb-btn cb-btn--secondary"><%= isUk ? 'Налаштувати' : 'Customize' %></button>
     </div>
   </div>
 </div>
 
 <!-- LAYER 2: Settings Modal -->
 <div id="cb-overlay" class="cb-overlay" style="display:none;">
-  <div id="cb-modal" class="cb-modal" role="dialog" aria-label="<%= ck.settingsTitle %>" aria-modal="true">
+  <div id="cb-modal" class="cb-modal" role="dialog" aria-label="<%= isUk ? 'Налаштування cookies' : 'Cookie Settings' %>" aria-modal="true">
     <div class="cb-modal-header">
-      <p class="cb-modal-title"><%= ck.settingsTitle %></p>
+      <p class="cb-modal-title"><%= isUk ? 'Налаштування cookies' : 'Cookie Settings' %></p>
       <button id="cb-modal-close" class="cb-modal-close" aria-label="Close">&times;</button>
     </div>
     <div class="cb-modal-body">
@@ -29,8 +30,8 @@
       <div class="cb-category">
         <div class="cb-category-header">
           <div>
-            <p class="cb-category-name"><%= ck.necessaryTitle %></p>
-            <p class="cb-category-desc"><%= ck.necessaryDesc %></p>
+            <p class="cb-category-name"><%= isUk ? 'Обов\u2019язкові' : 'Strictly Necessary' %></p>
+            <p class="cb-category-desc"><%= isUk ? 'Потрібні для коректної роботи сайту. Вимкнути неможливо.' : 'Required for the site to function correctly. Cannot be disabled.' %></p>
           </div>
           <div class="cb-toggle cb-toggle--locked">
             <input type="checkbox" checked disabled id="cb-tog-necessary">
@@ -42,8 +43,8 @@
       <div class="cb-category">
         <div class="cb-category-header">
           <div>
-            <p class="cb-category-name"><%= ck.analyticsTitle %></p>
-            <p class="cb-category-desc"><%= ck.analyticsDesc %></p>
+            <p class="cb-category-name"><%= isUk ? 'Аналітика' : 'Analytics' %></p>
+            <p class="cb-category-desc"><%= isUk ? 'Допомагає вимірювати відвідування, кліки, поведінку та якість трафіку.' : 'Helps measure visits, clicks, behavior, and traffic quality.' %></p>
           </div>
           <div class="cb-toggle">
             <input type="checkbox" id="cb-tog-analytics">
@@ -55,8 +56,8 @@
       <div class="cb-category">
         <div class="cb-category-header">
           <div>
-            <p class="cb-category-name"><%= ck.marketingTitle %></p>
-            <p class="cb-category-desc"><%= ck.marketingDesc %></p>
+            <p class="cb-category-name"><%= isUk ? 'Маркетинг' : 'Marketing' %></p>
+            <p class="cb-category-desc"><%= isUk ? 'Використовується для рекламних пікселів, ремаркетингу та вимірювання рекламних кампаній.' : 'Used for ad pixels, remarketing, and measuring ad campaigns.' %></p>
           </div>
           <div class="cb-toggle">
             <input type="checkbox" id="cb-tog-marketing">
@@ -66,65 +67,48 @@
       </div>
     </div>
     <div class="cb-modal-footer">
-      <button id="cb-save" class="cb-btn cb-btn--primary"><%= ck.saveChoices %></button>
-      <button id="cb-modal-accept-all" class="cb-btn cb-btn--secondary"><%= ck.acceptAll %></button>
-      <button id="cb-modal-reject-all" class="cb-btn cb-btn--secondary"><%= ck.rejectAll %></button>
+      <button id="cb-save" class="cb-btn cb-btn--primary"><%= isUk ? 'Зберегти вибір' : 'Save Choices' %></button>
+      <button id="cb-modal-accept-all" class="cb-btn cb-btn--secondary"><%= isUk ? 'Прийняти все' : 'Accept All' %></button>
+      <button id="cb-modal-reject-all" class="cb-btn cb-btn--secondary"><%= isUk ? 'Відхилити все' : 'Reject All' %></button>
     </div>
     <div class="cb-modal-link">
-      <a href="<%= langPrefix %>/cookie-policy"><%= ck.learnMore %></a>
+      <a href="<%= langPrefix %>/cookie-policy"><%= isUk ? 'Детальніше в Політиці cookies' : 'Learn more in our Cookie Policy' %></a>
     </div>
   </div>
 </div>
 
 <script>
 (function() {
+  // Ensure gtag exists (head.ejs defines it, but fallback for cached pages)
+  window.dataLayer = window.dataLayer || [];
+  if (typeof gtag === 'undefined') { window.gtag = function() { dataLayer.push(arguments); }; }
+
   var POLICY_VERSION = '1.0';
   var CONSENT_KEY = 'penger_consent';
-  var CONSENT_TTL = 365 * 24 * 60 * 60 * 1000; // 12 months
+  var CONSENT_TTL = 365 * 24 * 60 * 60 * 1000;
 
-  // --- DOM refs ---
   var banner = document.getElementById('cb-banner');
   var overlay = document.getElementById('cb-overlay');
   var togAnalytics = document.getElementById('cb-tog-analytics');
   var togMarketing = document.getElementById('cb-tog-marketing');
 
-  // Consent default is set in head.ejs before GTM loads.
-  // gtag() is already defined globally.
-
-  // --- Read stored consent ---
   function readConsent() {
     try {
       var raw = localStorage.getItem(CONSENT_KEY);
       if (!raw) return null;
       var data = JSON.parse(raw);
-      // Check expiry
-      if (Date.now() - data.updated_at > CONSENT_TTL) {
-        localStorage.removeItem(CONSENT_KEY);
-        return null;
-      }
-      // Check policy version
-      if (data.policy_version !== POLICY_VERSION) {
-        localStorage.removeItem(CONSENT_KEY);
-        return null;
-      }
+      if (Date.now() - data.updated_at > CONSENT_TTL) { localStorage.removeItem(CONSENT_KEY); return null; }
+      if (data.policy_version !== POLICY_VERSION) { localStorage.removeItem(CONSENT_KEY); return null; }
       return data;
     } catch (e) { return null; }
   }
 
-  // --- Write consent ---
   function writeConsent(analytics, marketing) {
-    var data = {
-      necessary: true,
-      analytics: analytics,
-      marketing: marketing,
-      updated_at: Date.now(),
-      policy_version: POLICY_VERSION
-    };
+    var data = { necessary: true, analytics: analytics, marketing: marketing, updated_at: Date.now(), policy_version: POLICY_VERSION };
     localStorage.setItem(CONSENT_KEY, JSON.stringify(data));
     return data;
   }
 
-  // --- Update GTM Consent Mode ---
   function updateGtmConsent(analytics, marketing) {
     gtag('consent', 'update', {
       analytics_storage: analytics ? 'granted' : 'denied',
@@ -134,17 +118,10 @@
     });
   }
 
-  // --- Push consent event to dataLayer ---
   function pushConsentEvent(eventName, analytics, marketing) {
-    window.dataLayer.push({
-      event: eventName,
-      consent_analytics: analytics,
-      consent_marketing: marketing,
-      consent_version: POLICY_VERSION
-    });
+    window.dataLayer.push({ event: eventName, consent_analytics: analytics, consent_marketing: marketing, consent_version: POLICY_VERSION });
   }
 
-  // --- Delete analytics/marketing cookies ---
   function deleteCookies() {
     var patterns = ['_ga', '_gid', '_gat', '_clck', '_clsk', 'CLID', 'ANONCHK', 'MR', 'MUID', 'SM', '_fbp', 'fr'];
     document.cookie.split(';').forEach(function(c) {
@@ -159,15 +136,13 @@
     });
   }
 
-  // --- Apply consent ---
   function applyConsent(analytics, marketing, eventName) {
     writeConsent(analytics, marketing);
     updateGtmConsent(analytics, marketing);
     pushConsentEvent(eventName, analytics, marketing);
     if (!analytics && !marketing) deleteCookies();
-    else if (!analytics) deleteCookies(); // clean analytics cookies
+    else if (!analytics) deleteCookies();
     else if (!marketing) {
-      // clean only marketing cookies
       ['_fbp', 'fr'].forEach(function(name) {
         document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=.' + location.hostname;
         document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
@@ -177,66 +152,33 @@
     hideModal();
   }
 
-  // --- Show/hide ---
   function showBanner() { banner.style.display = ''; }
   function hideBanner() { banner.style.display = 'none'; }
-  function showModal() {
-    overlay.style.display = '';
-    document.body.style.overflow = 'hidden';
-  }
-  function hideModal() {
-    overlay.style.display = 'none';
-    document.body.style.overflow = '';
-  }
+  function showModal() { overlay.style.display = ''; document.body.style.overflow = 'hidden'; }
+  function hideModal() { overlay.style.display = 'none'; document.body.style.overflow = ''; }
 
-  // --- Init ---
   var stored = readConsent();
   if (stored) {
-    // Apply stored consent silently
     updateGtmConsent(stored.analytics, stored.marketing);
   } else {
-    // No consent yet — show banner
     showBanner();
   }
 
-  // --- Banner buttons ---
-  document.getElementById('cb-accept-all').addEventListener('click', function() {
-    applyConsent(true, true, 'consent_accept_all');
-  });
-  document.getElementById('cb-reject-all').addEventListener('click', function() {
-    applyConsent(false, false, 'consent_reject_all');
-  });
+  document.getElementById('cb-accept-all').addEventListener('click', function() { applyConsent(true, true, 'consent_accept_all'); });
+  document.getElementById('cb-reject-all').addEventListener('click', function() { applyConsent(false, false, 'consent_reject_all'); });
   document.getElementById('cb-customize').addEventListener('click', function() {
     hideBanner();
-    // Reset toggles to unchecked (default off)
     togAnalytics.checked = false;
     togMarketing.checked = false;
     showModal();
   });
 
-  // --- Modal buttons ---
-  document.getElementById('cb-save').addEventListener('click', function() {
-    applyConsent(togAnalytics.checked, togMarketing.checked, 'consent_update');
-  });
-  document.getElementById('cb-modal-accept-all').addEventListener('click', function() {
-    applyConsent(true, true, 'consent_accept_all');
-  });
-  document.getElementById('cb-modal-reject-all').addEventListener('click', function() {
-    applyConsent(false, false, 'consent_reject_all');
-  });
-  document.getElementById('cb-modal-close').addEventListener('click', function() {
-    hideModal();
-    // If no stored consent, re-show banner
-    if (!readConsent()) showBanner();
-  });
-  overlay.addEventListener('click', function(e) {
-    if (e.target === overlay) {
-      hideModal();
-      if (!readConsent()) showBanner();
-    }
-  });
+  document.getElementById('cb-save').addEventListener('click', function() { applyConsent(togAnalytics.checked, togMarketing.checked, 'consent_update'); });
+  document.getElementById('cb-modal-accept-all').addEventListener('click', function() { applyConsent(true, true, 'consent_accept_all'); });
+  document.getElementById('cb-modal-reject-all').addEventListener('click', function() { applyConsent(false, false, 'consent_reject_all'); });
+  document.getElementById('cb-modal-close').addEventListener('click', function() { hideModal(); if (!readConsent()) showBanner(); });
+  overlay.addEventListener('click', function(e) { if (e.target === overlay) { hideModal(); if (!readConsent()) showBanner(); } });
 
-  // --- Footer "Cookie Settings" button ---
   window.openCookieSettings = function() {
     var existing = readConsent();
     togAnalytics.checked = existing ? existing.analytics : false;
@@ -246,4 +188,3 @@
   };
 })();
 </script>
-<% } %>
