@@ -2230,12 +2230,20 @@ body.nav-open {
   line-height: 1.35;
   color: var(--text-label);
 }
-.cb-banner-link {
+.cb-banner-link,
+.cb-banner-link:link,
+.cb-banner-link:visited,
+.cb-banner-link:active {
   font-size: 10px;
   color: var(--text-label);
   text-decoration: underline;
   margin-top: 2px;
   display: inline-block;
+}
+.cb-banner-link:hover,
+.cb-banner-link:focus-visible {
+  color: var(--text-accent);
+  text-decoration: underline;
 }
 .cb-banner-actions {
   display: flex;
@@ -2394,9 +2402,17 @@ body.nav-open {
   padding: 0 24px 16px;
   text-align: center;
 }
-.cb-modal-link a {
+.cb-modal-link a,
+.cb-modal-link a:link,
+.cb-modal-link a:visited,
+.cb-modal-link a:active {
   font-size: 12px;
   color: var(--text-label);
+  text-decoration: underline;
+}
+.cb-modal-link a:hover,
+.cb-modal-link a:focus-visible {
+  color: var(--text-accent);
   text-decoration: underline;
 }
 
@@ -2446,9 +2462,18 @@ body.nav-open {
   color: var(--text-label);
   font-size: 13px;
 }
-.cp-link {
+.cp-link,
+.cp-link:link,
+.cp-link:visited,
+.cp-link:active {
   color: var(--text-accent);
   text-decoration: underline;
+}
+.cp-link:hover,
+.cp-link:focus-visible {
+  color: var(--text-accent);
+  text-decoration: underline;
+  opacity: 0.7;
 }
 .cp-table-wrap {
   overflow-x: auto;
