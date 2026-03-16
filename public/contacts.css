@@ -166,6 +166,96 @@
   border-color: #16a34a;
 }
 
+/* ---- Email Scenarios Section ---- */
+.scenarios-section {
+  padding: 48px 0;
+  border-bottom: 1px solid var(--border-default);
+}
+.scenarios-section h2 {
+  margin-top: 8px;
+  margin-bottom: 4px;
+}
+.scenarios-desc {
+  max-width: 480px;
+  font-size: 14px;
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+.scenarios-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 24px;
+}
+.scenario-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 20px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.scenario-card:hover {
+  border-color: var(--border-active);
+  background: var(--bg-surface-hover);
+}
+.scenario-icon {
+  width: 28px;
+  height: 28px;
+  color: var(--text-accent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.scenario-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.scenario-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+.scenario-title {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-accent);
+}
+.scenario-desc {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-label);
+}
+.scenario-arrow {
+  width: 18px;
+  height: 18px;
+  color: var(--text-dim);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+.scenario-arrow svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.scenario-card:hover .scenario-arrow {
+  color: var(--text-accent);
+  transform: translateX(2px);
+}
+
 /* ---- Channels Section ---- */
 .channels-section {
   padding: 48px 0;
@@ -284,6 +374,7 @@
   .contacts-hero { padding: 48px 0 36px; }
   .contacts-hero h1 { font-size: 32px; }
   .contacts-grid { grid-template-columns: 1fr; }
+  .scenarios-grid { grid-template-columns: 1fr; }
 }
 
 /* Phone */
@@ -296,6 +387,12 @@
   .contact-card { padding: 22px 18px; }
   .contact-card-value { font-size: 14px; }
   .contact-card-cta { flex-wrap: wrap; }
+  .scenarios-section { padding: 32px 0; }
+  .scenarios-grid { gap: 10px; margin-top: 18px; }
+  .scenario-card { padding: 16px 14px; gap: 10px; }
+  .scenario-icon { width: 22px; height: 22px; }
+  .scenario-title { font-size: 12px; }
+  .scenario-desc { font-size: 11px; }
   .channels-section { padding: 32px 0; }
   .channels-list { margin-top: 16px; }
   .channel-row {
@@ -336,6 +433,12 @@
   .contact-card-desc { font-size: 12px; }
   .contact-card-btn { font-size: 10px; padding: 7px 12px; }
   .copy-email-btn { font-size: 10px; padding: 7px 10px; }
+  .scenarios-section { padding: 24px 0; }
+  .scenario-card { padding: 14px 12px; }
+  .scenario-icon { width: 20px; height: 20px; }
+  .scenario-title { font-size: 11px; }
+  .scenario-desc { font-size: 10px; }
+  .scenario-arrow { width: 14px; height: 14px; }
   .channels-section { padding: 24px 0; }
   .channel-row { padding: 12px 14px; }
   .channel-platform { font-size: 10px; }
