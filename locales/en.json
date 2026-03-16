@@ -140,7 +140,7 @@
     "encStep2Title": "Find the Index",
     "encStep2Text": "Look up each word in the printed BIP39 <a href=\"%PREFIX%/dictionary\">dictionary</a> included in the kit, which shows the index number next to each word.",
     "encStep3Title": "Convert to Binary",
-    "encStep3Text": "Filled = 1 | Empty = 0.",
+    "encStep3Text": "Convert the index to an 11-bit binary number: filled cell = 1, empty cell = 0.",
     "encTopLabel": "TOP",
     "encBottomLabel": "BOTTOM",
     "encCheckLabel": "CHECK",
