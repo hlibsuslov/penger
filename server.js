@@ -73,7 +73,7 @@ app.use(function (req, res, next) {
   res.locals.langPrefix = lang === 'en' ? '' : '/' + lang;
   res.locals.canonicalBase = 'https://mypenger.com';
   res.locals.currentPath = req.path;
-  res.locals.gtmId = process.env.GTM_ID || '';
+  res.locals.gtmId = process.env.GTM_ID || 'GTM-MRBLXV3T';
   next();
 });
 
