@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>">
+<head>
+  <%- include('../partials/head') %>
+  <title><%= pageTitle %></title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "<%= pageTitle %>",
+    "url": "<%= canonicalBase %><%= langPrefix %>/cookie-policy",
+    "description": "<%= pageDescription %>"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "<%= lang === 'uk' ? 'Головна' : 'Home' %>", "item": "<%= canonicalBase %><%= langPrefix %>/" },
+      { "@type": "ListItem", "position": 2, "name": "<%= lang === 'uk' ? 'Політика cookies' : 'Cookie Policy' %>" }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <%- include('../partials/gtm-body') %>
+
+  <noscript><p style="padding:40px;text-align:center;font-size:16px;">JavaScript is required.</p></noscript>
+
+  <%- include('../partials/header') %>
+
+  <main>
+
+    <!-- ===== HERO ===== -->
+    <section class="about-hero">
+      <div class="container">
+        <p class="label"><%= t.cookiePolicy.heroLabel %></p>
+        <h1><%- t.cookiePolicy.heroH1 %></h1>
+        <p class="body-text"><%- t.cookiePolicy.heroDesc %></p>
+      </div>
+    </section>
+
+    <!-- ===== WHAT ARE COOKIES ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.cookiePolicy.whatLabel %></p>
+        <h2><%= t.cookiePolicy.whatH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.cookiePolicy.whatText %></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CATEGORIES ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.cookiePolicy.categoriesLabel %></p>
+        <h2><%= t.cookiePolicy.categoriesH2 %></h2>
+        <div class="about-text-block">
+          <h3 class="cp-subhead"><%= t.cookiePolicy.cat1Title %></h3>
+          <p><%- t.cookiePolicy.cat1Desc %></p>
+          <h3 class="cp-subhead"><%= t.cookiePolicy.cat2Title %></h3>
+          <p><%- t.cookiePolicy.cat2Desc %></p>
+          <h3 class="cp-subhead"><%= t.cookiePolicy.cat3Title %></h3>
+          <p><%- t.cookiePolicy.cat3Desc %></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PURPOSES ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.cookiePolicy.purposeLabel %></p>
+        <h2><%= t.cookiePolicy.purposeH2 %></h2>
+        <div class="about-text-block">
+          <ul class="cp-list">
+            <li><%- t.cookiePolicy.purpose1 %></li>
+            <li><%- t.cookiePolicy.purpose2 %></li>
+            <li><%- t.cookiePolicy.purpose3 %></li>
+            <li><%- t.cookiePolicy.purpose4 %></li>
+            <li><%- t.cookiePolicy.purpose5 %></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SERVICES TABLE ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.cookiePolicy.servicesLabel %></p>
+        <h2><%= t.cookiePolicy.servicesH2 %></h2>
+        <div class="about-text-block">
+          <div class="cp-table-wrap">
+            <table class="cp-table">
+              <thead>
+                <tr>
+                  <th><%= t.cookiePolicy.svcTableName %></th>
+                  <th><%= t.cookiePolicy.svcTableCategory %></th>
+                  <th><%= t.cookiePolicy.svcTableCookies %></th>
+                  <th><%= t.cookiePolicy.svcTableLifetime %></th>
+                  <th><%= t.cookiePolicy.svcTablePolicy %></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% var svcs = [1,2,3,4]; svcs.forEach(function(i) { %>
+                <tr>
+                  <td><strong><%= t.cookiePolicy['svc'+i+'Name'] %></strong><br><span class="cp-svc-desc"><%- t.cookiePolicy['svc'+i+'Desc'] %></span></td>
+                  <td><%= t.cookiePolicy['svc'+i+'Category'] %></td>
+                  <td><code><%= t.cookiePolicy['svc'+i+'Cookies'] %></code></td>
+                  <td><%= t.cookiePolicy['svc'+i+'Lifetime'] %></td>
+                  <td><a href="<%= t.cookiePolicy['svc'+i+'Policy'] %>" target="_blank" rel="noopener noreferrer" style="color:var(--text-accent);text-decoration:underline;">Link</a></td>
+                </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== DATA COLLECTED ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.cookiePolicy.dataLabel %></p>
+        <h2><%= t.cookiePolicy.dataH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.cookiePolicy.dataText %></p>
+          <ul class="cp-list">
+            <li><%- t.cookiePolicy.data1 %></li>
+            <li><%- t.cookiePolicy.data2 %></li>
+            <li><%- t.cookiePolicy.data3 %></li>
+            <li><%- t.cookiePolicy.data4 %></li>
+            <li><%- t.cookiePolicy.data5 %></li>
+            <li><%- t.cookiePolicy.data6 %></li>
+            <li><%- t.cookiePolicy.data7 %></li>
+          </ul>
+          <p style="margin-top:12px;color:var(--text-label);font-size:13px;"><%- t.cookiePolicy.dataNote %></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== COOKIE LIFETIMES ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.cookiePolicy.lifetimeLabel %></p>
+        <h2><%= t.cookiePolicy.lifetimeH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.cookiePolicy.lifetimeText %></p>
+          <ul class="cp-list">
+            <li><%- t.cookiePolicy.lifetime1 %></li>
+            <li><%- t.cookiePolicy.lifetime2 %></li>
+            <li><%- t.cookiePolicy.lifetime3 %></li>
+            <li><%- t.cookiePolicy.lifetime4 %></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== MANAGE CONSENT ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.cookiePolicy.manageLabel %></p>
+        <h2><%= t.cookiePolicy.manageH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.cookiePolicy.manageText1 %></p>
+          <p><%- t.cookiePolicy.manageText2 %></p>
+          <h3 class="cp-subhead"><%= t.cookiePolicy.browserTitle %></h3>
+          <p><%- t.cookiePolicy.browserText %></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== THIRD-PARTY ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.cookiePolicy.thirdPartyLabel %></p>
+        <h2><%= t.cookiePolicy.thirdPartyH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.cookiePolicy.thirdPartyText %></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== UPDATES ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.cookiePolicy.updatesLabel %></p>
+        <h2><%= t.cookiePolicy.updatesH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.cookiePolicy.updatesText %></p>
+          <p style="margin-top:8px;font-family:var(--font-mono);font-size:12px;color:var(--text-label);"><%= t.cookiePolicy.updatesVersion %></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.cookiePolicy.contactLabel %></p>
+        <h2><%= t.cookiePolicy.contactH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.cookiePolicy.contactText %> <a href="mailto:<%= t.cookiePolicy.contactEmail %>" style="color:var(--text-accent);text-decoration:underline;"><%= t.cookiePolicy.contactEmail %></a></p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <%- include('../partials/footer') %>
+
+  <script src="/analytics.js"></script>
+  <script src="/shared.js?v=2"></script>
+</body>
+</html>

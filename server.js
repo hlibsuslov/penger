@@ -73,6 +73,8 @@ app.use(function (req, res, next) {
   res.locals.langPrefix = lang === 'en' ? '' : '/' + lang;
   res.locals.canonicalBase = 'https://mypenger.com';
   res.locals.currentPath = req.path;
+  res.locals.gtmId = process.env.GTM_ID || 'GTM-MRBLXV3T';
+  res.locals.gaId = process.env.GA_ID || 'G-4DKG21ZFFX';
   next();
 });
 
@@ -156,6 +158,7 @@ var PAGE_CONFIGS = {
   '/contacts': { view: 'pages/contacts', dataKey: 'contacts', css: ['contacts.css'] },
   '/payment-success': { view: 'pages/payment-success', dataKey: 'paymentSuccess', css: [] },
   '/payment-failed': { view: 'pages/payment-failed', dataKey: 'paymentFailed', css: [] },
+  '/cookie-policy': { view: 'pages/cookie-policy', dataKey: 'cookiePolicy', css: [] },
 };
 
 Object.keys(PAGE_CONFIGS).forEach(function (route) {
