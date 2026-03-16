@@ -90,13 +90,14 @@
   </script>
 </head>
 <body>
+  <%- include('../partials/gtm-body') %>
   <noscript><p style="padding:40px;text-align:center;font-size:16px;">JavaScript is required.</p></noscript>
   <%- include('../partials/header') %>
 
   <main>
 
     <!-- ===== BLOCK 1: HERO ===== -->
-    <section class="lp-hero">
+    <section class="lp-hero" id="hero" data-section="hero">
       <div class="lp-hero-grid-bg"></div>
       <div class="lp-hero-glow"></div>
 
@@ -110,18 +111,18 @@
         <p class="lp-hero-tagline"><%= t.index.heroTagline %></p>
         <p class="lp-subheadline"><%= t.index.heroSubheadline %></p>
         <div class="lp-cta-group">
-          <a href="#order" class="btn lp-btn-primary lp-btn-shimmer lp-btn-with-icon">
+          <a href="#order" class="btn lp-btn-primary lp-btn-shimmer lp-btn-with-icon" data-track="buy_click" data-cta-id="hero_buy" data-section="hero" data-product-id="penger-v1">
             <svg class="lp-btn-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
             <span><%= t.index.buyBtn %></span>
           </a>
-          <a href="#encoding-guide" class="btn lp-btn-outline lp-hero-link"><%= t.index.howItWorks %> <span class="lp-hero-link-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+          <a href="#encoding-guide" class="btn lp-btn-outline lp-hero-link" data-track="cta_click" data-cta-id="hero_how_it_works" data-section="hero"><%= t.index.howItWorks %> <span class="lp-hero-link-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
         </div>
       </div>
 
     </section>
 
     <!-- ===== BLOCK 3: THE REALITY CHECK ===== -->
-    <section class="lp-section lp-section-problem lp-no-border-bottom">
+    <section class="lp-section lp-section-problem lp-no-border-bottom" id="problem" data-section="problem">
       <div class="container">
         <p class="lp-section-label anim-fade-in"><%= t.index.vulnerabilityLabel %></p>
         <h2 class="lp-h2 anim-fade-in"><%- t.index.vulnerabilityH2 %></h2>
@@ -145,7 +146,7 @@
     </section>
 
     <!-- ===== BLOCK 4: ABSOLUTE PRIVACY ===== -->
-    <section class="lp-section lp-section-privacy">
+    <section class="lp-section lp-section-privacy" id="social-proof" data-section="social-proof">
       <div class="container">
         <p class="lp-section-label anim-fade-in"><%= t.index.privacyLabel %></p>
         <h2 class="lp-h2 anim-fade-in"><%= t.index.privacyH2 %></h2>
@@ -186,7 +187,7 @@
     </section>
 
     <!-- ===== BLOCK 5: SOLUTION & THE KIT ===== -->
-    <section class="lp-section lp-section-features">
+    <section class="lp-section lp-section-features" id="benefits" data-section="benefits">
       <div class="container">
         <p class="lp-section-label anim-fade-in"><%= t.index.kitLabel %></p>
         <h2 class="lp-h2 anim-fade-in"><%- t.index.kitH2 %></h2>
@@ -217,7 +218,7 @@
     </section>
 
     <!-- ===== BLOCK 6: HOW IT WORKS ===== -->
-    <section class="lp-section lp-section-how" id="how-it-works">
+    <section class="lp-section lp-section-how" id="how-it-works" data-section="how-it-works">
       <div class="container">
         <p class="lp-section-label anim-fade-in"><%= t.index.protocolLabel %></p>
         <h2 class="lp-h2 anim-fade-in"><%= t.index.protocolH2 %></h2>
@@ -287,7 +288,7 @@
     </section>
 
     <!-- ===== BLOCK 6.5: ENCODING GUIDE & SIMULATOR INFO ===== -->
-    <section class="lp-section lp-section-guide" id="encoding-guide">
+    <section class="lp-section lp-section-guide" id="encoding-guide" data-section="encoding-guide">
       <div class="container">
         <p class="lp-section-label anim-fade-in"><%= t.index.encodingLabel %></p>
         <h2 class="lp-h2 anim-fade-in"><%- t.index.encodingH2 %></h2>
@@ -491,15 +492,15 @@
           <h3 class="lp-guide-callout-title"><%= t.index.simCalloutTitle %></h3>
           <p class="lp-guide-callout-text"><%- t.index.simCalloutText %></p>
           <div class="btn-group lp-btn-group-callout">
-            <a href="<%= langPrefix %>/simulators" class="btn lp-btn-primary lp-btn-with-icon"><span class="lp-btn-icon"><svg viewBox="0 0 491 531" width="56" height="56" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M35 78h83v21H56v62H35z"/><path d="M335 78h83v83h-21V99h-62z"/><path d="M35 378h21v62h62v21H35z"/><path d="M335 461h83V378h-21v62h-62z"/><path d="M112 188l115-66 115 66-115 66z"/><path d="M99 209l115 66v135L99 344z"/><path d="M239 275l115-66v135L239 410z"/></svg></span><%= t.index.trySimulators %></a>
-            <a href="<%= langPrefix %>/dictionary" class="btn lp-btn-outline"><%= t.index.browseDictionary %></a>
+            <a href="<%= langPrefix %>/simulators" class="btn lp-btn-primary lp-btn-with-icon" data-track="cta_click" data-cta-id="guide_try_simulators" data-section="encoding-guide"><span class="lp-btn-icon"><svg viewBox="0 0 491 531" width="56" height="56" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M35 78h83v21H56v62H35z"/><path d="M335 78h83v83h-21V99h-62z"/><path d="M35 378h21v62h62v21H35z"/><path d="M335 461h83V378h-21v62h-62z"/><path d="M112 188l115-66 115 66-115 66z"/><path d="M99 209l115 66v135L99 344z"/><path d="M239 275l115-66v135L239 410z"/></svg></span><%= t.index.trySimulators %></a>
+            <a href="<%= langPrefix %>/dictionary" class="btn lp-btn-outline" data-track="cta_click" data-cta-id="guide_browse_dictionary" data-section="encoding-guide"><%= t.index.browseDictionary %></a>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ===== BLOCK 7: THE GUARDIAN MANIFESTO ===== -->
-    <section class="lp-section lp-section-manifesto">
+    <section class="lp-section lp-section-manifesto" id="manifesto" data-section="manifesto">
       <div class="container">
         <p class="lp-section-label anim-fade-in"><%= t.index.manifestoLabel %></p>
         <h2 class="lp-h2 anim-fade-in"><%= t.index.manifestoH2 %></h2>
@@ -508,13 +509,13 @@
     </section>
 
     <!-- ===== BLOCK 8: FINAL CTA ===== -->
-    <section class="lp-section lp-section-final-cta" id="order">
+    <section class="lp-section lp-section-final-cta" id="pricing" data-section="pricing" data-track-offer data-offer-id="penger-v1-main" data-product-id="penger-v1">
       <div class="container">
         <p class="lp-section-label anim-fade-in"><%= t.index.ctaLabel %></p>
         <h2 class="lp-h2 anim-fade-in"><%- t.index.ctaH2 %></h2>
         <p class="lp-subheadline lp-cta-sub anim-fade-in"><%= t.index.ctaSub %></p>
         <div class="lp-cta-group anim-fade-in">
-          <a href="#order" class="btn lp-btn-primary lp-btn-large"><%= t.index.ctaBtn %></a>
+          <a href="#order" class="btn lp-btn-primary lp-btn-large" data-track="buy_click" data-cta-id="pricing_buy" data-section="pricing" data-product-id="penger-v1"><%= t.index.ctaBtn %></a>
         </div>
         <p class="lp-shipping-info anim-fade-in"><%= t.index.ctaShipping %></p>
       </div>
@@ -524,6 +525,7 @@
 
   <%- include('../partials/footer') %>
 
+  <script src="/analytics.js" defer></script>
   <script src="/shared.js?v=2" defer></script>
   <script>
   document.addEventListener('DOMContentLoaded', function () {
