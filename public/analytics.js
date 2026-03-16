@@ -249,6 +249,75 @@
     });
   })();
 
+  /* ===== SECTION VIEWS (IntersectionObserver: 30% visible for 0.5s) ===== */
+  (function () {
+    var sectionMap = {
+      'problem': 'view_problem',
+      'social-proof': 'view_privacy',
+      'benefits': 'view_benefits',
+      'how-it-works': 'view_how_it_works',
+      'encoding-guide': 'view_encoding_guide',
+      'pricing': 'view_pricing'
+    };
+
+    if (!('IntersectionObserver' in window)) return;
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var el = entry.target;
+        if (entry.isIntersecting) {
+          el._sectionTimer = setTimeout(function () {
+            var sectionId = el.getAttribute('data-section') || el.id;
+            var eventName = sectionMap[sectionId];
+            if (eventName) {
+              push(eventName, { page_section: sectionId });
+              observer.unobserve(el);
+            }
+          }, 500);
+        } else if (el._sectionTimer) {
+          clearTimeout(el._sectionTimer);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    Object.keys(sectionMap).forEach(function (id) {
+      var el = document.getElementById(id) || document.querySelector('[data-section="' + id + '"]');
+      if (el) observer.observe(el);
+    });
+  })();
+
+  /* ===== NAV CLICKS ===== */
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest('.site-nav .nav-link, .site-nav .nav-dropdown-link');
+    if (!link) return;
+
+    push('nav_click', {
+      link_url: link.getAttribute('href') || '',
+      link_text: (link.textContent || '').trim().substring(0, 100)
+    });
+  });
+
+  /* ===== CHECKOUT START (click on buy links pointing to #order) ===== */
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest('a[href*="#order"]');
+    if (!link) return;
+
+    push('checkout_start', {
+      product_id: link.getAttribute('data-product-id') || 'penger-v1',
+      page_section: link.getAttribute('data-section') || getSectionFromElement(link),
+      cta_id: link.getAttribute('data-cta-id') || ''
+    });
+  });
+
+  /* ===== PAYMENT SUCCESS (fires on thank-you page) ===== */
+  if (getPageType() === 'thank_you') {
+    push('payment_success', {
+      product_id: 'penger-v1',
+      value: '75.00',
+      currency: 'USD'
+    });
+  }
+
   /* ===== EXIT INTENT (desktop only) ===== */
   (function () {
     var fired = false;
