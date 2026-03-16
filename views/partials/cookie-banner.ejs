@@ -1,27 +1,27 @@
 <%# ===== COOKIE CONSENT BANNER + SETTINGS MODAL ===== %>
 <%# CMP-lite: Banner (layer 1) + Settings modal (layer 2) + GTM Consent Mode %>
-
+<% var ck = t.cookie || {}; if (ck.bannerTitle) { %>
 <!-- LAYER 1: Cookie Banner -->
-<div id="cb-banner" class="cb-banner" style="display:none;" role="dialog" aria-label="<%= t.cookie.bannerTitle %>" aria-modal="false">
+<div id="cb-banner" class="cb-banner" style="display:none;" role="dialog" aria-label="<%= ck.bannerTitle %>" aria-modal="false">
   <div class="cb-banner-inner">
     <div class="cb-banner-body">
-      <p class="cb-banner-title"><%= t.cookie.bannerTitle %></p>
-      <p class="cb-banner-text"><%= t.cookie.bannerText %></p>
-      <a href="<%= langPrefix %>/cookie-policy" class="cb-banner-link"><%= t.cookie.learnMore %></a>
+      <p class="cb-banner-title"><%= ck.bannerTitle %></p>
+      <p class="cb-banner-text"><%= ck.bannerText %></p>
+      <a href="<%= langPrefix %>/cookie-policy" class="cb-banner-link"><%= ck.learnMore %></a>
     </div>
     <div class="cb-banner-actions">
-      <button id="cb-accept-all" class="cb-btn cb-btn--primary"><%= t.cookie.acceptAll %></button>
-      <button id="cb-reject-all" class="cb-btn cb-btn--primary"><%= t.cookie.rejectAll %></button>
-      <button id="cb-customize" class="cb-btn cb-btn--secondary"><%= t.cookie.customize %></button>
+      <button id="cb-accept-all" class="cb-btn cb-btn--primary"><%= ck.acceptAll %></button>
+      <button id="cb-reject-all" class="cb-btn cb-btn--primary"><%= ck.rejectAll %></button>
+      <button id="cb-customize" class="cb-btn cb-btn--secondary"><%= ck.customize %></button>
     </div>
   </div>
 </div>
 
 <!-- LAYER 2: Settings Modal -->
 <div id="cb-overlay" class="cb-overlay" style="display:none;">
-  <div id="cb-modal" class="cb-modal" role="dialog" aria-label="<%= t.cookie.settingsTitle %>" aria-modal="true">
+  <div id="cb-modal" class="cb-modal" role="dialog" aria-label="<%= ck.settingsTitle %>" aria-modal="true">
     <div class="cb-modal-header">
-      <p class="cb-modal-title"><%= t.cookie.settingsTitle %></p>
+      <p class="cb-modal-title"><%= ck.settingsTitle %></p>
       <button id="cb-modal-close" class="cb-modal-close" aria-label="Close">&times;</button>
     </div>
     <div class="cb-modal-body">
@@ -29,8 +29,8 @@
       <div class="cb-category">
         <div class="cb-category-header">
           <div>
-            <p class="cb-category-name"><%= t.cookie.necessaryTitle %></p>
-            <p class="cb-category-desc"><%= t.cookie.necessaryDesc %></p>
+            <p class="cb-category-name"><%= ck.necessaryTitle %></p>
+            <p class="cb-category-desc"><%= ck.necessaryDesc %></p>
           </div>
           <div class="cb-toggle cb-toggle--locked">
             <input type="checkbox" checked disabled id="cb-tog-necessary">
@@ -42,8 +42,8 @@
       <div class="cb-category">
         <div class="cb-category-header">
           <div>
-            <p class="cb-category-name"><%= t.cookie.analyticsTitle %></p>
-            <p class="cb-category-desc"><%= t.cookie.analyticsDesc %></p>
+            <p class="cb-category-name"><%= ck.analyticsTitle %></p>
+            <p class="cb-category-desc"><%= ck.analyticsDesc %></p>
           </div>
           <div class="cb-toggle">
             <input type="checkbox" id="cb-tog-analytics">
@@ -55,8 +55,8 @@
       <div class="cb-category">
         <div class="cb-category-header">
           <div>
-            <p class="cb-category-name"><%= t.cookie.marketingTitle %></p>
-            <p class="cb-category-desc"><%= t.cookie.marketingDesc %></p>
+            <p class="cb-category-name"><%= ck.marketingTitle %></p>
+            <p class="cb-category-desc"><%= ck.marketingDesc %></p>
           </div>
           <div class="cb-toggle">
             <input type="checkbox" id="cb-tog-marketing">
@@ -66,12 +66,12 @@
       </div>
     </div>
     <div class="cb-modal-footer">
-      <button id="cb-save" class="cb-btn cb-btn--primary"><%= t.cookie.saveChoices %></button>
-      <button id="cb-modal-accept-all" class="cb-btn cb-btn--secondary"><%= t.cookie.acceptAll %></button>
-      <button id="cb-modal-reject-all" class="cb-btn cb-btn--secondary"><%= t.cookie.rejectAll %></button>
+      <button id="cb-save" class="cb-btn cb-btn--primary"><%= ck.saveChoices %></button>
+      <button id="cb-modal-accept-all" class="cb-btn cb-btn--secondary"><%= ck.acceptAll %></button>
+      <button id="cb-modal-reject-all" class="cb-btn cb-btn--secondary"><%= ck.rejectAll %></button>
     </div>
     <div class="cb-modal-link">
-      <a href="<%= langPrefix %>/cookie-policy"><%= t.cookie.learnMore %></a>
+      <a href="<%= langPrefix %>/cookie-policy"><%= ck.learnMore %></a>
     </div>
   </div>
 </div>
@@ -246,3 +246,4 @@
   };
 })();
 </script>
+<% } %>
