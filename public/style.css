@@ -1954,12 +1954,14 @@ body.nav-open {
 .footer-cookie-links {
   display: inline-flex; align-items: center; gap: 6px;
 }
-.footer-cookie-link {
+.footer-cookie-link,
+.footer-cookie-link:visited,
+.footer-cookie-link:active {
   font-family: var(--font-mono); font-size: 9px; font-weight: 400;
   color: var(--text-dim); text-decoration: none; opacity: 0.5;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease, color 0.2s ease;
 }
-.footer-cookie-link:hover { opacity: 1; }
+.footer-cookie-link:hover { opacity: 1; color: var(--text-dim); }
 .footer-cookie-sep { color: var(--text-dim); opacity: 0.3; font-size: 9px; }
 
 @media (max-width: 520px) {
