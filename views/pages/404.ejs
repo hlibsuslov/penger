@@ -76,23 +76,27 @@
       display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
     }
     .error-nav a {
-      font-family: var(--font-mono); font-size: 12px; font-weight: 600;
-      letter-spacing: 0.02em; text-decoration: none;
-      padding: 10px 20px; border-radius: 4px;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono); font-size: 13px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      text-decoration: none;
+      padding: 12px 28px; border-radius: 4px;
       border: 1px solid var(--border-default);
-      color: var(--text-label); background: transparent;
-      transition: all 0.15s ease;
+      color: var(--text-accent); background: transparent;
+      transition: all 0.2s ease; min-height: 44px;
+      touch-action: manipulation;
     }
     .error-nav a:hover {
-      color: var(--text-accent); border-color: var(--border-active);
-      background: var(--bg-surface-hover);
+      color: var(--text-accent-hover); border-color: var(--border-active);
     }
+    .error-nav a:active { transform: scale(0.98); }
     .error-nav a.primary {
       background: var(--text-accent); color: var(--bg-main);
       border-color: var(--text-accent);
     }
     .error-nav a.primary:hover {
-      background: var(--text-accent-hover);
+      background: var(--text-accent-hover); border-color: var(--text-accent-hover);
+      box-shadow: 0 0 16px var(--glow);
     }
 
     /* ---- punch pattern label ---- */
@@ -100,6 +104,22 @@
       font-family: var(--font-mono); font-size: 10px; font-weight: 600;
       text-transform: uppercase; letter-spacing: 0.04em;
       color: var(--text-dim); margin-bottom: 6px;
+    }
+
+    /* ---- punch pattern separator row ---- */
+    .error-punch-row {
+      display: flex; gap: 6px; justify-content: center;
+      margin-bottom: 28px; opacity: 0.3;
+    }
+    .error-punch-row .pdot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--punch-empty);
+      border: 1px solid var(--border-default);
+      transition: background 0.3s ease;
+    }
+    .error-punch-row .pdot.on {
+      background: var(--punch-fill);
+      border-color: var(--punch-fill);
     }
   </style>
 </head>
@@ -123,6 +143,9 @@
     <!-- binary representation of 404 -->
     <p class="error-punch-label"><%= t.error404.punchLabel %></p>
     <div class="error-binary" id="errorBinary"></div>
+
+    <!-- punch pattern separator -->
+    <div class="error-punch-row" id="errorPunchRow" aria-hidden="true"></div>
 
     <div class="error-nav">
       <a href="<%= langPrefix %>/" class="primary"><%= t.nav.home %></a>
@@ -149,6 +172,16 @@
         span.className = 'ebit-label ' + (BINARY_404[i] === '1' ? 'b1' : 'b0');
         span.textContent = BINARY_404[i];
         binaryEl.appendChild(span);
+      }
+    }
+
+    /* ---- render punch separator row ---- */
+    var punchRow = document.getElementById('errorPunchRow');
+    if (punchRow) {
+      for (var p = 0; p < BINARY_404.length; p++) {
+        var pdot = document.createElement('div');
+        pdot.className = 'pdot' + (BINARY_404[p] === '1' ? ' on' : '');
+        punchRow.appendChild(pdot);
       }
     }
 
