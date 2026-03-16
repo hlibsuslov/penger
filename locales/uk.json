@@ -13,7 +13,9 @@
   },
   "footer": {
     "copyright": "2026 PENGER",
-    "tagline": "ФІЗИЧНИЙ СУВЕРЕНІТЕТ / ЖОДНИХ КОМПРОМІСІВ"
+    "tagline": "ФІЗИЧНИЙ СУВЕРЕНІТЕТ / ЖОДНИХ КОМПРОМІСІВ",
+    "cookiePolicy": "Політика Cookie",
+    "cookieSettings": "Налаштування Cookie"
   },
   "index": {
     "title": "PENGER v1.0 — Фінальний бекап для цифрового багатства",
