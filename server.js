@@ -75,6 +75,7 @@ app.use(function (req, res, next) {
   res.locals.currentPath = req.path;
   res.locals.gtmId = process.env.GTM_ID || 'GTM-MRBLXV3T';
   res.locals.gaId = process.env.GA_ID || 'G-4DKG21ZFFX';
+  res.locals.clarityId = process.env.CLARITY_ID || '';
   next();
 });
 
