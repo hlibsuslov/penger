@@ -470,6 +470,7 @@
     "city": "City",
     "zip": "ZIP / Postal code",
     "country": "Country",
+    "countryOfDelivery": "Country of delivery",
     "countryPlaceholder": "Select country",
     "continueToPayment": "Continue to Payment",
     "payCard": "Card payment",

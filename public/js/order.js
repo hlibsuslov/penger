@@ -43,6 +43,15 @@
     US:'+1',CA:'+1',AU:'+61',JP:'+81',CH:'+41',NO:'+47',UA:'+380'
   };
 
+  /* Country code → flag emoji */
+  function countryFlag(code) {
+    if (!code || code.length !== 2) return '';
+    return String.fromCodePoint(
+      0x1F1E6 + code.charCodeAt(0) - 65,
+      0x1F1E6 + code.charCodeAt(1) - 65
+    );
+  }
+
   /* ===== EMAIL TYPO MAP ===== */
   var EMAIL_DOMAINS = {
     'gmial.com':'gmail.com','gmal.com':'gmail.com','gmil.com':'gmail.com',
@@ -343,7 +352,9 @@
   /* ===== PHONE PREFIX BY COUNTRY ===== */
   function updatePhonePrefix(code) {
     if (phonePrefix) {
-      phonePrefix.textContent = phoneCodes[code] || '+';
+      var flag = countryFlag(code);
+      var dialCode = phoneCodes[code] || '+';
+      phonePrefix.textContent = flag ? flag + ' ' + dialCode : dialCode;
     }
   }
 
@@ -606,13 +617,15 @@
     var email     = emailEl.value.trim();
     var phone     = document.getElementById('phone').value.trim();
     var prefix = phonePrefix ? phonePrefix.textContent : '';
+    var countryCode = countryEl.value;
     var countryText = countryEl.options[countryEl.selectedIndex].text;
+    var flag = countryFlag(countryCode);
 
     contactSummary.innerHTML =
       '<div class="step-summary-line"><span class="step-summary-label">' + (t.firstName || 'Name') + '</span> ' + firstName + ' ' + lastName + '</div>' +
       '<div class="step-summary-line"><span class="step-summary-label">' + (t.email || 'Email') + '</span> ' + email + '</div>' +
       '<div class="step-summary-line"><span class="step-summary-label">' + (t.phone || 'Phone') + '</span> ' + prefix + ' ' + phone + '</div>' +
-      '<div class="step-summary-line"><span class="step-summary-label">' + (t.country || 'Country') + '</span> ' + countryText + '</div>';
+      '<div class="step-summary-line"><span class="step-summary-label">' + (t.country || 'Country') + '</span> ' + flag + ' ' + countryText + '</div>';
 
     completeStep(stepContact);
     activateStep(stepDelivery);

@@ -470,6 +470,7 @@
     "city": "Місто",
     "zip": "Поштовий індекс",
     "country": "Країна",
+    "countryOfDelivery": "Країна доставки",
     "countryPlaceholder": "Оберіть країну",
     "continueToPayment": "Перейти до оплати",
     "payCard": "Оплата карткою",
