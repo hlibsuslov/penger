@@ -122,61 +122,18 @@
       font-weight: 600;
     }
 
-    /* Finish selector */
-    .finish-options { display: flex; gap: 12px; }
-    .finish-option {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 16px;
-      background: var(--bg-surface);
-      border: 2px solid var(--border-default);
-      border-radius: 8px;
-      cursor: pointer;
-      transition: border-color 0.2s ease, background 0.2s ease;
-    }
-    .finish-option:hover { border-color: var(--border-hover); }
-    .finish-option.active { border-color: var(--text-accent); }
-    .finish-option input { display: none; }
-    .finish-swatch {
-      width: 36px; height: 36px;
-      border-radius: 6px;
-      border: 1px solid var(--border-default);
-      flex-shrink: 0;
-    }
-    .finish-swatch.swatch-ocean { background: linear-gradient(135deg, #1a3a5c, #2d6b9e); }
-    .finish-swatch.swatch-mat { background: linear-gradient(135deg, #8a8a8a, #b0b0b0); }
-    .finish-info { flex: 1; min-width: 0; }
-    .finish-name {
+    /* Kit description */
+    .kit-description {
       font-family: var(--font-sans);
       font-size: 14px;
-      font-weight: 600;
-      color: var(--text-accent);
-      margin-bottom: 2px;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 20px;
     }
-    .finish-desc {
-      font-family: var(--font-sans);
-      font-size: 12px;
-      color: var(--text-dim);
-      line-height: 1.4;
+    .kit-description p {
+      margin: 0 0 12px;
     }
-    .finish-check {
-      width: 20px; height: 20px;
-      border: 2px solid var(--border-default);
-      border-radius: 50%;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: border-color 0.2s ease, background 0.2s ease;
-    }
-    .finish-option.active .finish-check {
-      border-color: var(--text-accent);
-      background: var(--text-accent);
-    }
-    .finish-check svg { display: none; }
-    .finish-option.active .finish-check svg { display: block; }
+    .kit-description p:last-child { margin-bottom: 0; }
 
     /* Quantity selector (reused for plates) */
     .qty-selector {
@@ -212,38 +169,6 @@
       background: var(--bg-main);
     }
 
-    /* Toggle selector (for case color, punch yes/no) */
-    .toggle-options { display: flex; gap: 8px; }
-    .toggle-option {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 12px 16px;
-      background: var(--bg-surface);
-      border: 2px solid var(--border-default);
-      border-radius: 8px;
-      cursor: pointer;
-      transition: border-color 0.2s ease, background 0.2s ease;
-      font-family: var(--font-mono);
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-primary);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-    .toggle-option:hover { border-color: var(--border-hover); }
-    .toggle-option.active { border-color: var(--text-accent); color: var(--text-accent); }
-    .toggle-option input { display: none; }
-    .toggle-dot {
-      width: 14px; height: 14px;
-      border-radius: 50%;
-      border: 1px solid var(--border-default);
-      flex-shrink: 0;
-    }
-    .toggle-dot.dot-black { background: #1a1a1a; }
-    .toggle-dot.dot-white { background: #f5f5f5; border-color: #ccc; }
 
     /* Kit contents */
     .kit-list {
@@ -391,10 +316,10 @@
       justify-content: center;
       gap: 8px;
       width: 100%;
-      padding: 16px 24px;
+      padding: 14px 20px;
       margin-top: 20px;
       font-family: var(--font-mono);
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.04em;
@@ -404,7 +329,7 @@
       border-radius: 6px;
       cursor: pointer;
       transition: background 0.2s ease, box-shadow 0.2s ease;
-      min-height: 52px;
+      min-height: 46px;
       text-decoration: none;
     }
     .order-checkout-btn:hover {
@@ -454,6 +379,600 @@
     .order-back:hover { color: var(--text-accent); }
     .order-back svg { width: 14px; height: 14px; }
 
+    /* ===== CHECKOUT STEPS ===== */
+    .checkout-step {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: 8px;
+      margin-bottom: 20px;
+      overflow: hidden;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .checkout-step.disabled { opacity: 0.5; pointer-events: none; }
+    .step-body {
+      padding: 0 20px 20px;
+      transition: max-height 0.35s ease, opacity 0.25s ease;
+      overflow: hidden;
+    }
+    .checkout-step.active .step-body { opacity: 1; }
+    .checkout-step:not(.active) .step-body { opacity: 0; max-height: 0 !important; padding: 0 20px 0; }
+    .checkout-step.step-entering { animation: stepSlideIn 0.35s ease forwards; }
+    @keyframes stepSlideIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .step-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      cursor: default;
+    }
+    .step-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .step-number {
+      width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      background: var(--bg-main);
+      border: 2px solid var(--border-default);
+      color: var(--text-dim);
+      flex-shrink: 0;
+    }
+    .checkout-step.active .step-number,
+    .checkout-step.completed .step-number {
+      border-color: var(--text-accent);
+      color: var(--text-accent);
+    }
+    .checkout-step.completed .step-number {
+      background: var(--text-accent);
+      color: var(--bg-main);
+    }
+    .step-title {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-dim);
+    }
+    .checkout-step.active .step-title,
+    .checkout-step.completed .step-title {
+      color: var(--text-accent);
+    }
+    .step-edit-btn {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-accent);
+      background: none;
+      border: 1px solid var(--text-accent);
+      border-radius: 4px;
+      padding: 4px 12px;
+      cursor: pointer;
+      display: none;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .step-edit-btn:hover {
+      background: var(--text-accent);
+      color: var(--bg-main);
+    }
+    .checkout-step.completed .step-edit-btn { display: inline-flex; }
+    .step-summary {
+      display: none;
+      padding: 0 20px 16px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--text-primary);
+      line-height: 1.5;
+    }
+    .checkout-step.completed .step-summary { display: block; }
+    .step-summary-line {
+      display: flex;
+      gap: 8px;
+    }
+    .step-summary-label {
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      min-width: 60px;
+    }
+    /* Form fields */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .form-row.full { grid-template-columns: 1fr; }
+    .form-group { display: flex; flex-direction: column; gap: 4px; }
+    .form-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-dim);
+    }
+    .form-input {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--text-primary);
+      background: var(--bg-main);
+      border: 1px solid var(--border-default);
+      border-radius: 6px;
+      padding: 10px 12px;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+    .form-input:focus { border-color: var(--text-accent); }
+    .form-input.error { border-color: #e74c3c; }
+    .form-input::placeholder { color: var(--text-dim); opacity: 0.5; }
+    .form-group { position: relative; }
+    .zip-suggestions {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      background: var(--bg-main);
+      border: 1px solid var(--border-default);
+      border-top: none;
+      border-radius: 0 0 6px 6px;
+      max-height: 160px;
+      overflow-y: auto;
+      display: none;
+    }
+    .zip-suggestions.open { display: block; }
+    .zip-suggestion {
+      padding: 8px 12px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: background 0.1s ease;
+    }
+    .zip-suggestion:hover { background: var(--bg-surface); }
+    .zip-suggestion .zip-code {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-left: 6px;
+    }
+    select.form-input {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23666' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 32px;
+    }
+    .form-privacy {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 12px;
+      background: var(--bg-main);
+      border: 1px solid var(--border-default);
+      border-radius: 6px;
+      margin-bottom: 16px;
+    }
+    .form-privacy svg {
+      width: 14px; height: 14px;
+      color: var(--text-dim);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .form-privacy span {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+    .step-continue-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 12px 20px;
+      margin-top: 16px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--bg-main);
+      background: var(--text-accent);
+      border: 1px solid var(--text-accent);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      min-height: 44px;
+    }
+    .step-continue-btn:hover { background: var(--text-accent-hover); }
+
+    /* Payment methods */
+    .pay-methods { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    .pay-method {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: var(--bg-main);
+      border: 2px solid var(--border-default);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: border-color 0.15s ease;
+    }
+    .pay-method:hover { border-color: var(--border-hover); }
+    .pay-method.active { border-color: var(--text-accent); }
+    .pay-method input { display: none; }
+    .pay-radio {
+      width: 18px; height: 18px;
+      border: 2px solid var(--border-default);
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.15s ease;
+    }
+    .pay-method.active .pay-radio { border-color: var(--text-accent); }
+    .pay-radio-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--text-accent);
+      display: none;
+    }
+    .pay-method.active .pay-radio-dot { display: block; }
+    .pay-method-info { flex: 1; }
+    .pay-method-name {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-accent);
+    }
+    .pay-method-desc {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+    .pay-method-icons {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+    .pay-method-icons span {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 3px 6px;
+      border: 1px solid var(--border-default);
+      border-radius: 3px;
+      color: var(--text-dim);
+      background: var(--bg-surface);
+    }
+    .card-fields { margin-top: 12px; }
+    .card-fields.hidden { display: none; }
+
+    /* Checkboxes */
+    .form-checkbox {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+    .form-checkbox input { display: none; }
+    .checkbox-box {
+      width: 18px; height: 18px;
+      border: 2px solid var(--border-default);
+      border-radius: 4px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.15s ease, background 0.15s ease;
+      margin-top: 1px;
+    }
+    .form-checkbox input:checked ~ .checkbox-box {
+      border-color: var(--text-accent);
+      background: var(--text-accent);
+    }
+    .checkbox-box svg { display: none; }
+    .form-checkbox input:checked ~ .checkbox-box svg { display: block; }
+    .checkbox-label {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--text-primary);
+      line-height: 1.4;
+    }
+    .checkbox-label a {
+      color: var(--text-accent);
+      text-decoration: underline;
+    }
+
+    /* Bottom order card */
+    .order-bottom-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    /* Progress bar */
+    .order-progress {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      margin-bottom: 32px;
+    }
+    .progress-step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-dim);
+      transition: color 0.2s ease;
+    }
+    .progress-step.active,
+    .progress-step.done { color: var(--text-accent); }
+    .progress-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--border-default);
+      transition: background 0.2s ease;
+    }
+    .progress-step.active .progress-dot,
+    .progress-step.done .progress-dot { background: var(--text-accent); }
+    .progress-line {
+      width: 40px; height: 2px;
+      background: var(--border-default);
+      margin: 0 12px;
+      transition: background 0.2s ease;
+    }
+    .progress-line.done { background: var(--text-accent); }
+
+    /* Validation states */
+    .form-input.valid { border-color: #2ecc71; }
+    .form-input-wrap { position: relative; }
+    .form-input-wrap .form-input { width: 100%; padding-right: 32px; }
+    .input-check {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px; height: 16px;
+      color: #2ecc71;
+      display: none;
+    }
+    .form-input.valid ~ .input-check { display: block; }
+
+    /* Phone prefix */
+    .phone-wrap { display: flex; gap: 8px; }
+    .phone-prefix {
+      width: 72px;
+      flex-shrink: 0;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--text-primary);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: 6px;
+      padding: 10px 8px;
+      text-align: center;
+    }
+    .phone-wrap .form-input { flex: 1; }
+
+    /* Card type highlight */
+    .pay-method-icons span.detected {
+      border-color: var(--text-accent);
+      color: var(--text-accent);
+      background: var(--bg-main);
+    }
+
+    /* Email suggestion */
+    .email-suggestion {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-top: 4px;
+      cursor: pointer;
+    }
+    .email-suggestion span {
+      color: var(--text-accent);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    /* Error micro-copy */
+    .field-error-msg {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: #e74c3c;
+      margin-top: 3px;
+      display: none;
+    }
+    .form-input.error ~ .field-error-msg,
+    .form-group.has-error .field-error-msg { display: block; }
+
+    /* Estimated delivery */
+    .delivery-estimate {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      background: var(--bg-main);
+      border: 1px solid var(--border-default);
+      border-radius: 6px;
+      margin-top: 12px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--text-primary);
+    }
+    .delivery-estimate svg {
+      width: 16px; height: 16px;
+      color: var(--text-accent);
+      flex-shrink: 0;
+    }
+    .delivery-estimate strong { color: var(--text-accent); }
+
+    /* Trust badges */
+    .trust-badges {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .trust-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-dim);
+    }
+    .trust-badge svg {
+      width: 14px; height: 14px;
+      color: var(--text-accent);
+      flex-shrink: 0;
+    }
+
+    /* Promo code */
+    .promo-section { margin-top: 12px; }
+    .promo-toggle {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-accent);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      text-decoration: underline;
+    }
+    .promo-form {
+      display: none;
+      margin-top: 8px;
+    }
+    .promo-form.open { display: flex; }
+    .promo-form {
+      gap: 8px;
+    }
+    .promo-input {
+      flex: 1;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--text-primary);
+      background: var(--bg-main);
+      border: 1px solid var(--border-default);
+      border-radius: 6px;
+      padding: 8px 12px;
+      outline: none;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .promo-input:focus { border-color: var(--text-accent); }
+    .promo-apply {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--bg-main);
+      background: var(--text-accent);
+      border: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .promo-msg {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      margin-top: 4px;
+      display: none;
+    }
+    .promo-msg.success { color: #2ecc71; display: block; }
+    .promo-msg.error { color: #e74c3c; display: block; }
+
+    /* Shipping cost dynamic */
+    .shipping-val-dynamic { color: var(--text-label); font-weight: 600; }
+
+    /* Disabled checkout button */
+    .order-checkout-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .order-checkout-btn:disabled:hover {
+      background: var(--text-accent);
+      box-shadow: none;
+    }
+
+    /* Sticky mobile CTA */
+    .mobile-sticky-cta {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-default);
+      padding: 12px 16px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .mobile-sticky-price {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-accent);
+    }
+    .mobile-sticky-btn {
+      flex: 1;
+      max-width: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 16px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--bg-main);
+      background: var(--text-accent);
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
     /* ===== RESPONSIVE ===== */
     @media (max-width: 860px) {
       .order-grid {
@@ -464,13 +983,16 @@
         position: static;
       }
       .order-header h1 { font-size: 26px; }
+      .mobile-sticky-cta { display: flex; }
+      .order-page { padding-bottom: 100px; }
     }
     @media (max-width: 520px) {
-      .order-page { padding: 32px 0 60px; }
+      .order-page { padding: 32px 0 100px; }
       .order-header h1 { font-size: 22px; }
-      .finish-options { flex-direction: column; }
-      .toggle-options { flex-direction: column; }
       .order-gallery { aspect-ratio: 3/2; }
+      .form-row { grid-template-columns: 1fr; }
+      .progress-step span { display: none; }
+      .progress-line { width: 24px; }
     }
   </style>
 </head>
@@ -493,6 +1015,24 @@
         <p><%= t.order.desc %></p>
       </div>
 
+      <!-- Progress bar -->
+      <div class="order-progress" id="orderProgress">
+        <div class="progress-step done" data-step="product">
+          <span class="progress-dot"></span>
+          <span><%= t.order.progressProduct %></span>
+        </div>
+        <div class="progress-line done" id="progressLine1"></div>
+        <div class="progress-step active" data-step="contact">
+          <span class="progress-dot"></span>
+          <span><%= t.order.progressContact %></span>
+        </div>
+        <div class="progress-line" id="progressLine2"></div>
+        <div class="progress-step" data-step="payment">
+          <span class="progress-dot"></span>
+          <span><%= t.order.progressPayment %></span>
+        </div>
+      </div>
+
       <div class="order-grid">
 
         <!-- ===== LEFT: PRODUCT CONFIG ===== -->
@@ -501,42 +1041,12 @@
           <!-- Gallery placeholder -->
           <div class="order-gallery" id="orderGallery"
             data-track="product_image_view" data-cta-id="order_product_image" data-section="order" data-product-id="penger-v1">
-            <span class="order-gallery-badge">PENGER v1.0</span>
+            <span class="order-gallery-badge"><%= t.order.productName %></span>
             <div class="order-gallery-placeholder">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
               </svg>
-              <span>Product photo</span>
-            </div>
-          </div>
-
-          <!-- Finish selector -->
-          <div class="order-section" data-section="order">
-            <p class="order-section-title"><%= t.order.finishLabel %></p>
-            <div class="finish-options" id="finishOptions"
-              data-track="config_finish" data-cta-id="order_finish_selector" data-section="order" data-product-id="penger-v1">
-              <label class="finish-option active" data-finish="ocean">
-                <input type="radio" name="finish" value="ocean" checked>
-                <span class="finish-swatch swatch-ocean"></span>
-                <span class="finish-info">
-                  <span class="finish-name"><%= t.order.finishOcean %></span>
-                  <span class="finish-desc"><%= t.order.finishOceanDesc %></span>
-                </span>
-                <span class="finish-check">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                </span>
-              </label>
-              <label class="finish-option" data-finish="mat">
-                <input type="radio" name="finish" value="mat">
-                <span class="finish-swatch swatch-mat"></span>
-                <span class="finish-info">
-                  <span class="finish-name"><%= t.order.finishMat %></span>
-                  <span class="finish-desc"><%= t.order.finishMatDesc %></span>
-                </span>
-                <span class="finish-check">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                </span>
-              </label>
+              <span><%= t.order.galleryPlaceholder %></span>
             </div>
           </div>
 
@@ -544,7 +1054,7 @@
           <div class="order-section" data-section="order">
             <div class="order-section-row">
               <p class="order-section-title" style="margin-bottom:0"><%= t.order.platesLabel %></p>
-              <span class="order-section-price">+€35 / <%= t.order.platesDesc %></span>
+              <span class="order-section-price"><%= t.order.platesExtraPrice %></span>
             </div>
             <div class="qty-selector" data-track="config_plates" data-cta-id="order_plates_qty" data-section="order" data-product-id="penger-v1">
               <button class="qty-btn" id="platesMinus" type="button" disabled aria-label="Decrease plates">&minus;</button>
@@ -553,47 +1063,12 @@
             </div>
           </div>
 
-          <!-- Case color -->
-          <div class="order-section" data-section="order">
-            <p class="order-section-title"><%= t.order.caseLabel %> — <%= t.order.caseColorLabel %></p>
-            <div class="toggle-options" id="caseColorOptions"
-              data-track="config_case_color" data-cta-id="order_case_color" data-section="order" data-product-id="penger-v1">
-              <label class="toggle-option active" data-color="black">
-                <input type="radio" name="caseColor" value="black" checked>
-                <span class="toggle-dot dot-black"></span>
-                <%= t.order.caseColorBlack %>
-              </label>
-              <label class="toggle-option" data-color="white">
-                <input type="radio" name="caseColor" value="white">
-                <span class="toggle-dot dot-white"></span>
-                <%= t.order.caseColorWhite %>
-              </label>
-            </div>
-          </div>
-
-          <!-- Punch tool (yes/no, +€10) -->
-          <div class="order-section" data-section="order">
-            <div class="order-section-row">
-              <p class="order-section-title" style="margin-bottom:0"><%= t.order.punchLabel %></p>
-              <span class="order-section-price">+€10</span>
-            </div>
-            <p style="font-size:12px;color:var(--text-dim);margin-bottom:12px;font-family:var(--font-sans);"><%= t.order.punchDesc %></p>
-            <div class="toggle-options" id="punchOptions"
-              data-track="config_punch" data-cta-id="order_punch" data-section="order" data-product-id="penger-v1">
-              <label class="toggle-option active" data-punch="yes">
-                <input type="radio" name="punch" value="yes" checked>
-                <%= t.order.punchYes %>
-              </label>
-              <label class="toggle-option" data-punch="no">
-                <input type="radio" name="punch" value="no">
-                <%= t.order.punchNo %>
-              </label>
-            </div>
-          </div>
-
           <!-- Kit contents -->
           <div class="order-section">
             <p class="order-section-title"><%= t.order.kitContentsLabel %></p>
+            <div class="kit-description">
+              <p><%= t.order.kitDesc %></p>
+            </div>
             <ul class="kit-list">
               <li><svg class="kit-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> <%= t.order.kitItem1 %></li>
               <li><svg class="kit-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> <%= t.order.kitItem2 %></li>
@@ -615,6 +1090,294 @@
               <tr><td><%= t.order.specFire %></td><td><%= t.order.specFireVal %></td></tr>
             </table>
           </div>
+
+          <!-- ===== STEP 1: CONTACT & DELIVERY ===== -->
+          <div class="checkout-step active" id="stepContact" data-section="order">
+            <div class="step-header">
+              <div class="step-header-left">
+                <span class="step-number">1</span>
+                <span class="step-title"><%= t.order.stepContactTitle %></span>
+              </div>
+              <button class="step-edit-btn" id="editContact" type="button"><%= t.order.stepEdit %></button>
+            </div>
+            <div class="step-summary" id="contactSummary"></div>
+            <div class="step-body">
+              <div class="form-privacy">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <span><%= t.order.privacyNote %> <a href="<%= langPrefix %>/cookie-policy" style="color:var(--text-accent);text-decoration:underline"><%= t.order.privacyLearnMore %></a></span>
+              </div>
+              <form id="contactForm" autocomplete="on" novalidate>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="firstName"><%= t.order.firstName %></label>
+                    <div class="form-input-wrap">
+                      <input class="form-input" type="text" id="firstName" name="given-name" autocomplete="given-name" aria-describedby="firstNameError" required>
+                      <svg class="input-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                    </div>
+                    <div class="field-error-msg" id="firstNameError" role="alert"></div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="lastName"><%= t.order.lastName %></label>
+                    <div class="form-input-wrap">
+                      <input class="form-input" type="text" id="lastName" name="family-name" autocomplete="family-name" aria-describedby="lastNameError" required>
+                      <svg class="input-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                    </div>
+                    <div class="field-error-msg" id="lastNameError" role="alert"></div>
+                  </div>
+                </div>
+                <div class="form-row full">
+                  <div class="form-group">
+                    <label class="form-label" for="email"><%= t.order.email %></label>
+                    <div class="form-input-wrap">
+                      <input class="form-input" type="email" id="email" name="email" autocomplete="email" inputmode="email" aria-describedby="emailError" required>
+                      <svg class="input-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                    </div>
+                    <div class="email-suggestion" id="emailSuggestion"></div>
+                    <div class="field-error-msg" id="emailError" role="alert"></div>
+                  </div>
+                </div>
+                <div class="form-row full">
+                  <div class="form-group">
+                    <label class="form-label" for="phone"><%= t.order.phone %></label>
+                    <div class="phone-wrap">
+                      <span class="phone-prefix" id="phonePrefix">+</span>
+                      <input class="form-input" type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" aria-describedby="phoneError" required>
+                    </div>
+                    <div class="field-error-msg" id="phoneError" role="alert"></div>
+                  </div>
+                </div>
+                <p class="order-section-title" style="margin-top:20px;margin-bottom:12px"><%= t.order.deliveryAddress %></p>
+                <div class="form-row full">
+                  <div class="form-group">
+                    <label class="form-label" for="country"><%= t.order.country %></label>
+                    <select class="form-input" id="country" name="country" autocomplete="country-name" required>
+                      <option value="" disabled selected><%= t.order.countryPlaceholder %></option>
+                      <option value="AT">Austria</option>
+                      <option value="BE">Belgium</option>
+                      <option value="BG">Bulgaria</option>
+                      <option value="HR">Croatia</option>
+                      <option value="CY">Cyprus</option>
+                      <option value="CZ">Czech Republic</option>
+                      <option value="DK">Denmark</option>
+                      <option value="EE">Estonia</option>
+                      <option value="FI">Finland</option>
+                      <option value="FR">France</option>
+                      <option value="DE">Germany</option>
+                      <option value="GR">Greece</option>
+                      <option value="HU">Hungary</option>
+                      <option value="IE">Ireland</option>
+                      <option value="IT">Italy</option>
+                      <option value="LV">Latvia</option>
+                      <option value="LT">Lithuania</option>
+                      <option value="LU">Luxembourg</option>
+                      <option value="MT">Malta</option>
+                      <option value="NL">Netherlands</option>
+                      <option value="PL">Poland</option>
+                      <option value="PT">Portugal</option>
+                      <option value="RO">Romania</option>
+                      <option value="SK">Slovakia</option>
+                      <option value="SI">Slovenia</option>
+                      <option value="ES">Spain</option>
+                      <option value="SE">Sweden</option>
+                      <option value="GB">United Kingdom</option>
+                      <option value="US">United States</option>
+                      <option value="CA">Canada</option>
+                      <option value="AU">Australia</option>
+                      <option value="JP">Japan</option>
+                      <option value="CH">Switzerland</option>
+                      <option value="NO">Norway</option>
+                      <option value="UA">Ukraine</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row full">
+                  <div class="form-group">
+                    <label class="form-label" for="street"><%= t.order.street %></label>
+                    <input class="form-input" type="text" id="street" name="address-line1" autocomplete="address-line1" aria-describedby="streetError" required>
+                    <div class="field-error-msg" id="streetError" role="alert"></div>
+                  </div>
+                </div>
+                <div class="form-row full">
+                  <div class="form-group">
+                    <label class="form-label" for="apt"><%= t.order.apt %></label>
+                    <input class="form-input" type="text" id="apt" name="address-line2" autocomplete="address-line2">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="city"><%= t.order.city %></label>
+                    <input class="form-input" type="text" id="city" name="city" autocomplete="address-level2" aria-describedby="cityError" required>
+                    <div class="field-error-msg" id="cityError" role="alert"></div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="zip"><%= t.order.zip %></label>
+                    <input class="form-input" type="text" id="zip" name="postal-code" autocomplete="postal-code" inputmode="text" aria-describedby="zipError" required>
+                    <div class="field-error-msg" id="zipError" role="alert"></div>
+                    <div class="zip-suggestions" id="zipSuggestions"></div>
+                  </div>
+                </div>
+                <div class="delivery-estimate" id="deliveryEstimate" style="display:none">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                  <span id="deliveryText"></span>
+                </div>
+                <button class="step-continue-btn" id="contactContinue" type="submit"><%= t.order.continueToPayment %></button>
+              </form>
+            </div>
+          </div>
+
+          <!-- ===== STEP 2: PAYMENT ===== -->
+          <div class="checkout-step disabled" id="stepPayment" data-section="order">
+            <div class="step-header">
+              <div class="step-header-left">
+                <span class="step-number">2</span>
+                <span class="step-title"><%= t.order.stepPaymentTitle %></span>
+              </div>
+            </div>
+            <div class="step-body">
+              <div class="pay-methods" id="payMethods" role="radiogroup" aria-label="<%= t.order.stepPaymentTitle %>">
+                <label class="pay-method active" data-method="card">
+                  <input type="radio" name="payMethod" value="card" checked>
+                  <span class="pay-radio"><span class="pay-radio-dot"></span></span>
+                  <span class="pay-method-info">
+                    <span class="pay-method-name"><%= t.order.payCard %></span>
+                  </span>
+                  <span class="pay-method-icons" id="cardTypeIcons">
+                    <span data-card="visa">VISA</span>
+                    <span data-card="mc">MC</span>
+                    <span data-card="amex">AMEX</span>
+                  </span>
+                </label>
+                <label class="pay-method" data-method="apple">
+                  <input type="radio" name="payMethod" value="apple">
+                  <span class="pay-radio"><span class="pay-radio-dot"></span></span>
+                  <span class="pay-method-info">
+                    <span class="pay-method-name">Apple Pay</span>
+                  </span>
+                </label>
+                <label class="pay-method" data-method="google">
+                  <input type="radio" name="payMethod" value="google">
+                  <span class="pay-radio"><span class="pay-radio-dot"></span></span>
+                  <span class="pay-method-info">
+                    <span class="pay-method-name">Google Pay</span>
+                  </span>
+                </label>
+                <label class="pay-method" data-method="crypto">
+                  <input type="radio" name="payMethod" value="crypto">
+                  <span class="pay-radio"><span class="pay-radio-dot"></span></span>
+                  <span class="pay-method-info">
+                    <span class="pay-method-name"><%= t.order.payCrypto %></span>
+                    <span class="pay-method-desc"><%= t.order.payCryptoDesc %></span>
+                  </span>
+                </label>
+              </div>
+
+              <!-- Card fields -->
+              <div class="card-fields" id="cardFields">
+                <div class="form-row full">
+                  <div class="form-group">
+                    <label class="form-label" for="cardNumber"><%= t.order.cardNumber %></label>
+                    <input class="form-input" type="text" id="cardNumber" inputmode="numeric" placeholder="1234 5678 9012 3456" autocomplete="cc-number">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="cardExpiry"><%= t.order.cardExpiry %></label>
+                    <input class="form-input" type="text" id="cardExpiry" inputmode="numeric" placeholder="MM/YY" autocomplete="cc-exp">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="cardCvc"><%= t.order.cardCvc %></label>
+                    <input class="form-input" type="text" id="cardCvc" inputmode="numeric" placeholder="123" autocomplete="cc-csc">
+                  </div>
+                </div>
+                <div class="form-row full">
+                  <div class="form-group">
+                    <label class="form-label" for="cardName"><%= t.order.cardName %></label>
+                    <input class="form-input" type="text" id="cardName" autocomplete="cc-name">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Checkboxes -->
+              <div style="margin-top:16px">
+                <label class="form-checkbox">
+                  <input type="checkbox" id="agreeTerms" required>
+                  <span class="checkbox-box">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                  </span>
+                  <span class="checkbox-label"><%= t.order.agreeTerms %></span>
+                </label>
+                <label class="form-checkbox">
+                  <input type="checkbox" id="newsletter">
+                  <span class="checkbox-box">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                  </span>
+                  <span class="checkbox-label"><%= t.order.newsletter %></span>
+                </label>
+              </div>
+
+              <!-- Bottom order summary card -->
+              <div class="order-bottom-card">
+                <div class="cart-item" style="border-bottom:none;margin-bottom:0;padding-bottom:0">
+                  <div class="cart-thumb">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
+                    </svg>
+                  </div>
+                  <div class="cart-details">
+                    <div class="cart-product-name"><%= t.order.productName %></div>
+                    <div class="cart-config-line"><%= t.order.cartPlates %>: <span id="cartPlatesBottom">1</span></div>
+                  </div>
+                </div>
+                <div class="summary-divider"></div>
+                <div class="summary-row">
+                  <span class="summary-key"><%= t.order.priceLabel %></span>
+                  <span class="summary-val"><%= t.order.priceValue %></span>
+                </div>
+                <div class="summary-row" id="rowExtraPlatesBottom" style="display:none">
+                  <span class="summary-key" id="extraPlatesLabelBottom"></span>
+                  <span class="summary-val-add" id="extraPlatesPriceBottom"></span>
+                </div>
+                <div class="summary-row" id="rowShippingFreeBottom">
+                  <span class="summary-key"><%= t.order.shippingLabel %></span>
+                  <span class="summary-val-free"><%= t.order.shippingValue %></span>
+                </div>
+                <div class="summary-row" id="rowShippingCostBottom" style="display:none">
+                  <span class="summary-key"><%= t.order.shippingLabel %></span>
+                  <span class="summary-val-add" id="shippingCostValBottom"></span>
+                </div>
+                <div class="summary-row" id="rowDiscountBottom" style="display:none">
+                  <span class="summary-key"><%= t.order.promoDiscount %></span>
+                  <span class="summary-val" id="discountValBottom" style="color:#2ecc71"></span>
+                </div>
+                <div class="summary-divider"></div>
+                <div class="summary-row summary-total">
+                  <span class="summary-key"><%= t.order.totalLabel %></span>
+                  <span class="summary-val" id="summaryTotalBottom" aria-live="polite">€49</span>
+                </div>
+              </div>
+
+              <button class="order-checkout-btn" id="checkoutBtn" type="button" style="margin-top:16px" disabled
+                data-track="checkout_start" data-cta-id="order_checkout" data-section="order" data-product-id="penger-v1">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                <span id="checkoutBtnText"><%= t.order.payNow %></span>
+              </button>
+              <div class="trust-badges">
+                <span class="trust-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  <%= t.order.trustSecure %>
+                </span>
+                <span class="trust-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  <%= t.order.trustSSL %>
+                </span>
+                <span class="trust-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+                  <%= t.order.trustGuarantee %>
+                </span>
+              </div>
+            </div>
+          </div>
+
         </div>
 
         <!-- ===== RIGHT: ORDER SUMMARY ===== -->
@@ -630,44 +1393,50 @@
                 </svg>
               </div>
               <div class="cart-details">
-                <div class="cart-product-name">PENGER v1.0</div>
-                <div class="cart-config-line"><%= t.order.finishLabel %>: <span id="cartFinish"><%= t.order.finishOcean %></span></div>
+                <div class="cart-product-name"><%= t.order.productName %></div>
                 <div class="cart-config-line"><%= t.order.cartPlates %>: <span id="cartPlates">1</span></div>
-                <div class="cart-config-line"><%= t.order.cartCase %>: <span id="cartCase"><%= t.order.caseColorBlack %></span></div>
-                <div class="cart-config-line"><%= t.order.cartPunch %>: <span id="cartPunch"><%= t.order.punchYes %></span></div>
+                <div class="cart-config-line"><%= t.order.cartKit %>: <span><%= t.order.cartIncluded %></span></div>
               </div>
             </div>
 
             <!-- Price breakdown -->
             <div class="summary-row">
               <span class="summary-key"><%= t.order.priceLabel %></span>
-              <span class="summary-val">€49</span>
+              <span class="summary-val"><%= t.order.priceValue %></span>
             </div>
             <div class="summary-row" id="rowExtraPlates" style="display:none">
               <span class="summary-key" id="extraPlatesLabel"></span>
               <span class="summary-val-add" id="extraPlatesPrice"></span>
             </div>
-            <div class="summary-row" id="rowPunch">
-              <span class="summary-key"><%= t.order.cartPunch %></span>
-              <span class="summary-val-add" id="punchPrice">+€10</span>
-            </div>
-            <div class="summary-row">
+            <div class="summary-row" id="rowShippingFree">
               <span class="summary-key"><%= t.order.shippingLabel %></span>
-              <span class="summary-val-free"><%= t.order.shippingValue %></span>
+              <span class="summary-val-free" id="shippingFreeVal"><%= t.order.shippingValue %></span>
+            </div>
+
+            <div class="summary-row" id="rowShippingCost" style="display:none">
+              <span class="summary-key"><%= t.order.shippingLabel %></span>
+              <span class="summary-val-add" id="shippingCostVal"></span>
+            </div>
+            <div class="summary-row" id="rowDiscount" style="display:none">
+              <span class="summary-key" id="discountLabel"><%= t.order.promoDiscount %></span>
+              <span class="summary-val" id="discountVal" style="color:#2ecc71"></span>
             </div>
 
             <div class="summary-divider"></div>
 
             <div class="summary-row summary-total">
               <span class="summary-key"><%= t.order.totalLabel %></span>
-              <span class="summary-val" id="summaryTotal">€59</span>
+              <span class="summary-val" id="summaryTotal" aria-live="polite">€49</span>
             </div>
 
-            <button class="order-checkout-btn" id="checkoutBtn" type="button"
-              data-track="checkout_start" data-cta-id="order_checkout" data-section="order" data-product-id="penger-v1">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-              <%= t.order.checkoutBtn %>
-            </button>
+            <div class="promo-section">
+              <button class="promo-toggle" id="promoToggle" type="button"><%= t.order.promoToggle %></button>
+              <div class="promo-form" id="promoForm">
+                <input class="promo-input" type="text" id="promoInput" placeholder="<%= t.order.promoPlaceholder %>" maxlength="20">
+                <button class="promo-apply" id="promoApply" type="button"><%= t.order.promoApply %></button>
+              </div>
+              <div class="promo-msg" id="promoMsg"></div>
+            </div>
 
             <div class="order-notes">
               <span class="order-note">
@@ -690,18 +1459,36 @@
     </div>
   </main>
 
+  <!-- Sticky mobile CTA -->
+  <div class="mobile-sticky-cta" id="mobileCta">
+    <span class="mobile-sticky-price" id="mobilePrice">€49</span>
+    <button class="mobile-sticky-btn" id="mobileContinueBtn" type="button"><%= t.order.continueToPayment %></button>
+  </div>
+
   <%- include('../partials/footer') %>
 
   <script>
   window.ORDER_I18N = {
-    finishOcean: '<%= t.order.finishOcean %>',
-    finishMat: '<%= t.order.finishMat %>',
-    caseColorBlack: '<%= t.order.caseColorBlack %>',
-    caseColorWhite: '<%= t.order.caseColorWhite %>',
-    punchYes: '<%= t.order.punchYes %>',
-    punchNo: '<%= t.order.punchNo %>',
     platesDesc: '<%= t.order.platesDesc %>',
-    langPrefix: '<%= langPrefix %>'
+    langPrefix: '<%= langPrefix %>',
+    stepEdit: '<%= t.order.stepEdit %>',
+    firstName: '<%= t.order.firstName %>',
+    lastName: '<%= t.order.lastName %>',
+    email: '<%= t.order.email %>',
+    phone: '<%= t.order.phone %>',
+    continueToPayment: '<%= t.order.continueToPayment %>',
+    payNow: '<%= t.order.payNow %>',
+    emailDidYouMean: '<%= t.order.emailDidYouMean %>',
+    errorRequired: '<%= t.order.errorRequired %>',
+    errorEmail: '<%= t.order.errorEmail %>',
+    errorPhone: '<%= t.order.errorPhone %>',
+    deliveryEU: '<%= t.order.deliveryEU %>',
+    deliveryUS: '<%= t.order.deliveryUS %>',
+    deliveryOther: '<%= t.order.deliveryOther %>',
+    shippingFreeLabel: '<%= t.order.shippingValue %>',
+    processing: '<%= t.order.processing %>',
+    promoInvalid: '<%= t.order.promoInvalid %>',
+    promoApplied: '<%= t.order.promoApplied %>'
   };
   </script>
   <script src="/analytics.js"></script>
