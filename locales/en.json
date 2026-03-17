@@ -310,7 +310,10 @@
     "placeholder": "Ask about wallets, seed phrases, DeFi, blockchain...",
     "thinking": "Thinking...",
     "errorMsg": "Sorry, something went wrong. Please try again.",
-    "rateLimited": "Too many requests. Please wait a minute."
+    "rateLimited": "Too many requests. Please wait a minute.",
+    "serviceUnavailable": "AI service is temporarily unavailable.",
+    "emptyResponse": "Empty response from AI.",
+    "connectionError": "Connection error. Please try again."
   },
   "aboutUs": {
     "title": "About Us — PENGER",
@@ -410,9 +413,14 @@
     "label": "[ ORDER CONFIRMED ]",
     "h1": "Thank you for your payment.",
     "desc": "Your order has been confirmed and your Penger v1.0 kit is being prepared for shipment. A confirmation email with tracking details will follow shortly.",
-    "status": "Status: Confirmed",
-    "product": "Product: Penger v1.0 Kit",
-    "shipping": "Shipping: Worldwide",
+    "orderIdLabel": "Order",
+    "dateLabel": "Date",
+    "statusLabel": "Status",
+    "statusValue": "Confirmed",
+    "productLabel": "Product",
+    "productValue": "Penger v1.0 Kit",
+    "shippingLabel": "Shipping",
+    "shippingValue": "Worldwide",
     "backHome": "Back to Home",
     "startLearning": "Start Learning",
     "emailNote": "Confirmation email sent to your inbox"

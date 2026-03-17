@@ -226,6 +226,9 @@
   document.addEventListener('click', function (e) {
     var btn = e.target.closest('[data-track]');
     if (!btn) return;
+    if (btn._pengerTracked) return;
+    btn._pengerTracked = true;
+    setTimeout(function () { btn._pengerTracked = false; }, 100);
 
     var trackType = btn.getAttribute('data-track');
     var payload = {
@@ -420,7 +423,7 @@
 
   /* ===== CHECKOUT START (click on buy links pointing to #order) ===== */
   document.addEventListener('click', function (e) {
-    var link = e.target.closest('a[href*="#order"]');
+    var link = e.target.closest('a[href*="#pricing"]');
     if (!link) return;
 
     push('checkout_start', {
@@ -434,7 +437,7 @@
   if (getPageType() === 'thank_you') {
     push('payment_success', {
       product_id: 'penger-v1',
-      value: '75.00',
+      value: '49.00',
       currency: 'USD'
     });
   }

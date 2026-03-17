@@ -417,11 +417,7 @@ app.post('/api/chat', chatLimiter, async (req, res) => {
    HEALTH CHECK
    ========================================================= */
 app.get('/api/health', (req, res) => {
-  res.json({
-    status: 'ok',
-    ai: OPENAI_API_KEY ? 'configured' : 'not configured',
-    model: OPENAI_MODEL,
-  });
+  res.json({ status: 'ok' });
 });
 
 /* =========================================================

@@ -108,8 +108,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 32px;
-      height: 32px;
+      width: 44px;
+      height: 44px;
       margin: 10px auto 0;
       background: none;
       border: 1px solid var(--border-default);
@@ -152,8 +152,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 32px;
-      height: 32px;
+      width: 44px;
+      height: 44px;
       background: none;
       border: 1px solid var(--border-default);
       border-radius: 50%;
@@ -570,7 +570,18 @@
        ERROR STATE
        ========================================================= */
     function showError(msg) {
-      chatEl.innerHTML = '<div class="tutor-msg bot" style="color:var(--error-text);border-color:var(--error-border);">' + msg + ' <button class="tutor-option-btn" onclick="location.reload()" type="button" style="margin-top:10px;">Retry</button></div>';
+      var div = document.createElement('div');
+      div.className = 'tutor-msg bot';
+      div.style.cssText = 'color:var(--error-text);border-color:var(--error-border);';
+      div.textContent = msg + ' ';
+      var retryBtn = document.createElement('button');
+      retryBtn.className = 'tutor-option-btn';
+      retryBtn.type = 'button';
+      retryBtn.style.marginTop = '10px';
+      retryBtn.textContent = '<%= lang === "uk" ? "Спробувати знову" : "Retry" %>';
+      retryBtn.addEventListener('click', function () { location.reload(); });
+      div.appendChild(retryBtn);
+      chatEl.appendChild(div);
     }
 
     /* =========================================================
@@ -791,6 +802,15 @@
     /* === LANGUAGE === */
     var PENGER_LANG = '<%= lang %>';
 
+    /* === TRANSLATED ERROR MESSAGES === */
+    var TUTOR_ERRORS = {
+      rateLimited: '<%= t.aiTutor.rateLimited %>',
+      serviceUnavailable: '<%= t.aiTutor.serviceUnavailable %>',
+      errorMsg: '<%= t.aiTutor.errorMsg %>',
+      emptyResponse: '<%= t.aiTutor.emptyResponse %>',
+      connectionError: '<%= t.aiTutor.connectionError %>'
+    };
+
     /* === API CALL === */
     function callTutorAPI(messages, context) {
       var payload = { messages: messages, lang: PENGER_LANG };
@@ -804,14 +824,13 @@
       .then(function (res) {
         if (res.ok) return res.json();
         return res.json().catch(function () { return {}; }).then(function (d) {
-          if (res.status === 429) throw new Error(d.error || 'You\'re sending messages too fast. Please wait a minute.');
-          if (res.status === 503) throw new Error(d.error || 'AI service is temporarily unavailable.');
-          if (res.status === 400) throw new Error(d.error || 'Invalid request.');
-          throw new Error(d.error || 'Something went wrong. Please try again.');
+          if (res.status === 429) throw new Error(d.error || TUTOR_ERRORS.rateLimited);
+          if (res.status === 503) throw new Error(d.error || TUTOR_ERRORS.serviceUnavailable);
+          throw new Error(d.error || TUTOR_ERRORS.errorMsg);
         });
       })
       .then(function (data) {
-        if (!data.reply) throw new Error('Empty response from AI.');
+        if (!data.reply) throw new Error(TUTOR_ERRORS.emptyResponse);
         return data.reply;
       });
     }
@@ -846,7 +865,7 @@
         })
         .catch(function (err) {
           removeTypingIndicator(typingEl);
-          addErrorMsg(err.message || 'Connection error. Please try again.');
+          addErrorMsg(err.message || TUTOR_ERRORS.connectionError);
           isSending = false;
           updateSendButton();
         });

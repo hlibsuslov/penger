@@ -189,17 +189,19 @@
         }
       }
 
-      // Subtle animation: randomly flip dots on/off
-      var allDots = plateEl.querySelectorAll('.ebit');
-      setInterval(function () {
-        var idx = Math.floor(Math.random() * allDots.length);
-        var dot = allDots[idx];
-        if (dot.classList.contains('on')) {
-          dot.classList.remove('on');
-        } else {
-          dot.classList.add('on');
-        }
-      }, 600);
+      // Subtle animation: randomly flip dots on/off (respect reduced motion)
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        var allDots = plateEl.querySelectorAll('.ebit');
+        setInterval(function () {
+          var idx = Math.floor(Math.random() * allDots.length);
+          var dot = allDots[idx];
+          if (dot.classList.contains('on')) {
+            dot.classList.remove('on');
+          } else {
+            dot.classList.add('on');
+          }
+        }, 600);
+      }
     }
   })();
   </script>
