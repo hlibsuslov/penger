@@ -79,11 +79,16 @@
   var discountVal      = document.getElementById('discountVal');
 
   /* Summary refs (bottom card) */
-  var cartPlatesBottom       = document.getElementById('cartPlatesBottom');
-  var rowExtraPlatesBottom   = document.getElementById('rowExtraPlatesBottom');
-  var extraPlatesLabelBottom = document.getElementById('extraPlatesLabelBottom');
-  var extraPlatesPriceBottom = document.getElementById('extraPlatesPriceBottom');
-  var summaryTotalBottom     = document.getElementById('summaryTotalBottom');
+  var cartPlatesBottom        = document.getElementById('cartPlatesBottom');
+  var rowExtraPlatesBottom    = document.getElementById('rowExtraPlatesBottom');
+  var extraPlatesLabelBottom  = document.getElementById('extraPlatesLabelBottom');
+  var extraPlatesPriceBottom  = document.getElementById('extraPlatesPriceBottom');
+  var summaryTotalBottom      = document.getElementById('summaryTotalBottom');
+  var rowShippingFreeBottom   = document.getElementById('rowShippingFreeBottom');
+  var rowShippingCostBottom   = document.getElementById('rowShippingCostBottom');
+  var shippingCostValBottom   = document.getElementById('shippingCostValBottom');
+  var rowDiscountBottom       = document.getElementById('rowDiscountBottom');
+  var discountValBottom       = document.getElementById('discountValBottom');
 
   var txtExtraPlates = t.platesDesc || 'extra plate';
 
@@ -147,23 +152,27 @@
     var country = countryEl.value;
     if (!country) {
       shippingCost = 0;
-      if (rowShippingFree) rowShippingFree.style.display = '';
-      if (rowShippingCost) rowShippingCost.style.display = 'none';
+      showFreeShipping(true);
       return;
     }
 
     if (SHIPPING_FREE.indexOf(country) > -1) {
       shippingCost = 0;
-      if (rowShippingFree) rowShippingFree.style.display = '';
-      if (rowShippingCost) rowShippingCost.style.display = 'none';
+      showFreeShipping(true);
     } else {
       shippingCost = SHIPPING_COST[country] || 15;
-      if (rowShippingFree) rowShippingFree.style.display = 'none';
-      if (rowShippingCost) {
-        rowShippingCost.style.display = '';
-        shippingCostVal.textContent = '+\u20AC' + shippingCost;
-      }
+      showFreeShipping(false);
+      var costText = '+\u20AC' + shippingCost;
+      if (shippingCostVal) shippingCostVal.textContent = costText;
+      if (shippingCostValBottom) shippingCostValBottom.textContent = costText;
     }
+  }
+
+  function showFreeShipping(isFree) {
+    if (rowShippingFree) rowShippingFree.style.display = isFree ? '' : 'none';
+    if (rowShippingCost) rowShippingCost.style.display = isFree ? 'none' : '';
+    if (rowShippingFreeBottom) rowShippingFreeBottom.style.display = isFree ? '' : 'none';
+    if (rowShippingCostBottom) rowShippingCostBottom.style.display = isFree ? 'none' : '';
   }
 
   /* ===== UPDATE DELIVERY ESTIMATE ===== */
@@ -217,12 +226,14 @@
       }
     }
 
-    /* Discount row */
-    if (discount > 0 && rowDiscount) {
-      rowDiscount.style.display = '';
-      discountVal.textContent = '-\u20AC' + discount;
-    } else if (rowDiscount) {
-      rowDiscount.style.display = 'none';
+    /* Discount row (sidebar + bottom) */
+    var discountText = '-\u20AC' + discount;
+    if (discount > 0) {
+      if (rowDiscount) { rowDiscount.style.display = ''; discountVal.textContent = discountText; }
+      if (rowDiscountBottom) { rowDiscountBottom.style.display = ''; discountValBottom.textContent = discountText; }
+    } else {
+      if (rowDiscount) rowDiscount.style.display = 'none';
+      if (rowDiscountBottom) rowDiscountBottom.style.display = 'none';
     }
 
     var totalStr = '\u20AC' + getTotal();
@@ -579,6 +590,17 @@
   });
 
   /* ===== PAYMENT METHOD SELECTOR ===== */
+  function updatePayMethodAria() {
+    payMethods.querySelectorAll('.pay-method').forEach(function (m) {
+      m.setAttribute('aria-checked', m.classList.contains('active') ? 'true' : 'false');
+    });
+  }
+
+  payMethods.querySelectorAll('.pay-method').forEach(function (m) {
+    m.setAttribute('role', 'radio');
+    m.setAttribute('aria-checked', m.classList.contains('active') ? 'true' : 'false');
+  });
+
   payMethods.addEventListener('click', function (e) {
     var method = e.target.closest('.pay-method');
     if (!method) return;
@@ -589,6 +611,7 @@
     input.checked = true;
     payMethod = input.value;
     cardFields.classList.toggle('hidden', payMethod !== 'card');
+    updatePayMethodAria();
   });
 
   /* ===== CARD NUMBER FORMATTING + TYPE DETECTION ===== */
@@ -711,7 +734,8 @@
         street: document.getElementById('street').value,
         apt: document.getElementById('apt').value,
         city: cityEl.value,
-        zip: zipEl.value
+        zip: zipEl.value,
+        promo: appliedPromo
       };
       sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     } catch (e) {}
@@ -737,6 +761,20 @@
       if (data.apt) document.getElementById('apt').value = data.apt;
       if (data.city) cityEl.value = data.city;
       if (data.zip) zipEl.value = data.zip;
+
+      /* Restore promo code */
+      if (data.promo && PROMO_CODES[data.promo]) {
+        appliedPromo = data.promo;
+        var promo = PROMO_CODES[data.promo];
+        discount = promo.type === 'percent' ? Math.round(getSubtotal() * promo.value / 100) : promo.value;
+        if (promoInput) { promoInput.value = data.promo; promoInput.disabled = true; }
+        if (promoApply) { promoApply.disabled = true; promoApply.style.opacity = '0.4'; }
+        if (promoForm) promoForm.classList.add('open');
+        if (promoMsg) {
+          promoMsg.className = 'promo-msg success';
+          promoMsg.textContent = (t.promoApplied || 'Promo code applied!') + ' -\u20AC' + discount;
+        }
+      }
 
       /* Trigger validation on restored fields */
       contactForm.querySelectorAll('.form-input').forEach(function (input) {
@@ -772,6 +810,40 @@
     if (!termsCheck.checked) {
       termsCheck.closest('.form-checkbox').querySelector('.checkbox-box').style.borderColor = '#e74c3c';
       return;
+    }
+
+    /* Validate card fields if card payment selected */
+    if (payMethod === 'card') {
+      var cardNum = cardNumberEl ? cardNumberEl.value.replace(/\s/g, '') : '';
+      var cardExp = cardExpiryEl ? cardExpiryEl.value : '';
+      var cardCvc = cardCvcEl ? cardCvcEl.value : '';
+      var cardNm  = document.getElementById('cardName') ? document.getElementById('cardName').value.trim() : '';
+      var cardValid = true;
+      var firstCardError = null;
+
+      if (cardNumberEl) {
+        cardNumberEl.classList.remove('error');
+        if (cardNum.length < 13) { cardNumberEl.classList.add('error'); cardValid = false; if (!firstCardError) firstCardError = cardNumberEl; }
+      }
+      if (cardExpiryEl) {
+        cardExpiryEl.classList.remove('error');
+        if (!/^\d{2}\/\d{2}$/.test(cardExp)) { cardExpiryEl.classList.add('error'); cardValid = false; if (!firstCardError) firstCardError = cardExpiryEl; }
+      }
+      if (cardCvcEl) {
+        cardCvcEl.classList.remove('error');
+        if (cardCvc.length < 3) { cardCvcEl.classList.add('error'); cardValid = false; if (!firstCardError) firstCardError = cardCvcEl; }
+      }
+      var cardNameEl = document.getElementById('cardName');
+      if (cardNameEl) {
+        cardNameEl.classList.remove('error');
+        if (!cardNm) { cardNameEl.classList.add('error'); cardValid = false; if (!firstCardError) firstCardError = cardNameEl; }
+      }
+
+      if (!cardValid && firstCardError) {
+        firstCardError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        firstCardError.focus();
+        return;
+      }
     }
 
     /* Double-submit protection */
