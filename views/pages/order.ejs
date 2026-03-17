@@ -511,6 +511,37 @@
     .form-input:focus { border-color: var(--text-accent); }
     .form-input.error { border-color: #e74c3c; }
     .form-input::placeholder { color: var(--text-dim); opacity: 0.5; }
+    .form-group { position: relative; }
+    .zip-suggestions {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      background: var(--bg-main);
+      border: 1px solid var(--border-default);
+      border-top: none;
+      border-radius: 0 0 6px 6px;
+      max-height: 160px;
+      overflow-y: auto;
+      display: none;
+    }
+    .zip-suggestions.open { display: block; }
+    .zip-suggestion {
+      padding: 8px 12px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: background 0.1s ease;
+    }
+    .zip-suggestion:hover { background: var(--bg-surface); }
+    .zip-suggestion .zip-code {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-left: 6px;
+    }
     select.form-input {
       appearance: none;
       background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23666' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
@@ -784,7 +815,7 @@
             <div class="step-body">
               <div class="form-privacy">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                <span><%= t.order.privacyNote %></span>
+                <span><%= t.order.privacyNote %> <a href="<%= langPrefix %>/cookie-policy" style="color:var(--text-accent);text-decoration:underline"><%= t.order.privacyLearnMore %></a></span>
               </div>
               <form id="contactForm" autocomplete="on" novalidate>
                 <div class="form-row">
@@ -830,6 +861,7 @@
                   <div class="form-group">
                     <label class="form-label" for="zip"><%= t.order.zip %></label>
                     <input class="form-input" type="text" id="zip" name="postal-code" autocomplete="postal-code" required>
+                    <div class="zip-suggestions" id="zipSuggestions"></div>
                   </div>
                 </div>
                 <div class="form-row full">

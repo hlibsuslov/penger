@@ -44,6 +44,12 @@
   var payMethods = document.getElementById('payMethods');
   var cardFields = document.getElementById('cardFields');
 
+  /* Form fields */
+  var countryEl      = document.getElementById('country');
+  var cityEl         = document.getElementById('city');
+  var zipEl          = document.getElementById('zip');
+  var zipSuggestions = document.getElementById('zipSuggestions');
+
   /* ===== HELPERS ===== */
   function getTotal() {
     return BASE_PRICE + ((plates - 1) * EXTRA_PLATE);
@@ -57,7 +63,6 @@
     cartPlates.textContent = plates;
     if (cartPlatesBottom) cartPlatesBottom.textContent = plates;
 
-    /* Extra plates row — sidebar */
     if (plates > 1) {
       rowExtraPlates.style.display = '';
       var extra = plates - 1;
@@ -65,7 +70,6 @@
       var price = '+\u20AC' + (extra * EXTRA_PLATE);
       extraPlatesLabel.textContent = label;
       extraPlatesPrice.textContent = price;
-      /* bottom card */
       if (rowExtraPlatesBottom) {
         rowExtraPlatesBottom.style.display = '';
         extraPlatesLabelBottom.textContent = label;
@@ -89,6 +93,109 @@
     if (plates < 4) { plates++; updateUI(); pushConfig('plates_change'); }
   });
 
+  /* ===== COUNTRY AUTO-DETECT ===== */
+  (function detectCountry() {
+    if (countryEl.value) return;
+    try {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'https://ipapi.co/json/', true);
+      xhr.timeout = 4000;
+      xhr.onload = function () {
+        if (xhr.status === 200) {
+          try {
+            var data = JSON.parse(xhr.responseText);
+            var code = data.country_code;
+            if (code) {
+              var opt = countryEl.querySelector('option[value="' + code + '"]');
+              if (opt) {
+                countryEl.value = code;
+              }
+            }
+          } catch (e) {}
+        }
+      };
+      xhr.onerror = function () {};
+      xhr.send();
+    } catch (e) {}
+  })();
+
+  /* ===== CITY → ZIP SUGGESTIONS ===== */
+  var zipDebounce = null;
+
+  function fetchZipSuggestions(city, country) {
+    if (!city || city.length < 2) {
+      closeZipSuggestions();
+      return;
+    }
+    var countryCode = country || '';
+    var url = 'https://secure.geonames.org/postalCodeSearchJSON?placename=' +
+      encodeURIComponent(city) + '&maxRows=5&username=penger_order';
+    if (countryCode) url += '&country=' + encodeURIComponent(countryCode);
+
+    try {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url, true);
+      xhr.timeout = 4000;
+      xhr.onload = function () {
+        if (xhr.status === 200) {
+          try {
+            var data = JSON.parse(xhr.responseText);
+            showZipSuggestions(data.postalCodes || []);
+          } catch (e) { closeZipSuggestions(); }
+        }
+      };
+      xhr.onerror = function () { closeZipSuggestions(); };
+      xhr.send();
+    } catch (e) {}
+  }
+
+  function showZipSuggestions(results) {
+    if (!results.length) { closeZipSuggestions(); return; }
+    var html = '';
+    var seen = {};
+    results.forEach(function (r) {
+      var key = r.postalCode + '|' + r.placeName;
+      if (seen[key]) return;
+      seen[key] = true;
+      html += '<div class="zip-suggestion" data-zip="' + r.postalCode + '" data-city="' + r.placeName + '">' +
+        r.placeName + '<span class="zip-code">' + r.postalCode + '</span></div>';
+    });
+    zipSuggestions.innerHTML = html;
+    zipSuggestions.classList.add('open');
+  }
+
+  function closeZipSuggestions() {
+    zipSuggestions.classList.remove('open');
+    zipSuggestions.innerHTML = '';
+  }
+
+  if (cityEl) {
+    cityEl.addEventListener('input', function () {
+      clearTimeout(zipDebounce);
+      var val = this.value.trim();
+      zipDebounce = setTimeout(function () {
+        fetchZipSuggestions(val, countryEl.value);
+      }, 400);
+    });
+  }
+
+  if (zipSuggestions) {
+    zipSuggestions.addEventListener('click', function (e) {
+      var item = e.target.closest('.zip-suggestion');
+      if (!item) return;
+      zipEl.value = item.getAttribute('data-zip');
+      cityEl.value = item.getAttribute('data-city');
+      closeZipSuggestions();
+    });
+  }
+
+  /* Close suggestions on outside click */
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('#zip') && !e.target.closest('#zipSuggestions') && !e.target.closest('#city')) {
+      closeZipSuggestions();
+    }
+  });
+
   /* ===== STEP MANAGEMENT ===== */
   function activateStep(step) {
     step.classList.remove('disabled');
@@ -110,7 +217,6 @@
   contactForm.addEventListener('submit', function (e) {
     e.preventDefault();
 
-    /* Validate required fields */
     var inputs = contactForm.querySelectorAll('[required]');
     var valid = true;
     inputs.forEach(function (input) {
@@ -129,16 +235,14 @@
 
     if (!valid) return;
 
-    /* Build summary */
     var firstName = document.getElementById('firstName').value.trim();
     var lastName  = document.getElementById('lastName').value.trim();
     var email     = emailField.value.trim();
     var phone     = document.getElementById('phone').value.trim();
     var street    = document.getElementById('street').value.trim();
     var apt       = document.getElementById('apt').value.trim();
-    var city      = document.getElementById('city').value.trim();
-    var zip       = document.getElementById('zip').value.trim();
-    var countryEl = document.getElementById('country');
+    var city      = cityEl.value.trim();
+    var zip       = zipEl.value.trim();
     var countryText = countryEl.options[countryEl.selectedIndex].text;
 
     var addressParts = [street];
@@ -152,7 +256,6 @@
       '<div class="step-summary-line"><span class="step-summary-label">' + (t.phone || 'Phone') + '</span> ' + phone + '</div>' +
       '<div class="step-summary-line"><span class="step-summary-label" style="min-width:60px">' + '&nbsp;' + '</span> ' + addressParts.join(', ') + '</div>';
 
-    /* Transition steps */
     completeStep(stepContact);
     activateStep(stepPayment);
     stepPayment.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -226,7 +329,6 @@
 
   /* ===== CHECKOUT (PAY NOW) ===== */
   checkoutBtn.addEventListener('click', function () {
-    /* Validate terms */
     var terms = document.getElementById('agreeTerms');
     if (!terms.checked) {
       terms.closest('.form-checkbox').querySelector('.checkbox-box').style.borderColor = '#e74c3c';
@@ -236,7 +338,6 @@
     var orderId = generateOrderId();
     var total = getTotal();
 
-    /* Collect contact data */
     var orderData = {
       order_id: orderId,
       plates: plates,
@@ -253,9 +354,9 @@
       address: {
         street: document.getElementById('street').value.trim(),
         apt: document.getElementById('apt').value.trim(),
-        city: document.getElementById('city').value.trim(),
-        zip: document.getElementById('zip').value.trim(),
-        country: document.getElementById('country').value
+        city: cityEl.value.trim(),
+        zip: zipEl.value.trim(),
+        country: countryEl.value
       },
       newsletter: document.getElementById('newsletter').checked,
       ts: Date.now()
@@ -263,7 +364,6 @@
 
     try { sessionStorage.setItem('penger_order', JSON.stringify(orderData)); } catch (e) {}
 
-    /* GA4 */
     var dl = window.dataLayer = window.dataLayer || [];
     dl.push({
       event: 'begin_checkout',
