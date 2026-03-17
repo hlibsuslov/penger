@@ -105,6 +105,10 @@
         <span class="status-order-key"><%= t.paymentSuccess.shippingLabel %></span>
         <span class="status-order-val"><%= t.paymentSuccess.shippingValue %></span>
       </div>
+      <div class="status-order-row">
+        <span class="status-order-key"><%= t.order.totalLabel %></span>
+        <span class="status-order-val" id="orderTotal">—</span>
+      </div>
     </div>
 
     <div class="status-actions">
@@ -126,6 +130,16 @@
     var dateEl = document.getElementById('orderDate');
     if (orderEl && orderId) orderEl.textContent = orderId;
     if (dateEl) dateEl.textContent = new Date().toLocaleDateString('<%= lang === "uk" ? "uk-UA" : "en-US" %>', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    /* Show order config details if available */
+    try {
+      var raw = sessionStorage.getItem('penger_order');
+      if (raw) {
+        var order = JSON.parse(raw);
+        var totalEl = document.getElementById('orderTotal');
+        if (totalEl && order.value) totalEl.textContent = '\u20AC' + order.value;
+      }
+    } catch (e) {}
   })();
   </script>
   <script src="/analytics.js"></script>

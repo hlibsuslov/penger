@@ -857,8 +857,47 @@
       var orderId = generateOrderId();
       var total = BASE_PRICE + ((plates - 1) * EXTRA_PLATE) + (punch ? PUNCH_PRICE : 0);
 
-      /* Push checkout analytics */
+      /* Save order data so payment-success/failed pages can read it */
+      try {
+        sessionStorage.setItem('penger_order', JSON.stringify({
+          order_id: orderId,
+          finish: finish,
+          plates: plates,
+          caseColor: caseColor,
+          punch: punch,
+          value: total,
+          currency: 'EUR',
+          product_id: 'penger-v1',
+          ts: Date.now()
+        }));
+      } catch (e) {}
+
+      /* GA4 begin_checkout ecommerce event */
       var dl = window.dataLayer = window.dataLayer || [];
+      dl.push({
+        event: 'begin_checkout',
+        order_id: orderId,
+        ecommerce: {
+          currency: 'EUR',
+          value: total,
+          items: [{
+            item_id: 'penger-v1',
+            item_name: 'PENGER v1.0',
+            item_brand: 'PENGER',
+            item_category: 'titanium_backup',
+            item_variant: finish,
+            price: 49,
+            quantity: plates
+          }]
+        },
+        config_finish: finish,
+        config_plates: plates,
+        config_case_color: caseColor,
+        config_punch: punch,
+        page_section: 'order'
+      });
+
+      /* Legacy checkout_start event */
       dl.push({
         event: 'checkout_start',
         order_id: orderId,
