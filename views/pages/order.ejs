@@ -122,61 +122,18 @@
       font-weight: 600;
     }
 
-    /* Finish selector */
-    .finish-options { display: flex; gap: 12px; }
-    .finish-option {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 16px;
-      background: var(--bg-surface);
-      border: 2px solid var(--border-default);
-      border-radius: 8px;
-      cursor: pointer;
-      transition: border-color 0.2s ease, background 0.2s ease;
-    }
-    .finish-option:hover { border-color: var(--border-hover); }
-    .finish-option.active { border-color: var(--text-accent); }
-    .finish-option input { display: none; }
-    .finish-swatch {
-      width: 36px; height: 36px;
-      border-radius: 6px;
-      border: 1px solid var(--border-default);
-      flex-shrink: 0;
-    }
-    .finish-swatch.swatch-ocean { background: linear-gradient(135deg, #1a3a5c, #2d6b9e); }
-    .finish-swatch.swatch-mat { background: linear-gradient(135deg, #8a8a8a, #b0b0b0); }
-    .finish-info { flex: 1; min-width: 0; }
-    .finish-name {
+    /* Kit description */
+    .kit-description {
       font-family: var(--font-sans);
       font-size: 14px;
-      font-weight: 600;
-      color: var(--text-accent);
-      margin-bottom: 2px;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 20px;
     }
-    .finish-desc {
-      font-family: var(--font-sans);
-      font-size: 12px;
-      color: var(--text-dim);
-      line-height: 1.4;
+    .kit-description p {
+      margin: 0 0 12px;
     }
-    .finish-check {
-      width: 20px; height: 20px;
-      border: 2px solid var(--border-default);
-      border-radius: 50%;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: border-color 0.2s ease, background 0.2s ease;
-    }
-    .finish-option.active .finish-check {
-      border-color: var(--text-accent);
-      background: var(--text-accent);
-    }
-    .finish-check svg { display: none; }
-    .finish-option.active .finish-check svg { display: block; }
+    .kit-description p:last-child { margin-bottom: 0; }
 
     /* Quantity selector (reused for plates) */
     .qty-selector {
@@ -212,38 +169,6 @@
       background: var(--bg-main);
     }
 
-    /* Toggle selector (for case color, punch yes/no) */
-    .toggle-options { display: flex; gap: 8px; }
-    .toggle-option {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 12px 16px;
-      background: var(--bg-surface);
-      border: 2px solid var(--border-default);
-      border-radius: 8px;
-      cursor: pointer;
-      transition: border-color 0.2s ease, background 0.2s ease;
-      font-family: var(--font-mono);
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-primary);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-    .toggle-option:hover { border-color: var(--border-hover); }
-    .toggle-option.active { border-color: var(--text-accent); color: var(--text-accent); }
-    .toggle-option input { display: none; }
-    .toggle-dot {
-      width: 14px; height: 14px;
-      border-radius: 50%;
-      border: 1px solid var(--border-default);
-      flex-shrink: 0;
-    }
-    .toggle-dot.dot-black { background: #1a1a1a; }
-    .toggle-dot.dot-white { background: #f5f5f5; border-color: #ccc; }
 
     /* Kit contents */
     .kit-list {
@@ -391,10 +316,10 @@
       justify-content: center;
       gap: 8px;
       width: 100%;
-      padding: 16px 24px;
+      padding: 14px 20px;
       margin-top: 20px;
       font-family: var(--font-mono);
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.04em;
@@ -404,7 +329,7 @@
       border-radius: 6px;
       cursor: pointer;
       transition: background 0.2s ease, box-shadow 0.2s ease;
-      min-height: 52px;
+      min-height: 46px;
       text-decoration: none;
     }
     .order-checkout-btn:hover {
@@ -468,8 +393,6 @@
     @media (max-width: 520px) {
       .order-page { padding: 32px 0 60px; }
       .order-header h1 { font-size: 22px; }
-      .finish-options { flex-direction: column; }
-      .toggle-options { flex-direction: column; }
       .order-gallery { aspect-ratio: 3/2; }
     }
   </style>
@@ -510,36 +433,6 @@
             </div>
           </div>
 
-          <!-- Finish selector -->
-          <div class="order-section" data-section="order">
-            <p class="order-section-title"><%= t.order.finishLabel %></p>
-            <div class="finish-options" id="finishOptions"
-              data-track="config_finish" data-cta-id="order_finish_selector" data-section="order" data-product-id="penger-v1">
-              <label class="finish-option active" data-finish="ocean">
-                <input type="radio" name="finish" value="ocean" checked>
-                <span class="finish-swatch swatch-ocean"></span>
-                <span class="finish-info">
-                  <span class="finish-name"><%= t.order.finishOcean %></span>
-                  <span class="finish-desc"><%= t.order.finishOceanDesc %></span>
-                </span>
-                <span class="finish-check">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                </span>
-              </label>
-              <label class="finish-option" data-finish="mat">
-                <input type="radio" name="finish" value="mat">
-                <span class="finish-swatch swatch-mat"></span>
-                <span class="finish-info">
-                  <span class="finish-name"><%= t.order.finishMat %></span>
-                  <span class="finish-desc"><%= t.order.finishMatDesc %></span>
-                </span>
-                <span class="finish-check">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                </span>
-              </label>
-            </div>
-          </div>
-
           <!-- Plates quantity (1-4, extra +35€) -->
           <div class="order-section" data-section="order">
             <div class="order-section-row">
@@ -553,47 +446,12 @@
             </div>
           </div>
 
-          <!-- Case color -->
-          <div class="order-section" data-section="order">
-            <p class="order-section-title"><%= t.order.caseLabel %> — <%= t.order.caseColorLabel %></p>
-            <div class="toggle-options" id="caseColorOptions"
-              data-track="config_case_color" data-cta-id="order_case_color" data-section="order" data-product-id="penger-v1">
-              <label class="toggle-option active" data-color="black">
-                <input type="radio" name="caseColor" value="black" checked>
-                <span class="toggle-dot dot-black"></span>
-                <%= t.order.caseColorBlack %>
-              </label>
-              <label class="toggle-option" data-color="white">
-                <input type="radio" name="caseColor" value="white">
-                <span class="toggle-dot dot-white"></span>
-                <%= t.order.caseColorWhite %>
-              </label>
-            </div>
-          </div>
-
-          <!-- Punch tool (yes/no, +€10) -->
-          <div class="order-section" data-section="order">
-            <div class="order-section-row">
-              <p class="order-section-title" style="margin-bottom:0"><%= t.order.punchLabel %></p>
-              <span class="order-section-price">+€10</span>
-            </div>
-            <p style="font-size:12px;color:var(--text-dim);margin-bottom:12px;font-family:var(--font-sans);"><%= t.order.punchDesc %></p>
-            <div class="toggle-options" id="punchOptions"
-              data-track="config_punch" data-cta-id="order_punch" data-section="order" data-product-id="penger-v1">
-              <label class="toggle-option active" data-punch="yes">
-                <input type="radio" name="punch" value="yes" checked>
-                <%= t.order.punchYes %>
-              </label>
-              <label class="toggle-option" data-punch="no">
-                <input type="radio" name="punch" value="no">
-                <%= t.order.punchNo %>
-              </label>
-            </div>
-          </div>
-
           <!-- Kit contents -->
           <div class="order-section">
             <p class="order-section-title"><%= t.order.kitContentsLabel %></p>
+            <div class="kit-description">
+              <p><%= t.order.kitDesc %></p>
+            </div>
             <ul class="kit-list">
               <li><svg class="kit-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> <%= t.order.kitItem1 %></li>
               <li><svg class="kit-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> <%= t.order.kitItem2 %></li>
@@ -631,10 +489,8 @@
               </div>
               <div class="cart-details">
                 <div class="cart-product-name">PENGER v1.0</div>
-                <div class="cart-config-line"><%= t.order.finishLabel %>: <span id="cartFinish"><%= t.order.finishOcean %></span></div>
                 <div class="cart-config-line"><%= t.order.cartPlates %>: <span id="cartPlates">1</span></div>
-                <div class="cart-config-line"><%= t.order.cartCase %>: <span id="cartCase"><%= t.order.caseColorBlack %></span></div>
-                <div class="cart-config-line"><%= t.order.cartPunch %>: <span id="cartPunch"><%= t.order.punchYes %></span></div>
+                <div class="cart-config-line"><%= t.order.cartKit %>: <span><%= t.order.cartIncluded %></span></div>
               </div>
             </div>
 
@@ -647,10 +503,6 @@
               <span class="summary-key" id="extraPlatesLabel"></span>
               <span class="summary-val-add" id="extraPlatesPrice"></span>
             </div>
-            <div class="summary-row" id="rowPunch">
-              <span class="summary-key"><%= t.order.cartPunch %></span>
-              <span class="summary-val-add" id="punchPrice">+€10</span>
-            </div>
             <div class="summary-row">
               <span class="summary-key"><%= t.order.shippingLabel %></span>
               <span class="summary-val-free"><%= t.order.shippingValue %></span>
@@ -660,7 +512,7 @@
 
             <div class="summary-row summary-total">
               <span class="summary-key"><%= t.order.totalLabel %></span>
-              <span class="summary-val" id="summaryTotal">€59</span>
+              <span class="summary-val" id="summaryTotal">€49</span>
             </div>
 
             <button class="order-checkout-btn" id="checkoutBtn" type="button"
@@ -694,12 +546,6 @@
 
   <script>
   window.ORDER_I18N = {
-    finishOcean: '<%= t.order.finishOcean %>',
-    finishMat: '<%= t.order.finishMat %>',
-    caseColorBlack: '<%= t.order.caseColorBlack %>',
-    caseColorWhite: '<%= t.order.caseColorWhite %>',
-    punchYes: '<%= t.order.punchYes %>',
-    punchNo: '<%= t.order.punchNo %>',
     platesDesc: '<%= t.order.platesDesc %>',
     langPrefix: '<%= langPrefix %>'
   };
