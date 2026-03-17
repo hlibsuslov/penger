@@ -122,6 +122,77 @@
       font-weight: 600;
     }
 
+    /* Config option cards */
+    .config-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+    }
+    .config-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .config-card-title {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-accent);
+    }
+    .config-card-price {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-label);
+      white-space: nowrap;
+    }
+    .config-options {
+      display: flex;
+      gap: 8px;
+    }
+    .config-opt {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 12px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-dim);
+      background: var(--bg-main);
+      border: 1.5px solid var(--border-default);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      user-select: none;
+    }
+    .config-opt:hover {
+      border-color: var(--border-hover);
+      color: var(--text-primary);
+    }
+    .config-opt.active {
+      border-color: var(--text-accent);
+      color: var(--text-accent);
+      background: var(--bg-surface);
+    }
+    .config-opt input { display: none; }
+    .config-swatch {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border-default);
+      flex-shrink: 0;
+    }
+    .config-swatch-black { background: #1a1a1a; border-color: #333; }
+    .config-swatch-white { background: #f5f5f5; border-color: #ccc; }
+    .config-opt.active .config-swatch { border-color: var(--text-accent); }
+
     /* Kit description */
     .kit-description {
       font-family: var(--font-sans);
@@ -383,12 +454,15 @@
     .checkout-step {
       background: var(--bg-surface);
       border: 1px solid var(--border-default);
-      border-radius: 8px;
-      margin-bottom: 20px;
+      border-radius: 10px;
+      margin-bottom: 16px;
       overflow: hidden;
-      transition: opacity 0.3s ease, transform 0.3s ease;
+      transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .checkout-step.disabled { opacity: 0.5; pointer-events: none; }
+    .checkout-step.active {
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .checkout-step.disabled { opacity: 0.4; pointer-events: none; }
     .step-body {
       padding: 0 20px 20px;
       transition: max-height 0.35s ease, opacity 0.25s ease;
@@ -396,34 +470,35 @@
     }
     .checkout-step.active .step-body { opacity: 1; }
     .checkout-step:not(.active) .step-body { opacity: 0; max-height: 0 !important; padding: 0 20px 0; }
-    .checkout-step.step-entering { animation: stepSlideIn 0.35s ease forwards; }
+    .checkout-step.step-entering { animation: stepSlideIn 0.3s ease forwards; }
     @keyframes stepSlideIn {
-      from { opacity: 0; transform: translateY(12px); }
+      from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
     .step-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 16px 20px;
+      padding: 14px 20px;
       cursor: default;
     }
     .step-header-left {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
     .step-number {
-      width: 28px; height: 28px;
+      width: 26px; height: 26px;
       display: flex; align-items: center; justify-content: center;
       border-radius: 50%;
       font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
       background: var(--bg-main);
       border: 2px solid var(--border-default);
       color: var(--text-dim);
       flex-shrink: 0;
+      transition: all 0.2s ease;
     }
     .checkout-step.active .step-number,
     .checkout-step.completed .step-number {
@@ -436,11 +511,12 @@
     }
     .step-title {
       font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.06em;
       color: var(--text-dim);
+      transition: color 0.2s ease;
     }
     .checkout-step.active .step-title,
     .checkout-step.completed .step-title {
@@ -448,27 +524,28 @@
     }
     .step-edit-btn {
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.04em;
       color: var(--text-accent);
       background: none;
-      border: 1px solid var(--text-accent);
+      border: 1px solid var(--border-default);
       border-radius: 4px;
-      padding: 4px 12px;
+      padding: 4px 10px;
       cursor: pointer;
       display: none;
-      transition: background 0.15s ease, color 0.15s ease;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
     }
     .step-edit-btn:hover {
+      border-color: var(--text-accent);
       background: var(--text-accent);
       color: var(--bg-main);
     }
     .checkout-step.completed .step-edit-btn { display: inline-flex; }
     .step-summary {
       display: none;
-      padding: 0 20px 16px;
+      padding: 0 20px 14px;
       font-family: var(--font-sans);
       font-size: 13px;
       color: var(--text-primary);
@@ -491,11 +568,11 @@
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 8px;
+      margin-bottom: 8px;
     }
     .form-row.full { grid-template-columns: 1fr; }
-    .form-group { display: flex; flex-direction: column; gap: 4px; }
+    .form-group { display: flex; flex-direction: column; gap: 3px; }
     .form-label {
       font-family: var(--font-mono);
       font-size: 10px;
@@ -506,7 +583,7 @@
     }
     .form-input {
       font-family: var(--font-sans);
-      font-size: 14px;
+      font-size: 16px;
       color: var(--text-primary);
       background: var(--bg-main);
       border: 1px solid var(--border-default);
@@ -515,6 +592,9 @@
       outline: none;
       transition: border-color 0.15s ease;
     }
+    /* Important fields get slightly larger */
+    .form-input-lg { padding: 12px 14px; }
+    .form-input-sm { padding: 8px 12px; font-size: 14px; }
     .form-input:focus { border-color: var(--text-accent); }
     .form-input.error { border-color: #e74c3c; }
     .form-input::placeholder { color: var(--text-dim); opacity: 0.5; }
@@ -555,28 +635,29 @@
       background-repeat: no-repeat;
       background-position: right 12px center;
       padding-right: 32px;
+      padding-top: 11px;
+      padding-bottom: 11px;
     }
     .form-privacy {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       gap: 8px;
-      padding: 12px;
+      padding: 10px 12px;
       background: var(--bg-main);
       border: 1px solid var(--border-default);
       border-radius: 6px;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
     .form-privacy svg {
-      width: 14px; height: 14px;
+      width: 13px; height: 13px;
       color: var(--text-dim);
       flex-shrink: 0;
-      margin-top: 1px;
     }
     .form-privacy span {
       font-family: var(--font-sans);
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-dim);
-      line-height: 1.5;
+      line-height: 1.4;
     }
     .step-continue-btn {
       display: flex;
@@ -584,8 +665,8 @@
       justify-content: center;
       gap: 8px;
       width: 100%;
-      padding: 12px 20px;
-      margin-top: 16px;
+      padding: 13px 20px;
+      margin-top: 14px;
       font-family: var(--font-mono);
       font-size: 13px;
       font-weight: 700;
@@ -594,9 +675,9 @@
       color: var(--bg-main);
       background: var(--text-accent);
       border: 1px solid var(--text-accent);
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
-      transition: background 0.2s ease;
+      transition: background 0.2s ease, box-shadow 0.2s ease;
       min-height: 44px;
     }
     .step-continue-btn:hover { background: var(--text-accent-hover); }
@@ -719,35 +800,39 @@
       align-items: center;
       justify-content: center;
       gap: 0;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
     }
     .progress-step {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.04em;
       color: var(--text-dim);
-      transition: color 0.2s ease;
+      transition: color 0.25s ease;
     }
     .progress-step.active,
     .progress-step.done { color: var(--text-accent); }
     .progress-dot {
-      width: 8px; height: 8px;
+      width: 7px; height: 7px;
       border-radius: 50%;
       background: var(--border-default);
-      transition: background 0.2s ease;
+      transition: background 0.25s ease, transform 0.25s ease;
     }
-    .progress-step.active .progress-dot,
+    .progress-step.active .progress-dot {
+      background: var(--text-accent);
+      transform: scale(1.3);
+    }
     .progress-step.done .progress-dot { background: var(--text-accent); }
     .progress-line {
-      width: 40px; height: 2px;
+      width: 32px; height: 2px;
       background: var(--border-default);
-      margin: 0 12px;
-      transition: background 0.2s ease;
+      margin: 0 8px;
+      transition: background 0.25s ease;
+      border-radius: 1px;
     }
     .progress-line.done { background: var(--text-accent); }
 
@@ -769,7 +854,7 @@
     /* Phone prefix */
     .phone-wrap { display: flex; gap: 8px; }
     .phone-prefix {
-      width: 72px;
+      min-width: 80px;
       flex-shrink: 0;
       font-family: var(--font-mono);
       font-size: 14px;
@@ -777,8 +862,13 @@
       background: var(--bg-surface);
       border: 1px solid var(--border-default);
       border-radius: 6px;
-      padding: 10px 8px;
+      padding: 10px 10px;
       text-align: center;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
     }
     .phone-wrap .form-input { flex: 1; }
 
@@ -862,25 +952,8 @@
 
     /* Promo code */
     .promo-section { margin-top: 12px; }
-    .promo-toggle {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--text-accent);
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      text-decoration: underline;
-    }
     .promo-form {
-      display: none;
-      margin-top: 8px;
-    }
-    .promo-form.open { display: flex; }
-    .promo-form {
+      display: flex;
       gap: 8px;
     }
     .promo-input {
@@ -923,6 +996,11 @@
     /* Shipping cost dynamic */
     .shipping-val-dynamic { color: var(--text-label); font-weight: 600; }
 
+    @media (prefers-color-scheme: dark) {
+      .checkout-step.active { box-shadow: 0 2px 16px rgba(0,0,0,0.25); }
+      .mobile-sticky-cta { box-shadow: 0 -2px 16px rgba(0,0,0,0.3); }
+    }
+
     /* Disabled checkout button */
     .order-checkout-btn:disabled {
       opacity: 0.4;
@@ -943,34 +1021,35 @@
       z-index: 100;
       background: var(--bg-surface);
       border-top: 1px solid var(--border-default);
-      padding: 12px 16px;
+      padding: 16px 20px calc(16px + env(safe-area-inset-bottom, 0px));
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 16px;
     }
     .mobile-sticky-price {
       font-family: var(--font-mono);
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 700;
       color: var(--text-accent);
     }
     .mobile-sticky-btn {
       flex: 1;
-      max-width: 200px;
+      max-width: 220px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 10px 16px;
+      padding: 14px 20px;
       font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.04em;
       color: var(--bg-main);
       background: var(--text-accent);
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
+      min-height: 48px;
     }
 
     /* ===== RESPONSIVE ===== */
@@ -984,15 +1063,16 @@
       }
       .order-header h1 { font-size: 26px; }
       .mobile-sticky-cta { display: flex; }
-      .order-page { padding-bottom: 100px; }
+      .order-page { padding-bottom: 120px; }
     }
     @media (max-width: 520px) {
-      .order-page { padding: 32px 0 100px; }
+      .order-page { padding: 32px 0 120px; }
       .order-header h1 { font-size: 22px; }
       .order-gallery { aspect-ratio: 3/2; }
       .form-row { grid-template-columns: 1fr; }
       .progress-step span { display: none; }
       .progress-line { width: 24px; }
+      .form-input { font-size: 16px; }
     }
   </style>
 </head>
@@ -1009,12 +1089,6 @@
         <%= t.order.backToProduct %>
       </a>
 
-      <div class="order-header">
-        <p class="label"><%= t.order.configLabel %></p>
-        <h1><%= t.order.h1 %></h1>
-        <p><%= t.order.desc %></p>
-      </div>
-
       <!-- Progress bar -->
       <div class="order-progress" id="orderProgress">
         <div class="progress-step done" data-step="product">
@@ -1027,6 +1101,11 @@
           <span><%= t.order.progressContact %></span>
         </div>
         <div class="progress-line" id="progressLine2"></div>
+        <div class="progress-step" data-step="delivery">
+          <span class="progress-dot"></span>
+          <span><%= t.order.deliveryAddress || 'Delivery' %></span>
+        </div>
+        <div class="progress-line" id="progressLine3"></div>
         <div class="progress-step" data-step="payment">
           <span class="progress-dot"></span>
           <span><%= t.order.progressPayment %></span>
@@ -1052,14 +1131,52 @@
 
           <!-- Plates quantity (1-4, extra +35€) -->
           <div class="order-section" data-section="order">
-            <div class="order-section-row">
+            <div class="order-section-row" style="align-items:center">
               <p class="order-section-title" style="margin-bottom:0"><%= t.order.platesLabel %></p>
-              <span class="order-section-price"><%= t.order.platesExtraPrice %></span>
+              <span class="order-section-price" style="text-align:center"><%= t.order.platesExtraPrice %></span>
             </div>
             <div class="qty-selector" data-track="config_plates" data-cta-id="order_plates_qty" data-section="order" data-product-id="penger-v1">
               <button class="qty-btn" id="platesMinus" type="button" disabled aria-label="Decrease plates">&minus;</button>
               <span class="qty-val" id="platesVal">1</span>
               <button class="qty-btn" id="platesPlus" type="button" aria-label="Increase plates">&plus;</button>
+            </div>
+          </div>
+
+          <!-- Security sleeve colour -->
+          <div class="config-card" data-section="order">
+            <div class="config-card-header">
+              <span class="config-card-title">Security sleeve</span>
+              <span class="config-card-price">+&euro;10</span>
+            </div>
+            <div class="config-options" id="sleeveOptions">
+              <label class="config-opt active">
+                <input type="radio" name="sleeveColor" value="black" checked>
+                <span class="config-swatch config-swatch-black"></span>
+                Black
+              </label>
+              <label class="config-opt">
+                <input type="radio" name="sleeveColor" value="white">
+                <span class="config-swatch config-swatch-white"></span>
+                White
+              </label>
+            </div>
+          </div>
+
+          <!-- Precision center punch tool -->
+          <div class="config-card" data-section="order">
+            <div class="config-card-header">
+              <span class="config-card-title">Precision center punch tool</span>
+              <span class="config-card-price">+&euro;10</span>
+            </div>
+            <div class="config-options" id="punchOptions">
+              <label class="config-opt active">
+                <input type="radio" name="punchTool" value="yes" checked>
+                Yes
+              </label>
+              <label class="config-opt">
+                <input type="radio" name="punchTool" value="no">
+                No
+              </label>
             </div>
           </div>
 
@@ -1091,12 +1208,12 @@
             </table>
           </div>
 
-          <!-- ===== STEP 1: CONTACT & DELIVERY ===== -->
+          <!-- ===== STEP 1: CONTACT INFO ===== -->
           <div class="checkout-step active" id="stepContact" data-section="order">
             <div class="step-header">
               <div class="step-header-left">
                 <span class="step-number">1</span>
-                <span class="step-title"><%= t.order.stepContactTitle %></span>
+                <span class="step-title"><%= t.order.progressContact %></span>
               </div>
               <button class="step-edit-btn" id="editContact" type="button"><%= t.order.stepEdit %></button>
             </div>
@@ -1109,17 +1226,15 @@
               <form id="contactForm" autocomplete="on" novalidate>
                 <div class="form-row">
                   <div class="form-group">
-                    <label class="form-label" for="firstName"><%= t.order.firstName %></label>
                     <div class="form-input-wrap">
-                      <input class="form-input" type="text" id="firstName" name="given-name" autocomplete="given-name" aria-describedby="firstNameError" required>
+                      <input class="form-input form-input-lg" type="text" id="firstName" name="given-name" autocomplete="given-name" placeholder="<%= t.order.firstName %>" aria-describedby="firstNameError" required>
                       <svg class="input-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                     </div>
                     <div class="field-error-msg" id="firstNameError" role="alert"></div>
                   </div>
                   <div class="form-group">
-                    <label class="form-label" for="lastName"><%= t.order.lastName %></label>
                     <div class="form-input-wrap">
-                      <input class="form-input" type="text" id="lastName" name="family-name" autocomplete="family-name" aria-describedby="lastNameError" required>
+                      <input class="form-input form-input-lg" type="text" id="lastName" name="family-name" autocomplete="family-name" placeholder="<%= t.order.lastName %>" aria-describedby="lastNameError" required>
                       <svg class="input-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                     </div>
                     <div class="field-error-msg" id="lastNameError" role="alert"></div>
@@ -1127,9 +1242,8 @@
                 </div>
                 <div class="form-row full">
                   <div class="form-group">
-                    <label class="form-label" for="email"><%= t.order.email %></label>
                     <div class="form-input-wrap">
-                      <input class="form-input" type="email" id="email" name="email" autocomplete="email" inputmode="email" aria-describedby="emailError" required>
+                      <input class="form-input form-input-lg" type="email" id="email" name="email" autocomplete="email" inputmode="email" placeholder="<%= t.order.email %>" aria-describedby="emailError" required>
                       <svg class="input-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                     </div>
                     <div class="email-suggestion" id="emailSuggestion"></div>
@@ -1138,98 +1252,109 @@
                 </div>
                 <div class="form-row full">
                   <div class="form-group">
-                    <label class="form-label" for="phone"><%= t.order.phone %></label>
-                    <div class="phone-wrap">
-                      <span class="phone-prefix" id="phonePrefix">+</span>
-                      <input class="form-input" type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" aria-describedby="phoneError" required>
-                    </div>
-                    <div class="field-error-msg" id="phoneError" role="alert"></div>
-                  </div>
-                </div>
-                <p class="order-section-title" style="margin-top:20px;margin-bottom:12px"><%= t.order.deliveryAddress %></p>
-                <div class="form-row full">
-                  <div class="form-group">
-                    <label class="form-label" for="country"><%= t.order.country %></label>
+                    <label class="form-label" for="country"><%= t.order.countryOfDelivery || 'Country of delivery' %></label>
                     <select class="form-input" id="country" name="country" autocomplete="country-name" required>
                       <option value="" disabled selected><%= t.order.countryPlaceholder %></option>
-                      <option value="AT">Austria</option>
-                      <option value="BE">Belgium</option>
-                      <option value="BG">Bulgaria</option>
-                      <option value="HR">Croatia</option>
-                      <option value="CY">Cyprus</option>
-                      <option value="CZ">Czech Republic</option>
-                      <option value="DK">Denmark</option>
-                      <option value="EE">Estonia</option>
-                      <option value="FI">Finland</option>
-                      <option value="FR">France</option>
-                      <option value="DE">Germany</option>
-                      <option value="GR">Greece</option>
-                      <option value="HU">Hungary</option>
-                      <option value="IE">Ireland</option>
-                      <option value="IT">Italy</option>
-                      <option value="LV">Latvia</option>
-                      <option value="LT">Lithuania</option>
-                      <option value="LU">Luxembourg</option>
-                      <option value="MT">Malta</option>
-                      <option value="NL">Netherlands</option>
-                      <option value="PL">Poland</option>
-                      <option value="PT">Portugal</option>
-                      <option value="RO">Romania</option>
-                      <option value="SK">Slovakia</option>
-                      <option value="SI">Slovenia</option>
-                      <option value="ES">Spain</option>
-                      <option value="SE">Sweden</option>
-                      <option value="GB">United Kingdom</option>
-                      <option value="US">United States</option>
-                      <option value="CA">Canada</option>
-                      <option value="AU">Australia</option>
-                      <option value="JP">Japan</option>
-                      <option value="CH">Switzerland</option>
-                      <option value="NO">Norway</option>
-                      <option value="UA">Ukraine</option>
+                      <option value="AT">&#127462;&#127481; Austria</option>
+                      <option value="BE">&#127463;&#127466; Belgium</option>
+                      <option value="BG">&#127463;&#127468; Bulgaria</option>
+                      <option value="HR">&#127469;&#127479; Croatia</option>
+                      <option value="CY">&#127464;&#127486; Cyprus</option>
+                      <option value="CZ">&#127464;&#127487; Czech Republic</option>
+                      <option value="DK">&#127465;&#127472; Denmark</option>
+                      <option value="EE">&#127466;&#127466; Estonia</option>
+                      <option value="FI">&#127467;&#127470; Finland</option>
+                      <option value="FR">&#127467;&#127479; France</option>
+                      <option value="DE">&#127465;&#127466; Germany</option>
+                      <option value="GR">&#127468;&#127479; Greece</option>
+                      <option value="HU">&#127469;&#127482; Hungary</option>
+                      <option value="IE">&#127470;&#127466; Ireland</option>
+                      <option value="IT">&#127470;&#127481; Italy</option>
+                      <option value="LV">&#127473;&#127483; Latvia</option>
+                      <option value="LT">&#127473;&#127481; Lithuania</option>
+                      <option value="LU">&#127473;&#127482; Luxembourg</option>
+                      <option value="MT">&#127474;&#127481; Malta</option>
+                      <option value="NL">&#127475;&#127473; Netherlands</option>
+                      <option value="PL">&#127477;&#127473; Poland</option>
+                      <option value="PT">&#127477;&#127481; Portugal</option>
+                      <option value="RO">&#127479;&#127476; Romania</option>
+                      <option value="SK">&#127480;&#127472; Slovakia</option>
+                      <option value="SI">&#127480;&#127470; Slovenia</option>
+                      <option value="ES">&#127466;&#127480; Spain</option>
+                      <option value="SE">&#127480;&#127466; Sweden</option>
+                      <option value="GB">&#127468;&#127463; United Kingdom</option>
+                      <option value="US">&#127482;&#127480; United States</option>
+                      <option value="CA">&#127464;&#127462; Canada</option>
+                      <option value="AU">&#127462;&#127482; Australia</option>
+                      <option value="JP">&#127471;&#127477; Japan</option>
+                      <option value="CH">&#127464;&#127469; Switzerland</option>
+                      <option value="NO">&#127475;&#127476; Norway</option>
+                      <option value="UA">&#127482;&#127462; Ukraine</option>
                     </select>
                   </div>
                 </div>
                 <div class="form-row full">
                   <div class="form-group">
-                    <label class="form-label" for="street"><%= t.order.street %></label>
-                    <input class="form-input" type="text" id="street" name="address-line1" autocomplete="address-line1" aria-describedby="streetError" required>
-                    <div class="field-error-msg" id="streetError" role="alert"></div>
+                    <div class="phone-wrap">
+                      <span class="phone-prefix" id="phonePrefix">+</span>
+                      <input class="form-input" type="tel" id="phone" name="phone" autocomplete="tel-national" inputmode="tel" placeholder="<%= t.order.phone %>" aria-describedby="phoneError" required>
+                    </div>
+                    <div class="field-error-msg" id="phoneError" role="alert"></div>
                   </div>
                 </div>
+                <button class="step-continue-btn" id="contactContinue" type="submit"><%= t.order.deliveryAddress || 'Continue to Delivery' %></button>
+              </form>
+            </div>
+          </div>
+
+          <!-- ===== STEP 2: DELIVERY ADDRESS ===== -->
+          <div class="checkout-step disabled" id="stepDelivery" data-section="order">
+            <div class="step-header">
+              <div class="step-header-left">
+                <span class="step-number">2</span>
+                <span class="step-title"><%= t.order.deliveryAddress %></span>
+              </div>
+              <button class="step-edit-btn" id="editDelivery" type="button"><%= t.order.stepEdit %></button>
+            </div>
+            <div class="step-summary" id="deliverySummary"></div>
+            <div class="step-body">
+              <form id="deliveryForm" autocomplete="on" novalidate>
                 <div class="form-row full">
                   <div class="form-group">
-                    <label class="form-label" for="apt"><%= t.order.apt %></label>
-                    <input class="form-input" type="text" id="apt" name="address-line2" autocomplete="address-line2">
+                    <input class="form-input form-input-lg" type="text" id="street" name="address-line1" autocomplete="address-line1" placeholder="<%= t.order.street %>" aria-describedby="streetError" required>
+                    <div class="field-error-msg" id="streetError" role="alert"></div>
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label class="form-label" for="city"><%= t.order.city %></label>
-                    <input class="form-input" type="text" id="city" name="city" autocomplete="address-level2" aria-describedby="cityError" required>
-                    <div class="field-error-msg" id="cityError" role="alert"></div>
+                    <input class="form-input form-input-sm" type="text" id="apt" name="address-line2" autocomplete="address-line2" placeholder="<%= t.order.apt %>">
                   </div>
                   <div class="form-group">
-                    <label class="form-label" for="zip"><%= t.order.zip %></label>
-                    <input class="form-input" type="text" id="zip" name="postal-code" autocomplete="postal-code" inputmode="text" aria-describedby="zipError" required>
+                    <input class="form-input form-input-sm" type="text" id="zip" name="postal-code" autocomplete="postal-code" inputmode="text" placeholder="<%= t.order.zip %>" aria-describedby="zipError" required>
                     <div class="field-error-msg" id="zipError" role="alert"></div>
                     <div class="zip-suggestions" id="zipSuggestions"></div>
+                  </div>
+                </div>
+                <div class="form-row full">
+                  <div class="form-group">
+                    <input class="form-input" type="text" id="city" name="city" autocomplete="address-level2" placeholder="<%= t.order.city %>" aria-describedby="cityError" required>
+                    <div class="field-error-msg" id="cityError" role="alert"></div>
                   </div>
                 </div>
                 <div class="delivery-estimate" id="deliveryEstimate" style="display:none">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
                   <span id="deliveryText"></span>
                 </div>
-                <button class="step-continue-btn" id="contactContinue" type="submit"><%= t.order.continueToPayment %></button>
+                <button class="step-continue-btn" id="deliveryContinue" type="submit"><%= t.order.continueToPayment %></button>
               </form>
             </div>
           </div>
 
-          <!-- ===== STEP 2: PAYMENT ===== -->
+          <!-- ===== STEP 3: PAYMENT ===== -->
           <div class="checkout-step disabled" id="stepPayment" data-section="order">
             <div class="step-header">
               <div class="step-header-left">
-                <span class="step-number">2</span>
+                <span class="step-number">3</span>
                 <span class="step-title"><%= t.order.stepPaymentTitle %></span>
               </div>
             </div>
@@ -1337,6 +1462,14 @@
                   <span class="summary-key" id="extraPlatesLabelBottom"></span>
                   <span class="summary-val-add" id="extraPlatesPriceBottom"></span>
                 </div>
+                <div class="summary-row" id="rowSleeveBottom">
+                  <span class="summary-key" id="sleeveLabelBottom">Sleeve</span>
+                  <span class="summary-val-add" id="sleevePriceBottom">+&euro;10</span>
+                </div>
+                <div class="summary-row" id="rowPunchBottom">
+                  <span class="summary-key" id="punchLabelBottom">Punch tool</span>
+                  <span class="summary-val-add" id="punchPriceBottom">+&euro;10</span>
+                </div>
                 <div class="summary-row" id="rowShippingFreeBottom">
                   <span class="summary-key"><%= t.order.shippingLabel %></span>
                   <span class="summary-val-free"><%= t.order.shippingValue %></span>
@@ -1352,7 +1485,7 @@
                 <div class="summary-divider"></div>
                 <div class="summary-row summary-total">
                   <span class="summary-key"><%= t.order.totalLabel %></span>
-                  <span class="summary-val" id="summaryTotalBottom" aria-live="polite">€49</span>
+                  <span class="summary-val" id="summaryTotalBottom" aria-live="polite">€69</span>
                 </div>
               </div>
 
@@ -1408,6 +1541,14 @@
               <span class="summary-key" id="extraPlatesLabel"></span>
               <span class="summary-val-add" id="extraPlatesPrice"></span>
             </div>
+            <div class="summary-row" id="rowSleeve">
+              <span class="summary-key" id="sleeveLabel">Sleeve</span>
+              <span class="summary-val-add" id="sleevePrice">+&euro;10</span>
+            </div>
+            <div class="summary-row" id="rowPunch">
+              <span class="summary-key" id="punchLabel">Punch tool</span>
+              <span class="summary-val-add" id="punchPrice">+&euro;10</span>
+            </div>
             <div class="summary-row" id="rowShippingFree">
               <span class="summary-key"><%= t.order.shippingLabel %></span>
               <span class="summary-val-free" id="shippingFreeVal"><%= t.order.shippingValue %></span>
@@ -1426,12 +1567,11 @@
 
             <div class="summary-row summary-total">
               <span class="summary-key"><%= t.order.totalLabel %></span>
-              <span class="summary-val" id="summaryTotal" aria-live="polite">€49</span>
+              <span class="summary-val" id="summaryTotal" aria-live="polite">€69</span>
             </div>
 
             <div class="promo-section">
-              <button class="promo-toggle" id="promoToggle" type="button"><%= t.order.promoToggle %></button>
-              <div class="promo-form" id="promoForm">
+              <div class="promo-form open" id="promoForm">
                 <input class="promo-input" type="text" id="promoInput" placeholder="<%= t.order.promoPlaceholder %>" maxlength="20">
                 <button class="promo-apply" id="promoApply" type="button"><%= t.order.promoApply %></button>
               </div>
@@ -1461,7 +1601,7 @@
 
   <!-- Sticky mobile CTA -->
   <div class="mobile-sticky-cta" id="mobileCta">
-    <span class="mobile-sticky-price" id="mobilePrice">€49</span>
+    <span class="mobile-sticky-price" id="mobilePrice">€69</span>
     <button class="mobile-sticky-btn" id="mobileContinueBtn" type="button"><%= t.order.continueToPayment %></button>
   </div>
 
@@ -1476,6 +1616,8 @@
     lastName: '<%= t.order.lastName %>',
     email: '<%= t.order.email %>',
     phone: '<%= t.order.phone %>',
+    country: '<%= t.order.country %>',
+    continueToDelivery: '<%= t.order.deliveryAddress || "Continue to Delivery" %>',
     continueToPayment: '<%= t.order.continueToPayment %>',
     payNow: '<%= t.order.payNow %>',
     emailDidYouMean: '<%= t.order.emailDidYouMean %>',
