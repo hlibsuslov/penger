@@ -398,7 +398,7 @@
 
   /* ===== PRODUCT IMAGE HOVER (hover ≥ 500ms) ===== */
   (function () {
-    var targets = document.querySelectorAll('.lp-hero-image, .lp-plate-stage');
+    var targets = document.querySelectorAll('.lp-hero-image, .lp-plate-stage, .lp-cta-product');
 
     targets.forEach(function (el) {
       var timer = null;
