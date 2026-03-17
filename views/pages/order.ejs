@@ -122,6 +122,77 @@
       font-weight: 600;
     }
 
+    /* Config option cards */
+    .config-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+    }
+    .config-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .config-card-title {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-accent);
+    }
+    .config-card-price {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-label);
+      white-space: nowrap;
+    }
+    .config-options {
+      display: flex;
+      gap: 8px;
+    }
+    .config-opt {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 12px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-dim);
+      background: var(--bg-main);
+      border: 1.5px solid var(--border-default);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      user-select: none;
+    }
+    .config-opt:hover {
+      border-color: var(--border-hover);
+      color: var(--text-primary);
+    }
+    .config-opt.active {
+      border-color: var(--text-accent);
+      color: var(--text-accent);
+      background: var(--bg-surface);
+    }
+    .config-opt input { display: none; }
+    .config-swatch {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border-default);
+      flex-shrink: 0;
+    }
+    .config-swatch-black { background: #1a1a1a; border-color: #333; }
+    .config-swatch-white { background: #f5f5f5; border-color: #ccc; }
+    .config-opt.active .config-swatch { border-color: var(--text-accent); }
+
     /* Kit description */
     .kit-description {
       font-family: var(--font-sans);
@@ -1088,6 +1159,44 @@
             </div>
           </div>
 
+          <!-- Security sleeve colour -->
+          <div class="config-card" data-section="order">
+            <div class="config-card-header">
+              <span class="config-card-title">Security sleeve</span>
+              <span class="config-card-price">+&euro;10</span>
+            </div>
+            <div class="config-options" id="sleeveOptions">
+              <label class="config-opt active">
+                <input type="radio" name="sleeveColor" value="black" checked>
+                <span class="config-swatch config-swatch-black"></span>
+                Black
+              </label>
+              <label class="config-opt">
+                <input type="radio" name="sleeveColor" value="white">
+                <span class="config-swatch config-swatch-white"></span>
+                White
+              </label>
+            </div>
+          </div>
+
+          <!-- Precision center punch tool -->
+          <div class="config-card" data-section="order">
+            <div class="config-card-header">
+              <span class="config-card-title">Precision center punch tool</span>
+              <span class="config-card-price">+&euro;10</span>
+            </div>
+            <div class="config-options" id="punchOptions">
+              <label class="config-opt active">
+                <input type="radio" name="punchTool" value="yes" checked>
+                Yes
+              </label>
+              <label class="config-opt">
+                <input type="radio" name="punchTool" value="no">
+                No
+              </label>
+            </div>
+          </div>
+
           <!-- Kit contents -->
           <div class="order-section">
             <p class="order-section-title"><%= t.order.kitContentsLabel %></p>
@@ -1378,6 +1487,14 @@
                   <span class="summary-key" id="extraPlatesLabelBottom"></span>
                   <span class="summary-val-add" id="extraPlatesPriceBottom"></span>
                 </div>
+                <div class="summary-row" id="rowSleeveBottom">
+                  <span class="summary-key" id="sleeveLabelBottom">Sleeve</span>
+                  <span class="summary-val-add" id="sleevePriceBottom">+&euro;10</span>
+                </div>
+                <div class="summary-row" id="rowPunchBottom">
+                  <span class="summary-key" id="punchLabelBottom">Punch tool</span>
+                  <span class="summary-val-add" id="punchPriceBottom">+&euro;10</span>
+                </div>
                 <div class="summary-row" id="rowShippingFreeBottom">
                   <span class="summary-key"><%= t.order.shippingLabel %></span>
                   <span class="summary-val-free"><%= t.order.shippingValue %></span>
@@ -1393,7 +1510,7 @@
                 <div class="summary-divider"></div>
                 <div class="summary-row summary-total">
                   <span class="summary-key"><%= t.order.totalLabel %></span>
-                  <span class="summary-val" id="summaryTotalBottom" aria-live="polite">€49</span>
+                  <span class="summary-val" id="summaryTotalBottom" aria-live="polite">€69</span>
                 </div>
               </div>
 
@@ -1449,6 +1566,14 @@
               <span class="summary-key" id="extraPlatesLabel"></span>
               <span class="summary-val-add" id="extraPlatesPrice"></span>
             </div>
+            <div class="summary-row" id="rowSleeve">
+              <span class="summary-key" id="sleeveLabel">Sleeve</span>
+              <span class="summary-val-add" id="sleevePrice">+&euro;10</span>
+            </div>
+            <div class="summary-row" id="rowPunch">
+              <span class="summary-key" id="punchLabel">Punch tool</span>
+              <span class="summary-val-add" id="punchPrice">+&euro;10</span>
+            </div>
             <div class="summary-row" id="rowShippingFree">
               <span class="summary-key"><%= t.order.shippingLabel %></span>
               <span class="summary-val-free" id="shippingFreeVal"><%= t.order.shippingValue %></span>
@@ -1467,7 +1592,7 @@
 
             <div class="summary-row summary-total">
               <span class="summary-key"><%= t.order.totalLabel %></span>
-              <span class="summary-val" id="summaryTotal" aria-live="polite">€49</span>
+              <span class="summary-val" id="summaryTotal" aria-live="polite">€69</span>
             </div>
 
             <div class="promo-section">
@@ -1502,7 +1627,7 @@
 
   <!-- Sticky mobile CTA -->
   <div class="mobile-sticky-cta" id="mobileCta">
-    <span class="mobile-sticky-price" id="mobilePrice">€49</span>
+    <span class="mobile-sticky-price" id="mobilePrice">€69</span>
     <button class="mobile-sticky-btn" id="mobileContinueBtn" type="button"><%= t.order.continueToPayment %></button>
   </div>
 

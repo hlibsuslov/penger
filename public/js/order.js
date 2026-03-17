@@ -25,8 +25,14 @@
     'FIRST5': { type: 'fixed', value: 5 }
   };
 
+  /* ===== ADDON PRICES ===== */
+  var SLEEVE_PRICE = 10;
+  var PUNCH_PRICE = 10;
+
   /* ===== STATE ===== */
   var plates = 1;
+  var sleeveColor = 'black'; // black | white (always included, just pick colour)
+  var punchTool = true;       // yes | no
   var payMethod = 'card';
   var currentStep = 'contact'; // contact | delivery | payment
   var shippingCost = 0;
@@ -152,7 +158,10 @@
 
   /* ===== HELPERS ===== */
   function getSubtotal() {
-    return BASE_PRICE + ((plates - 1) * EXTRA_PLATE);
+    var sub = BASE_PRICE + ((plates - 1) * EXTRA_PLATE);
+    sub += SLEEVE_PRICE; // sleeve always included
+    if (punchTool) sub += PUNCH_PRICE;
+    return sub;
   }
 
   function getTotal() {
@@ -234,6 +243,26 @@
       if (rowExtraPlatesBottom) rowExtraPlatesBottom.style.display = 'none';
     }
 
+    /* Sleeve row */
+    var rowSleeve = document.getElementById('rowSleeve');
+    var rowSleeveBottom = document.getElementById('rowSleeveBottom');
+    var sleeveLabel = document.getElementById('sleeveLabel');
+    var sleeveLabelBottom = document.getElementById('sleeveLabelBottom');
+    if (rowSleeve) {
+      sleeveLabel.textContent = 'Sleeve (' + sleeveColor + ')';
+      rowSleeve.style.display = '';
+    }
+    if (rowSleeveBottom) {
+      sleeveLabelBottom.textContent = 'Sleeve (' + sleeveColor + ')';
+      rowSleeveBottom.style.display = '';
+    }
+
+    /* Punch tool row */
+    var rowPunch = document.getElementById('rowPunch');
+    var rowPunchBottom = document.getElementById('rowPunchBottom');
+    if (rowPunch) rowPunch.style.display = punchTool ? '' : 'none';
+    if (rowPunchBottom) rowPunchBottom.style.display = punchTool ? '' : 'none';
+
     /* Recalculate discount if promo is applied */
     if (appliedPromo) {
       var promo = PROMO_CODES[appliedPromo];
@@ -264,6 +293,40 @@
   });
   platesPlus.addEventListener('click', function () {
     if (plates < 4) { plates++; updateShipping(); updateUI(); saveFormData(); pushConfig('plates_change'); }
+  });
+
+  /* ===== CONFIG OPTIONS: SLEEVE & PUNCH ===== */
+  var sleeveOptions = document.getElementById('sleeveOptions');
+  var punchOptions  = document.getElementById('punchOptions');
+
+  function initConfigOptions(container, onChange) {
+    if (!container) return;
+    container.addEventListener('click', function (e) {
+      var opt = e.target.closest('.config-opt');
+      if (!opt) return;
+      var input = opt.querySelector('input');
+      if (!input) return;
+      container.querySelectorAll('.config-opt').forEach(function (o) { o.classList.remove('active'); });
+      opt.classList.add('active');
+      input.checked = true;
+      onChange(input.value);
+    });
+  }
+
+  initConfigOptions(sleeveOptions, function (val) {
+    sleeveColor = val;
+    updateShipping();
+    updateUI();
+    saveFormData();
+    pushConfig('sleeve_change');
+  });
+
+  initConfigOptions(punchOptions, function (val) {
+    punchTool = val === 'yes';
+    updateShipping();
+    updateUI();
+    saveFormData();
+    pushConfig('punch_change');
   });
 
   /* ===== PROGRESS BAR ===== */
@@ -843,6 +906,8 @@
     try {
       var data = {
         plates: plates,
+        sleeveColor: sleeveColor,
+        punchTool: punchTool,
         firstName: document.getElementById('firstName').value,
         lastName: document.getElementById('lastName').value,
         email: document.getElementById('email').value,
@@ -865,6 +930,27 @@
       var data = JSON.parse(raw);
       if (data.plates && data.plates >= 1 && data.plates <= 4) {
         plates = data.plates;
+      }
+      if (data.sleeveColor) {
+        sleeveColor = data.sleeveColor;
+        if (sleeveOptions) {
+          sleeveOptions.querySelectorAll('.config-opt').forEach(function (o) {
+            var inp = o.querySelector('input');
+            if (inp && inp.value === sleeveColor) { o.classList.add('active'); inp.checked = true; }
+            else { o.classList.remove('active'); }
+          });
+        }
+      }
+      if (typeof data.punchTool !== 'undefined') {
+        punchTool = !!data.punchTool;
+        if (punchOptions) {
+          punchOptions.querySelectorAll('.config-opt').forEach(function (o) {
+            var inp = o.querySelector('input');
+            var isActive = (punchTool && inp.value === 'yes') || (!punchTool && inp.value === 'no');
+            if (isActive) { o.classList.add('active'); inp.checked = true; }
+            else { o.classList.remove('active'); }
+          });
+        }
       }
       if (data.firstName) document.getElementById('firstName').value = data.firstName;
       if (data.lastName) document.getElementById('lastName').value = data.lastName;
@@ -975,6 +1061,8 @@
     var orderData = {
       order_id: orderId,
       plates: plates,
+      sleeveColor: sleeveColor,
+      punchTool: punchTool,
       value: total,
       currency: 'EUR',
       product_id: 'penger-v1',
