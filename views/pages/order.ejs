@@ -1041,12 +1041,12 @@
           <!-- Gallery placeholder -->
           <div class="order-gallery" id="orderGallery"
             data-track="product_image_view" data-cta-id="order_product_image" data-section="order" data-product-id="penger-v1">
-            <span class="order-gallery-badge">PENGER v1.0</span>
+            <span class="order-gallery-badge"><%= t.order.productName %></span>
             <div class="order-gallery-placeholder">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
               </svg>
-              <span>Product photo</span>
+              <span><%= t.order.galleryPlaceholder %></span>
             </div>
           </div>
 
@@ -1054,7 +1054,7 @@
           <div class="order-section" data-section="order">
             <div class="order-section-row">
               <p class="order-section-title" style="margin-bottom:0"><%= t.order.platesLabel %></p>
-              <span class="order-section-price">+€35 / <%= t.order.platesDesc %></span>
+              <span class="order-section-price"><%= t.order.platesExtraPrice %></span>
             </div>
             <div class="qty-selector" data-track="config_plates" data-cta-id="order_plates_qty" data-section="order" data-product-id="penger-v1">
               <button class="qty-btn" id="platesMinus" type="button" disabled aria-label="Decrease plates">&minus;</button>
@@ -1324,14 +1324,14 @@
                     </svg>
                   </div>
                   <div class="cart-details">
-                    <div class="cart-product-name">PENGER v1.0</div>
+                    <div class="cart-product-name"><%= t.order.productName %></div>
                     <div class="cart-config-line"><%= t.order.cartPlates %>: <span id="cartPlatesBottom">1</span></div>
                   </div>
                 </div>
                 <div class="summary-divider"></div>
                 <div class="summary-row">
                   <span class="summary-key"><%= t.order.priceLabel %></span>
-                  <span class="summary-val">€49</span>
+                  <span class="summary-val"><%= t.order.priceValue %></span>
                 </div>
                 <div class="summary-row" id="rowExtraPlatesBottom" style="display:none">
                   <span class="summary-key" id="extraPlatesLabelBottom"></span>
@@ -1393,7 +1393,7 @@
                 </svg>
               </div>
               <div class="cart-details">
-                <div class="cart-product-name">PENGER v1.0</div>
+                <div class="cart-product-name"><%= t.order.productName %></div>
                 <div class="cart-config-line"><%= t.order.cartPlates %>: <span id="cartPlates">1</span></div>
                 <div class="cart-config-line"><%= t.order.cartKit %>: <span><%= t.order.cartIncluded %></span></div>
               </div>
@@ -1402,7 +1402,7 @@
             <!-- Price breakdown -->
             <div class="summary-row">
               <span class="summary-key"><%= t.order.priceLabel %></span>
-              <span class="summary-val">€49</span>
+              <span class="summary-val"><%= t.order.priceValue %></span>
             </div>
             <div class="summary-row" id="rowExtraPlates" style="display:none">
               <span class="summary-key" id="extraPlatesLabel"></span>
