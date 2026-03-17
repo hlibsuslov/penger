@@ -313,7 +313,7 @@
     "rateLimited": "Забагато запитів. Зачекайте хвилину.",
     "serviceUnavailable": "AI-сервіс тимчасово недоступний.",
     "emptyResponse": "Порожня відповідь від AI.",
-    "connectionError": "Помилка з\u2019єднання. Спробуйте ще раз."
+    "connectionError": "Помилка з’єднання. Спробуйте ще раз."
   },
   "aboutUs": {
     "title": "Про нас — PENGER",
@@ -448,7 +448,24 @@
     "preorderNote": "Попереднє замовлення — очікувана доставка Q3 2026",
     "warrantyNote": "Безстрокова гарантія на матеріал",
     "secureNote": "Безпечна оплата через Stripe",
-    "backToProduct": "Повернутися до продукту"
+    "backToProduct": "Повернутися до продукту",
+    "platesLabel": "Титанові пластини",
+    "platesDesc": "Додаткова пластина",
+    "platesIncluded": "в комплекті",
+    "caseLabel": "Захисний чохол",
+    "caseColorLabel": "Колір",
+    "caseColorBlack": "Чорний",
+    "caseColorWhite": "Білий",
+    "punchLabel": "Кернер",
+    "punchDesc": "Професійний прецизійний кернер для маркування",
+    "punchYes": "Так",
+    "punchNo": "Ні",
+    "configLabel": "[ НАЛАШТУЙТЕ КОМПЛЕКТ ]",
+    "cartPlates": "Пластини",
+    "cartCase": "Чохол",
+    "cartPunch": "Кернер",
+    "cartIncluded": "В комплекті",
+    "orderIdLabel": "ID замовлення"
   },
   "paymentSuccess": {
     "title": "Замовлення підтверджено — PENGER",
@@ -664,7 +681,7 @@
     "decoding": "ДЕКОДУВАННЯ",
     "wordsSet": "СЛІВ ВСТАНОВЛЕНО",
     "of": "З",
-    "outOfRange": "ПОЗА ДІАПАЗОНОМ 1\u20132048",
+    "outOfRange": "ПОЗА ДІАПАЗОНОМ 1–2048",
     "colWord": "Слово",
     "colIndex": "Індекс",
     "colPunch": "Патерн",
