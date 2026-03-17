@@ -421,9 +421,9 @@
     });
   })();
 
-  /* ===== CHECKOUT START (click on buy links pointing to #order) ===== */
+  /* ===== CHECKOUT START (click on buy/order links) ===== */
   document.addEventListener('click', function (e) {
-    var link = e.target.closest('a[href*="#pricing"]');
+    var link = e.target.closest('a[href*="/order"], [data-track="checkout_start"]');
     if (!link) return;
 
     push('checkout_start', {

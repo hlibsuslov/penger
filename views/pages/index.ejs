@@ -33,7 +33,7 @@
       "priceCurrency": "USD",
       "priceValidUntil": "2026-12-31",
       "availability": "https://schema.org/PreOrder",
-      "url": "<%= canonicalBase %><%= langPrefix %>/#pricing"
+      "url": "<%= canonicalBase %><%= langPrefix %>/order"
     }
   }
   </script>
@@ -111,7 +111,7 @@
         <p class="lp-hero-tagline"><%= t.index.heroTagline %></p>
         <p class="lp-subheadline"><%= t.index.heroSubheadline %></p>
         <div class="lp-cta-group">
-          <a href="#pricing" class="btn lp-btn-primary lp-btn-shimmer lp-btn-with-icon" data-track="buy_click" data-cta-id="hero_buy" data-section="hero" data-product-id="penger-v1">
+          <a href="<%= langPrefix %>/order" class="btn lp-btn-primary lp-btn-shimmer lp-btn-with-icon" data-track="buy_click" data-cta-id="hero_buy" data-section="hero" data-product-id="penger-v1">
             <svg class="lp-btn-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
             <span><%= t.index.buyBtn %></span>
           </a>
@@ -515,7 +515,7 @@
         <h2 class="lp-h2 anim-fade-in"><%- t.index.ctaH2 %></h2>
         <p class="lp-subheadline lp-cta-sub anim-fade-in"><%= t.index.ctaSub %></p>
         <div class="lp-cta-group anim-fade-in">
-          <a href="#pricing" class="btn lp-btn-primary lp-btn-large" data-track="buy_click" data-cta-id="pricing_buy" data-section="pricing" data-product-id="penger-v1"><%= t.index.ctaBtn %></a>
+          <a href="<%= langPrefix %>/order" class="btn lp-btn-primary lp-btn-large" data-track="buy_click" data-cta-id="pricing_buy" data-section="pricing" data-product-id="penger-v1"><%= t.index.ctaBtn %></a>
         </div>
         <p class="lp-shipping-info anim-fade-in"><%= t.index.ctaShipping %></p>
       </div>
