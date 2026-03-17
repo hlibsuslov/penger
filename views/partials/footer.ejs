@@ -17,7 +17,7 @@
         <span class="footer-cookie-links">
           <a href="<%= langPrefix %>/cookie-policy" class="footer-cookie-link"><%= t.footer.cookiePolicy %></a>
           <span class="footer-cookie-sep">&middot;</span>
-          <a href="javascript:void(0)" onclick="openCookieSettings()" class="footer-cookie-link"><%= t.footer.cookieSettings %></a>
+          <a href="javascript:void(0)" onclick="if(typeof openCookieSettings==='function')openCookieSettings()" class="footer-cookie-link"><%= t.footer.cookieSettings %></a>
         </span>
         <span><%= t.footer.tagline %></span>
       </div>

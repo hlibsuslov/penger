@@ -86,7 +86,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg>
                 <%= t.contacts.sendEmail %>
               </a>
-              <button class="copy-email-btn" type="button" onclick="copyEmail(this)" data-email="contact@mypenger.com">
+              <button class="copy-email-btn" type="button" data-copy-email="contact@mypenger.com">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                 <span><%= t.contacts.copy %></span>
               </button>
@@ -211,7 +211,7 @@
               <%= t.contacts.elementLabel %>
             </span>
             <span class="channel-handle">@hlibsuslov</span>
-            <button class="channel-copy-btn" type="button" onclick="copyHandle(this, '@hlibsuslov')">
+            <button class="channel-copy-btn" type="button" data-copy-handle="@hlibsuslov">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
               <span><%= t.contacts.copy %></span>
             </button>
@@ -224,30 +224,16 @@
 
   <%- include('../partials/footer') %>
 
+  <script>
+  window.CONTACTS_I18N = {
+    copied: '<%= t.contacts.copied %>',
+    copy: '<%= t.contacts.copy %>'
+  };
+  </script>
   <script src="/analytics.js"></script>
   <script src="/shared.js?v=2"></script>
-  <script>
-    function copyEmail(btn) {
-      var email = btn.getAttribute('data-email');
-      navigator.clipboard.writeText(email).then(function() {
-        btn.classList.add('copied');
-        btn.querySelector('span').textContent = '<%= t.contacts.copied %>';
-        setTimeout(function() {
-          btn.classList.remove('copied');
-          btn.querySelector('span').textContent = '<%= t.contacts.copy %>';
-        }, 2000);
-      });
-    }
-    function copyHandle(btn, handle) {
-      navigator.clipboard.writeText(handle).then(function() {
-        btn.classList.add('copied');
-        btn.querySelector('span').textContent = '<%= t.contacts.copied %>';
-        setTimeout(function() {
-          btn.classList.remove('copied');
-          btn.querySelector('span').textContent = '<%= t.contacts.copy %>';
-        }, 2000);
-      });
-    }
-  </script>
+  <% if (typeof extraJs !== 'undefined') { extraJs.forEach(function(js) { %>
+  <script src="/<%= js %>"></script>
+  <% }); } %>
 </body>
 </html>

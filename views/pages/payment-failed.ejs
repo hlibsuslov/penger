@@ -107,11 +107,14 @@
     </div>
 
     <div class="status-actions">
-      <a href="<%= langPrefix %>/#order" class="btn btn-primary"><%= t.paymentFailed.tryAgain %></a>
+      <a href="<%= langPrefix %>/order" class="btn btn-primary"><%= t.paymentFailed.tryAgain %></a>
       <a href="<%= langPrefix %>/contacts" class="btn btn-secondary"><%= t.paymentFailed.contactSupport %></a>
     </div>
 
-    <p class="status-contact"><%= t.paymentFailed.helpNote %></p>
+    <p class="status-contact">
+      <%= t.paymentFailed.helpNote %><br>
+      <a href="mailto:contact@mypenger.com">contact@mypenger.com</a>
+    </p>
 
   </main>
 

@@ -6,12 +6,14 @@
  *
  * No direct gtag() or fbq() calls — everything goes through dataLayer → GTM.
  *
- * Events (~20):
+ * Events:
  *   PAGE:        page_view
  *   SECTION:     view_section
  *   ENGAGEMENT:  scroll_25, scroll_50, scroll_75, scroll_90, time_30s, time_60s, time_120s
  *   CTA:         cta_visible, cta_hover, cta_click, buy_click
  *   FUNNEL:      view_offer, view_pricing, checkout_start, payment_success
+ *   ECOMMERCE:   view_item, begin_checkout, purchase, generate_lead, checkout_error
+ *   CONFIG:      config_change
  *   UX:          exit_intent, rage_click, text_select, copy_text, fast_scroll, slow_scroll
  *   HOVER:       product_image_hover, nav_hover
  */
@@ -226,6 +228,9 @@
   document.addEventListener('click', function (e) {
     var btn = e.target.closest('[data-track]');
     if (!btn) return;
+    if (btn._pengerTracked) return;
+    btn._pengerTracked = true;
+    setTimeout(function () { btn._pengerTracked = false; }, 100);
 
     var trackType = btn.getAttribute('data-track');
     var payload = {
@@ -395,7 +400,7 @@
 
   /* ===== PRODUCT IMAGE HOVER (hover ≥ 500ms) ===== */
   (function () {
-    var targets = document.querySelectorAll('.lp-hero-image, .lp-plate-stage');
+    var targets = document.querySelectorAll('.lp-hero-image, .lp-plate-stage, .lp-cta-product');
 
     targets.forEach(function (el) {
       var timer = null;
@@ -418,9 +423,9 @@
     });
   })();
 
-  /* ===== CHECKOUT START (click on buy links pointing to #order) ===== */
+  /* ===== CHECKOUT START (click on buy/order links) ===== */
   document.addEventListener('click', function (e) {
-    var link = e.target.closest('a[href*="#order"]');
+    var link = e.target.closest('a[href*="/order"], [data-track="checkout_start"]');
     if (!link) return;
 
     push('checkout_start', {
@@ -430,12 +435,100 @@
     });
   });
 
+  /* ===== ECOMMERCE HELPERS ===== */
+  function buildEcommerceItem(order) {
+    var item = {
+      item_id: 'penger-v1',
+      item_name: 'PENGER v1.0',
+      item_brand: 'PENGER',
+      item_category: 'titanium_backup',
+      price: 49,
+      quantity: 1
+    };
+    if (order) {
+      if (order.finish) item.item_variant = order.finish;
+      if (order.plates) item.quantity = Number(order.plates) || 1;
+    }
+    return item;
+  }
+
+  function getOrderFromStorage() {
+    try {
+      var raw = sessionStorage.getItem('penger_order');
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
+  }
+
+  /* ===== VIEW ITEM (fires on /order page) ===== */
+  if (getPageType() === 'order') {
+    push('view_item', {
+      ecommerce: {
+        currency: 'EUR',
+        value: 49,
+        items: [buildEcommerceItem()]
+      }
+    });
+  }
+
   /* ===== PAYMENT SUCCESS (fires on thank-you page) ===== */
   if (getPageType() === 'thank_you') {
+    var order = getOrderFromStorage();
+    var params = new URLSearchParams(window.location.search);
+    var orderId = params.get('order_id') || '';
+    var totalVal = order ? Number(order.value) || 49 : 49;
+
+    /* GA4 purchase event (counted as conversion → order count + revenue) */
+    push('purchase', {
+      order_id: orderId,
+      ecommerce: {
+        transaction_id: orderId,
+        value: totalVal,
+        currency: 'EUR',
+        shipping: 0,
+        items: [buildEcommerceItem(order)]
+      }
+    });
+
+    /* generate_lead for lead value tracking in GA4 / Google Ads */
+    push('generate_lead', {
+      order_id: orderId,
+      value: totalVal,
+      currency: 'EUR',
+      lead_source: 'checkout',
+      config_finish: order ? order.finish : '',
+      config_plates: order ? order.plates : 1,
+      config_case_color: order ? order.caseColor : '',
+      config_punch: order ? order.punch : false
+    });
+
+    /* Legacy event for backward compat */
     push('payment_success', {
+      order_id: orderId,
       product_id: 'penger-v1',
-      value: '75.00',
-      currency: 'USD'
+      value: totalVal,
+      currency: 'EUR'
+    });
+
+    /* Clean up */
+    try { sessionStorage.removeItem('penger_order'); } catch (e) {}
+  }
+
+  /* ===== CHECKOUT ERROR (fires on payment-failed page) ===== */
+  if (getPageType() === 'payment_failed') {
+    var failOrder = getOrderFromStorage();
+    var failParams = new URLSearchParams(window.location.search);
+    var failOrderId = failParams.get('order_id') || '';
+    var failTotal = failOrder ? Number(failOrder.value) || 49 : 49;
+
+    push('checkout_error', {
+      order_id: failOrderId,
+      value: failTotal,
+      currency: 'EUR',
+      config_finish: failOrder ? failOrder.finish : '',
+      config_plates: failOrder ? failOrder.plates : 1,
+      config_case_color: failOrder ? failOrder.caseColor : '',
+      config_punch: failOrder ? failOrder.punch : false,
+      product_id: 'penger-v1'
     });
   }
 

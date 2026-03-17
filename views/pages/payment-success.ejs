@@ -86,16 +86,28 @@
 
     <div class="status-order-info">
       <div class="status-order-row">
-        <span class="status-order-key"><%= t.paymentSuccess.status.split(': ')[0] %></span>
-        <span class="status-order-val"><%= t.paymentSuccess.status.split(': ')[1] %></span>
+        <span class="status-order-key"><%= t.paymentSuccess.orderIdLabel %></span>
+        <span class="status-order-val" id="orderId">—</span>
       </div>
       <div class="status-order-row">
-        <span class="status-order-key"><%= t.paymentSuccess.product.split(': ')[0] %></span>
-        <span class="status-order-val"><%= t.paymentSuccess.product.split(': ')[1] %></span>
+        <span class="status-order-key"><%= t.paymentSuccess.dateLabel %></span>
+        <span class="status-order-val" id="orderDate">—</span>
       </div>
       <div class="status-order-row">
-        <span class="status-order-key"><%= t.paymentSuccess.shipping.split(': ')[0] %></span>
-        <span class="status-order-val"><%= t.paymentSuccess.shipping.split(': ')[1] %></span>
+        <span class="status-order-key"><%= t.paymentSuccess.statusLabel %></span>
+        <span class="status-order-val"><%= t.paymentSuccess.statusValue %></span>
+      </div>
+      <div class="status-order-row">
+        <span class="status-order-key"><%= t.paymentSuccess.productLabel %></span>
+        <span class="status-order-val"><%= t.paymentSuccess.productValue %></span>
+      </div>
+      <div class="status-order-row">
+        <span class="status-order-key"><%= t.paymentSuccess.shippingLabel %></span>
+        <span class="status-order-val"><%= t.paymentSuccess.shippingValue %></span>
+      </div>
+      <div class="status-order-row">
+        <span class="status-order-key"><%= t.order.totalLabel %></span>
+        <span class="status-order-val" id="orderTotal">—</span>
       </div>
     </div>
 
@@ -110,6 +122,26 @@
 
   <%- include('../partials/footer') %>
 
+  <script>
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    var orderId = params.get('order_id');
+    var orderEl = document.getElementById('orderId');
+    var dateEl = document.getElementById('orderDate');
+    if (orderEl && orderId) orderEl.textContent = orderId;
+    if (dateEl) dateEl.textContent = new Date().toLocaleDateString('<%= lang === "uk" ? "uk-UA" : "en-US" %>', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    /* Show order config details if available */
+    try {
+      var raw = sessionStorage.getItem('penger_order');
+      if (raw) {
+        var order = JSON.parse(raw);
+        var totalEl = document.getElementById('orderTotal');
+        if (totalEl && order.value) totalEl.textContent = '\u20AC' + order.value;
+      }
+    } catch (e) {}
+  })();
+  </script>
   <script src="/analytics.js"></script>
   <script src="/shared.js?v=2"></script>
 </body>
