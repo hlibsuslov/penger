@@ -28,7 +28,7 @@
   /* ===== STATE ===== */
   var plates = 1;
   var payMethod = 'card';
-  var currentStep = 'contact'; // contact | payment
+  var currentStep = 'contact'; // contact | delivery | payment
   var shippingCost = 0;
   var discount = 0;
   var appliedPromo = null;
@@ -94,10 +94,14 @@
 
   /* ===== DOM: CHECKOUT STEPS ===== */
   var stepContact    = document.getElementById('stepContact');
+  var stepDelivery   = document.getElementById('stepDelivery');
   var stepPayment    = document.getElementById('stepPayment');
   var contactForm    = document.getElementById('contactForm');
+  var deliveryForm   = document.getElementById('deliveryForm');
   var contactSummary = document.getElementById('contactSummary');
+  var deliverySummary = document.getElementById('deliverySummary');
   var editContact    = document.getElementById('editContact');
+  var editDelivery   = document.getElementById('editDelivery');
   var checkoutBtn    = document.getElementById('checkoutBtn');
   var checkoutBtnText = document.getElementById('checkoutBtnText');
 
@@ -122,6 +126,7 @@
   /* Progress bar */
   var progressLine1 = document.getElementById('progressLine1');
   var progressLine2 = document.getElementById('progressLine2');
+  var progressLine3 = document.getElementById('progressLine3');
   var progressSteps = document.querySelectorAll('.progress-step');
 
   /* Mobile CTA */
@@ -143,7 +148,9 @@
 
   function getTotal() {
     var sub = getSubtotal();
-    var total = sub + shippingCost - discount;
+    var ship = shippingCost || 0;
+    var disc = discount || 0;
+    var total = sub + ship - disc;
     return Math.max(total, 0);
   }
 
@@ -244,10 +251,10 @@
 
   /* ===== PLATES +/- ===== */
   platesMinus.addEventListener('click', function () {
-    if (plates > 1) { plates--; updateUI(); saveFormData(); pushConfig('plates_change'); }
+    if (plates > 1) { plates--; updateShipping(); updateUI(); saveFormData(); pushConfig('plates_change'); }
   });
   platesPlus.addEventListener('click', function () {
-    if (plates < 4) { plates++; updateUI(); saveFormData(); pushConfig('plates_change'); }
+    if (plates < 4) { plates++; updateShipping(); updateUI(); saveFormData(); pushConfig('plates_change'); }
   });
 
   /* ===== PROGRESS BAR ===== */
@@ -255,9 +262,10 @@
     progressSteps.forEach(function (s) {
       s.classList.remove('active', 'done');
     });
-    var productStep = document.querySelector('.progress-step[data-step="product"]');
-    var contactStep = document.querySelector('.progress-step[data-step="contact"]');
-    var paymentStep = document.querySelector('.progress-step[data-step="payment"]');
+    var productStep  = document.querySelector('.progress-step[data-step="product"]');
+    var contactStep  = document.querySelector('.progress-step[data-step="contact"]');
+    var deliveryStep = document.querySelector('.progress-step[data-step="delivery"]');
+    var paymentStep  = document.querySelector('.progress-step[data-step="payment"]');
 
     productStep.classList.add('done');
     progressLine1.classList.add('done');
@@ -265,10 +273,18 @@
     if (currentStep === 'contact') {
       contactStep.classList.add('active');
       progressLine2.classList.remove('done');
+      if (progressLine3) progressLine3.classList.remove('done');
+    } else if (currentStep === 'delivery') {
+      contactStep.classList.add('done');
+      deliveryStep.classList.add('active');
+      progressLine2.classList.add('done');
+      if (progressLine3) progressLine3.classList.remove('done');
     } else {
       contactStep.classList.add('done');
+      deliveryStep.classList.add('done');
       paymentStep.classList.add('active');
       progressLine2.classList.add('done');
+      if (progressLine3) progressLine3.classList.add('done');
     }
   }
 
@@ -276,6 +292,8 @@
   function updateMobileCta() {
     if (!mobileContinueBtn) return;
     if (currentStep === 'contact') {
+      mobileContinueBtn.textContent = t.continueToDelivery || 'Continue to Delivery';
+    } else if (currentStep === 'delivery') {
       mobileContinueBtn.textContent = t.continueToPayment || 'Continue to Payment';
     } else {
       mobileContinueBtn.textContent = t.payNow || 'Pay Now';
@@ -285,7 +303,9 @@
   if (mobileContinueBtn) {
     mobileContinueBtn.addEventListener('click', function () {
       if (currentStep === 'contact') {
-        contactForm.dispatchEvent(new Event('submit', { cancelable: true }));
+        contactForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+      } else if (currentStep === 'delivery') {
+        deliveryForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
       } else {
         checkoutBtn.click();
       }
@@ -419,12 +439,44 @@
   contactForm.querySelectorAll('.form-input').forEach(function (input) {
     input.addEventListener('blur', function () { validateField(this); saveFormData(); });
     input.addEventListener('input', function () {
+      /* Strip country code prefix from phone autocomplete */
+      if (this.id === 'phone') {
+        var val = this.value;
+        var prefix = phonePrefix ? phonePrefix.textContent : '';
+        if (prefix && prefix.length > 1 && val.indexOf(prefix) === 0) {
+          this.value = val.substring(prefix.length).replace(/^\s+/, '');
+        } else if (val.charAt(0) === '+') {
+          /* Strip any +XX prefix that autocomplete might insert */
+          var digits = val.replace(/[^\d+]/g, '');
+          var countryCode = countryEl.value;
+          var expectedPrefix = phoneCodes[countryCode] || '';
+          if (expectedPrefix && digits.indexOf(expectedPrefix) === 0) {
+            this.value = digits.substring(expectedPrefix.length).replace(/^\s+/, '');
+          } else if (digits.length > 3 && digits.charAt(0) === '+') {
+            /* Generic strip: remove + and up to 3 digits at start */
+            this.value = digits.replace(/^\+\d{1,3}/, '').replace(/^\s+/, '');
+          }
+        }
+      }
       if (this.classList.contains('error') || this.classList.contains('valid')) {
         validateField(this);
       }
       saveFormData();
     });
   });
+
+  /* Attach live validation to delivery form inputs */
+  if (deliveryForm) {
+    deliveryForm.querySelectorAll('.form-input').forEach(function (input) {
+      input.addEventListener('blur', function () { validateField(this); saveFormData(); });
+      input.addEventListener('input', function () {
+        if (this.classList.contains('error') || this.classList.contains('valid')) {
+          validateField(this);
+        }
+        saveFormData();
+      });
+    });
+  }
 
   /* ===== CITY → ZIP SUGGESTIONS ===== */
   var zipDebounce = null;
@@ -553,41 +605,93 @@
     var lastName  = document.getElementById('lastName').value.trim();
     var email     = emailEl.value.trim();
     var phone     = document.getElementById('phone').value.trim();
-    var street    = document.getElementById('street').value.trim();
-    var apt       = document.getElementById('apt').value.trim();
-    var city      = cityEl.value.trim();
-    var zip       = zipEl.value.trim();
-    var countryText = countryEl.options[countryEl.selectedIndex].text;
     var prefix = phonePrefix ? phonePrefix.textContent : '';
-
-    var addressParts = [street];
-    if (apt) addressParts.push(apt);
-    addressParts.push(city + ' ' + zip);
-    addressParts.push(countryText);
+    var countryText = countryEl.options[countryEl.selectedIndex].text;
 
     contactSummary.innerHTML =
       '<div class="step-summary-line"><span class="step-summary-label">' + (t.firstName || 'Name') + '</span> ' + firstName + ' ' + lastName + '</div>' +
       '<div class="step-summary-line"><span class="step-summary-label">' + (t.email || 'Email') + '</span> ' + email + '</div>' +
       '<div class="step-summary-line"><span class="step-summary-label">' + (t.phone || 'Phone') + '</span> ' + prefix + ' ' + phone + '</div>' +
-      '<div class="step-summary-line"><span class="step-summary-label" style="min-width:60px">&nbsp;</span> ' + addressParts.join(', ') + '</div>';
+      '<div class="step-summary-line"><span class="step-summary-label">' + (t.country || 'Country') + '</span> ' + countryText + '</div>';
 
     completeStep(stepContact);
-    activateStep(stepPayment);
-    currentStep = 'payment';
+    activateStep(stepDelivery);
+    currentStep = 'delivery';
     updateProgress();
     updateMobileCta();
-    stepPayment.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    stepDelivery.scrollIntoView({ behavior: 'smooth', block: 'start' });
     saveFormData();
   });
+
+  /* ===== DELIVERY FORM: CONTINUE ===== */
+  if (deliveryForm) {
+    deliveryForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var inputs = deliveryForm.querySelectorAll('[required]');
+      var valid = true;
+      var firstError = null;
+      inputs.forEach(function (input) {
+        input.classList.remove('error');
+        clearFieldError(input);
+        if (!input.value.trim()) {
+          input.classList.add('error');
+          showFieldError(input, ERROR_MSGS.required);
+          valid = false;
+          if (!firstError) firstError = input;
+        }
+      });
+
+      if (!valid && firstError) {
+        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        firstError.focus();
+        return;
+      }
+
+      var street    = document.getElementById('street').value.trim();
+      var apt       = document.getElementById('apt').value.trim();
+      var city      = cityEl.value.trim();
+      var zip       = zipEl.value.trim();
+      var countryText = countryEl.options[countryEl.selectedIndex].text;
+
+      var addressParts = [street];
+      if (apt) addressParts.push(apt);
+      addressParts.push(city + ' ' + zip);
+      addressParts.push(countryText);
+
+      deliverySummary.innerHTML =
+        '<div class="step-summary-line"><span class="step-summary-label" style="min-width:60px">&nbsp;</span> ' + addressParts.join(', ') + '</div>';
+
+      completeStep(stepDelivery);
+      activateStep(stepPayment);
+      currentStep = 'payment';
+      updateProgress();
+      updateMobileCta();
+      stepPayment.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      saveFormData();
+    });
+  }
 
   /* ===== EDIT CONTACT ===== */
   editContact.addEventListener('click', function () {
     activateStep(stepContact);
+    disableStep(stepDelivery);
     disableStep(stepPayment);
     currentStep = 'contact';
     updateProgress();
     updateMobileCta();
   });
+
+  /* ===== EDIT DELIVERY ===== */
+  if (editDelivery) {
+    editDelivery.addEventListener('click', function () {
+      activateStep(stepDelivery);
+      disableStep(stepPayment);
+      currentStep = 'delivery';
+      updateProgress();
+      updateMobileCta();
+    });
+  }
 
   /* ===== PAYMENT METHOD SELECTOR ===== */
   function updatePayMethodAria() {

@@ -491,11 +491,11 @@
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 8px;
+      margin-bottom: 8px;
     }
     .form-row.full { grid-template-columns: 1fr; }
-    .form-group { display: flex; flex-direction: column; gap: 4px; }
+    .form-group { display: flex; flex-direction: column; gap: 3px; }
     .form-label {
       font-family: var(--font-mono);
       font-size: 10px;
@@ -506,7 +506,7 @@
     }
     .form-input {
       font-family: var(--font-sans);
-      font-size: 14px;
+      font-size: 16px;
       color: var(--text-primary);
       background: var(--bg-main);
       border: 1px solid var(--border-default);
@@ -515,6 +515,9 @@
       outline: none;
       transition: border-color 0.15s ease;
     }
+    /* Important fields get slightly larger */
+    .form-input-lg { padding: 12px 14px; }
+    .form-input-sm { padding: 8px 12px; font-size: 14px; }
     .form-input:focus { border-color: var(--text-accent); }
     .form-input.error { border-color: #e74c3c; }
     .form-input::placeholder { color: var(--text-dim); opacity: 0.5; }
@@ -943,34 +946,35 @@
       z-index: 100;
       background: var(--bg-surface);
       border-top: 1px solid var(--border-default);
-      padding: 12px 16px;
+      padding: 16px 20px calc(16px + env(safe-area-inset-bottom, 0px));
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 16px;
     }
     .mobile-sticky-price {
       font-family: var(--font-mono);
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 700;
       color: var(--text-accent);
     }
     .mobile-sticky-btn {
       flex: 1;
-      max-width: 200px;
+      max-width: 220px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 10px 16px;
+      padding: 14px 20px;
       font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.04em;
       color: var(--bg-main);
       background: var(--text-accent);
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
+      min-height: 48px;
     }
 
     /* ===== RESPONSIVE ===== */
@@ -984,15 +988,16 @@
       }
       .order-header h1 { font-size: 26px; }
       .mobile-sticky-cta { display: flex; }
-      .order-page { padding-bottom: 100px; }
+      .order-page { padding-bottom: 120px; }
     }
     @media (max-width: 520px) {
-      .order-page { padding: 32px 0 100px; }
+      .order-page { padding: 32px 0 120px; }
       .order-header h1 { font-size: 22px; }
       .order-gallery { aspect-ratio: 3/2; }
       .form-row { grid-template-columns: 1fr; }
       .progress-step span { display: none; }
       .progress-line { width: 24px; }
+      .form-input { font-size: 16px; }
     }
   </style>
 </head>
@@ -1027,6 +1032,11 @@
           <span><%= t.order.progressContact %></span>
         </div>
         <div class="progress-line" id="progressLine2"></div>
+        <div class="progress-step" data-step="delivery">
+          <span class="progress-dot"></span>
+          <span><%= t.order.deliveryAddress || 'Delivery' %></span>
+        </div>
+        <div class="progress-line" id="progressLine3"></div>
         <div class="progress-step" data-step="payment">
           <span class="progress-dot"></span>
           <span><%= t.order.progressPayment %></span>
@@ -1052,9 +1062,9 @@
 
           <!-- Plates quantity (1-4, extra +35€) -->
           <div class="order-section" data-section="order">
-            <div class="order-section-row">
+            <div class="order-section-row" style="align-items:center">
               <p class="order-section-title" style="margin-bottom:0"><%= t.order.platesLabel %></p>
-              <span class="order-section-price"><%= t.order.platesExtraPrice %></span>
+              <span class="order-section-price" style="text-align:center"><%= t.order.platesExtraPrice %></span>
             </div>
             <div class="qty-selector" data-track="config_plates" data-cta-id="order_plates_qty" data-section="order" data-product-id="penger-v1">
               <button class="qty-btn" id="platesMinus" type="button" disabled aria-label="Decrease plates">&minus;</button>
@@ -1091,12 +1101,12 @@
             </table>
           </div>
 
-          <!-- ===== STEP 1: CONTACT & DELIVERY ===== -->
+          <!-- ===== STEP 1: CONTACT INFO ===== -->
           <div class="checkout-step active" id="stepContact" data-section="order">
             <div class="step-header">
               <div class="step-header-left">
                 <span class="step-number">1</span>
-                <span class="step-title"><%= t.order.stepContactTitle %></span>
+                <span class="step-title"><%= t.order.progressContact %></span>
               </div>
               <button class="step-edit-btn" id="editContact" type="button"><%= t.order.stepEdit %></button>
             </div>
@@ -1111,7 +1121,7 @@
                   <div class="form-group">
                     <label class="form-label" for="firstName"><%= t.order.firstName %></label>
                     <div class="form-input-wrap">
-                      <input class="form-input" type="text" id="firstName" name="given-name" autocomplete="given-name" aria-describedby="firstNameError" required>
+                      <input class="form-input form-input-lg" type="text" id="firstName" name="given-name" autocomplete="given-name" aria-describedby="firstNameError" required>
                       <svg class="input-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                     </div>
                     <div class="field-error-msg" id="firstNameError" role="alert"></div>
@@ -1119,7 +1129,7 @@
                   <div class="form-group">
                     <label class="form-label" for="lastName"><%= t.order.lastName %></label>
                     <div class="form-input-wrap">
-                      <input class="form-input" type="text" id="lastName" name="family-name" autocomplete="family-name" aria-describedby="lastNameError" required>
+                      <input class="form-input form-input-lg" type="text" id="lastName" name="family-name" autocomplete="family-name" aria-describedby="lastNameError" required>
                       <svg class="input-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                     </div>
                     <div class="field-error-msg" id="lastNameError" role="alert"></div>
@@ -1129,24 +1139,13 @@
                   <div class="form-group">
                     <label class="form-label" for="email"><%= t.order.email %></label>
                     <div class="form-input-wrap">
-                      <input class="form-input" type="email" id="email" name="email" autocomplete="email" inputmode="email" aria-describedby="emailError" required>
+                      <input class="form-input form-input-lg" type="email" id="email" name="email" autocomplete="email" inputmode="email" aria-describedby="emailError" required>
                       <svg class="input-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                     </div>
                     <div class="email-suggestion" id="emailSuggestion"></div>
                     <div class="field-error-msg" id="emailError" role="alert"></div>
                   </div>
                 </div>
-                <div class="form-row full">
-                  <div class="form-group">
-                    <label class="form-label" for="phone"><%= t.order.phone %></label>
-                    <div class="phone-wrap">
-                      <span class="phone-prefix" id="phonePrefix">+</span>
-                      <input class="form-input" type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" aria-describedby="phoneError" required>
-                    </div>
-                    <div class="field-error-msg" id="phoneError" role="alert"></div>
-                  </div>
-                </div>
-                <p class="order-section-title" style="margin-top:20px;margin-bottom:12px"><%= t.order.deliveryAddress %></p>
                 <div class="form-row full">
                   <div class="form-group">
                     <label class="form-label" for="country"><%= t.order.country %></label>
@@ -1192,44 +1191,71 @@
                 </div>
                 <div class="form-row full">
                   <div class="form-group">
-                    <label class="form-label" for="street"><%= t.order.street %></label>
-                    <input class="form-input" type="text" id="street" name="address-line1" autocomplete="address-line1" aria-describedby="streetError" required>
-                    <div class="field-error-msg" id="streetError" role="alert"></div>
+                    <label class="form-label" for="phone"><%= t.order.phone %></label>
+                    <div class="phone-wrap">
+                      <span class="phone-prefix" id="phonePrefix">+</span>
+                      <input class="form-input" type="tel" id="phone" name="phone" autocomplete="tel-national" inputmode="tel" aria-describedby="phoneError" required>
+                    </div>
+                    <div class="field-error-msg" id="phoneError" role="alert"></div>
                   </div>
                 </div>
+                <button class="step-continue-btn" id="contactContinue" type="submit"><%= t.order.deliveryAddress || 'Continue to Delivery' %></button>
+              </form>
+            </div>
+          </div>
+
+          <!-- ===== STEP 2: DELIVERY ADDRESS ===== -->
+          <div class="checkout-step disabled" id="stepDelivery" data-section="order">
+            <div class="step-header">
+              <div class="step-header-left">
+                <span class="step-number">2</span>
+                <span class="step-title"><%= t.order.deliveryAddress %></span>
+              </div>
+              <button class="step-edit-btn" id="editDelivery" type="button"><%= t.order.stepEdit %></button>
+            </div>
+            <div class="step-summary" id="deliverySummary"></div>
+            <div class="step-body">
+              <form id="deliveryForm" autocomplete="on" novalidate>
                 <div class="form-row full">
                   <div class="form-group">
-                    <label class="form-label" for="apt"><%= t.order.apt %></label>
-                    <input class="form-input" type="text" id="apt" name="address-line2" autocomplete="address-line2">
+                    <label class="form-label" for="street"><%= t.order.street %></label>
+                    <input class="form-input form-input-lg" type="text" id="street" name="address-line1" autocomplete="address-line1" aria-describedby="streetError" required>
+                    <div class="field-error-msg" id="streetError" role="alert"></div>
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label class="form-label" for="city"><%= t.order.city %></label>
-                    <input class="form-input" type="text" id="city" name="city" autocomplete="address-level2" aria-describedby="cityError" required>
-                    <div class="field-error-msg" id="cityError" role="alert"></div>
+                    <label class="form-label" for="apt"><%= t.order.apt %></label>
+                    <input class="form-input form-input-sm" type="text" id="apt" name="address-line2" autocomplete="address-line2">
                   </div>
                   <div class="form-group">
                     <label class="form-label" for="zip"><%= t.order.zip %></label>
-                    <input class="form-input" type="text" id="zip" name="postal-code" autocomplete="postal-code" inputmode="text" aria-describedby="zipError" required>
+                    <input class="form-input form-input-sm" type="text" id="zip" name="postal-code" autocomplete="postal-code" inputmode="text" aria-describedby="zipError" required>
                     <div class="field-error-msg" id="zipError" role="alert"></div>
                     <div class="zip-suggestions" id="zipSuggestions"></div>
+                  </div>
+                </div>
+                <div class="form-row full">
+                  <div class="form-group">
+                    <label class="form-label" for="city"><%= t.order.city %></label>
+                    <input class="form-input" type="text" id="city" name="city" autocomplete="address-level2" aria-describedby="cityError" required>
+                    <div class="field-error-msg" id="cityError" role="alert"></div>
                   </div>
                 </div>
                 <div class="delivery-estimate" id="deliveryEstimate" style="display:none">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
                   <span id="deliveryText"></span>
                 </div>
-                <button class="step-continue-btn" id="contactContinue" type="submit"><%= t.order.continueToPayment %></button>
+                <button class="step-continue-btn" id="deliveryContinue" type="submit"><%= t.order.continueToPayment %></button>
               </form>
             </div>
           </div>
 
-          <!-- ===== STEP 2: PAYMENT ===== -->
+          <!-- ===== STEP 3: PAYMENT ===== -->
           <div class="checkout-step disabled" id="stepPayment" data-section="order">
             <div class="step-header">
               <div class="step-header-left">
-                <span class="step-number">2</span>
+                <span class="step-number">3</span>
                 <span class="step-title"><%= t.order.stepPaymentTitle %></span>
               </div>
             </div>
@@ -1476,6 +1502,8 @@
     lastName: '<%= t.order.lastName %>',
     email: '<%= t.order.email %>',
     phone: '<%= t.order.phone %>',
+    country: '<%= t.order.country %>',
+    continueToDelivery: '<%= t.order.deliveryAddress || "Continue to Delivery" %>',
     continueToPayment: '<%= t.order.continueToPayment %>',
     payNow: '<%= t.order.payNow %>',
     emailDidYouMean: '<%= t.order.emailDidYouMean %>',
