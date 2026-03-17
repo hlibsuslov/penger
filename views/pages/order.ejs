@@ -952,25 +952,8 @@
 
     /* Promo code */
     .promo-section { margin-top: 12px; }
-    .promo-toggle {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--text-accent);
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      text-decoration: underline;
-    }
     .promo-form {
-      display: none;
-      margin-top: 8px;
-    }
-    .promo-form.open { display: flex; }
-    .promo-form {
+      display: flex;
       gap: 8px;
     }
     .promo-input {
@@ -1243,17 +1226,15 @@
               <form id="contactForm" autocomplete="on" novalidate>
                 <div class="form-row">
                   <div class="form-group">
-                    <label class="form-label" for="firstName"><%= t.order.firstName %></label>
                     <div class="form-input-wrap">
-                      <input class="form-input form-input-lg" type="text" id="firstName" name="given-name" autocomplete="given-name" aria-describedby="firstNameError" required>
+                      <input class="form-input form-input-lg" type="text" id="firstName" name="given-name" autocomplete="given-name" placeholder="<%= t.order.firstName %>" aria-describedby="firstNameError" required>
                       <svg class="input-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                     </div>
                     <div class="field-error-msg" id="firstNameError" role="alert"></div>
                   </div>
                   <div class="form-group">
-                    <label class="form-label" for="lastName"><%= t.order.lastName %></label>
                     <div class="form-input-wrap">
-                      <input class="form-input form-input-lg" type="text" id="lastName" name="family-name" autocomplete="family-name" aria-describedby="lastNameError" required>
+                      <input class="form-input form-input-lg" type="text" id="lastName" name="family-name" autocomplete="family-name" placeholder="<%= t.order.lastName %>" aria-describedby="lastNameError" required>
                       <svg class="input-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                     </div>
                     <div class="field-error-msg" id="lastNameError" role="alert"></div>
@@ -1261,9 +1242,8 @@
                 </div>
                 <div class="form-row full">
                   <div class="form-group">
-                    <label class="form-label" for="email"><%= t.order.email %></label>
                     <div class="form-input-wrap">
-                      <input class="form-input form-input-lg" type="email" id="email" name="email" autocomplete="email" inputmode="email" aria-describedby="emailError" required>
+                      <input class="form-input form-input-lg" type="email" id="email" name="email" autocomplete="email" inputmode="email" placeholder="<%= t.order.email %>" aria-describedby="emailError" required>
                       <svg class="input-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                     </div>
                     <div class="email-suggestion" id="emailSuggestion"></div>
@@ -1315,10 +1295,9 @@
                 </div>
                 <div class="form-row full">
                   <div class="form-group">
-                    <label class="form-label" for="phone"><%= t.order.phone %></label>
                     <div class="phone-wrap">
                       <span class="phone-prefix" id="phonePrefix">+</span>
-                      <input class="form-input" type="tel" id="phone" name="phone" autocomplete="tel-national" inputmode="tel" aria-describedby="phoneError" required>
+                      <input class="form-input" type="tel" id="phone" name="phone" autocomplete="tel-national" inputmode="tel" placeholder="<%= t.order.phone %>" aria-describedby="phoneError" required>
                     </div>
                     <div class="field-error-msg" id="phoneError" role="alert"></div>
                   </div>
@@ -1342,27 +1321,23 @@
               <form id="deliveryForm" autocomplete="on" novalidate>
                 <div class="form-row full">
                   <div class="form-group">
-                    <label class="form-label" for="street"><%= t.order.street %></label>
-                    <input class="form-input form-input-lg" type="text" id="street" name="address-line1" autocomplete="address-line1" aria-describedby="streetError" required>
+                    <input class="form-input form-input-lg" type="text" id="street" name="address-line1" autocomplete="address-line1" placeholder="<%= t.order.street %>" aria-describedby="streetError" required>
                     <div class="field-error-msg" id="streetError" role="alert"></div>
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label class="form-label" for="apt"><%= t.order.apt %></label>
-                    <input class="form-input form-input-sm" type="text" id="apt" name="address-line2" autocomplete="address-line2">
+                    <input class="form-input form-input-sm" type="text" id="apt" name="address-line2" autocomplete="address-line2" placeholder="<%= t.order.apt %>">
                   </div>
                   <div class="form-group">
-                    <label class="form-label" for="zip"><%= t.order.zip %></label>
-                    <input class="form-input form-input-sm" type="text" id="zip" name="postal-code" autocomplete="postal-code" inputmode="text" aria-describedby="zipError" required>
+                    <input class="form-input form-input-sm" type="text" id="zip" name="postal-code" autocomplete="postal-code" inputmode="text" placeholder="<%= t.order.zip %>" aria-describedby="zipError" required>
                     <div class="field-error-msg" id="zipError" role="alert"></div>
                     <div class="zip-suggestions" id="zipSuggestions"></div>
                   </div>
                 </div>
                 <div class="form-row full">
                   <div class="form-group">
-                    <label class="form-label" for="city"><%= t.order.city %></label>
-                    <input class="form-input" type="text" id="city" name="city" autocomplete="address-level2" aria-describedby="cityError" required>
+                    <input class="form-input" type="text" id="city" name="city" autocomplete="address-level2" placeholder="<%= t.order.city %>" aria-describedby="cityError" required>
                     <div class="field-error-msg" id="cityError" role="alert"></div>
                   </div>
                 </div>
@@ -1596,8 +1571,7 @@
             </div>
 
             <div class="promo-section">
-              <button class="promo-toggle" id="promoToggle" type="button"><%= t.order.promoToggle %></button>
-              <div class="promo-form" id="promoForm">
+              <div class="promo-form open" id="promoForm">
                 <input class="promo-input" type="text" id="promoInput" placeholder="<%= t.order.promoPlaceholder %>" maxlength="20">
                 <button class="promo-apply" id="promoApply" type="button"><%= t.order.promoApply %></button>
               </div>

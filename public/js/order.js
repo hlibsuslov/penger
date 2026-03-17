@@ -150,7 +150,6 @@
   var mobileContinueBtn = document.getElementById('mobileContinueBtn');
 
   /* Promo */
-  var promoToggle = document.getElementById('promoToggle');
   var promoForm   = document.getElementById('promoForm');
   var promoInput  = document.getElementById('promoInput');
   var promoApply  = document.getElementById('promoApply');
@@ -848,15 +847,6 @@
   }
 
   /* ===== PROMO CODE ===== */
-  if (promoToggle) {
-    promoToggle.addEventListener('click', function () {
-      promoForm.classList.toggle('open');
-      if (promoForm.classList.contains('open')) {
-        promoInput.focus();
-      }
-    });
-  }
-
   if (promoApply) {
     promoApply.addEventListener('click', function () {
       applyPromo();
