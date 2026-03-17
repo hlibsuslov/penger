@@ -386,9 +386,20 @@
       border-radius: 8px;
       margin-bottom: 20px;
       overflow: hidden;
-      transition: opacity 0.2s ease;
+      transition: opacity 0.3s ease, transform 0.3s ease;
     }
     .checkout-step.disabled { opacity: 0.5; pointer-events: none; }
+    .step-body {
+      transition: max-height 0.35s ease, opacity 0.25s ease;
+      overflow: hidden;
+    }
+    .checkout-step.active .step-body { opacity: 1; }
+    .checkout-step:not(.active) .step-body { opacity: 0; max-height: 0 !important; }
+    .checkout-step.step-entering { animation: stepSlideIn 0.35s ease forwards; }
+    @keyframes stepSlideIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
     .step-header {
       display: flex;
       align-items: center;
@@ -478,7 +489,6 @@
     .step-body {
       padding: 0 20px 20px;
     }
-    .checkout-step:not(.active) .step-body { display: none; }
 
     /* Form fields */
     .form-row {
@@ -782,6 +792,140 @@
       background: var(--bg-main);
     }
 
+    /* Email suggestion */
+    .email-suggestion {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-top: 4px;
+      cursor: pointer;
+    }
+    .email-suggestion span {
+      color: var(--text-accent);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    /* Error micro-copy */
+    .field-error-msg {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: #e74c3c;
+      margin-top: 3px;
+      display: none;
+    }
+    .form-input.error ~ .field-error-msg,
+    .form-group.has-error .field-error-msg { display: block; }
+
+    /* Estimated delivery */
+    .delivery-estimate {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      background: var(--bg-main);
+      border: 1px solid var(--border-default);
+      border-radius: 6px;
+      margin-top: 12px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--text-primary);
+    }
+    .delivery-estimate svg {
+      width: 16px; height: 16px;
+      color: var(--text-accent);
+      flex-shrink: 0;
+    }
+    .delivery-estimate strong { color: var(--text-accent); }
+
+    /* Trust badges */
+    .trust-badges {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .trust-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-dim);
+    }
+    .trust-badge svg {
+      width: 14px; height: 14px;
+      color: var(--text-accent);
+      flex-shrink: 0;
+    }
+
+    /* Promo code */
+    .promo-section { margin-top: 12px; }
+    .promo-toggle {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-accent);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      text-decoration: underline;
+    }
+    .promo-form {
+      display: none;
+      margin-top: 8px;
+    }
+    .promo-form.open { display: flex; }
+    .promo-form {
+      gap: 8px;
+    }
+    .promo-input {
+      flex: 1;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--text-primary);
+      background: var(--bg-main);
+      border: 1px solid var(--border-default);
+      border-radius: 6px;
+      padding: 8px 12px;
+      outline: none;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .promo-input:focus { border-color: var(--text-accent); }
+    .promo-apply {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--bg-main);
+      background: var(--text-accent);
+      border: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .promo-msg {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      margin-top: 4px;
+      display: none;
+    }
+    .promo-msg.success { color: #2ecc71; display: block; }
+    .promo-msg.error { color: #e74c3c; display: block; }
+
+    /* Shipping cost dynamic */
+    .shipping-val-dynamic { color: var(--text-label); font-weight: 600; }
+
     /* Disabled checkout button */
     .order-checkout-btn:disabled {
       opacity: 0.4;
@@ -973,6 +1117,7 @@
                       <input class="form-input" type="text" id="firstName" name="given-name" autocomplete="given-name" required>
                       <svg class="input-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                     </div>
+                    <div class="field-error-msg"></div>
                   </div>
                   <div class="form-group">
                     <label class="form-label" for="lastName"><%= t.order.lastName %></label>
@@ -980,15 +1125,18 @@
                       <input class="form-input" type="text" id="lastName" name="family-name" autocomplete="family-name" required>
                       <svg class="input-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                     </div>
+                    <div class="field-error-msg"></div>
                   </div>
                 </div>
                 <div class="form-row full">
                   <div class="form-group">
                     <label class="form-label" for="email"><%= t.order.email %></label>
                     <div class="form-input-wrap">
-                      <input class="form-input" type="email" id="email" name="email" autocomplete="email" required>
+                      <input class="form-input" type="email" id="email" name="email" autocomplete="email" inputmode="email" required>
                       <svg class="input-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                     </div>
+                    <div class="email-suggestion" id="emailSuggestion"></div>
+                    <div class="field-error-msg" id="emailError"></div>
                   </div>
                 </div>
                 <div class="form-row full">
@@ -996,8 +1144,9 @@
                     <label class="form-label" for="phone"><%= t.order.phone %></label>
                     <div class="phone-wrap">
                       <span class="phone-prefix" id="phonePrefix">+</span>
-                      <input class="form-input" type="tel" id="phone" name="phone" autocomplete="tel" required>
+                      <input class="form-input" type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" required>
                     </div>
+                    <div class="field-error-msg"></div>
                   </div>
                 </div>
                 <p class="order-section-title" style="margin-top:20px;margin-bottom:12px"><%= t.order.deliveryAddress %></p>
@@ -1048,6 +1197,7 @@
                   <div class="form-group">
                     <label class="form-label" for="street"><%= t.order.street %></label>
                     <input class="form-input" type="text" id="street" name="address-line1" autocomplete="address-line1" required>
+                    <div class="field-error-msg"></div>
                   </div>
                 </div>
                 <div class="form-row full">
@@ -1060,12 +1210,18 @@
                   <div class="form-group">
                     <label class="form-label" for="city"><%= t.order.city %></label>
                     <input class="form-input" type="text" id="city" name="city" autocomplete="address-level2" required>
+                    <div class="field-error-msg"></div>
                   </div>
                   <div class="form-group">
                     <label class="form-label" for="zip"><%= t.order.zip %></label>
-                    <input class="form-input" type="text" id="zip" name="postal-code" autocomplete="postal-code" required>
+                    <input class="form-input" type="text" id="zip" name="postal-code" autocomplete="postal-code" inputmode="text" required>
+                    <div class="field-error-msg"></div>
                     <div class="zip-suggestions" id="zipSuggestions"></div>
                   </div>
+                </div>
+                <div class="delivery-estimate" id="deliveryEstimate" style="display:none">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                  <span id="deliveryText"></span>
                 </div>
                 <button class="step-continue-btn" id="contactContinue" type="submit"><%= t.order.continueToPayment %></button>
               </form>
@@ -1198,8 +1354,22 @@
               <button class="order-checkout-btn" id="checkoutBtn" type="button" style="margin-top:16px" disabled
                 data-track="checkout_start" data-cta-id="order_checkout" data-section="order" data-product-id="penger-v1">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-                <%= t.order.payNow %>
+                <span id="checkoutBtnText"><%= t.order.payNow %></span>
               </button>
+              <div class="trust-badges">
+                <span class="trust-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  <%= t.order.trustSecure %>
+                </span>
+                <span class="trust-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  <%= t.order.trustSSL %>
+                </span>
+                <span class="trust-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+                  <%= t.order.trustGuarantee %>
+                </span>
+              </div>
             </div>
           </div>
 
@@ -1233,9 +1403,18 @@
               <span class="summary-key" id="extraPlatesLabel"></span>
               <span class="summary-val-add" id="extraPlatesPrice"></span>
             </div>
-            <div class="summary-row">
+            <div class="summary-row" id="rowShippingFree">
               <span class="summary-key"><%= t.order.shippingLabel %></span>
-              <span class="summary-val-free"><%= t.order.shippingValue %></span>
+              <span class="summary-val-free" id="shippingFreeVal"><%= t.order.shippingValue %></span>
+            </div>
+
+            <div class="summary-row" id="rowShippingCost" style="display:none">
+              <span class="summary-key"><%= t.order.shippingLabel %></span>
+              <span class="summary-val-add" id="shippingCostVal"></span>
+            </div>
+            <div class="summary-row" id="rowDiscount" style="display:none">
+              <span class="summary-key" id="discountLabel"><%= t.order.promoDiscount %></span>
+              <span class="summary-val" id="discountVal" style="color:#2ecc71"></span>
             </div>
 
             <div class="summary-divider"></div>
@@ -1243,6 +1422,15 @@
             <div class="summary-row summary-total">
               <span class="summary-key"><%= t.order.totalLabel %></span>
               <span class="summary-val" id="summaryTotal">€49</span>
+            </div>
+
+            <div class="promo-section">
+              <button class="promo-toggle" id="promoToggle" type="button"><%= t.order.promoToggle %></button>
+              <div class="promo-form" id="promoForm">
+                <input class="promo-input" type="text" id="promoInput" placeholder="<%= t.order.promoPlaceholder %>" maxlength="20">
+                <button class="promo-apply" id="promoApply" type="button"><%= t.order.promoApply %></button>
+              </div>
+              <div class="promo-msg" id="promoMsg"></div>
             </div>
 
             <div class="order-notes">
@@ -1284,7 +1472,18 @@
     email: '<%= t.order.email %>',
     phone: '<%= t.order.phone %>',
     continueToPayment: '<%= t.order.continueToPayment %>',
-    payNow: '<%= t.order.payNow %>'
+    payNow: '<%= t.order.payNow %>',
+    emailDidYouMean: '<%= t.order.emailDidYouMean %>',
+    errorRequired: '<%= t.order.errorRequired %>',
+    errorEmail: '<%= t.order.errorEmail %>',
+    errorPhone: '<%= t.order.errorPhone %>',
+    deliveryEU: '<%= t.order.deliveryEU %>',
+    deliveryUS: '<%= t.order.deliveryUS %>',
+    deliveryOther: '<%= t.order.deliveryOther %>',
+    shippingFreeLabel: '<%= t.order.shippingValue %>',
+    processing: '<%= t.order.processing %>',
+    promoInvalid: '<%= t.order.promoInvalid %>',
+    promoApplied: '<%= t.order.promoApplied %>'
   };
   </script>
   <script src="/analytics.js"></script>

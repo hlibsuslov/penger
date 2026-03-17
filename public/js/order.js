@@ -7,10 +7,32 @@
   var BASE_PRICE = 49;
   var EXTRA_PLATE = 35;
 
+  /* Shipping cost by region */
+  var SHIPPING_FREE = ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES','SE'];
+  var SHIPPING_COST = { GB: 5, CH: 5, NO: 5, US: 9, CA: 9, AU: 12, JP: 12, UA: 7 };
+
+  /* Delivery estimates */
+  var DELIVERY_ESTIMATES = {
+    EU: t.deliveryEU || 'Estimated delivery: <strong>3–5 business days</strong>',
+    US: t.deliveryUS || 'Estimated delivery: <strong>7–10 business days</strong>',
+    OTHER: t.deliveryOther || 'Estimated delivery: <strong>10–15 business days</strong>'
+  };
+
+  /* Promo codes (demo) */
+  var PROMO_CODES = {
+    'PENGER10': { type: 'percent', value: 10 },
+    'LAUNCH20': { type: 'percent', value: 20 },
+    'FIRST5': { type: 'fixed', value: 5 }
+  };
+
   /* ===== STATE ===== */
   var plates = 1;
   var payMethod = 'card';
   var currentStep = 'contact'; // contact | payment
+  var shippingCost = 0;
+  var discount = 0;
+  var appliedPromo = null;
+  var isSubmitting = false;
 
   /* ===== PHONE CODES MAP ===== */
   var phoneCodes = {
@@ -19,6 +41,24 @@
     IT:'+39',LV:'+371',LT:'+370',LU:'+352',MT:'+356',NL:'+31',PL:'+48',
     PT:'+351',RO:'+40',SK:'+421',SI:'+386',ES:'+34',SE:'+46',GB:'+44',
     US:'+1',CA:'+1',AU:'+61',JP:'+81',CH:'+41',NO:'+47',UA:'+380'
+  };
+
+  /* ===== EMAIL TYPO MAP ===== */
+  var EMAIL_DOMAINS = {
+    'gmial.com':'gmail.com','gmal.com':'gmail.com','gmil.com':'gmail.com',
+    'gmaill.com':'gmail.com','gmai.com':'gmail.com','gamil.com':'gmail.com',
+    'gnail.com':'gmail.com','gmaol.com':'gmail.com','gmail.co':'gmail.com',
+    'hotmal.com':'hotmail.com','hotmial.com':'hotmail.com','hotmil.com':'hotmail.com',
+    'hotmail.co':'hotmail.com','outloo.com':'outlook.com','outlok.com':'outlook.com',
+    'yahooo.com':'yahoo.com','yaho.com':'yahoo.com','yhoo.com':'yahoo.com',
+    'iclod.com':'icloud.com','icoud.com':'icloud.com'
+  };
+
+  /* ===== ERROR MESSAGES ===== */
+  var ERROR_MSGS = {
+    required: t.errorRequired || 'This field is required',
+    email: t.errorEmail || 'Please check your email address',
+    phone: t.errorPhone || 'Please enter a valid phone number'
   };
 
   /* ===== DOM: PLATES ===== */
@@ -32,6 +72,11 @@
   var extraPlatesLabel = document.getElementById('extraPlatesLabel');
   var extraPlatesPrice = document.getElementById('extraPlatesPrice');
   var summaryTotal     = document.getElementById('summaryTotal');
+  var rowShippingFree  = document.getElementById('rowShippingFree');
+  var rowShippingCost  = document.getElementById('rowShippingCost');
+  var shippingCostVal  = document.getElementById('shippingCostVal');
+  var rowDiscount      = document.getElementById('rowDiscount');
+  var discountVal      = document.getElementById('discountVal');
 
   /* Summary refs (bottom card) */
   var cartPlatesBottom       = document.getElementById('cartPlatesBottom');
@@ -49,6 +94,7 @@
   var contactSummary = document.getElementById('contactSummary');
   var editContact    = document.getElementById('editContact');
   var checkoutBtn    = document.getElementById('checkoutBtn');
+  var checkoutBtnText = document.getElementById('checkoutBtnText');
 
   /* Payment */
   var payMethods = document.getElementById('payMethods');
@@ -61,6 +107,12 @@
   var zipEl          = document.getElementById('zip');
   var zipSuggestions = document.getElementById('zipSuggestions');
   var phonePrefix    = document.getElementById('phonePrefix');
+  var emailEl        = document.getElementById('email');
+  var emailSuggestion = document.getElementById('emailSuggestion');
+
+  /* Delivery estimate */
+  var deliveryEstimate = document.getElementById('deliveryEstimate');
+  var deliveryText     = document.getElementById('deliveryText');
 
   /* Progress bar */
   var progressLine1 = document.getElementById('progressLine1');
@@ -68,13 +120,68 @@
   var progressSteps = document.querySelectorAll('.progress-step');
 
   /* Mobile CTA */
-  var mobileCta        = document.getElementById('mobileCta');
-  var mobilePrice      = document.getElementById('mobilePrice');
+  var mobileCta         = document.getElementById('mobileCta');
+  var mobilePrice       = document.getElementById('mobilePrice');
   var mobileContinueBtn = document.getElementById('mobileContinueBtn');
 
+  /* Promo */
+  var promoToggle = document.getElementById('promoToggle');
+  var promoForm   = document.getElementById('promoForm');
+  var promoInput  = document.getElementById('promoInput');
+  var promoApply  = document.getElementById('promoApply');
+  var promoMsg    = document.getElementById('promoMsg');
+
   /* ===== HELPERS ===== */
-  function getTotal() {
+  function getSubtotal() {
     return BASE_PRICE + ((plates - 1) * EXTRA_PLATE);
+  }
+
+  function getTotal() {
+    var sub = getSubtotal();
+    var total = sub + shippingCost - discount;
+    return Math.max(total, 0);
+  }
+
+  /* ===== UPDATE SHIPPING COST ===== */
+  function updateShipping() {
+    var country = countryEl.value;
+    if (!country) {
+      shippingCost = 0;
+      if (rowShippingFree) rowShippingFree.style.display = '';
+      if (rowShippingCost) rowShippingCost.style.display = 'none';
+      return;
+    }
+
+    if (SHIPPING_FREE.indexOf(country) > -1) {
+      shippingCost = 0;
+      if (rowShippingFree) rowShippingFree.style.display = '';
+      if (rowShippingCost) rowShippingCost.style.display = 'none';
+    } else {
+      shippingCost = SHIPPING_COST[country] || 15;
+      if (rowShippingFree) rowShippingFree.style.display = 'none';
+      if (rowShippingCost) {
+        rowShippingCost.style.display = '';
+        shippingCostVal.textContent = '+\u20AC' + shippingCost;
+      }
+    }
+  }
+
+  /* ===== UPDATE DELIVERY ESTIMATE ===== */
+  function updateDeliveryEstimate() {
+    var country = countryEl.value;
+    if (!country || !deliveryEstimate) {
+      if (deliveryEstimate) deliveryEstimate.style.display = 'none';
+      return;
+    }
+
+    deliveryEstimate.style.display = 'flex';
+    if (SHIPPING_FREE.indexOf(country) > -1) {
+      deliveryText.innerHTML = DELIVERY_ESTIMATES.EU;
+    } else if (country === 'US' || country === 'CA') {
+      deliveryText.innerHTML = DELIVERY_ESTIMATES.US;
+    } else {
+      deliveryText.innerHTML = DELIVERY_ESTIMATES.OTHER;
+    }
   }
 
   /* ===== UPDATE UI ===== */
@@ -100,6 +207,22 @@
     } else {
       rowExtraPlates.style.display = 'none';
       if (rowExtraPlatesBottom) rowExtraPlatesBottom.style.display = 'none';
+    }
+
+    /* Recalculate discount if promo is applied */
+    if (appliedPromo) {
+      var promo = PROMO_CODES[appliedPromo];
+      if (promo) {
+        discount = promo.type === 'percent' ? Math.round(getSubtotal() * promo.value / 100) : promo.value;
+      }
+    }
+
+    /* Discount row */
+    if (discount > 0 && rowDiscount) {
+      rowDiscount.style.display = '';
+      discountVal.textContent = '-\u20AC' + discount;
+    } else if (rowDiscount) {
+      rowDiscount.style.display = 'none';
     }
 
     var totalStr = '\u20AC' + getTotal();
@@ -173,6 +296,9 @@
             if (code && countryEl.querySelector('option[value="' + code + '"]')) {
               countryEl.value = code;
               updatePhonePrefix(code);
+              updateShipping();
+              updateDeliveryEstimate();
+              updateUI();
               saveFormData();
             }
           } catch (e) {}
@@ -192,25 +318,89 @@
 
   countryEl.addEventListener('change', function () {
     updatePhonePrefix(this.value);
+    updateShipping();
+    updateDeliveryEstimate();
+    updateUI();
     saveFormData();
   });
+
+  /* ===== EMAIL TYPO DETECTION ===== */
+  function checkEmailTypo(email) {
+    if (!emailSuggestion) return;
+    emailSuggestion.innerHTML = '';
+    if (!email || email.indexOf('@') === -1) return;
+
+    var parts = email.split('@');
+    var domain = parts[1] ? parts[1].toLowerCase() : '';
+    var suggestion = EMAIL_DOMAINS[domain];
+
+    if (suggestion) {
+      var corrected = parts[0] + '@' + suggestion;
+      emailSuggestion.innerHTML = (t.emailDidYouMean || 'Did you mean') +
+        ' <span data-email="' + corrected + '">' + corrected + '</span>?';
+    }
+  }
+
+  if (emailSuggestion) {
+    emailSuggestion.addEventListener('click', function (e) {
+      var span = e.target.closest('span[data-email]');
+      if (!span) return;
+      emailEl.value = span.getAttribute('data-email');
+      emailSuggestion.innerHTML = '';
+      validateField(emailEl);
+      saveFormData();
+    });
+  }
 
   /* ===== REAL-TIME FIELD VALIDATION ===== */
   function validateField(input) {
     if (!input.hasAttribute('required') && input.type !== 'email') return;
     var val = input.value.trim();
     input.classList.remove('valid', 'error');
+    clearFieldError(input);
 
     if (input.type === 'email') {
       if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
         input.classList.add('valid');
+        checkEmailTypo(val);
       } else if (val.length > 0) {
         input.classList.add('error');
+        showFieldError(input, ERROR_MSGS.email);
+      }
+    } else if (input.id === 'phone') {
+      var digits = val.replace(/\D/g, '');
+      if (digits.length >= 6) {
+        input.classList.add('valid');
+      } else if (val.length > 0) {
+        input.classList.add('error');
+        showFieldError(input, ERROR_MSGS.phone);
       }
     } else if (input.tagName === 'SELECT') {
       if (val) input.classList.add('valid');
     } else {
       if (val.length >= 1) input.classList.add('valid');
+    }
+  }
+
+  function showFieldError(input, msg) {
+    var group = input.closest('.form-group');
+    if (!group) return;
+    group.classList.add('has-error');
+    var errorEl = group.querySelector('.field-error-msg');
+    if (errorEl) {
+      errorEl.textContent = msg;
+      errorEl.style.display = 'block';
+    }
+  }
+
+  function clearFieldError(input) {
+    var group = input.closest('.form-group');
+    if (!group) return;
+    group.classList.remove('has-error');
+    var errorEl = group.querySelector('.field-error-msg');
+    if (errorEl) {
+      errorEl.textContent = '';
+      errorEl.style.display = 'none';
     }
   }
 
@@ -299,11 +489,11 @@
     }
   });
 
-  /* ===== STEP MANAGEMENT ===== */
+  /* ===== STEP MANAGEMENT WITH ANIMATIONS ===== */
   function activateStep(step) {
-    step.classList.remove('disabled');
-    step.classList.add('active');
-    step.classList.remove('completed');
+    step.classList.remove('disabled', 'completed');
+    step.classList.add('active', 'step-entering');
+    setTimeout(function () { step.classList.remove('step-entering'); }, 350);
   }
 
   function completeStep(step) {
@@ -325,18 +515,20 @@
     var firstError = null;
     inputs.forEach(function (input) {
       input.classList.remove('error');
+      clearFieldError(input);
       if (!input.value.trim()) {
         input.classList.add('error');
+        showFieldError(input, ERROR_MSGS.required);
         valid = false;
         if (!firstError) firstError = input;
       }
     });
 
-    var emailField = document.getElementById('email');
-    if (emailField.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailField.value)) {
-      emailField.classList.add('error');
+    if (emailEl.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value)) {
+      emailEl.classList.add('error');
+      showFieldError(emailEl, ERROR_MSGS.email);
       valid = false;
-      if (!firstError) firstError = emailField;
+      if (!firstError) firstError = emailEl;
     }
 
     /* Scroll to first error */
@@ -348,7 +540,7 @@
 
     var firstName = document.getElementById('firstName').value.trim();
     var lastName  = document.getElementById('lastName').value.trim();
-    var email     = emailField.value.trim();
+    var email     = emailEl.value.trim();
     var phone     = document.getElementById('phone').value.trim();
     var street    = document.getElementById('street').value.trim();
     var apt       = document.getElementById('apt').value.trim();
@@ -425,7 +617,7 @@
     }
   }
 
-  /* ===== EXPIRY FORMATTING ===== */
+  /* ===== EXPIRY FORMATTING (MM/YY) ===== */
   var cardExpiryEl = document.getElementById('cardExpiry');
   if (cardExpiryEl) {
     cardExpiryEl.addEventListener('input', function () {
@@ -435,7 +627,7 @@
     });
   }
 
-  /* ===== CVC LIMIT ===== */
+  /* ===== CVC LIMIT (3-4 digits) ===== */
   var cardCvcEl = document.getElementById('cardCvc');
   if (cardCvcEl) {
     cardCvcEl.addEventListener('input', function () {
@@ -450,6 +642,58 @@
       this.closest('.form-checkbox').querySelector('.checkbox-box').style.borderColor = '';
       checkoutBtn.disabled = !this.checked;
     });
+  }
+
+  /* ===== PROMO CODE ===== */
+  if (promoToggle) {
+    promoToggle.addEventListener('click', function () {
+      promoForm.classList.toggle('open');
+      if (promoForm.classList.contains('open')) {
+        promoInput.focus();
+      }
+    });
+  }
+
+  if (promoApply) {
+    promoApply.addEventListener('click', function () {
+      applyPromo();
+    });
+  }
+
+  if (promoInput) {
+    promoInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); applyPromo(); }
+    });
+  }
+
+  function applyPromo() {
+    var code = promoInput.value.trim().toUpperCase();
+    promoMsg.className = 'promo-msg';
+    promoMsg.textContent = '';
+
+    if (!code) return;
+
+    var promo = PROMO_CODES[code];
+    if (promo) {
+      appliedPromo = code;
+      if (promo.type === 'percent') {
+        discount = Math.round(getSubtotal() * promo.value / 100);
+      } else {
+        discount = promo.value;
+      }
+      promoMsg.className = 'promo-msg success';
+      promoMsg.textContent = (t.promoApplied || 'Promo code applied!') + ' -\u20AC' + discount;
+      promoInput.disabled = true;
+      promoApply.disabled = true;
+      promoApply.style.opacity = '0.4';
+      updateUI();
+    } else {
+      discount = 0;
+      appliedPromo = null;
+      promoMsg.className = 'promo-msg error';
+      promoMsg.textContent = t.promoInvalid || 'Invalid promo code';
+      updateUI();
+    }
   }
 
   /* ===== FORM DATA PERSISTENCE (sessionStorage) ===== */
@@ -521,12 +765,19 @@
     return 'PG-' + ts + '-' + rand;
   }
 
-  /* ===== CHECKOUT (PAY NOW) ===== */
+  /* ===== CHECKOUT (PAY NOW) WITH DOUBLE-SUBMIT PROTECTION ===== */
   checkoutBtn.addEventListener('click', function () {
+    if (isSubmitting) return;
+
     if (!termsCheck.checked) {
       termsCheck.closest('.form-checkbox').querySelector('.checkbox-box').style.borderColor = '#e74c3c';
       return;
     }
+
+    /* Double-submit protection */
+    isSubmitting = true;
+    checkoutBtn.disabled = true;
+    if (checkoutBtnText) checkoutBtnText.textContent = t.processing || 'Processing...';
 
     var orderId = generateOrderId();
     var total = getTotal();
@@ -539,6 +790,9 @@
       currency: 'EUR',
       product_id: 'penger-v1',
       pay_method: payMethod,
+      shipping: shippingCost,
+      discount: discount,
+      promo: appliedPromo,
       contact: {
         firstName: document.getElementById('firstName').value.trim(),
         lastName: document.getElementById('lastName').value.trim(),
@@ -598,6 +852,8 @@
 
   /* ===== INIT ===== */
   restoreFormData();
+  updateShipping();
+  updateDeliveryEstimate();
   updateUI();
   updateProgress();
   updateMobileCta();
