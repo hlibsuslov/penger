@@ -117,6 +117,7 @@ app.get('/guides/:slug', function (req, res, next) {
       pageKeywords: guideData.keywords || '',
       favicon: guideData.favicon || '/svg/e.svg',
       extraCss: [],
+      extraJs: [],
     });
   }
   next();
@@ -150,17 +151,17 @@ app.get('/guides.html', function (req, res) {
    PAGE ROUTES
    ========================================================= */
 var PAGE_CONFIGS = {
-  '/': { view: 'pages/index', dataKey: 'index', css: ['landing.css', 'about-us.css'], preloadFont: true },
-  '/guides': { view: 'pages/guides', dataKey: 'guides', css: [] },
-  '/simulators': { view: 'pages/simulators', dataKey: 'simulators', css: [] },
-  '/dictionary': { view: 'pages/dictionary', dataKey: 'dictionary', css: [] },
-  '/ai-tutor': { view: 'pages/ai-tutor', dataKey: 'aiTutor', css: [] },
-  '/about-us': { view: 'pages/about-us', dataKey: 'aboutUs', css: ['about-us.css'] },
-  '/contacts': { view: 'pages/contacts', dataKey: 'contacts', css: ['contacts.css'] },
-  '/order': { view: 'pages/order', dataKey: 'order', css: [] },
-  '/payment-success': { view: 'pages/payment-success', dataKey: 'paymentSuccess', css: [] },
-  '/payment-failed': { view: 'pages/payment-failed', dataKey: 'paymentFailed', css: [] },
-  '/cookie-policy': { view: 'pages/cookie-policy', dataKey: 'cookiePolicy', css: ['about-us.css'] },
+  '/': { view: 'pages/index', dataKey: 'index', css: ['landing.css', 'about-us.css'], js: [], preloadFont: true },
+  '/guides': { view: 'pages/guides', dataKey: 'guides', css: [], js: [] },
+  '/simulators': { view: 'pages/simulators', dataKey: 'simulators', css: [], js: ['js/bip39-wordlist.js', 'script.js'] },
+  '/dictionary': { view: 'pages/dictionary', dataKey: 'dictionary', css: [], js: ['js/bip39-wordlist.js', 'dictionary.js'] },
+  '/ai-tutor': { view: 'pages/ai-tutor', dataKey: 'aiTutor', css: [], js: ['js/ai-tutor.js'] },
+  '/about-us': { view: 'pages/about-us', dataKey: 'aboutUs', css: ['about-us.css'], js: [] },
+  '/contacts': { view: 'pages/contacts', dataKey: 'contacts', css: ['contacts.css'], js: ['js/contacts.js'] },
+  '/order': { view: 'pages/order', dataKey: 'order', css: [], js: ['js/order.js'] },
+  '/payment-success': { view: 'pages/payment-success', dataKey: 'paymentSuccess', css: [], js: [] },
+  '/payment-failed': { view: 'pages/payment-failed', dataKey: 'paymentFailed', css: [], js: [] },
+  '/cookie-policy': { view: 'pages/cookie-policy', dataKey: 'cookiePolicy', css: ['about-us.css'], js: [] },
 };
 
 Object.keys(PAGE_CONFIGS).forEach(function (route) {
@@ -174,6 +175,7 @@ Object.keys(PAGE_CONFIGS).forEach(function (route) {
       pageKeywords: pageData.keywords || '',
       ogDescription: pageData.ogDescription || pageData.metaDescription || '',
       extraCss: cfg.css || [],
+      extraJs: cfg.js || [],
       preloadFont: cfg.preloadFont || false,
     });
   });
@@ -433,6 +435,7 @@ app.use(function (req, res) {
     pageKeywords: '',
     pageRobots: 'noindex, nofollow',
     extraCss: [],
+    extraJs: [],
   });
 });
 

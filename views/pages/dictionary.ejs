@@ -134,6 +134,8 @@
 
   <script src="/analytics.js"></script>
   <script src="/shared.js?v=2"></script>
-  <script src="/dictionary.js"></script>
+  <% if (typeof extraJs !== 'undefined') { extraJs.forEach(function(js) { %>
+  <script src="/<%= js %>"></script>
+  <% }); } %>
 </body>
 </html>
