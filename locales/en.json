@@ -479,7 +479,10 @@
     "cardName": "Name on card",
     "agreeTerms": "I agree to the <a href='#'>Terms of Service</a>.",
     "newsletter": "I'd like to receive product updates and news.",
-    "payNow": "Pay Now"
+    "payNow": "Pay Now",
+    "progressProduct": "Product",
+    "progressContact": "Contact",
+    "progressPayment": "Payment"
   },
   "paymentSuccess": {
     "title": "Order Confirmed — PENGER",

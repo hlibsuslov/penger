@@ -479,7 +479,10 @@
     "cardName": "Ім'я на картці",
     "agreeTerms": "Я погоджуюся з <a href='#'>Умовами використання</a>.",
     "newsletter": "Я хочу отримувати оновлення продукту та новини.",
-    "payNow": "Оплатити"
+    "payNow": "Оплатити",
+    "progressProduct": "Продукт",
+    "progressContact": "Контакт",
+    "progressPayment": "Оплата"
   },
   "paymentSuccess": {
     "title": "Замовлення підтверджено — PENGER",
