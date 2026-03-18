@@ -136,11 +136,6 @@
   var deliveryEstimate = document.getElementById('deliveryEstimate');
   var deliveryText     = document.getElementById('deliveryText');
 
-  /* Progress bar */
-  var progressLine1 = document.getElementById('progressLine1');
-  var progressLine2 = document.getElementById('progressLine2');
-  var progressLine3 = document.getElementById('progressLine3');
-  var progressSteps = document.querySelectorAll('.progress-step');
 
   /* Mobile CTA */
   var mobileCta         = document.getElementById('mobileCta');
@@ -340,36 +335,6 @@
     pushConfig('punch_change');
   });
 
-  /* ===== PROGRESS BAR ===== */
-  function updateProgress() {
-    progressSteps.forEach(function (s) {
-      s.classList.remove('active', 'done');
-    });
-    var productStep  = document.querySelector('.progress-step[data-step="product"]');
-    var contactStep  = document.querySelector('.progress-step[data-step="contact"]');
-    var deliveryStep = document.querySelector('.progress-step[data-step="delivery"]');
-    var paymentStep  = document.querySelector('.progress-step[data-step="payment"]');
-
-    productStep.classList.add('done');
-    progressLine1.classList.add('done');
-
-    if (currentStep === 'contact') {
-      contactStep.classList.add('active');
-      progressLine2.classList.remove('done');
-      if (progressLine3) progressLine3.classList.remove('done');
-    } else if (currentStep === 'delivery') {
-      contactStep.classList.add('done');
-      deliveryStep.classList.add('active');
-      progressLine2.classList.add('done');
-      if (progressLine3) progressLine3.classList.remove('done');
-    } else {
-      contactStep.classList.add('done');
-      deliveryStep.classList.add('done');
-      paymentStep.classList.add('active');
-      progressLine2.classList.add('done');
-      if (progressLine3) progressLine3.classList.add('done');
-    }
-  }
 
   /* ===== MOBILE CTA ===== */
   function updateMobileCta() {
@@ -721,7 +686,6 @@
     completeStep(stepContact);
     activateStep(stepDelivery);
     currentStep = 'delivery';
-    updateProgress();
     updateMobileCta();
     stepDelivery.scrollIntoView({ behavior: 'smooth', block: 'start' });
     saveFormData();
@@ -769,7 +733,7 @@
       completeStep(stepDelivery);
       activateStep(stepPayment);
       currentStep = 'payment';
-      updateProgress();
+  
       updateMobileCta();
       stepPayment.scrollIntoView({ behavior: 'smooth', block: 'start' });
       saveFormData();
@@ -782,7 +746,7 @@
     disableStep(stepDelivery);
     disableStep(stepPayment);
     currentStep = 'contact';
-    updateProgress();
+
     updateMobileCta();
   });
 
@@ -792,7 +756,7 @@
       activateStep(stepDelivery);
       disableStep(stepPayment);
       currentStep = 'delivery';
-      updateProgress();
+  
       updateMobileCta();
     });
   }
