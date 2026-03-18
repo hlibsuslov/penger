@@ -221,6 +221,18 @@
     if (indicator) {
       indicator.style.transform = 'translateX(' + ((plates - 1) * 100) + '%)';
     }
+    /* Subtle scale pulse on the indicator for premium feel */
+    if (indicator && indicator._animFrame) return;
+    if (indicator) {
+      indicator.style.transition = 'transform 0.45s cubic-bezier(0.25,1,0.5,1), box-shadow 0.45s ease';
+      indicator.style.boxShadow = '0 2px 8px rgba(0,0,0,0.18), 0 6px 20px rgba(0,0,0,0.10)';
+      indicator._animFrame = requestAnimationFrame(function () {
+        setTimeout(function () {
+          indicator.style.boxShadow = '';
+          indicator._animFrame = null;
+        }, 450);
+      });
+    }
   }
 
   function updateUI() {
