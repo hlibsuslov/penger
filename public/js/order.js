@@ -397,33 +397,42 @@
     });
   }
 
-  /* ===== COUNTRY AUTO-DETECT ===== */
-  (function detectCountry() {
+  /* ===== COUNTRY AUTO-DETECT (called after restoreFormData) ===== */
+  function detectCountry() {
     if (countryEl.value) return;
     try {
       var xhr = new XMLHttpRequest();
       xhr.open('GET', 'https://ipapi.co/json/', true);
       xhr.timeout = 4000;
       xhr.onload = function () {
-        if (xhr.status === 200) {
+        if (xhr.status === 200 && !countryEl.value) {
           try {
             var data = JSON.parse(xhr.responseText);
-            var code = data.country_code;
-            if (code && countryEl.querySelector('option[value="' + code + '"]')) {
-              countryEl.value = code;
-              updatePhonePrefix(code);
-              updateShipping();
-              updateDeliveryEstimate();
-              updateUI();
-              saveFormData();
+            var code = (data.country_code || '').toUpperCase();
+            if (!code) return;
+            /* If country is not in the list, add it */
+            if (!countryEl.querySelector('option[value="' + code + '"]')) {
+              var name = data.country_name || code;
+              var opt = document.createElement('option');
+              opt.value = code;
+              opt.textContent = code + ' \u2014 ' + name;
+              /* Insert after the disabled placeholder */
+              var placeholder = countryEl.querySelector('option[disabled]');
+              if (placeholder && placeholder.nextSibling) {
+                countryEl.insertBefore(opt, placeholder.nextSibling);
+              } else {
+                countryEl.appendChild(opt);
+              }
             }
+            countryEl.value = code;
+            countryEl.dispatchEvent(new Event('change', { bubbles: true }));
           } catch (e) {}
         }
       };
       xhr.onerror = function () {};
       xhr.send();
     } catch (e) {}
-  })();
+  }
 
   /* ===== PHONE PREFIX BY COUNTRY ===== */
   function updatePhonePrefix(code) {
@@ -1139,6 +1148,7 @@
 
   /* ===== INIT ===== */
   restoreFormData();
+  detectCountry();
   updateShipping();
   updateDeliveryEstimate();
   updateUI();
