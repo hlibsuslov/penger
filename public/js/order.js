@@ -667,6 +667,13 @@
   contactForm.addEventListener('submit', function (e) {
     e.preventDefault();
 
+    /* Sync state after browser autofill (autofill doesn't fire change events) */
+    if (countryEl.value) {
+      updatePhonePrefix(countryEl.value);
+      updateShipping();
+      updateDeliveryEstimate();
+    }
+
     var inputs = contactForm.querySelectorAll('[required]');
     var valid = true;
     var firstError = null;

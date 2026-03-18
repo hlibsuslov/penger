@@ -185,13 +185,6 @@
       background: var(--bg-surface);
     }
     .config-opt input { display: none; }
-    .config-opt-check {
-      width: 14px; height: 14px;
-      flex-shrink: 0;
-      display: none;
-      color: var(--text-accent);
-    }
-    .config-opt.active .config-opt-check { display: block; }
     .config-swatch {
       width: 14px; height: 14px;
       border-radius: 50%;
@@ -274,28 +267,6 @@
     }
     .plates-dot.passed .plates-dot-label { color: var(--text-accent); }
 
-    /* Kit contents — compact */
-    .kit-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2px 16px;
-    }
-    .kit-list li {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 5px 0;
-      font-size: 12px;
-      color: var(--text-primary);
-    }
-    .kit-check {
-      width: 12px; height: 12px;
-      color: var(--text-accent);
-      flex-shrink: 0;
-    }
 
     /* Specs table */
     .specs-table {
@@ -1200,13 +1171,11 @@
             <div class="config-options" id="sleeveOptions">
               <label class="config-opt active">
                 <input type="radio" name="sleeveColor" value="black" checked>
-                <svg class="config-opt-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                 <span class="config-swatch config-swatch-black"></span>
                 Black
               </label>
               <label class="config-opt">
                 <input type="radio" name="sleeveColor" value="white">
-                <svg class="config-opt-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                 <span class="config-swatch config-swatch-white"></span>
                 White
               </label>
@@ -1222,28 +1191,13 @@
             <div class="config-options" id="punchOptions">
               <label class="config-opt active">
                 <input type="radio" name="punchTool" value="yes" checked>
-                <svg class="config-opt-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                 Yes
               </label>
               <label class="config-opt">
                 <input type="radio" name="punchTool" value="no">
-                <svg class="config-opt-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                 No
               </label>
             </div>
-          </div>
-
-          <!-- Kit contents -->
-          <div class="order-section">
-            <p class="order-section-title"><%= t.order.kitContentsLabel %></p>
-            <ul class="kit-list">
-              <li><svg class="kit-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> <%= t.order.kitItem1 %></li>
-              <li><svg class="kit-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> <%= t.order.kitItem2 %></li>
-              <li><svg class="kit-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> <%= t.order.kitItem3 %></li>
-              <li><svg class="kit-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> <%= t.order.kitItem4 %></li>
-              <li><svg class="kit-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> <%= t.order.kitItem5 %></li>
-              <li><svg class="kit-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> <%= t.order.kitItem6 %></li>
-            </ul>
           </div>
 
           <!-- Specs -->
