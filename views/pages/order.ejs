@@ -1113,10 +1113,10 @@
               <span class="order-section-price"><%= t.order.platesExtraPrice %></span>
             </div>
             <div class="plates-picker" id="platesPicker" data-track="config_plates" data-cta-id="order_plates_qty" data-section="order" data-product-id="penger-v1">
-              <div class="plates-option active" data-val="1">1</div>
-              <div class="plates-option" data-val="2">2</div>
-              <div class="plates-option" data-val="3">3</div>
-              <div class="plates-option" data-val="4">4</div>
+              <button type="button" class="plates-option active" data-val="1">1</button>
+              <button type="button" class="plates-option" data-val="2">2</button>
+              <button type="button" class="plates-option" data-val="3">3</button>
+              <button type="button" class="plates-option" data-val="4">4</button>
             </div>
           </div>
 
@@ -1598,7 +1598,7 @@
   <script src="/analytics.js"></script>
   <script src="/shared.js?v=2"></script>
   <% if (typeof extraJs !== 'undefined') { extraJs.forEach(function(js) { %>
-  <script src="/<%= js %>"></script>
+  <script src="/<%= js %>?v=3"></script>
   <% }); } %>
 </body>
 </html>
