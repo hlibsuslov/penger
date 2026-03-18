@@ -128,10 +128,15 @@
       margin-bottom: 12px;
     }
     .order-section-price {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--text-label);
-      font-weight: 600;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      color: var(--text-dim);
+      font-weight: 500;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: 6px;
+      padding: 4px 10px;
+      letter-spacing: 0.01em;
     }
 
     /* Config option rows — flat, Apple-style */
@@ -179,7 +184,8 @@
     .config-opt.active {
       border-color: var(--text-accent);
       color: var(--text-accent);
-      box-shadow: 0 0 0 1px var(--text-accent);
+      background: rgba(0, 113, 227, 0.06);
+      box-shadow: 0 0 0 2px var(--text-accent);
     }
     .config-opt input { display: none; }
     .config-swatch {
@@ -229,7 +235,8 @@
     .plates-option.active {
       border-color: var(--text-accent);
       color: var(--text-accent);
-      box-shadow: 0 0 0 1px var(--text-accent);
+      background: rgba(0, 113, 227, 0.06);
+      box-shadow: 0 0 0 2px var(--text-accent);
     }
     .plates-rec-label {
       font-family: var(--font-sans);
@@ -753,14 +760,6 @@
       text-decoration: underline;
     }
 
-    /* Bottom order card */
-    .order-bottom-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-default);
-      border-radius: 8px;
-      padding: 20px;
-      margin-top: 20px;
-    }
 
     /* Progress bar */
     .order-progress {
@@ -1389,54 +1388,6 @@
                 </label>
               </div>
 
-              <!-- Bottom order summary card -->
-              <div class="order-bottom-card">
-                <div class="cart-item" style="border-bottom:none;margin-bottom:0;padding-bottom:0">
-                  <div class="cart-thumb">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
-                    </svg>
-                  </div>
-                  <div class="cart-details">
-                    <div class="cart-product-name"><%= t.order.productName %></div>
-                    <div class="cart-config-line"><%= t.order.cartPlates %>: <span id="cartPlatesBottom">1</span></div>
-                  </div>
-                </div>
-                <div class="summary-divider"></div>
-                <div class="summary-row">
-                  <span class="summary-key"><%= t.order.priceLabel %></span>
-                  <span class="summary-val"><%= t.order.priceValue %></span>
-                </div>
-                <div class="summary-row" id="rowExtraPlatesBottom" style="display:none">
-                  <span class="summary-key" id="extraPlatesLabelBottom"></span>
-                  <span class="summary-val-add" id="extraPlatesPriceBottom"></span>
-                </div>
-                <div class="summary-row" id="rowSleeveBottom">
-                  <span class="summary-key" id="sleeveLabelBottom">Sleeve</span>
-                  <span class="summary-val-add" id="sleevePriceBottom">+&euro;10</span>
-                </div>
-                <div class="summary-row" id="rowPunchBottom">
-                  <span class="summary-key" id="punchLabelBottom">Punch tool</span>
-                  <span class="summary-val-add" id="punchPriceBottom">+&euro;10</span>
-                </div>
-                <div class="summary-row" id="rowShippingFreeBottom">
-                  <span class="summary-key"><%= t.order.shippingLabel %></span>
-                  <span class="summary-val-free"><%= t.order.shippingValue %></span>
-                </div>
-                <div class="summary-row" id="rowShippingCostBottom" style="display:none">
-                  <span class="summary-key"><%= t.order.shippingLabel %></span>
-                  <span class="summary-val-add" id="shippingCostValBottom"></span>
-                </div>
-                <div class="summary-row" id="rowDiscountBottom" style="display:none">
-                  <span class="summary-key"><%= t.order.promoDiscount %></span>
-                  <span class="summary-val" id="discountValBottom" style="color:#2ecc71"></span>
-                </div>
-                <div class="summary-divider"></div>
-                <div class="summary-row summary-total">
-                  <span class="summary-key"><%= t.order.totalLabel %></span>
-                  <span class="summary-val" id="summaryTotalBottom" aria-live="polite">€69</span>
-                </div>
-              </div>
 
               <button class="order-checkout-btn" id="checkoutBtn" type="button" style="margin-top:16px" disabled
                 data-track="checkout_start" data-cta-id="order_checkout" data-section="order" data-product-id="penger-v1">
