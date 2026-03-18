@@ -217,6 +217,10 @@
       var val = parseInt(opt.getAttribute('data-val'), 10);
       opt.classList.toggle('active', val === plates);
     });
+    var indicator = platesPicker.querySelector('.plates-slider-indicator');
+    if (indicator) {
+      indicator.style.transform = 'translateX(' + ((plates - 1) * 100) + '%)';
+    }
   }
 
   function updateUI() {
@@ -303,7 +307,7 @@
 
   /* ===== CONFIG OPTIONS: SLEEVE & PUNCH ===== */
   var sleeveOptions = document.getElementById('sleeveOptions');
-  var punchOptions  = document.getElementById('punchOptions');
+  var punchToggle   = document.getElementById('punchToggle');
 
   function initConfigOptions(container, onChange) {
     if (!container) return;
@@ -327,13 +331,19 @@
     pushConfig('sleeve_change');
   });
 
-  initConfigOptions(punchOptions, function (val) {
-    punchTool = val === 'yes';
-    updateShipping();
-    updateUI();
-    saveFormData();
-    pushConfig('punch_change');
-  });
+  /* Punch toggle */
+  if (punchToggle) {
+    var punchInput = punchToggle.querySelector('input');
+    if (punchInput) {
+      punchInput.addEventListener('change', function () {
+        punchTool = this.checked;
+        updateShipping();
+        updateUI();
+        saveFormData();
+        pushConfig('punch_change');
+      });
+    }
+  }
 
 
   /* ===== MOBILE CTA ===== */
@@ -926,13 +936,9 @@
       }
       if (typeof data.punchTool !== 'undefined') {
         punchTool = !!data.punchTool;
-        if (punchOptions) {
-          punchOptions.querySelectorAll('.config-opt').forEach(function (o) {
-            var inp = o.querySelector('input');
-            var isActive = (punchTool && inp.value === 'yes') || (!punchTool && inp.value === 'no');
-            if (isActive) { o.classList.add('active'); inp.checked = true; }
-            else { o.classList.remove('active'); }
-          });
+        if (punchToggle) {
+          var punchInp = punchToggle.querySelector('input');
+          if (punchInp) punchInp.checked = punchTool;
         }
       }
       if (data.firstName) document.getElementById('firstName').value = data.firstName;

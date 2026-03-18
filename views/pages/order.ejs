@@ -71,18 +71,17 @@
       border-radius: 12px;
     }
     .order-gallery-badge {
-      display: inline-block;
+      display: block;
+      text-align: center;
       font-family: var(--font-mono);
       font-size: 10px;
-      font-weight: 600;
+      font-weight: 500;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.08em;
       color: var(--text-dim);
-      background: var(--bg-main);
-      border: 1px solid var(--border-default);
-      padding: 4px 10px;
-      border-radius: 4px;
-      margin-bottom: 10px;
+      opacity: 0.6;
+      margin-top: 10px;
+      margin-bottom: 20px;
     }
 
     /* Config section */
@@ -171,18 +170,83 @@
     .config-swatch-white { background: #f0f0f0; border-color: #ddd; }
     .config-opt.active .config-swatch { border-color: var(--text-accent); }
 
-    /* Plates picker — Apple-style segmented control */
-    .plates-picker {
+    /* Punch toggle — subtle iOS-style switch */
+    .config-row--subtle {
+      margin-bottom: 14px;
+    }
+    .config-row-title--subtle {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-dim);
+    }
+    .punch-toggle {
+      position: relative;
+      cursor: pointer;
       display: flex;
-      gap: 8px;
+      align-items: center;
+    }
+    .punch-toggle input { display: none; }
+    .punch-toggle-track {
+      width: 42px;
+      height: 24px;
+      background: var(--border-default);
+      border-radius: 12px;
+      position: relative;
+      transition: background 0.25s ease;
+    }
+    .punch-toggle input:checked + .punch-toggle-track {
+      background: var(--text-accent);
+      opacity: 0.8;
+    }
+    .punch-toggle-thumb {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+    .punch-toggle input:checked + .punch-toggle-track .punch-toggle-thumb {
+      transform: translateX(18px);
+    }
+
+    /* Plates picker — premium slider */
+    .plates-picker {
+      position: relative;
       user-select: none;
+      padding: 0;
+    }
+    .plates-slider-track {
+      position: relative;
+      display: flex;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: 12px;
+      padding: 4px;
+      gap: 0;
+    }
+    .plates-slider-indicator {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      height: calc(100% - 8px);
+      width: calc(25% - 2px);
+      background: var(--text-accent);
+      border-radius: 9px;
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1;
     }
     .plates-col {
       flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
+      position: relative;
+      z-index: 2;
     }
     .plates-option {
       width: 100%;
@@ -195,20 +259,19 @@
       font-weight: 600;
       color: var(--text-dim);
       background: transparent;
-      border: 1.5px solid var(--border-default);
-      border-radius: 8px;
+      border: none;
+      border-radius: 9px;
       cursor: pointer;
-      transition: border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+      transition: color 0.25s ease;
       -webkit-tap-highlight-color: transparent;
+      position: relative;
+      z-index: 2;
     }
     .plates-option:hover {
-      border-color: var(--border-hover);
       color: var(--text-primary);
     }
     .plates-option.active {
-      border-color: var(--text-accent);
-      color: var(--text-accent);
-      box-shadow: none;
+      color: var(--bg-main);
     }
     .plates-rec-label {
       font-family: var(--font-sans);
@@ -217,6 +280,7 @@
       color: var(--text-accent);
       opacity: 0.85;
       line-height: 1;
+      margin-top: 2px;
     }
 
 
@@ -349,19 +413,25 @@
     .order-back {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      font-family: var(--font-mono);
-      font-size: 12px;
+      gap: 8px;
+      font-family: var(--font-sans);
+      font-size: 13px;
       font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--text-dim);
+      letter-spacing: 0.01em;
+      color: var(--text-primary);
       text-decoration: none;
-      margin-bottom: 24px;
-      transition: color 0.2s ease;
+      margin-bottom: 28px;
+      padding: 8px 14px 8px 10px;
+      border: 1px solid var(--border-default);
+      border-radius: 8px;
+      background: var(--bg-surface);
+      transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
     }
-    .order-back:hover { color: var(--text-accent); }
-    .order-back svg { width: 14px; height: 14px; }
+    .order-back:hover {
+      border-color: var(--text-accent);
+      color: var(--text-accent);
+    }
+    .order-back svg { width: 16px; height: 16px; }
 
     /* ===== CHECKOUT STEPS ===== */
     .checkout-step {
@@ -981,11 +1051,11 @@
         <div class="order-product">
 
           <!-- Gallery -->
-          <span class="order-gallery-badge"><%= t.order.productName %></span>
           <div class="order-gallery" id="orderGallery"
             data-track="product_image_view" data-cta-id="order_product_image" data-section="order" data-product-id="penger-v1">
             <img src="/photo/front_plate.png" alt="<%= t.order.productName %>" class="order-gallery-img" />
           </div>
+          <span class="order-gallery-badge"><%= t.order.productName %></span>
 
           <!-- Plates quantity (1-4, extra +35€) -->
           <div class="order-section" data-section="order">
@@ -994,10 +1064,13 @@
               <span class="order-section-price"><%= t.order.platesExtraPrice %></span>
             </div>
             <div class="plates-picker" id="platesPicker" data-track="config_plates" data-cta-id="order_plates_qty" data-section="order" data-product-id="penger-v1">
-              <div class="plates-col"><button type="button" class="plates-option active" data-val="1">1</button></div>
-              <div class="plates-col"><button type="button" class="plates-option" data-val="2">2</button><span class="plates-rec-label"><%= t.order.recommended %></span></div>
-              <div class="plates-col"><button type="button" class="plates-option" data-val="3">3</button></div>
-              <div class="plates-col"><button type="button" class="plates-option" data-val="4">4</button></div>
+              <div class="plates-slider-track">
+                <div class="plates-slider-indicator"></div>
+                <div class="plates-col"><button type="button" class="plates-option active" data-val="1">1</button></div>
+                <div class="plates-col"><button type="button" class="plates-option" data-val="2">2</button><span class="plates-rec-label"><%= t.order.recommended %></span></div>
+                <div class="plates-col"><button type="button" class="plates-option" data-val="3">3</button></div>
+                <div class="plates-col"><button type="button" class="plates-option" data-val="4">4</button></div>
+              </div>
             </div>
           </div>
 
@@ -1021,18 +1094,14 @@
           </div>
 
           <!-- Precision center punch tool -->
-          <div class="config-row" data-section="order">
+          <div class="config-row config-row--subtle" data-section="order">
             <div class="config-row-header">
-              <span class="config-row-title"><%= t.order.kitItem2 %></span>
-            </div>
-            <div class="config-options" id="punchOptions">
-              <label class="config-opt active">
-                <input type="radio" name="punchTool" value="yes" checked>
-                Yes
-              </label>
-              <label class="config-opt">
-                <input type="radio" name="punchTool" value="no">
-                No
+              <span class="config-row-title config-row-title--subtle"><%= t.order.kitItem2 %></span>
+              <label class="punch-toggle" id="punchToggle">
+                <input type="checkbox" name="punchTool" value="yes" checked>
+                <span class="punch-toggle-track">
+                  <span class="punch-toggle-thumb"></span>
+                </span>
               </label>
             </div>
           </div>
