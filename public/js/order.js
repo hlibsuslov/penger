@@ -211,27 +211,27 @@
   }
 
   /* ===== UPDATE UI ===== */
-  function updatePlatesPicker() {
+  function updatePlatesPicker(animate) {
     if (!platesPicker) return;
-    platesPicker.querySelectorAll('.plates-option').forEach(function (opt) {
+    var opts = platesPicker.querySelectorAll('.plates-option');
+    opts.forEach(function (opt) {
       var val = parseInt(opt.getAttribute('data-val'), 10);
-      opt.classList.toggle('active', val === plates);
+      var isActive = val === plates;
+      opt.classList.toggle('active', isActive);
+      opt.setAttribute('aria-checked', isActive ? 'true' : 'false');
+      opt.setAttribute('tabindex', isActive ? '0' : '-1');
     });
     var indicator = platesPicker.querySelector('.plates-slider-indicator');
     if (indicator) {
       indicator.style.transform = 'translateX(' + ((plates - 1) * 100) + '%)';
-    }
-    /* Subtle scale pulse on the indicator for premium feel */
-    if (indicator && indicator._animFrame) return;
-    if (indicator) {
-      indicator.style.transition = 'transform 0.45s cubic-bezier(0.25,1,0.5,1), box-shadow 0.45s ease';
-      indicator.style.boxShadow = '0 2px 8px rgba(0,0,0,0.18), 0 6px 20px rgba(0,0,0,0.10)';
-      indicator._animFrame = requestAnimationFrame(function () {
-        setTimeout(function () {
-          indicator.style.boxShadow = '';
-          indicator._animFrame = null;
-        }, 450);
-      });
+      /* Pop shadow on click selection */
+      if (animate !== false) {
+        indicator.classList.add('pop');
+        clearTimeout(indicator._popTimer);
+        indicator._popTimer = setTimeout(function () {
+          indicator.classList.remove('pop');
+        }, 500);
+      }
     }
   }
 
@@ -301,8 +301,9 @@
     if (mobilePrice) mobilePrice.textContent = totalStr;
   }
 
-  /* ===== PLATES PICKER ===== */
+  /* ===== PLATES PICKER (click + drag + keyboard) ===== */
   if (platesPicker) {
+    /* -- Click -- */
     platesPicker.addEventListener('click', function (e) {
       var opt = e.target.closest('.plates-option');
       if (!opt) return;
@@ -313,6 +314,79 @@
         updateUI();
         saveFormData();
         pushConfig('plates_change');
+      }
+    });
+
+    /* -- Pointer drag (mouse + touch unified) -- */
+    var isDragging = false;
+    var track = platesPicker.querySelector('.plates-slider-track');
+    var indicator = platesPicker.querySelector('.plates-slider-indicator');
+
+    function getColFromPointer(clientX) {
+      var rect = track.getBoundingClientRect();
+      var pad = parseFloat(getComputedStyle(platesPicker).getPropertyValue('--_pad')) || 5;
+      var innerLeft = rect.left + pad;
+      var innerWidth = rect.width - pad * 2;
+      var ratio = Math.max(0, Math.min(1, (clientX - innerLeft) / innerWidth));
+      return Math.min(4, Math.floor(ratio * 4) + 1);
+    }
+
+    function onDragMove(e) {
+      if (!isDragging) return;
+      var clientX = e.clientX !== undefined ? e.clientX : (e.touches ? e.touches[0].clientX : 0);
+      var col = getColFromPointer(clientX);
+      if (col >= 1 && col <= 4) {
+        /* Live indicator follow during drag */
+        indicator.style.transform = 'translateX(' + ((col - 1) * 100) + '%)';
+        if (col !== plates) {
+          plates = col;
+          platesPicker.querySelectorAll('.plates-option').forEach(function (opt) {
+            var v = parseInt(opt.getAttribute('data-val'), 10);
+            opt.classList.toggle('active', v === plates);
+            opt.setAttribute('aria-checked', v === plates ? 'true' : 'false');
+            opt.setAttribute('tabindex', v === plates ? '0' : '-1');
+          });
+        }
+      }
+    }
+
+    function onDragEnd() {
+      if (!isDragging) return;
+      isDragging = false;
+      platesPicker.classList.remove('is-dragging');
+      document.removeEventListener('pointermove', onDragMove);
+      document.removeEventListener('pointerup', onDragEnd);
+      document.removeEventListener('pointercancel', onDragEnd);
+      updateShipping();
+      updateUI();
+      saveFormData();
+      pushConfig('plates_change');
+    }
+
+    track.addEventListener('pointerdown', function (e) {
+      if (e.button && e.button !== 0) return; /* left click only */
+      isDragging = true;
+      platesPicker.classList.add('is-dragging');
+      track.setPointerCapture(e.pointerId);
+      document.addEventListener('pointermove', onDragMove);
+      document.addEventListener('pointerup', onDragEnd);
+      document.addEventListener('pointercancel', onDragEnd);
+      onDragMove(e); /* snap to initial position */
+    });
+
+    /* -- Keyboard navigation (arrow keys) -- */
+    platesPicker.addEventListener('keydown', function (e) {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      e.preventDefault();
+      var next = plates + (e.key === 'ArrowRight' ? 1 : -1);
+      if (next >= 1 && next <= 4) {
+        plates = next;
+        updateShipping();
+        updateUI();
+        saveFormData();
+        pushConfig('plates_change');
+        var activeOpt = platesPicker.querySelector('.plates-option.active');
+        if (activeOpt) activeOpt.focus();
       }
     });
   }
