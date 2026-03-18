@@ -156,12 +156,13 @@ var PAGE_CONFIGS = {
   '/simulators': { view: 'pages/simulators', dataKey: 'simulators', css: [], js: ['js/bip39-wordlist.js', 'script.js'] },
   '/dictionary': { view: 'pages/dictionary', dataKey: 'dictionary', css: [], js: ['js/bip39-wordlist.js', 'dictionary.js'] },
   '/ai-tutor': { view: 'pages/ai-tutor', dataKey: 'aiTutor', css: [], js: ['js/ai-tutor.js'] },
-  '/about-us': { view: 'pages/about-us', dataKey: 'aboutUs', css: ['about-us.css'], js: [] },
-  '/contacts': { view: 'pages/contacts', dataKey: 'contacts', css: ['contacts.css'], js: ['js/contacts.js'] },
+  '/about-us': { view: 'pages/about-us', dataKey: 'aboutUs', css: ['about-us.css', 'dropshipping.css'], js: [] },
+  '/contacts': { view: 'pages/contacts', dataKey: 'contacts', css: ['contacts.css', 'dropshipping.css'], js: ['js/contacts.js'] },
   '/order': { view: 'pages/order', dataKey: 'order', css: [], js: ['js/order.js'] },
   '/payment-success': { view: 'pages/payment-success', dataKey: 'paymentSuccess', css: [], js: [] },
   '/payment-failed': { view: 'pages/payment-failed', dataKey: 'paymentFailed', css: [], js: [] },
   '/cookie-policy': { view: 'pages/cookie-policy', dataKey: 'cookiePolicy', css: ['about-us.css'], js: [] },
+  '/dropshipping': { view: 'pages/dropshipping', dataKey: 'dropshipping', css: ['dropshipping.css'], js: [] },
 };
 
 Object.keys(PAGE_CONFIGS).forEach(function (route) {
