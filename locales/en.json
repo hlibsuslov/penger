@@ -414,7 +414,7 @@
     "h1": "Order Penger v1.0",
     "desc": "Select the number of plates, review your kit, and place your order.",
     "qtyLabel": "Quantity",
-    "summaryLabel": "Order Summary",
+    "summaryLabel": "Order",
     "kitContentsLabel": "Kit Contents",
     "kitDesc": "Everything you need to create a permanent, fireproof backup of your seed phrase. The complete kit includes a professional-grade center punch tool, printed step-by-step encoding guide, and a practice template so you can train before stamping your real phrase onto aerospace-grade titanium.",
     "kitItem1": "Grade 2 titanium plate (86 × 54 × 1.5 mm)",

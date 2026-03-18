@@ -77,10 +77,9 @@
   };
 
   /* ===== DOM: PLATES ===== */
-  var platesVal     = document.getElementById('platesVal');
-  var platesMinus   = document.getElementById('platesMinus');
-  var platesPlus    = document.getElementById('platesPlus');
-  var cartPlates    = document.getElementById('cartPlates');
+  var platesSlider   = document.getElementById('platesSlider');
+  var platesTrackFill = document.getElementById('platesTrackFill');
+  var cartPlates     = document.getElementById('cartPlates');
 
   /* Summary refs (sidebar) */
   var rowExtraPlates   = document.getElementById('rowExtraPlates');
@@ -218,10 +217,22 @@
   }
 
   /* ===== UPDATE UI ===== */
+  function updatePlatesSlider() {
+    if (!platesSlider) return;
+    var dots = platesSlider.querySelectorAll('.plates-dot');
+    dots.forEach(function (dot) {
+      var val = parseInt(dot.getAttribute('data-val'), 10);
+      dot.classList.remove('active', 'passed');
+      if (val === plates) dot.classList.add('active');
+      else if (val < plates) dot.classList.add('passed');
+    });
+    if (platesTrackFill) {
+      platesTrackFill.style.width = ((plates - 1) / 3 * 100) + '%';
+    }
+  }
+
   function updateUI() {
-    platesVal.textContent = plates;
-    platesMinus.disabled = plates <= 1;
-    platesPlus.disabled = plates >= 4;
+    updatePlatesSlider();
     cartPlates.textContent = plates;
     if (cartPlatesBottom) cartPlatesBottom.textContent = plates;
 
@@ -286,13 +297,21 @@
     if (mobilePrice) mobilePrice.textContent = totalStr;
   }
 
-  /* ===== PLATES +/- ===== */
-  platesMinus.addEventListener('click', function () {
-    if (plates > 1) { plates--; updateShipping(); updateUI(); saveFormData(); pushConfig('plates_change'); }
-  });
-  platesPlus.addEventListener('click', function () {
-    if (plates < 4) { plates++; updateShipping(); updateUI(); saveFormData(); pushConfig('plates_change'); }
-  });
+  /* ===== PLATES SLIDER ===== */
+  if (platesSlider) {
+    platesSlider.addEventListener('click', function (e) {
+      var dot = e.target.closest('.plates-dot');
+      if (!dot) return;
+      var val = parseInt(dot.getAttribute('data-val'), 10);
+      if (val >= 1 && val <= 4 && val !== plates) {
+        plates = val;
+        updateShipping();
+        updateUI();
+        saveFormData();
+        pushConfig('plates_change');
+      }
+    });
+  }
 
   /* ===== CONFIG OPTIONS: SLEEVE & PUNCH ===== */
   var sleeveOptions = document.getElementById('sleeveOptions');
@@ -374,9 +393,11 @@
   if (mobileContinueBtn) {
     mobileContinueBtn.addEventListener('click', function () {
       if (currentStep === 'contact') {
-        contactForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+        var submitBtn = contactForm.querySelector('.step-continue-btn');
+        if (submitBtn) submitBtn.click();
       } else if (currentStep === 'delivery') {
-        deliveryForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+        var submitBtn2 = deliveryForm.querySelector('.step-continue-btn');
+        if (submitBtn2) submitBtn2.click();
       } else {
         checkoutBtn.click();
       }
@@ -686,8 +707,8 @@
     contactSummary.innerHTML =
       '<div class="step-summary-line"><span class="step-summary-label">' + (t.firstName || 'Name') + '</span> ' + firstName + ' ' + lastName + '</div>' +
       '<div class="step-summary-line"><span class="step-summary-label">' + (t.email || 'Email') + '</span> ' + email + '</div>' +
-      '<div class="step-summary-line"><span class="step-summary-label">' + (t.phone || 'Phone') + '</span> ' + prefix + ' ' + phone + '</div>' +
-      '<div class="step-summary-line"><span class="step-summary-label">' + (t.country || 'Country') + '</span> ' + flag + ' ' + countryText + '</div>';
+      '<div class="step-summary-line"><span class="step-summary-label">' + (t.phone || 'Phone') + '</span> ' + (phoneCodes[countryCode] || '') + ' ' + phone + '</div>' +
+      '<div class="step-summary-line"><span class="step-summary-label">' + (t.country || 'Country') + '</span> ' + countryText + '</div>';
 
     completeStep(stepContact);
     activateStep(stepDelivery);
