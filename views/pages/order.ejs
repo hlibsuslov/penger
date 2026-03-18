@@ -29,6 +29,7 @@
   <style>
     /* ===== ORDER PAGE LAYOUT ===== */
     .order-page { padding: 48px 0 80px; }
+    .order-page > .container { max-width: 1400px; }
 
     .order-header { text-align: center; margin-bottom: 48px; }
     .order-header .label { margin-bottom: 12px; }
@@ -38,10 +39,20 @@
     .order-grid {
       display: grid;
       grid-template-columns: 1fr 380px;
-      gap: 80px;
+      gap: 48px;
       align-items: start;
-      max-width: 1100px;
-      margin: 0 auto;
+    }
+    @media (min-width: 1200px) {
+      .order-grid {
+        grid-template-columns: 1fr 400px;
+        gap: 80px;
+      }
+    }
+    @media (min-width: 1600px) {
+      .order-grid {
+        grid-template-columns: 1fr 420px;
+        gap: 120px;
+      }
     }
 
     /* ===== LEFT: PRODUCT CONFIG ===== */
