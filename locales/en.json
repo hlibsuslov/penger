@@ -471,6 +471,7 @@
     "city": "City",
     "zip": "ZIP / Postal code",
     "country": "Country",
+    "address": "Address",
     "countryOfDelivery": "Country of delivery",
     "countryPlaceholder": "Select country",
     "continueToPayment": "Continue to Payment",

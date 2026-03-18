@@ -756,7 +756,7 @@
       addressParts.push(countryText);
 
       deliverySummary.innerHTML =
-        '<div class="step-summary-line"><span class="step-summary-label" style="min-width:60px">&nbsp;</span> ' + addressParts.join(', ') + '</div>';
+        '<div class="step-summary-line"><span class="step-summary-label">' + (t.address || 'Address') + '</span> ' + addressParts.join(', ') + '</div>';
 
       completeStep(stepDelivery);
       activateStep(stepPayment);

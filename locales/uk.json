@@ -471,6 +471,7 @@
     "city": "Місто",
     "zip": "Поштовий індекс",
     "country": "Країна",
+    "address": "Адреса",
     "countryOfDelivery": "Країна доставки",
     "countryPlaceholder": "Оберіть країну",
     "continueToPayment": "Перейти до оплати",
