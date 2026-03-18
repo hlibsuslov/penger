@@ -77,8 +77,9 @@
   };
 
   /* ===== DOM: PLATES ===== */
-  var platesPicker   = document.getElementById('platesPicker');
-  var cartPlates     = document.getElementById('cartPlates');
+  var platesPicker    = document.getElementById('platesPicker');
+  var cartPlates      = document.getElementById('cartPlates');
+  var cartConfigLines = document.getElementById('cartConfigLines');
 
   /* Summary refs (sidebar) */
   var rowExtraPlates   = document.getElementById('rowExtraPlates');
@@ -235,10 +236,48 @@
     }
   }
 
+  /* Build detailed cart config lines */
+  function renderCartConfig() {
+    if (!cartConfigLines) return;
+    var d = cartConfigLines.dataset;
+    var html = '';
+
+    /* ×1 Titanium plate – one line per plate */
+    for (var i = 0; i < plates; i++) {
+      html += '<div class="cart-config-line">'
+            + '<span class="cart-config-qty">&times;1</span>'
+            + '<span class="cart-config-label">' + d.plateLabel + '</span>'
+            + '</div>';
+    }
+
+    /* Divider */
+    html += '<div class="cart-config-divider"></div>';
+
+    /* Security sleeve: black/white */
+    html += '<div class="cart-config-line">'
+          + '<span class="cart-config-label">' + d.sleeveLabel + '</span>'
+          + '<span class="cart-config-value">' + sleeveColor + '</span>'
+          + '</div>';
+
+    /* Precision center punch tool: Yes/No */
+    var punchYes = punchTool;
+    html += '<div class="cart-config-line">'
+          + '<span class="cart-config-label">' + d.punchLabel + '</span>'
+          + '<span class="cart-config-value ' + (punchYes ? 'is-yes' : 'is-no') + '">'
+          + (punchYes ? d.yes : d.no)
+          + '</span>'
+          + '</div>';
+
+    cartConfigLines.innerHTML = html;
+  }
+
   function updateUI() {
     updatePlatesPicker();
-    cartPlates.textContent = plates;
+    if (cartPlates) cartPlates.textContent = plates;
     if (cartPlatesBottom) cartPlatesBottom.textContent = plates;
+
+    /* Detailed cart config */
+    renderCartConfig();
 
     if (plates > 1) {
       rowExtraPlates.style.display = '';

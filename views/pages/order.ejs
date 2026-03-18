@@ -431,12 +431,54 @@
       margin-bottom: 4px;
     }
     .cart-config-line {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
       font-family: var(--font-mono);
       font-size: 11px;
       color: var(--text-dim);
-      line-height: 1.6;
+      line-height: 1.8;
     }
     .cart-config-line span { color: var(--text-primary); font-weight: 600; }
+    .cart-config-qty {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 18px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-accent);
+      background: var(--bg-highlight);
+      border-radius: 4px;
+      padding: 1px 4px;
+      letter-spacing: 0;
+      flex-shrink: 0;
+    }
+    .cart-config-label {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+    .cart-config-value {
+      color: var(--text-dim);
+      font-weight: 500;
+      margin-left: auto;
+      text-transform: capitalize;
+    }
+    .cart-config-value.is-yes {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    .cart-config-value.is-no {
+      color: var(--text-dim);
+      opacity: 0.6;
+    }
+    .cart-config-divider {
+      height: 1px;
+      background: var(--border-default);
+      margin: 6px 0;
+      opacity: 0.5;
+    }
 
     .summary-row {
       display: flex;
@@ -1489,8 +1531,13 @@
             <div class="cart-item">
               <div class="cart-details">
                 <div class="cart-product-name"><%= t.order.productName %></div>
-                <div class="cart-config-line"><%= t.order.cartPlates %>: <span id="cartPlates">1</span></div>
-                <div class="cart-config-line"><%= t.order.cartKit %>: <span><%= t.order.cartIncluded %></span></div>
+                <div id="cartConfigLines"
+                     data-plate-label="<%= t.order.cartTitaniumPlate %>"
+                     data-sleeve-label="<%= t.order.cartSleeve %>"
+                     data-punch-label="<%= t.order.cartPunchTool %>"
+                     data-yes="<%= t.order.cartYes %>"
+                     data-no="<%= t.order.cartNo %>">
+                </div>
               </div>
             </div>
 
