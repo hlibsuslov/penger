@@ -114,13 +114,12 @@
     /* Config section */
     .order-section { margin-bottom: 28px; }
     .order-section-title {
-      font-family: var(--font-mono);
-      font-size: 11px;
+      font-family: var(--font-sans);
+      font-size: 14px;
       font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--text-dim);
-      margin-bottom: 12px;
+      letter-spacing: 0.01em;
+      color: var(--text-primary);
+      margin-bottom: 10px;
     }
     .order-section-row {
       display: flex;
@@ -173,8 +172,8 @@
       justify-content: center;
       gap: 6px;
       padding: 9px 12px;
-      font-family: var(--font-mono);
-      font-size: 12px;
+      font-family: var(--font-sans);
+      font-size: 13px;
       font-weight: 600;
       color: var(--text-dim);
       background: var(--bg-main);
@@ -182,8 +181,6 @@
       border-radius: 6px;
       cursor: pointer;
       transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
       user-select: none;
     }
     .config-opt:hover {
@@ -215,9 +212,11 @@
     .plates-option {
       flex: 1;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 44px;
+      gap: 1px;
+      height: 48px;
       font-family: var(--font-mono);
       font-size: 15px;
       font-weight: 600;
@@ -238,6 +237,23 @@
       color: var(--text-accent);
       background: var(--bg-surface);
       box-shadow: 0 0 0 1px var(--text-accent);
+    }
+    .plates-recommended {
+      border-color: var(--text-accent);
+      box-shadow: 0 0 0 0.5px var(--text-accent);
+    }
+    .plates-recommended.active {
+      box-shadow: 0 0 0 1px var(--text-accent);
+    }
+    .plates-rec-label {
+      font-family: var(--font-sans);
+      font-size: 7px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-accent);
+      opacity: 0.8;
+      line-height: 1;
     }
 
 
@@ -470,9 +486,9 @@
       border-radius: 50%;
       font-family: var(--font-mono);
       font-size: 11px;
-      font-weight: 700;
+      font-weight: 600;
       background: var(--bg-main);
-      border: 2px solid var(--border-default);
+      border: 1.5px solid var(--border-default);
       color: var(--text-dim);
       flex-shrink: 0;
       transition: all 0.2s ease;
@@ -550,6 +566,7 @@
       margin-bottom: 8px;
     }
     .form-row.full { grid-template-columns: 1fr; }
+    #deliveryForm .form-row { margin-bottom: 5px; }
     .form-group { display: flex; flex-direction: column; gap: 3px; }
     .form-label {
       font-family: var(--font-mono);
@@ -705,6 +722,15 @@
       font-family: var(--font-sans);
       font-size: 12px;
       color: var(--text-dim);
+    }
+    .pay-method-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      color: var(--text-dim);
+    }
+    .pay-method.active .pay-method-icon {
+      color: var(--text-accent);
     }
     .pay-method-icons {
       display: flex;
@@ -1041,6 +1067,9 @@
       .order-header h1 { font-size: 26px; }
       .mobile-sticky-cta { display: flex; }
       .order-page { padding-bottom: 120px; }
+      .trust-badges { gap: 12px; margin-top: 12px; }
+      .trust-badge { font-size: 10px; gap: 3px; }
+      .trust-badge svg { width: 11px; height: 11px; }
     }
     @media (max-width: 520px) {
       .order-page { padding: 32px 0 120px; }
@@ -1050,6 +1079,9 @@
       .progress-step span { display: none; }
       .progress-line { width: 24px; }
       .form-input { font-size: 16px; }
+      .trust-badges { gap: 6px; margin-top: 8px; }
+      .trust-badge { font-size: 9px; gap: 3px; }
+      .trust-badge svg { width: 10px; height: 10px; }
     }
   </style>
 </head>
@@ -1114,7 +1146,7 @@
             </div>
             <div class="plates-picker" id="platesPicker" data-track="config_plates" data-cta-id="order_plates_qty" data-section="order" data-product-id="penger-v1">
               <button type="button" class="plates-option active" data-val="1">1</button>
-              <button type="button" class="plates-option" data-val="2">2</button>
+              <button type="button" class="plates-option plates-recommended" data-val="2">2<span class="plates-rec-label"><%= t.order.recommended %></span></button>
               <button type="button" class="plates-option" data-val="3">3</button>
               <button type="button" class="plates-option" data-val="4">4</button>
             </div>
@@ -1123,8 +1155,7 @@
           <!-- Security sleeve colour -->
           <div class="config-card" data-section="order">
             <div class="config-card-header">
-              <span class="config-card-title">Security sleeve</span>
-              <span class="config-card-price">+&euro;10</span>
+              <span class="config-card-title"><%= t.order.kitItem6 %></span>
             </div>
             <div class="config-options" id="sleeveOptions">
               <label class="config-opt active">
@@ -1143,8 +1174,7 @@
           <!-- Precision center punch tool -->
           <div class="config-card" data-section="order">
             <div class="config-card-header">
-              <span class="config-card-title">Precision center punch tool</span>
-              <span class="config-card-price">+&euro;10</span>
+              <span class="config-card-title"><%= t.order.kitItem2 %></span>
             </div>
             <div class="config-options" id="punchOptions">
               <label class="config-opt active">
@@ -1325,6 +1355,7 @@
                 <label class="pay-method active" data-method="card">
                   <input type="radio" name="payMethod" value="card" checked>
                   <span class="pay-radio"><span class="pay-radio-dot"></span></span>
+                  <svg class="pay-method-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
                   <span class="pay-method-info">
                     <span class="pay-method-name"><%= t.order.payCard %></span>
                   </span>
@@ -1337,6 +1368,7 @@
                 <label class="pay-method" data-method="apple">
                   <input type="radio" name="payMethod" value="apple">
                   <span class="pay-radio"><span class="pay-radio-dot"></span></span>
+                  <svg class="pay-method-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11"/></svg>
                   <span class="pay-method-info">
                     <span class="pay-method-name">Apple Pay</span>
                   </span>
@@ -1344,6 +1376,7 @@
                 <label class="pay-method" data-method="google">
                   <input type="radio" name="payMethod" value="google">
                   <span class="pay-radio"><span class="pay-radio-dot"></span></span>
+                  <svg class="pay-method-icon" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
                   <span class="pay-method-info">
                     <span class="pay-method-name">Google Pay</span>
                   </span>
@@ -1351,6 +1384,7 @@
                 <label class="pay-method" data-method="crypto">
                   <input type="radio" name="payMethod" value="crypto">
                   <span class="pay-radio"><span class="pay-radio-dot"></span></span>
+                  <svg class="pay-method-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1.73 14.49V18h-1.5v-1.41c-.83-.05-1.67-.28-2.12-.54l.37-1.43c.49.27 1.18.54 1.93.54.66 0 1.11-.25 1.11-.68 0-.41-.38-.67-1.22-.95-1.2-.41-2.04-1-2.04-2.13 0-1.03.72-1.83 1.97-2.09V8h1.5v1.3c.83.05 1.39.23 1.8.43l-.35 1.38c-.31-.14-.87-.43-1.72-.43-.74 0-1 .32-1 .62 0 .36.42.6 1.37.95 1.33.47 1.9 1.1 1.9 2.18 0 1.05-.75 1.92-2 2.16z"/></svg>
                   <span class="pay-method-info">
                     <span class="pay-method-name"><%= t.order.payCrypto %></span>
                     <span class="pay-method-desc"><%= t.order.payCryptoDesc %></span>
