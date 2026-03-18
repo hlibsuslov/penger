@@ -15,7 +15,8 @@
     "copyright": "2026 PENGER",
     "tagline": "PHYSICAL SOVEREIGNTY / ZERO COMPROMISE",
     "cookiePolicy": "Cookie Policy",
-    "cookieSettings": "Cookie Settings"
+    "cookieSettings": "Cookie Settings",
+    "dropshipping": "Dropshipping & Referral"
   },
   "index": {
     "title": "PENGER v1.0 — Final Backup for Digital Wealth",
@@ -360,7 +361,11 @@
     "ctaH2": "Ready to Secure Your Keys?",
     "ctaDesc": "Explore our product, learn through the Academy, or get in touch with any questions.",
     "ctaExplore": "Explore PENGER",
-    "ctaContact": "Contact Us"
+    "ctaContact": "Contact Us",
+    "partnershipLabel": "[ PARTNERSHIP ]",
+    "partnershipH2": "Become a Partner",
+    "partnershipDesc": "Interested in selling PENGER products? Join our dropshipping and referral program — earn commissions, get your personal referral link, and we'll handle the rest.",
+    "partnershipCta": "Learn About Dropshipping"
   },
   "contacts": {
     "title": "Contacts — PENGER",
@@ -399,7 +404,10 @@
     "scenarioSuggestionsTitle": "Suggestions",
     "scenarioSuggestionsDesc": "Product ideas, feature requests, feedback, and improvements.",
     "scenarioSuggestionsSubject": "Suggestion — PENGER",
-    "scenarioSuggestionsBody": "Hello PENGER team,\n\nI would like to share a suggestion.\n\nMy suggestion:\n"
+    "scenarioSuggestionsBody": "Hello PENGER team,\n\nI would like to share a suggestion.\n\nMy suggestion:\n",
+    "partnershipBanner": "Looking to sell PENGER products?",
+    "partnershipBannerDesc": "Check out our dropshipping and referral program — earn commissions with your personal referral link.",
+    "partnershipBannerCta": "Dropshipping Program"
   },
   "error404": {
     "title": "404 — PENGER",
@@ -731,5 +739,56 @@
     "decoderTitle": "PENGER BINARY DECODER",
     "part1": "PART 1",
     "part2": "PART 2"
+  },
+  "dropshipping": {
+    "title": "Dropshipping & Referral Partnership — PENGER",
+    "metaDescription": "Join PENGER's dropshipping and referral partnership program. Sell premium titanium seed phrase backup plates and earn 10–20% commission with your personal referral link.",
+    "keywords": "PENGER dropshipping, PENGER referral program, sell PENGER, PENGER partnership, crypto product dropshipping, titanium plate reseller, PENGER affiliate, crypto backup reseller",
+    "heroLabel": "[ PARTNERSHIP ]",
+    "heroH1": "Dropshipping & Referral Program",
+    "heroDesc": "Earn by selling PENGER products — we handle the warehouse, shipping, and fulfillment. You focus on sales.",
+    "whatLabel": "[ WHAT IS DROPSHIPPING ]",
+    "whatH2": "What is Dropshipping?",
+    "whatP1": "Dropshipping is a retail model where you sell products without holding inventory. When your customer places an order, we ship the product directly from our warehouse to their door — under your brand or with a neutral label.",
+    "whatP2": "You don't need to buy stock upfront, manage packaging, or deal with shipping logistics. We take care of all of that. Your job is simply to sell and refer customers.",
+    "howLabel": "[ HOW IT WORKS ]",
+    "howH2": "How the Partnership Works",
+    "step1Title": "1. You Get a Referral Link",
+    "step1Desc": "After signing up, you receive a unique referral link with an auto-applied promo code. Share it on your website, social media, or directly with customers.",
+    "step2Title": "2. Customer Places an Order",
+    "step2Desc": "When someone uses your referral link, the promo code is applied automatically. The customer orders from our store at a standard price.",
+    "step3Title": "3. We Ship the Product",
+    "step3Desc": "We pick, pack, and ship the product directly from our warehouse. You never touch the inventory — we handle all the fulfillment and logistics.",
+    "step4Title": "4. You Earn Commission",
+    "step4Desc": "You receive your commission based on the product price and monthly sales volume. Payouts are made monthly.",
+    "profitLabel": "[ COMMISSION STRUCTURE ]",
+    "profitH2": "Your Earnings",
+    "profitDesc": "The more you sell, the more you earn. Commission is calculated as a percentage of the product price.",
+    "tier1Title": "Up to 10 sales / month",
+    "tier1Value": "10%",
+    "tier1Desc": "Standard commission on product price",
+    "tier2Title": "More than 10 sales / month",
+    "tier2Value": "up to 20%",
+    "tier2Desc": "Increased commission for higher volume",
+    "referralLabel": "[ REFERRAL SYSTEM ]",
+    "referralH2": "Personal Referral Link & Promo Code",
+    "referralP1": "Each partner receives a unique referral link. When a customer clicks your link, a promo code is automatically applied to their order — no extra steps for the customer.",
+    "referralP2": "This means seamless tracking and attribution: every sale through your link is credited to you automatically.",
+    "supportLabel": "[ WE SUPPORT YOU ]",
+    "supportH2": "What We Offer Partners",
+    "support1Title": "Landing Page Assistance",
+    "support1Desc": "Need help creating a sales page for PENGER? We can assist with landing page design and content to help you convert customers.",
+    "support2Title": "Marketing Materials",
+    "support2Desc": "Get access to product images, descriptions, and brand guidelines to use in your promotional channels.",
+    "support3Title": "Personal Manager",
+    "support3Desc": "We work with each partner individually. You'll have a dedicated point of contact for any questions or needs.",
+    "ctaLabel": "[ GET STARTED ]",
+    "ctaH2": "Ready to Partner with PENGER?",
+    "ctaDesc": "Contact us at the email below to discuss partnership terms, get your referral link, and start earning.",
+    "ctaEmail": "partnership@mypenger.com",
+    "ctaEmailSubject": "Dropshipping Partnership Inquiry — PENGER",
+    "ctaEmailBody": "Hello PENGER team,\n\nI'm interested in the dropshipping & referral partnership program.\n\nAbout me/my business: \nExpected monthly volume: \nCountry: \n\nAdditional questions:\n",
+    "ctaSendEmail": "Email Us",
+    "ctaCopyEmail": "Copy"
   }
 }
