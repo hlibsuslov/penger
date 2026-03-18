@@ -134,32 +134,21 @@
       font-weight: 600;
     }
 
-    /* Config option cards */
-    .config-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-default);
-      border-radius: 8px;
-      padding: 14px 16px;
-      margin-bottom: 10px;
+    /* Config option rows — flat, Apple-style */
+    .config-row {
+      margin-bottom: 20px;
     }
-    .config-card-header {
+    .config-row-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
-    .config-card-title {
+    .config-row-title {
       font-family: var(--font-sans);
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 600;
-      color: var(--text-accent);
-    }
-    .config-card-price {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--text-label);
-      white-space: nowrap;
+      color: var(--text-primary);
     }
     .config-options {
       display: flex;
@@ -171,16 +160,16 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      padding: 9px 12px;
+      padding: 10px 12px;
       font-family: var(--font-sans);
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 500;
       color: var(--text-dim);
-      background: var(--bg-main);
+      background: transparent;
       border: 1.5px solid var(--border-default);
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
-      transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+      transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
       user-select: none;
     }
     .config-opt:hover {
@@ -190,7 +179,7 @@
     .config-opt.active {
       border-color: var(--text-accent);
       color: var(--text-accent);
-      background: var(--bg-surface);
+      box-shadow: 0 0 0 1px var(--text-accent);
     }
     .config-opt input { display: none; }
     .config-swatch {
@@ -203,29 +192,34 @@
     .config-swatch-white { background: #f5f5f5; border-color: #ccc; }
     .config-opt.active .config-swatch { border-color: var(--text-accent); }
 
-    /* Plates picker — segmented control */
+    /* Plates picker — Apple-style segmented control */
     .plates-picker {
       display: flex;
-      gap: 6px;
+      gap: 8px;
       user-select: none;
     }
-    .plates-option {
+    .plates-col {
       flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
+      gap: 6px;
+    }
+    .plates-option {
+      width: 100%;
+      display: flex;
+      align-items: center;
       justify-content: center;
-      gap: 1px;
-      height: 48px;
-      font-family: var(--font-mono);
+      height: 44px;
+      font-family: var(--font-sans);
       font-size: 15px;
       font-weight: 600;
       color: var(--text-dim);
-      background: var(--bg-main);
+      background: transparent;
       border: 1.5px solid var(--border-default);
       border-radius: 8px;
       cursor: pointer;
-      transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+      transition: border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
       -webkit-tap-highlight-color: transparent;
     }
     .plates-option:hover {
@@ -235,48 +229,17 @@
     .plates-option.active {
       border-color: var(--text-accent);
       color: var(--text-accent);
-      background: var(--bg-surface);
-      box-shadow: 0 0 0 1px var(--text-accent);
-    }
-    .plates-recommended {
-      border-color: var(--text-accent);
-      box-shadow: 0 0 0 0.5px var(--text-accent);
-    }
-    .plates-recommended.active {
       box-shadow: 0 0 0 1px var(--text-accent);
     }
     .plates-rec-label {
       font-family: var(--font-sans);
-      font-size: 7px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
+      font-size: 10px;
+      font-weight: 500;
       color: var(--text-accent);
-      opacity: 0.8;
+      opacity: 0.85;
       line-height: 1;
     }
 
-
-    /* Specs table */
-    .specs-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    .specs-table tr { border-bottom: 1px solid var(--border-default); }
-    .specs-table tr:last-child { border-bottom: none; }
-    .specs-table td {
-      padding: 8px 0;
-      font-size: 12px;
-      font-family: var(--font-mono);
-    }
-    .specs-table td:first-child {
-      color: var(--text-dim);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      width: 40%;
-    }
-    .specs-table td:last-child { color: var(--text-primary); }
 
     /* ===== RIGHT: ORDER SUMMARY SIDEBAR ===== */
     .order-sidebar {
@@ -1145,17 +1108,17 @@
               <span class="order-section-price"><%= t.order.platesExtraPrice %></span>
             </div>
             <div class="plates-picker" id="platesPicker" data-track="config_plates" data-cta-id="order_plates_qty" data-section="order" data-product-id="penger-v1">
-              <button type="button" class="plates-option active" data-val="1">1</button>
-              <button type="button" class="plates-option plates-recommended" data-val="2">2<span class="plates-rec-label"><%= t.order.recommended %></span></button>
-              <button type="button" class="plates-option" data-val="3">3</button>
-              <button type="button" class="plates-option" data-val="4">4</button>
+              <div class="plates-col"><button type="button" class="plates-option active" data-val="1">1</button></div>
+              <div class="plates-col"><button type="button" class="plates-option" data-val="2">2</button><span class="plates-rec-label"><%= t.order.recommended %></span></div>
+              <div class="plates-col"><button type="button" class="plates-option" data-val="3">3</button></div>
+              <div class="plates-col"><button type="button" class="plates-option" data-val="4">4</button></div>
             </div>
           </div>
 
           <!-- Security sleeve colour -->
-          <div class="config-card" data-section="order">
-            <div class="config-card-header">
-              <span class="config-card-title"><%= t.order.kitItem6 %></span>
+          <div class="config-row" data-section="order">
+            <div class="config-row-header">
+              <span class="config-row-title"><%= t.order.kitItem6 %></span>
             </div>
             <div class="config-options" id="sleeveOptions">
               <label class="config-opt active">
@@ -1172,9 +1135,9 @@
           </div>
 
           <!-- Precision center punch tool -->
-          <div class="config-card" data-section="order">
-            <div class="config-card-header">
-              <span class="config-card-title"><%= t.order.kitItem2 %></span>
+          <div class="config-row" data-section="order">
+            <div class="config-row-header">
+              <span class="config-row-title"><%= t.order.kitItem2 %></span>
             </div>
             <div class="config-options" id="punchOptions">
               <label class="config-opt active">
@@ -1186,18 +1149,6 @@
                 No
               </label>
             </div>
-          </div>
-
-          <!-- Specs -->
-          <div class="order-section">
-            <p class="order-section-title"><%= t.order.specsLabel %></p>
-            <table class="specs-table">
-              <tr><td><%= t.order.specMaterial %></td><td><%= t.order.specMaterialVal %></td></tr>
-              <tr><td><%= t.order.specDimensions %></td><td><%= t.order.specDimensionsVal %></td></tr>
-              <tr><td><%= t.order.specCapacity %></td><td><%= t.order.specCapacityVal %></td></tr>
-              <tr><td><%= t.order.specWeight %></td><td><%= t.order.specWeightVal %></td></tr>
-              <tr><td><%= t.order.specFire %></td><td><%= t.order.specFireVal %></td></tr>
-            </table>
           </div>
 
           <!-- ===== STEP 1: CONTACT INFO ===== -->
