@@ -374,9 +374,11 @@
   if (mobileContinueBtn) {
     mobileContinueBtn.addEventListener('click', function () {
       if (currentStep === 'contact') {
-        contactForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+        var submitBtn = contactForm.querySelector('.step-continue-btn');
+        if (submitBtn) submitBtn.click();
       } else if (currentStep === 'delivery') {
-        deliveryForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+        var submitBtn2 = deliveryForm.querySelector('.step-continue-btn');
+        if (submitBtn2) submitBtn2.click();
       } else {
         checkoutBtn.click();
       }
@@ -686,8 +688,8 @@
     contactSummary.innerHTML =
       '<div class="step-summary-line"><span class="step-summary-label">' + (t.firstName || 'Name') + '</span> ' + firstName + ' ' + lastName + '</div>' +
       '<div class="step-summary-line"><span class="step-summary-label">' + (t.email || 'Email') + '</span> ' + email + '</div>' +
-      '<div class="step-summary-line"><span class="step-summary-label">' + (t.phone || 'Phone') + '</span> ' + prefix + ' ' + phone + '</div>' +
-      '<div class="step-summary-line"><span class="step-summary-label">' + (t.country || 'Country') + '</span> ' + flag + ' ' + countryText + '</div>';
+      '<div class="step-summary-line"><span class="step-summary-label">' + (t.phone || 'Phone') + '</span> ' + (phoneCodes[countryCode] || '') + ' ' + phone + '</div>' +
+      '<div class="step-summary-line"><span class="step-summary-label">' + (t.country || 'Country') + '</span> ' + countryText + '</div>';
 
     completeStep(stepContact);
     activateStep(stepDelivery);
