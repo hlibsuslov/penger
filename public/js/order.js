@@ -701,8 +701,7 @@
     var phone     = document.getElementById('phone').value.trim();
     var prefix = phonePrefix ? phonePrefix.textContent : '';
     var countryCode = countryEl.value;
-    var countryText = countryEl.options[countryEl.selectedIndex].text;
-    var flag = countryFlag(countryCode);
+    var countryText = countryEl.options[countryEl.selectedIndex].text.replace(/^[\u{1F1E6}-\u{1F1FF}]{2}\s*/u, '');
 
     contactSummary.innerHTML =
       '<div class="step-summary-line"><span class="step-summary-label">' + (t.firstName || 'Name') + '</span> ' + firstName + ' ' + lastName + '</div>' +
@@ -748,7 +747,7 @@
       var apt       = document.getElementById('apt').value.trim();
       var city      = cityEl.value.trim();
       var zip       = zipEl.value.trim();
-      var countryText = countryEl.options[countryEl.selectedIndex].text;
+      var countryText = countryEl.options[countryEl.selectedIndex].text.replace(/^[\u{1F1E6}-\u{1F1FF}]{2}\s*/u, '');
 
       var addressParts = [street];
       if (apt) addressParts.push(apt);
