@@ -188,8 +188,8 @@
       border: 1.5px solid var(--border-default);
       flex-shrink: 0;
     }
-    .config-swatch-black { background: #1a1a1a; border-color: #333; }
-    .config-swatch-white { background: #f5f5f5; border-color: #ccc; }
+    .config-swatch-black { background: #3a3a3a; border-color: #555; }
+    .config-swatch-white { background: #f0f0f0; border-color: #ddd; }
     .config-opt.active .config-swatch { border-color: var(--text-accent); }
 
     /* Plates picker — Apple-style segmented control */
@@ -551,9 +551,8 @@
       outline: none;
       transition: border-color 0.15s ease;
     }
-    /* Important fields get slightly larger */
-    .form-input-lg { padding: 12px 14px; }
-    .form-input-sm { padding: 8px 12px; font-size: 14px; }
+    .form-input-lg { }
+    .form-input-sm { }
     .form-input:focus { border-color: var(--text-accent); }
     .form-input.error { border-color: #e74c3c; }
     .form-input::placeholder { color: var(--text-dim); opacity: 0.5; }
@@ -1041,6 +1040,7 @@
       .order-header h1 { font-size: 22px; }
       .order-gallery { aspect-ratio: 3/2; }
       .form-row { grid-template-columns: 1fr; }
+      .card-fields .form-row:not(.full) { grid-template-columns: 1fr 1fr; }
       .progress-step span { display: none; }
       .progress-line { width: 24px; }
       .form-input { font-size: 16px; }
