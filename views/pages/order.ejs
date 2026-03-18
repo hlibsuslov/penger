@@ -71,9 +71,7 @@
       border-radius: 12px;
     }
     .order-gallery-badge {
-      position: absolute;
-      top: 12px;
-      left: 12px;
+      display: inline-block;
       font-family: var(--font-mono);
       font-size: 10px;
       font-weight: 600;
@@ -84,6 +82,7 @@
       border: 1px solid var(--border-default);
       padding: 4px 10px;
       border-radius: 4px;
+      margin-bottom: 10px;
     }
 
     /* Config section */
@@ -252,26 +251,6 @@
       margin-bottom: 16px;
       border-bottom: 1px solid var(--border-default);
     }
-    .cart-thumb {
-      width: 72px; height: 72px;
-      background: var(--bg-main);
-      border: 1px solid var(--border-default);
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      overflow: hidden;
-    }
-    .cart-thumb svg {
-      width: 28px; height: 28px;
-      color: var(--text-dim);
-      opacity: 0.4;
-    }
-    .cart-thumb img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-    }
     .cart-details { flex: 1; min-width: 0; }
     .cart-product-name {
       font-family: var(--font-sans);
@@ -293,18 +272,16 @@
       justify-content: space-between;
       align-items: center;
       padding: 3px 0;
-      font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: 13px;
     }
     .summary-key {
+      font-family: var(--font-sans);
       color: var(--text-dim);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
+      font-weight: 500;
     }
-    .summary-val { color: var(--text-accent); font-weight: 600; }
-    .summary-val-free { color: var(--text-dim); font-weight: 600; }
-    .summary-val-add { color: var(--text-label); font-weight: 600; }
+    .summary-val { font-family: var(--font-sans); color: var(--text-accent); font-weight: 600; }
+    .summary-val-free { font-family: var(--font-sans); color: var(--text-dim); font-weight: 600; }
+    .summary-val-add { font-family: var(--font-sans); color: var(--text-label); font-weight: 600; }
     .summary-divider {
       height: 1px;
       background: var(--border-default);
@@ -1006,14 +983,50 @@
       .trust-badges { gap: 12px; margin-top: 12px; }
       .trust-badge { font-size: 10px; gap: 3px; }
       .trust-badge svg { width: 11px; height: 11px; }
+      .order-gallery img {
+        max-width: 85%;
+        margin: 0 auto;
+        display: block;
+      }
+
+      /* Mobile progress bar — compact vertical-friendly */
+      .order-progress {
+        flex-wrap: nowrap;
+        gap: 0;
+        padding: 0 8px;
+      }
+      .progress-step {
+        flex-direction: column;
+        gap: 4px;
+        text-align: center;
+        min-width: 0;
+        flex: 1;
+      }
+      .progress-step span:last-child {
+        font-size: 8px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 72px;
+      }
+      .progress-line {
+        width: 20px;
+        flex-shrink: 0;
+        margin: 0 2px;
+        align-self: flex-start;
+        margin-top: 3px;
+      }
     }
     @media (max-width: 520px) {
       .order-page { padding: 32px 0 120px; }
       .order-header h1 { font-size: 22px; }
       .form-row { grid-template-columns: 1fr; }
       .card-fields .form-row:not(.full) { grid-template-columns: 1fr 1fr; }
-      .progress-step span { display: none; }
-      .progress-line { width: 24px; }
+      .progress-step span:last-child {
+        font-size: 7px;
+        max-width: 56px;
+      }
+      .progress-line { width: 16px; }
       .form-input { font-size: 16px; }
       .trust-badges { gap: 6px; margin-top: 8px; }
       .trust-badge { font-size: 9px; gap: 3px; }
@@ -1062,10 +1075,10 @@
         <!-- ===== LEFT: PRODUCT CONFIG ===== -->
         <div class="order-product">
 
-          <!-- Gallery placeholder -->
+          <!-- Gallery -->
+          <span class="order-gallery-badge"><%= t.order.productName %></span>
           <div class="order-gallery" id="orderGallery"
             data-track="product_image_view" data-cta-id="order_product_image" data-section="order" data-product-id="penger-v1">
-            <span class="order-gallery-badge"><%= t.order.productName %></span>
             <img src="/photo/front_plate.png" alt="<%= t.order.productName %>" class="order-gallery-img" />
           </div>
 
@@ -1385,11 +1398,8 @@
           <div class="order-summary" data-section="order">
             <p class="order-summary-title"><%= t.order.summaryLabel %></p>
 
-            <!-- Cart item card -->
+            <!-- Cart item -->
             <div class="cart-item">
-              <div class="cart-thumb">
-                <img src="/photo/plate.png" alt="<%= t.order.productName %>" />
-              </div>
               <div class="cart-details">
                 <div class="cart-product-name"><%= t.order.productName %></div>
                 <div class="cart-config-line"><%= t.order.cartPlates %>: <span id="cartPlates">1</span></div>
@@ -1503,5 +1513,36 @@
   <% if (typeof extraJs !== 'undefined') { extraJs.forEach(function(js) { %>
   <script src="/<%= js %>?v=4"></script>
   <% }); } %>
+  <script>
+  /* Flag emoji polyfill for Windows (flags render as two-letter codes) */
+  (function () {
+    var isWindows = /Win/.test(navigator.platform || '');
+    if (!isWindows) return;
+
+    /* Replace flag emojis in <select> options with "CC — Name" format */
+    var sel = document.getElementById('country');
+    if (sel) {
+      for (var i = 0; i < sel.options.length; i++) {
+        var v = sel.options[i].value;
+        if (v && v.length === 2) {
+          var txt = sel.options[i].textContent.replace(/(?:[\uD83C][\uDDE6-\uDDFF]){2}\s*/g, '').trim();
+          sel.options[i].textContent = v + ' \u2014 ' + txt;
+        }
+      }
+    }
+
+    /* Override phone prefix: show "CC +XX" instead of emoji flag */
+    var phonePrefix = document.getElementById('phonePrefix');
+    if (phonePrefix && sel) {
+      var codes = {AT:'+43',BE:'+32',BG:'+359',HR:'+385',CY:'+357',CZ:'+420',DK:'+45',EE:'+372',FI:'+358',FR:'+33',DE:'+49',GR:'+30',HU:'+36',IE:'+353',IT:'+39',LV:'+371',LT:'+370',LU:'+352',MT:'+356',NL:'+31',PL:'+48',PT:'+351',RO:'+40',SK:'+421',SI:'+386',ES:'+34',SE:'+46',GB:'+44',US:'+1',CA:'+1',AU:'+61',JP:'+81',CH:'+41',NO:'+47',UA:'+380'};
+      sel.addEventListener('change', function () {
+        var c = this.value;
+        if (c && c.length === 2) {
+          phonePrefix.textContent = c + ' ' + (codes[c] || '+');
+        }
+      });
+    }
+  })();
+  </script>
 </body>
 </html>
