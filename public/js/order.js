@@ -77,8 +77,7 @@
   };
 
   /* ===== DOM: PLATES ===== */
-  var platesSlider   = document.getElementById('platesSlider');
-  var platesTrackFill = document.getElementById('platesTrackFill');
+  var platesPicker   = document.getElementById('platesPicker');
   var cartPlates     = document.getElementById('cartPlates');
 
   /* Summary refs (sidebar) */
@@ -217,22 +216,16 @@
   }
 
   /* ===== UPDATE UI ===== */
-  function updatePlatesSlider() {
-    if (!platesSlider) return;
-    var dots = platesSlider.querySelectorAll('.plates-dot');
-    dots.forEach(function (dot) {
-      var val = parseInt(dot.getAttribute('data-val'), 10);
-      dot.classList.remove('active', 'passed');
-      if (val === plates) dot.classList.add('active');
-      else if (val < plates) dot.classList.add('passed');
+  function updatePlatesPicker() {
+    if (!platesPicker) return;
+    platesPicker.querySelectorAll('.plates-option').forEach(function (opt) {
+      var val = parseInt(opt.getAttribute('data-val'), 10);
+      opt.classList.toggle('active', val === plates);
     });
-    if (platesTrackFill) {
-      platesTrackFill.style.width = ((plates - 1) / 3 * 100) + '%';
-    }
   }
 
   function updateUI() {
-    updatePlatesSlider();
+    updatePlatesPicker();
     cartPlates.textContent = plates;
     if (cartPlatesBottom) cartPlatesBottom.textContent = plates;
 
@@ -297,12 +290,12 @@
     if (mobilePrice) mobilePrice.textContent = totalStr;
   }
 
-  /* ===== PLATES SLIDER ===== */
-  if (platesSlider) {
-    platesSlider.addEventListener('click', function (e) {
-      var dot = e.target.closest('.plates-dot');
-      if (!dot) return;
-      var val = parseInt(dot.getAttribute('data-val'), 10);
+  /* ===== PLATES PICKER ===== */
+  if (platesPicker) {
+    platesPicker.addEventListener('click', function (e) {
+      var opt = e.target.closest('.plates-option');
+      if (!opt) return;
+      var val = parseInt(opt.getAttribute('data-val'), 10);
       if (val >= 1 && val <= 4 && val !== plates) {
         plates = val;
         updateShipping();
@@ -666,6 +659,13 @@
   /* ===== CONTACT FORM: CONTINUE ===== */
   contactForm.addEventListener('submit', function (e) {
     e.preventDefault();
+
+    /* Sync state after browser autofill (autofill doesn't fire change events) */
+    if (countryEl.value) {
+      updatePhonePrefix(countryEl.value);
+      updateShipping();
+      updateDeliveryEstimate();
+    }
 
     var inputs = contactForm.querySelectorAll('[required]');
     var valid = true;
