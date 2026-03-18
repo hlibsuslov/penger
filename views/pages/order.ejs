@@ -185,6 +185,13 @@
       background: var(--bg-surface);
     }
     .config-opt input { display: none; }
+    .config-opt-check {
+      width: 14px; height: 14px;
+      flex-shrink: 0;
+      display: none;
+      color: var(--text-accent);
+    }
+    .config-opt.active .config-opt-check { display: block; }
     .config-swatch {
       width: 14px; height: 14px;
       border-radius: 50%;
@@ -195,72 +202,97 @@
     .config-swatch-white { background: #f5f5f5; border-color: #ccc; }
     .config-opt.active .config-swatch { border-color: var(--text-accent); }
 
-    /* Kit description */
-    .kit-description {
-      font-family: var(--font-sans);
-      font-size: 14px;
-      line-height: 1.7;
-      color: var(--text-primary);
-      margin-bottom: 20px;
-    }
-    .kit-description p {
-      margin: 0 0 12px;
-    }
-    .kit-description p:last-child { margin-bottom: 0; }
-
-    /* Quantity selector (reused for plates) */
-    .qty-selector {
-      display: inline-flex;
+    /* Plates slider track */
+    .plates-slider {
+      display: flex;
       align-items: center;
-      gap: 0;
-      border: 1px solid var(--border-default);
-      border-radius: 6px;
-      overflow: hidden;
+      position: relative;
+      width: 100%;
+      max-width: 280px;
+      padding: 8px 0;
+      user-select: none;
     }
-    .qty-btn {
-      width: 44px; height: 44px;
-      display: flex; align-items: center; justify-content: center;
-      background: var(--bg-surface);
-      border: none;
+    .plates-track {
+      position: absolute;
+      top: 50%;
+      left: 16px;
+      right: 16px;
+      height: 2px;
+      background: var(--border-default);
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+    .plates-track-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background: var(--text-accent);
+      border-radius: 1px;
+      transition: width 0.2s ease;
+    }
+    .plates-dots {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+    .plates-dot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
       cursor: pointer;
-      font-size: 18px;
-      color: var(--text-accent);
-      transition: background 0.15s ease;
-      font-family: var(--font-mono);
+      padding: 4px 12px;
+      -webkit-tap-highlight-color: transparent;
     }
-    .qty-btn:hover { background: var(--bg-surface-hover); }
-    .qty-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-    .qty-val {
-      width: 56px; height: 44px;
-      display: flex; align-items: center; justify-content: center;
+    .plates-dot-label {
       font-family: var(--font-mono);
-      font-size: 16px;
+      font-size: 10px;
       font-weight: 600;
-      color: var(--text-accent);
-      border-left: 1px solid var(--border-default);
-      border-right: 1px solid var(--border-default);
-      background: var(--bg-main);
+      color: var(--text-dim);
+      transition: color 0.2s ease;
     }
+    .plates-dot.active .plates-dot-label { color: var(--text-accent); }
+    .plates-dot-circle {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid var(--border-default);
+      background: var(--bg-main);
+      transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+    }
+    .plates-dot.active .plates-dot-circle {
+      border-color: var(--text-accent);
+      background: var(--text-accent);
+      transform: scale(1.2);
+    }
+    .plates-dot.passed .plates-dot-circle {
+      border-color: var(--text-accent);
+      background: var(--text-accent);
+    }
+    .plates-dot.passed .plates-dot-label { color: var(--text-accent); }
 
-
-    /* Kit contents */
+    /* Kit contents — compact */
     .kit-list {
       list-style: none;
       padding: 0;
       margin: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px 16px;
     }
     .kit-list li {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 8px 0;
-      font-size: 13px;
+      gap: 6px;
+      padding: 5px 0;
+      font-size: 12px;
       color: var(--text-primary);
-      border-bottom: 1px solid var(--border-default);
     }
-    .kit-list li:last-child { border-bottom: none; }
     .kit-check {
-      width: 16px; height: 16px;
+      width: 12px; height: 12px;
       color: var(--text-accent);
       flex-shrink: 0;
     }
@@ -1132,14 +1164,30 @@
 
           <!-- Plates quantity (1-4, extra +35€) -->
           <div class="order-section" data-section="order">
-            <p class="order-section-title"><%= t.order.platesLabel %></p>
             <div class="order-section-row" style="align-items:center">
-              <div class="qty-selector" data-track="config_plates" data-cta-id="order_plates_qty" data-section="order" data-product-id="penger-v1">
-                <button class="qty-btn" id="platesMinus" type="button" disabled aria-label="Decrease plates">&minus;</button>
-                <span class="qty-val" id="platesVal">1</span>
-                <button class="qty-btn" id="platesPlus" type="button" aria-label="Increase plates">&plus;</button>
-              </div>
+              <p class="order-section-title" style="margin-bottom:0"><%= t.order.platesLabel %></p>
               <span class="order-section-price"><%= t.order.platesExtraPrice %></span>
+            </div>
+            <div class="plates-slider" id="platesSlider" data-track="config_plates" data-cta-id="order_plates_qty" data-section="order" data-product-id="penger-v1">
+              <div class="plates-track"><div class="plates-track-fill" id="platesTrackFill"></div></div>
+              <div class="plates-dots">
+                <div class="plates-dot active" data-val="1">
+                  <span class="plates-dot-label">1</span>
+                  <span class="plates-dot-circle"></span>
+                </div>
+                <div class="plates-dot" data-val="2">
+                  <span class="plates-dot-label">2</span>
+                  <span class="plates-dot-circle"></span>
+                </div>
+                <div class="plates-dot" data-val="3">
+                  <span class="plates-dot-label">3</span>
+                  <span class="plates-dot-circle"></span>
+                </div>
+                <div class="plates-dot" data-val="4">
+                  <span class="plates-dot-label">4</span>
+                  <span class="plates-dot-circle"></span>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -1152,11 +1200,13 @@
             <div class="config-options" id="sleeveOptions">
               <label class="config-opt active">
                 <input type="radio" name="sleeveColor" value="black" checked>
+                <svg class="config-opt-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                 <span class="config-swatch config-swatch-black"></span>
                 Black
               </label>
               <label class="config-opt">
                 <input type="radio" name="sleeveColor" value="white">
+                <svg class="config-opt-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                 <span class="config-swatch config-swatch-white"></span>
                 White
               </label>
@@ -1172,10 +1222,12 @@
             <div class="config-options" id="punchOptions">
               <label class="config-opt active">
                 <input type="radio" name="punchTool" value="yes" checked>
+                <svg class="config-opt-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                 Yes
               </label>
               <label class="config-opt">
                 <input type="radio" name="punchTool" value="no">
+                <svg class="config-opt-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                 No
               </label>
             </div>
@@ -1184,9 +1236,6 @@
           <!-- Kit contents -->
           <div class="order-section">
             <p class="order-section-title"><%= t.order.kitContentsLabel %></p>
-            <div class="kit-description">
-              <p><%= t.order.kitDesc %></p>
-            </div>
             <ul class="kit-list">
               <li><svg class="kit-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> <%= t.order.kitItem1 %></li>
               <li><svg class="kit-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> <%= t.order.kitItem2 %></li>
