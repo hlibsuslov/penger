@@ -1335,6 +1335,7 @@
   }
 
   function renderHelioWidget() {
+    helioRetries = 0; /* Reset for fresh poll cycle */
     helioContainer.innerHTML = '';
     helioContainer.classList.remove('hidden');
 
@@ -1347,75 +1348,89 @@
       var amount = getTotal().toFixed(2);
       var lang = t.langPrefix || '';
 
-      window.helioCheckout(helioContainer, {
-        paylinkId: 'zyBtgF4rM1vI~pqSltNzwheqjtL.8E5Oj~vblPO3_hbMF3hcjykrgcyE_9l.eQ6U',
-        theme: { themeMode: 'dark' },
-        primaryColor: '#6400CC',
-        neutralColor: '#5A6578',
-        amount: amount,
-        display: 'inline',
-        onSuccess: function (event) {
-          console.log('Helio payment success', event);
+      try {
+        var result = window.helioCheckout(helioContainer, {
+          paylinkId: 'zyBtgF4rM1vI~pqSltNzwheqjtL.8E5Oj~vblPO3_hbMF3hcjykrgcyE_9l.eQ6U',
+          theme: { themeMode: 'dark' },
+          primaryColor: '#6400CC',
+          neutralColor: '#5A6578',
+          amount: amount,
+          display: 'inline',
+          onSuccess: function (event) {
+            console.log('Helio payment success', event);
 
-          var orderId = generateOrderId();
-          var total = getTotal();
-          var prefix = phonePrefix ? phonePrefix.textContent : '';
-          var orderData = {
-            order_id: orderId,
-            plates: plates,
-            sleeveColor: sleeveColor,
-            punchTool: punchTool,
-            value: total,
-            currency: 'EUR',
-            product_id: 'penger-v1',
-            pay_method: 'crypto',
-            shipping: shippingCost,
-            discount: discount,
-            promo: appliedPromo,
-            referral: (function () { try { return sessionStorage.getItem('penger_referral') || null; } catch (e) { return null; } })(),
-            contact: {
-              firstName: (document.getElementById('firstName') || {}).value || '',
-              lastName: (document.getElementById('lastName') || {}).value || '',
-              email: (document.getElementById('email') || {}).value || '',
-              phone: prefix + ((document.getElementById('phone') || {}).value || '')
-            },
-            address: {
-              street: (document.getElementById('street') || {}).value || '',
-              apt: (document.getElementById('apt') || {}).value || '',
-              city: cityEl ? cityEl.value : '',
-              zip: zipEl ? zipEl.value : '',
-              country: countryEl ? countryEl.value : ''
-            },
-            helio_tx: event && event.transactionId ? event.transactionId : '',
-            ts: Date.now()
-          };
-          try { sessionStorage.setItem('penger_order', JSON.stringify(orderData)); } catch (e) {}
+            var orderId = generateOrderId();
+            var total = getTotal();
+            var prefix = phonePrefix ? phonePrefix.textContent : '';
+            var orderData = {
+              order_id: orderId,
+              plates: plates,
+              sleeveColor: sleeveColor,
+              punchTool: punchTool,
+              value: total,
+              currency: 'EUR',
+              product_id: 'penger-v1',
+              pay_method: 'crypto',
+              shipping: shippingCost,
+              discount: discount,
+              promo: appliedPromo,
+              referral: (function () { try { return sessionStorage.getItem('penger_referral') || null; } catch (e) { return null; } })(),
+              contact: {
+                firstName: (document.getElementById('firstName') || {}).value || '',
+                lastName: (document.getElementById('lastName') || {}).value || '',
+                email: (document.getElementById('email') || {}).value || '',
+                phone: prefix + ((document.getElementById('phone') || {}).value || '')
+              },
+              address: {
+                street: (document.getElementById('street') || {}).value || '',
+                apt: (document.getElementById('apt') || {}).value || '',
+                city: cityEl ? cityEl.value : '',
+                zip: zipEl ? zipEl.value : '',
+                country: countryEl ? countryEl.value : ''
+              },
+              helio_tx: event && event.transactionId ? event.transactionId : '',
+              ts: Date.now()
+            };
+            try { sessionStorage.setItem('penger_order', JSON.stringify(orderData)); } catch (e) {}
 
-          var dl = window.dataLayer = window.dataLayer || [];
-          dl.push({
-            event: 'purchase',
-            order_id: orderId,
-            value: total,
-            currency: 'EUR',
-            payment_method: 'crypto_helio',
-            transaction_id: orderData.helio_tx
+            var dl = window.dataLayer = window.dataLayer || [];
+            dl.push({
+              event: 'purchase',
+              order_id: orderId,
+              value: total,
+              currency: 'EUR',
+              payment_method: 'crypto_helio',
+              transaction_id: orderData.helio_tx
+            });
+
+            window.location.href = lang + '/payment-success?order_id=' + encodeURIComponent(orderId);
+          },
+          onError: function (event) {
+            console.error('Helio payment error', event);
+            helioContainer.innerHTML = '<p style="color:#e74c3c;text-align:center;padding:24px;">Payment error. Please try again.</p>';
+          },
+          onPending: function (event) {
+            console.log('Helio payment pending', event);
+          },
+          onCancel: function () {
+            console.log('Helio payment cancelled');
+          },
+          onStartPayment: function () {
+            console.log('Helio payment started');
+          }
+        });
+        /* helioCheckout is async — catch promise rejection */
+        if (result && typeof result.catch === 'function') {
+          result.catch(function (err) {
+            console.error('Helio async error:', err);
+            helioContainer.innerHTML = '<p style="color:#e74c3c;text-align:center;padding:24px;">Failed to initialize crypto payment. Please refresh and try again.</p>';
           });
-
-          window.location.href = lang + '/payment-success?order_id=' + encodeURIComponent(orderId);
-        },
-        onError: function (event) {
-          console.error('Helio payment error', event);
-        },
-        onPending: function (event) {
-          console.log('Helio payment pending', event);
-        },
-        onCancel: function () {
-          console.log('Helio payment cancelled');
-        },
-        onStartPayment: function () {
-          console.log('Helio payment started');
         }
-      });
+      } catch (err) {
+        console.error('Helio init error:', err);
+        helioContainer.innerHTML = '<p style="color:#e74c3c;text-align:center;padding:24px;">Failed to initialize crypto payment. Please refresh and try again.</p>';
+      }
+    });
     });
 
     helioContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
