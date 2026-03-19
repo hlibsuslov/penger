@@ -36,7 +36,7 @@
   var plates = 1;
   var sleeveColor = 'black'; // black | white (always included, just pick colour)
   var punchTool = true;       // yes | no
-  var payMethod = 'card';
+  var payMethod = 'crypto';
   var currentStep = 'contact'; // contact | delivery | payment
   var shippingCost = 0;
   var discount = 0;
@@ -892,7 +892,13 @@
       completeStep(stepDelivery);
       activateStep(stepPayment);
       currentStep = 'payment';
-  
+
+      /* Auto-show Solana checkout when crypto is the selected payment method */
+      if (payMethod === 'crypto') {
+        checkoutBtn.style.display = 'none';
+        renderSolanaCheckout();
+      }
+
       updateMobileCta();
       stepPayment.scrollIntoView({ behavior: 'smooth', block: 'start' });
       saveFormData();
@@ -1629,8 +1635,12 @@
   checkoutBtn.addEventListener('click', function () {
     if (isSubmitting) return;
 
-    /* Crypto is handled entirely by Helio inline widget — never redirect */
-    if (payMethod === 'crypto') return;
+    /* Crypto is handled by Solana Pay inline widget */
+    if (payMethod === 'crypto') {
+      checkoutBtn.style.display = 'none';
+      renderSolanaCheckout();
+      return;
+    }
 
     /* Sync config from DOM before any validation or data collection */
     syncConfigFromDOM();
