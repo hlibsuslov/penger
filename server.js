@@ -244,6 +244,89 @@ RULES:
 12. If a topic has security implications, always mention relevant risks and best practices.`;
 
 /* =========================================================
+   PROMO CODES CONFIG (server-side source of truth)
+   ========================================================= */
+const PROMO_CODES = {
+  'PENGER10': { type: 'percent', value: 10, expires: null,         maxUses: null, isReferral: false },
+  'LAUNCH20': { type: 'percent', value: 20, expires: '2026-06-01', maxUses: 500,  isReferral: false },
+  'FIRST5':   { type: 'fixed',   value: 5,  expires: null,         maxUses: 1000, isReferral: false },
+};
+const REFERRAL_CODES = {
+  'CRAFT2026': { type: 'percent', value: 20, expires: null, maxUses: null, isReferral: true },
+};
+const ALL_CODES = Object.assign({}, PROMO_CODES, REFERRAL_CODES);
+
+/* In-memory usage counters (resets on server restart — use DB for persistence) */
+const promoUsageCounts = {};
+
+/* =========================================================
+   POST /api/validate-promo
+   ========================================================= */
+const promoLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { valid: false, error: 'Too many attempts. Please wait a minute.' },
+});
+
+app.post('/api/validate-promo', promoLimiter, function (req, res) {
+  var code = (req.body.code || '').trim().toUpperCase();
+  var subtotal = parseFloat(req.body.subtotal) || 0;
+
+  if (!code || code.length < 2 || code.length > 30 || !/^[A-Z0-9_-]+$/.test(code)) {
+    return res.json({ valid: false, error: 'Invalid promo code' });
+  }
+
+  var promo = ALL_CODES[code];
+  if (!promo) {
+    return res.json({ valid: false, error: 'Invalid promo code' });
+  }
+
+  /* Check expiry */
+  if (promo.expires) {
+    var expDate = new Date(promo.expires);
+    if (Date.now() > expDate.getTime()) {
+      return res.json({ valid: false, error: 'This promo code has expired' });
+    }
+  }
+
+  /* Check usage limits */
+  if (promo.maxUses !== null) {
+    var used = promoUsageCounts[code] || 0;
+    if (used >= promo.maxUses) {
+      return res.json({ valid: false, error: 'This promo code is no longer available' });
+    }
+  }
+
+  /* Calculate discount */
+  var discount;
+  if (promo.type === 'percent') {
+    discount = Math.round(subtotal * promo.value / 100);
+  } else {
+    discount = promo.value;
+  }
+  discount = Math.min(discount, subtotal); /* Cap: discount cannot exceed subtotal */
+
+  return res.json({
+    valid: true,
+    type: promo.type,
+    value: promo.value,
+    discount: discount,
+    isReferral: !!promo.isReferral,
+  });
+});
+
+/* Increment promo usage counter (call from checkout endpoint when order is confirmed) */
+function incrementPromoUsage(code) {
+  if (!code) return;
+  code = code.trim().toUpperCase();
+  if (ALL_CODES[code] && ALL_CODES[code].maxUses !== null) {
+    promoUsageCounts[code] = (promoUsageCounts[code] || 0) + 1;
+  }
+}
+
+/* =========================================================
    RATE LIMITER  — /api/chat: 20 requests per minute per IP
    ========================================================= */
 const chatLimiter = rateLimit({

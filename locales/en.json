@@ -515,10 +515,15 @@
     "promoToggle": "Have a promo code?",
     "promoPlaceholder": "Enter code",
     "promoApply": "Apply",
+    "promoRemove": "Remove",
+    "promoLoading": "Checking...",
     "promoDiscount": "Discount",
     "promoInvalid": "Invalid promo code",
+    "promoExpired": "This promo code has expired",
+    "promoLimitReached": "This promo code is no longer available",
     "promoApplied": "Promo code applied!",
     "referralApplied": "Referral discount applied!",
+    "promoReplaceHint": "Referral discount active. Remove to enter another code.",
     "processing": "Processing..."
   },
   "paymentSuccess": {

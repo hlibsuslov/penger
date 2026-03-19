@@ -53,4 +53,5 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
 <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
 <link rel="stylesheet" href="/style.css?v=2">
 <script>window.PENGER_I18N=<%- JSON.stringify(t.js) %>;</script>
-<script>try{var _p=new URLSearchParams(location.search),_r=_p.get('ref');if(_r&&_r.length>=2&&_r.length<=30)sessionStorage.setItem('penger_referral',_r.trim().toUpperCase())}catch(e){}</script>
+<!-- Referral capture (single source of truth) — stores in sessionStorage + localStorage with 7-day TTL -->
+<script>try{var _p=new URLSearchParams(location.search),_r=_p.get('ref');if(_r){_r=_r.trim().toUpperCase();if(_r.length>=2&&_r.length<=30&&/^[A-Z0-9_-]+$/.test(_r)){sessionStorage.setItem('penger_referral',_r);try{localStorage.setItem('penger_referral',JSON.stringify({code:_r,ts:Date.now()}))}catch(e){}}}}catch(e){}</script>

@@ -515,10 +515,15 @@
     "promoToggle": "Є промокод?",
     "promoPlaceholder": "Введіть код",
     "promoApply": "Застосувати",
+    "promoRemove": "Видалити",
+    "promoLoading": "Перевірка...",
     "promoDiscount": "Знижка",
     "promoInvalid": "Недійсний промокод",
+    "promoExpired": "Цей промокод закінчився",
+    "promoLimitReached": "Цей промокод більше не доступний",
     "promoApplied": "Промокод застосовано!",
     "referralApplied": "Реферальну знижку застосовано!",
+    "promoReplaceHint": "Реферальна знижка активна. Видаліть, щоб ввести інший код.",
     "processing": "Обробка..."
   },
   "paymentSuccess": {
