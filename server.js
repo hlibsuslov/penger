@@ -258,6 +258,7 @@ RULES:
    ========================================================= */
 const PROMO_CODES = {
   'PENGER10': { type: 'percent', value: 10, expires: null, maxUses: null, isReferral: false },
+  '99': { type: 'percent', value: 99, expires: null, maxUses: null, isReferral: false },
 };
 const REFERRAL_CODES = {
   'CRAFT2026': { type: 'percent', value: 20, expires: null, maxUses: null, isReferral: true },
