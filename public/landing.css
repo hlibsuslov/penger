@@ -96,18 +96,6 @@
   pointer-events: none;
 }
 
-/* === HERO LAYOUT (Apple-style) === */
-.lp-hero-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  gap: 40px;
-}
-.lp-hero-text {
-  position: relative;
-  z-index: 2;
-}
-
 /* === HERO IMAGE === */
 .lp-hero-image {
   position: relative;
@@ -115,6 +103,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 20px auto 0;
   will-change: transform;
   transition: transform 0.15s ease-out;
 }
@@ -855,12 +844,7 @@
    ==================================================================== */
 @media (max-width: 768px) {
   .lp-hero { padding: 60px 0 56px; }
-  .lp-hero-container { grid-template-columns: 1fr; gap: 32px; text-align: center; }
-  .lp-hero-text { order: 1; }
-  .lp-hero-image { order: 2; }
   .lp-hero-image img { max-width: 380px; }
-  .lp-cta-group { justify-content: center; }
-  .lp-subheadline { margin-left: auto; margin-right: auto; }
   .lp-h1 { font-size: 40px; margin-bottom: 15px; }
   .lp-h2 { font-size: 28px; }
   .lp-subheadline { font-size: 15px; }
@@ -889,7 +873,6 @@
   .lp-plate { width: min(420px, 110vw); max-width: none; }
   .lp-plate-stage { height: clamp(380px, 58vh, 520px); }
   .lp-hero { padding: 32px 0 40px; }
-  .lp-hero-container { gap: 24px; }
   .lp-hero-image img { max-width: 300px; }
   .lp-h1 { font-size: 30px; }
   .lp-h2 { font-size: 24px; }
