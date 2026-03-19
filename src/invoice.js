@@ -1,6 +1,6 @@
 'use strict';
 
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 const { Keypair } = require('@solana/web3.js');
 const { getDb } = require('./db');
 const { getQuote } = require('./prices');
@@ -64,7 +64,7 @@ async function createInvoice(orderData, asset) {
 
   const quote = await getQuote(eurCents, asset);
   const reference = Keypair.generate().publicKey.toBase58();
-  const id = uuidv4();
+  const id = randomUUID();
   const orderId = orderData.order_id || ('PG-' + Date.now().toString(36).toUpperCase());
   const memo = 'invoice:' + id.slice(0, 8);
 
