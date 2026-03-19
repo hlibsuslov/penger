@@ -518,6 +518,7 @@
     "promoDiscount": "Знижка",
     "promoInvalid": "Недійсний промокод",
     "promoApplied": "Промокод застосовано!",
+    "referralApplied": "Реферальну знижку застосовано!",
     "processing": "Обробка..."
   },
   "paymentSuccess": {

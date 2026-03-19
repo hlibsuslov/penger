@@ -25,6 +25,11 @@
     'FIRST5': { type: 'fixed', value: 5 }
   };
 
+  /* Referral codes (partner program) */
+  var REFERRAL_CODES = {
+    'CRAFT2026': { type: 'percent', value: 20 }
+  };
+
   /* ===== ADDON PRICES ===== */
   var SLEEVE_PRICE = 10;
   var PUNCH_PRICE = 10;
@@ -994,7 +999,7 @@
 
     if (!code) return;
 
-    var promo = PROMO_CODES[code];
+    var promo = PROMO_CODES[code] || REFERRAL_CODES[code];
     if (promo) {
       appliedPromo = code;
       if (promo.type === 'percent') {
@@ -1002,8 +1007,11 @@
       } else {
         discount = promo.value;
       }
+      var isReferral = !!REFERRAL_CODES[code];
       promoMsg.className = 'promo-msg success';
-      promoMsg.textContent = (t.promoApplied || 'Promo code applied!') + ' -\u20AC' + discount;
+      promoMsg.textContent = (isReferral
+        ? (t.referralApplied || 'Referral discount applied!')
+        : (t.promoApplied || 'Promo code applied!')) + ' -\u20AC' + discount;
       promoInput.disabled = true;
       promoApply.disabled = true;
       promoApply.style.opacity = '0.4';
@@ -1239,6 +1247,7 @@
       shipping: shippingCost,
       discount: discount,
       promo: appliedPromo,
+      referral: (function () { try { return sessionStorage.getItem('penger_referral') || null; } catch (e) { return null; } })(),
       contact: {
         firstName: document.getElementById('firstName').value.trim(),
         lastName: document.getElementById('lastName').value.trim(),
@@ -1296,8 +1305,21 @@
     window.location.href = langPrefix + '/payment-failed?order_id=' + encodeURIComponent(orderId);
   });
 
+  /* ===== AUTO-APPLY REFERRAL CODE ===== */
+  function autoApplyReferral() {
+    if (appliedPromo) return;
+    try {
+      var ref = sessionStorage.getItem('penger_referral');
+      if (!ref) return;
+      if (!REFERRAL_CODES[ref] && !PROMO_CODES[ref]) return;
+      if (promoInput) promoInput.value = ref;
+      applyPromo();
+    } catch (e) {}
+  }
+
   /* ===== INIT ===== */
   restoreFormData();
+  autoApplyReferral();
   detectCountry();
   updateShipping();
   updateDeliveryEstimate();
@@ -1308,6 +1330,7 @@
   window.addEventListener('pageshow', function (e) {
     if (e.persisted) {
       restoreFormData();
+      autoApplyReferral();
       updateShipping();
       updateDeliveryEstimate();
       updateUI();
