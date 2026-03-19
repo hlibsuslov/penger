@@ -175,6 +175,14 @@
     return Math.max(total, 0);
   }
 
+  /* Format discount text: "-10% (-€7)" for percent, "-€5" for fixed */
+  function formatDiscountSuffix(type, value, discEur) {
+    if (type === 'percent') {
+      return ' -' + value + '% (-\u20AC' + discEur + ')';
+    }
+    return ' -\u20AC' + discEur;
+  }
+
   /* ===== UPDATE SHIPPING COST ===== */
   function updateShipping() {
     var country = countryEl.value;
@@ -335,12 +343,14 @@
         var isRef = !!REFERRAL_CODES[appliedPromo];
         promoMsg.textContent = (isRef
           ? (t.referralApplied || 'Referral discount applied!')
-          : (t.promoApplied || 'Promo code applied!')) + ' -\u20AC' + discount;
+          : (t.promoApplied || 'Promo code applied!')) + formatDiscountSuffix(promoType, promoValue, discount);
       }
     }
 
     /* Discount row (sidebar + bottom) */
-    var discountText = '-\u20AC' + discount;
+    var discountText = (promoType === 'percent' && promoValue)
+      ? '-' + promoValue + '% (-\u20AC' + discount + ')'
+      : '-\u20AC' + discount;
     if (discount > 0) {
       if (rowDiscount) { rowDiscount.style.display = ''; discountVal.textContent = discountText; }
       if (rowDiscountBottom) { rowDiscountBottom.style.display = ''; discountValBottom.textContent = discountText; }
@@ -1039,7 +1049,7 @@
           promoMsg.className = 'promo-msg success';
           promoMsg.textContent = (isReferral
             ? (t.referralApplied || 'Referral discount applied!')
-            : (t.promoApplied || 'Promo code applied!')) + ' -\u20AC' + discount;
+            : (t.promoApplied || 'Promo code applied!')) + formatDiscountSuffix(data.type, data.value, discount);
         }
         if (promoInput) promoInput.disabled = true;
         if (promoApply) promoApply.style.display = 'none';
@@ -1078,7 +1088,7 @@
           promoMsg.className = 'promo-msg success';
           promoMsg.textContent = (isReferral
             ? (t.referralApplied || 'Referral discount applied!')
-            : (t.promoApplied || 'Promo code applied!')) + ' -\u20AC' + discount;
+            : (t.promoApplied || 'Promo code applied!')) + formatDiscountSuffix(promo.type, promo.value, discount);
         }
         if (promoInput) promoInput.disabled = true;
         if (promoApply) promoApply.style.display = 'none';
@@ -1211,22 +1221,25 @@
           promoMsg.className = 'promo-msg success';
           promoMsg.textContent = (isRef
             ? (t.referralApplied || 'Referral discount applied!')
-            : (t.promoApplied || 'Promo code applied!')) + ' -\u20AC' + discount;
+            : (t.promoApplied || 'Promo code applied!')) + formatDiscountSuffix(promoType, promoValue, discount);
         }
-        /* Background re-validate against server (code may have expired) */
+        /* Background re-validate against server (code may have expired).
+           Guard: only remove if this code is STILL the active promo when
+           the response arrives (autoApplyReferral may have swapped it). */
+        var _revalidCode = data.promo;
         var rc = new AbortController();
         var rt = setTimeout(function () { rc.abort(); }, 5000);
         fetch('/api/validate-promo', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ code: data.promo, subtotal: sub }),
+          body: JSON.stringify({ code: _revalidCode, subtotal: sub }),
           signal: rc.signal
         }).then(function (r) {
           clearTimeout(rt);
           if (!r.ok) throw new Error('HTTP ' + r.status);
           return r.json();
         }).then(function (resp) {
-          if (!resp.valid) { removePromo(); }
+          if (!resp.valid && appliedPromo === _revalidCode) { removePromo(); }
         }).catch(function () { /* keep client-side state on network error */ });
       }
 
