@@ -192,6 +192,11 @@ app.get('/:page.html', function (req, res) {
 });
 
 /* =========================================================
+   HELIO (CRYPTO PAYMENTS) CONFIG
+   ========================================================= */
+const HELIO_SECRET_KEY = process.env.HELIO_SECRET_KEY || '';
+
+/* =========================================================
    OPENAI CONFIG
    ========================================================= */
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY || '';
@@ -531,6 +536,7 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log('  PENGER server running on http://localhost:' + PORT);
   console.log('  .env file: ' + (envExists ? envPath : 'NOT FOUND at ' + envPath));
   console.log('  OpenAI API: ' + (OPENAI_API_KEY ? 'configured (' + OPENAI_MODEL + ')' : 'NOT configured — set OPENAI_API_KEY in .env'));
+  console.log('  Helio Crypto: ' + (HELIO_SECRET_KEY ? 'configured' : 'NOT configured — set HELIO_SECRET_KEY in .env'));
   console.log('  Languages: en, uk');
   console.log('');
 });
