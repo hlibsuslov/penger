@@ -946,12 +946,15 @@
     input.checked = true;
     payMethod = input.value;
     cardFields.classList.toggle('hidden', payMethod !== 'card');
-    /* When switching payment method: always show PAY button + checkboxes, hide solana checkout */
+    /* When switching payment method: always show PAY button + checkboxes + trust badges, hide solana checkout */
     solanaCheckout.classList.add('hidden');
     stopSolanaPolling();
     checkoutBtn.style.display = '';
+    checkoutBtn.disabled = !termsCheck.checked;
     var checkboxesArea = document.getElementById('checkboxesArea');
     if (checkboxesArea) checkboxesArea.style.display = '';
+    var trustBadges = stepPayment.querySelector('.trust-badges');
+    if (trustBadges) trustBadges.style.display = '';
     updatePayMethodAria();
   });
 
@@ -1675,6 +1678,8 @@
       checkoutBtn.style.display = 'none';
       var checkboxesArea = document.getElementById('checkboxesArea');
       if (checkboxesArea) checkboxesArea.style.display = 'none';
+      var trustBadges = stepPayment.querySelector('.trust-badges');
+      if (trustBadges) trustBadges.style.display = 'none';
       renderSolanaCheckout();
       return;
     }
