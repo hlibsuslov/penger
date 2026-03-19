@@ -1571,11 +1571,55 @@
     walletBtn.disabled = false;
   }
 
-  /* Detect mobile */
+  /* Detect mobile platform */
   var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  var isAndroid = /Android/i.test(navigator.userAgent);
 
-  /* Mobile deeplink: try Phantom → Solflare → alert if neither installed */
-  function openWalletBrowser() {
+  /* Android wallet list with deeplink templates */
+  var androidWallets = [
+    { name: 'Phantom', desc: 'phantom.app', icon: 'https://phantom.app/img/phantom-icon-purple.png', deeplink: function (u) { return 'https://phantom.app/ul/browse/' + u; } },
+    { name: 'Solflare', desc: 'solflare.com', icon: 'https://solflare.com/favicon.ico', deeplink: function (u) { return 'https://solflare.com/ul/v1/browse/' + u; } },
+    { name: 'Backpack', desc: 'backpack.app', icon: 'https://backpack.app/favicon.ico', deeplink: function (u) { return 'https://backpack.app/ul/browse/' + u; } }
+  ];
+
+  /* Show Android wallet picker bottom sheet */
+  function showAndroidWalletPicker() {
+    var overlay = document.getElementById('walletPickerOverlay');
+    var list = document.getElementById('walletPickerList');
+    var cancel = document.getElementById('walletPickerCancel');
+    if (!overlay || !list) return;
+
+    var url = encodeURIComponent(window.location.href);
+    list.innerHTML = '';
+
+    androidWallets.forEach(function (w) {
+      var item = document.createElement('a');
+      item.className = 'wallet-picker-item';
+      item.href = w.deeplink(url);
+      item.innerHTML = '<img src="' + w.icon + '" alt="' + w.name + '">' +
+        '<div class="wallet-picker-item-info">' +
+          '<span class="wallet-picker-item-name">' + w.name + '</span>' +
+          '<span class="wallet-picker-item-desc">' + w.desc + '</span>' +
+        '</div>';
+      list.appendChild(item);
+    });
+
+    overlay.classList.add('open');
+
+    function close() {
+      overlay.classList.remove('open');
+      overlay.removeEventListener('click', onOverlayClick);
+      if (cancel) cancel.removeEventListener('click', close);
+    }
+    function onOverlayClick(e) {
+      if (e.target === overlay) close();
+    }
+    overlay.addEventListener('click', onOverlayClick);
+    if (cancel) cancel.addEventListener('click', close);
+  }
+
+  /* iOS deeplink: try Phantom → Solflare sequentially (works well on iOS) */
+  function openWalletBrowserIOS() {
     var url = encodeURIComponent(window.location.href);
     var wallets = [
       'https://phantom.app/ul/browse/' + url,
@@ -1608,9 +1652,13 @@
   var walletBtn = document.getElementById('solanaWalletBtn');
   if (walletBtn) {
     walletBtn.addEventListener('click', async function () {
-      /* On mobile: redirect to wallet's in-app browser */
+      /* On mobile: Android shows wallet picker, iOS uses sequential deeplinks */
       if (isMobile) {
-        openWalletBrowser();
+        if (isAndroid) {
+          showAndroidWalletPicker();
+        } else {
+          openWalletBrowserIOS();
+        }
         return;
       }
 
