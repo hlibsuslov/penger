@@ -500,10 +500,18 @@
     if (!mobileContinueBtn) return;
     if (currentStep === 'contact') {
       mobileContinueBtn.textContent = t.continueToDelivery || 'Continue to Delivery';
+      if (mobileCta) mobileCta.style.display = '';
     } else if (currentStep === 'delivery') {
       mobileContinueBtn.textContent = t.continueToPayment || 'Continue to Payment';
+      if (mobileCta) mobileCta.style.display = '';
     } else {
-      mobileContinueBtn.textContent = t.payNow || 'Pay Now';
+      /* On payment step with crypto, hide mobile CTA — Solana checkout has its own buttons */
+      if (payMethod === 'crypto') {
+        if (mobileCta) mobileCta.style.display = 'none';
+      } else {
+        mobileContinueBtn.textContent = t.payNow || 'Pay Now';
+        if (mobileCta) mobileCta.style.display = '';
+      }
     }
   }
 
