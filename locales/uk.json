@@ -507,6 +507,8 @@
     "cryptoQuoteExpires": "Котирування діє ще",
     "cryptoNoWallet": "Не знайдено гаманець Solana. Встановіть Phantom або Solflare.",
     "cryptoWalletError": "Помилка гаманця. Спробуйте ще раз або відскануйте QR-код.",
+    "cryptoCheckWallet": "Перевірте застосунок гаманця для підтвердження оплати...",
+    "cryptoOpenInWallet": "Відкрити у гаманці",
     "cryptoError": "Не вдалося створити рахунок. Спробуйте ще раз.",
     "cardNumber": "Номер картки",
     "cardExpiry": "Термін дії",
