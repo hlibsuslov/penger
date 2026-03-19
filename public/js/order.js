@@ -506,13 +506,8 @@
       mobileContinueBtn.textContent = t.continueToPayment || 'Continue to Payment';
       if (mobileCta) mobileCta.style.display = '';
     } else {
-      /* On payment step with crypto, hide mobile CTA — Solana checkout has its own buttons */
-      if (payMethod === 'crypto') {
-        if (mobileCta) mobileCta.style.display = 'none';
-      } else {
-        mobileContinueBtn.textContent = t.payNow || 'Pay Now';
-        if (mobileCta) mobileCta.style.display = '';
-      }
+      mobileContinueBtn.textContent = t.payNow || 'Pay Now';
+      if (mobileCta) mobileCta.style.display = '';
     }
   }
 
@@ -902,12 +897,6 @@
       activateStep(stepPayment);
       currentStep = 'payment';
 
-      /* Auto-show Solana checkout when crypto is the selected payment method */
-      if (payMethod === 'crypto') {
-        checkoutBtn.style.display = 'none';
-        renderSolanaCheckout();
-      }
-
       updateMobileCta();
       stepPayment.scrollIntoView({ behavior: 'smooth', block: 'start' });
       saveFormData();
@@ -957,16 +946,12 @@
     input.checked = true;
     payMethod = input.value;
     cardFields.classList.toggle('hidden', payMethod !== 'card');
-    solanaCheckout.classList.toggle('hidden', payMethod !== 'crypto');
-    /* When crypto is selected, show Solana checkout inline and hide checkout button */
-    if (payMethod === 'crypto') {
-      checkoutBtn.style.display = 'none';
-      renderSolanaCheckout();
-    } else {
-      checkoutBtn.style.display = '';
-      stopSolanaPolling();
-      solanaCheckout.classList.add('hidden');
-    }
+    /* When switching payment method: always show PAY button + checkboxes, hide solana checkout */
+    solanaCheckout.classList.add('hidden');
+    stopSolanaPolling();
+    checkoutBtn.style.display = '';
+    var checkboxesArea = document.getElementById('checkboxesArea');
+    if (checkboxesArea) checkboxesArea.style.display = '';
     updatePayMethodAria();
   });
 
