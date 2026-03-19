@@ -891,6 +891,8 @@
     .card-fields { margin-top: 12px; }
     .card-fields .form-row { margin-bottom: 4px; }
     .card-fields.hidden { display: none; }
+    .helio-checkout-container.hidden { display: none; }
+    .helio-checkout-container { margin-top: 16px; border-radius: 12px; overflow: hidden; min-height: 400px; }
 
     /* Checkboxes */
     .form-checkbox {
@@ -1474,6 +1476,9 @@
                 </label>
               </div>
 
+              <!-- Helio crypto checkout container -->
+              <div class="helio-checkout-container hidden" id="helioCheckoutContainer"></div>
+
               <!-- Card fields -->
               <div class="card-fields" id="cardFields">
                 <div class="form-row full">
@@ -1671,6 +1676,7 @@
     promoReplaceHint: '<%= t.order.promoReplaceHint %>'
   };
   </script>
+  <script type="module" crossorigin src="https://embed.hel.io/assets/index-v1.js"></script>
   <script src="/analytics.js"></script>
   <script src="/shared.js?v=3"></script>
   <% if (typeof extraJs !== 'undefined') { extraJs.forEach(function(js) { %>
