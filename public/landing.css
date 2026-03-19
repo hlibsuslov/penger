@@ -1003,6 +1003,23 @@
   .lp-binary-formula { font-size: 10px; }
 }
 
+/* === DESKTOP-ONLY HERO ADJUSTMENTS === */
+@media (min-width: 769px) {
+  .lp-hero-image {
+    margin-top: 48px;
+  }
+  .lp-hero-image img {
+    max-width: 220px;
+    filter: none;
+  }
+  .lp-hero-grid-bg {
+    display: none;
+  }
+  .lp-cta-group {
+    justify-content: center;
+  }
+}
+
 /* === LANDING SCROLL ANIMATION STAGGER === */
 .lp-feature-card.anim-fade-in:nth-child(1) { transition-delay: 0s; }
 .lp-feature-card.anim-fade-in:nth-child(2) { transition-delay: var(--stagger-delay); }
