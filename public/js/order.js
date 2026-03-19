@@ -1593,76 +1593,97 @@
     tryNext();
   }
 
+  /* Desktop wallet payment flow: connect extension → fetch tx → sign & send */
+  async function payViaDesktopWallet() {
+    var walletBtn = document.getElementById('solanaWalletBtn');
+    var invoiceId = walletBtn ? walletBtn.getAttribute('data-invoice-id') : null;
+    if (!invoiceId) return;
+
+    var provider = window.phantom?.solana || window.solana || window.solflare;
+    if (!provider) {
+      alert(t.cryptoNoWallet || 'No Solana wallet detected. Please install Phantom or Solflare.');
+      return;
+    }
+
+    try {
+      if (walletBtn) {
+        walletBtn.disabled = true;
+        walletBtn.textContent = t.cryptoConnecting || 'Connecting...';
+      }
+
+      /* Connect wallet */
+      var resp = await provider.connect();
+      var pubkey = resp.publicKey.toString();
+
+      /* Fetch serialized transaction from server */
+      var txResp = await fetch('/api/pay/' + invoiceId, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ account: pubkey })
+      });
+      var txData = await txResp.json();
+
+      if (txData.error) {
+        setSolanaStatus('error', txData.error);
+        return;
+      }
+
+      if (walletBtn) walletBtn.textContent = t.cryptoSigning || 'Confirm in wallet...';
+      var txBytes = Uint8Array.from(atob(txData.transaction), function (c) { return c.charCodeAt(0); });
+
+      /* Deserialize into proper Transaction object using @solana/web3.js */
+      var solanaWeb3 = window.solanaWeb3;
+      var transaction = solanaWeb3
+        ? solanaWeb3.Transaction.from(txBytes)
+        : null;
+
+      /* Sign and send via wallet provider */
+      var result;
+      if (transaction && provider.signAndSendTransaction) {
+        result = await provider.signAndSendTransaction(transaction);
+      } else if (provider.request) {
+        result = await provider.request({
+          method: 'signAndSendTransaction',
+          params: { transaction: txData.transaction },
+        });
+      }
+
+      if (result && result.signature) {
+        setSolanaStatus('confirming', t.cryptoConfirming || 'Payment detected, confirming...');
+      } else {
+        resetWalletBtn();
+      }
+    } catch (err) {
+      console.error('Wallet error:', err);
+      if (err.code === 4001) { /* 4001 = user rejected */
+        resetWalletBtn();
+      } else {
+        setSolanaStatus('error', t.cryptoWalletError || 'Wallet error. Please try again or scan the QR code.');
+      }
+    }
+  }
+
   /* Wallet button: mobile → deeplink, desktop → browser extension */
   var walletBtn = document.getElementById('solanaWalletBtn');
   if (walletBtn) {
-    walletBtn.addEventListener('click', async function () {
-      /* On mobile: redirect to wallet's in-app browser */
+    walletBtn.addEventListener('click', function () {
       if (isMobile) {
         openWalletBrowser();
         return;
       }
+      payViaDesktopWallet();
+    });
+  }
 
-      var invoiceId = walletBtn.getAttribute('data-invoice-id');
-      if (!invoiceId) return;
-
-      /* Desktop: connect to browser extension wallet */
-      var provider = window.phantom?.solana || window.solana || window.solflare;
-      if (!provider) {
-        alert(t.cryptoNoWallet || 'No Solana wallet detected. Please install Phantom or Solflare.');
-        return;
-      }
-
-      try {
-        walletBtn.disabled = true;
-        walletBtn.textContent = t.cryptoConnecting || 'Connecting...';
-
-        /* Connect wallet */
-        var resp = await provider.connect();
-        var pubkey = resp.publicKey.toString();
-
-        /* Fetch serialized transaction from server */
-        var txResp = await fetch('/api/pay/' + invoiceId, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ account: pubkey })
-        });
-        var txData = await txResp.json();
-
-        if (txData.error) {
-          setSolanaStatus('error', txData.error);
-          return;
-        }
-
-        walletBtn.textContent = t.cryptoSigning || 'Confirm in wallet...';
-        var txBytes = Uint8Array.from(atob(txData.transaction), function (c) { return c.charCodeAt(0); });
-
-        /* Sign and send via wallet provider */
-        var result;
-        if (provider.signAndSendTransaction) {
-          result = await provider.signAndSendTransaction({
-            serialize: function () { return txBytes; },
-          });
-        } else if (provider.request) {
-          result = await provider.request({
-            method: 'signAndSendTransaction',
-            params: { transaction: txData.transaction },
-          });
-        }
-
-        if (result && result.signature) {
-          setSolanaStatus('confirming', t.cryptoConfirming || 'Payment detected, confirming...');
-        } else {
-          resetWalletBtn();
-        }
-      } catch (err) {
-        console.error('Wallet error:', err);
-        if (err.code === 4001) { /* 4001 = user rejected */
-          resetWalletBtn();
-        } else {
-          setSolanaStatus('error', t.cryptoWalletError || 'Wallet error. Please try again or scan the QR code.');
-        }
-      }
+  /* QR code click: on desktop, trigger wallet extension payment */
+  var solanaQrContainer = document.getElementById('solanaQr');
+  if (solanaQrContainer) {
+    solanaQrContainer.style.cursor = isMobile ? '' : 'pointer';
+    solanaQrContainer.addEventListener('click', function () {
+      if (isMobile) return; /* On mobile QR is for scanning, not clicking */
+      var walletBtn = document.getElementById('solanaWalletBtn');
+      if (!walletBtn || walletBtn.disabled) return;
+      payViaDesktopWallet();
     });
   }
 
