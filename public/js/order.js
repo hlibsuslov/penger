@@ -1362,11 +1362,23 @@
     if (solanaTimerInterval) { clearInterval(solanaTimerInterval); solanaTimerInterval = null; }
   }
 
+  /* Wallet icon SVG used in button resets */
+  var walletIconSvg = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M16 14h2"/></svg> ';
+
   function setSolanaStatus(cls, text) {
-    var el = document.getElementById('solanaStatus');
-    if (!el) return;
-    el.className = 'solana-status ' + cls;
-    el.textContent = text;
+    var btn = document.getElementById('solanaWalletBtn');
+    if (!btn) return;
+    /* Strip previous status-* classes, keep base class */
+    btn.className = 'solana-wallet-btn';
+    if (cls === 'waiting') {
+      /* Reset to default "Pay with Wallet" */
+      btn.innerHTML = walletIconSvg + (t.cryptoOpenWallet || 'Pay with Wallet');
+      btn.disabled = false;
+      return;
+    }
+    btn.classList.add('status-' + cls);
+    btn.textContent = text;
+    btn.disabled = (cls !== 'error' && cls !== 'expired');
   }
 
   function startCountdown(expiresAt) {
@@ -1541,11 +1553,9 @@
     });
   }
 
-  /* Wallet icon SVG for button resets */
-  var walletIconSvg = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M16 14h2"/></svg> ';
-
   function resetWalletBtn() {
     if (!walletBtn) return;
+    walletBtn.className = 'solana-wallet-btn';
     walletBtn.innerHTML = walletIconSvg + (t.cryptoOpenWallet || 'Pay with Wallet');
     walletBtn.disabled = false;
   }
@@ -1621,7 +1631,6 @@
 
         if (txData.error) {
           setSolanaStatus('error', txData.error);
-          resetWalletBtn();
           return;
         }
 
@@ -1643,13 +1652,14 @@
 
         if (result && result.signature) {
           setSolanaStatus('confirming', t.cryptoConfirming || 'Payment detected, confirming...');
+        } else {
+          resetWalletBtn();
         }
-
-        resetWalletBtn();
       } catch (err) {
         console.error('Wallet error:', err);
-        resetWalletBtn();
-        if (err.code !== 4001) { /* 4001 = user rejected */
+        if (err.code === 4001) { /* 4001 = user rejected */
+          resetWalletBtn();
+        } else {
           setSolanaStatus('error', t.cryptoWalletError || 'Wallet error. Please try again or scan the QR code.');
         }
       }
