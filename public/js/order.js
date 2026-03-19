@@ -20,7 +20,8 @@
 
   /* Promo codes (demo) */
   var PROMO_CODES = {
-    'PENGER10': { type: 'percent', value: 10 }
+    'PENGER10': { type: 'percent', value: 10 },
+    '99': { type: 'percent', value: 99 }
   };
 
   /* Referral codes (partner program) */
@@ -1552,14 +1553,6 @@
     });
   }
 
-  /* Confirm-pay button in pre-confirm panel */
-  var confirmPayBtn = document.getElementById('solanaConfirmPayBtn');
-  if (confirmPayBtn) {
-    confirmPayBtn.addEventListener('click', function () {
-      confirmSolanaPayment();
-    });
-  }
-
   /* Wallet icon SVG for button resets */
   var walletIconSvg = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M16 14h2"/></svg> ';
 
@@ -1658,43 +1651,8 @@
 
   function renderSolanaCheckout() {
     solanaCheckout.classList.remove('hidden');
-
-    /* Show order summary and a confirm-pay button instead of starting checkout immediately */
-    var totalEur = getTotal();
-    var summaryEl = document.getElementById('solanaPreConfirm');
-    if (summaryEl) {
-      summaryEl.classList.remove('hidden');
-      var summaryTotal = summaryEl.querySelector('.solana-pre-total');
-      if (summaryTotal) summaryTotal.textContent = '\u20AC' + totalEur.toFixed(2);
-    }
-
-    /* Hide QR/amount/timer/status until user confirms */
-    var hideIds = ['solanaQr', 'solanaAmountDisplay', 'solanaRate', 'solanaTimer', 'solanaStatus', 'solanaWalletBtn'];
-    hideIds.forEach(function (id) {
-      var el = document.getElementById(id);
-      if (el) el.style.display = 'none';
-    });
-    var dividerEl = solanaCheckout.querySelector('.solana-divider');
-    if (dividerEl) dividerEl.style.display = 'none';
-
-    solanaCheckout.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
-
-  /* Called when user confirms they want to pay */
-  function confirmSolanaPayment() {
-    var summaryEl = document.getElementById('solanaPreConfirm');
-    if (summaryEl) summaryEl.classList.add('hidden');
-
-    /* Show payment UI elements */
-    var showIds = ['solanaQr', 'solanaAmountDisplay', 'solanaRate', 'solanaTimer', 'solanaStatus', 'solanaWalletBtn'];
-    showIds.forEach(function (id) {
-      var el = document.getElementById(id);
-      if (el) el.style.display = '';
-    });
-    var dividerEl = solanaCheckout.querySelector('.solana-divider');
-    if (dividerEl) dividerEl.style.display = '';
-
     startSolanaCheckout(selectedAsset);
+    solanaCheckout.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
   checkoutBtn.addEventListener('click', function () {
@@ -1702,6 +1660,11 @@
 
     /* Crypto is handled by Solana Pay inline widget */
     if (payMethod === 'crypto') {
+      if (!termsCheck.checked) {
+        termsCheck.closest('.form-checkbox').querySelector('.checkbox-box').style.borderColor = '#e74c3c';
+        termsCheck.closest('.form-checkbox').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
       checkoutBtn.style.display = 'none';
       renderSolanaCheckout();
       return;
