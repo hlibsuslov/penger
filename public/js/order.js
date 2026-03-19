@@ -1507,9 +1507,20 @@
       rateEl.textContent = '1 ' + data.asset + ' = \u20AC' + parseFloat(data.rate).toFixed(2) +
         ' \u00B7 ' + (t.cryptoTotal || 'Total') + ': \u20AC' + (data.amountEur / 100).toFixed(2);
 
-      /* QR code */
+      /* QR code — clickable, opens wallet / deeplink */
       if (data.qrDataUrl) {
-        qrEl.innerHTML = '<img src="' + data.qrDataUrl + '" alt="Solana Pay QR" width="280" height="280">';
+        if (data.solanaPayUrl) {
+          qrEl.innerHTML = '<a href="' + data.solanaPayUrl + '" target="_blank" rel="noopener" style="cursor:pointer;display:inline-block">' +
+            '<img src="' + data.qrDataUrl + '" alt="Solana Pay QR" width="280" height="280"></a>';
+        } else {
+          qrEl.innerHTML = '<img src="' + data.qrDataUrl + '" alt="Solana Pay QR" width="280" height="280" style="cursor:pointer">';
+        }
+        /* On click: same logic as wallet button */
+        qrEl.querySelector('a, img').addEventListener('click', function (e) {
+          if (data.solanaPayUrl) return; /* let the <a> handle it */
+          e.preventDefault();
+          walletBtn.click();
+        });
       } else {
         qrEl.innerHTML = '';
       }
