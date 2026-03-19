@@ -1132,8 +1132,52 @@
   }
 
   /* ===== CHECKOUT (PAY NOW) WITH DOUBLE-SUBMIT PROTECTION ===== */
+
+  /* Re-read config state from DOM to catch any bfcache / stale-JS drift */
+  function syncConfigFromDOM() {
+    /* Plates: read whichever option is marked active */
+    if (platesPicker) {
+      var activeOpt = platesPicker.querySelector('.plates-option.active');
+      if (activeOpt) {
+        var domPlates = parseInt(activeOpt.getAttribute('data-val'), 10);
+        if (domPlates >= 1 && domPlates <= 4) plates = domPlates;
+      }
+    }
+
+    /* Sleeve colour */
+    if (sleeveOptions) {
+      var checkedSleeve = sleeveOptions.querySelector('input:checked');
+      if (checkedSleeve) sleeveColor = checkedSleeve.value;
+    }
+
+    /* Punch tool */
+    if (punchToggle) {
+      var punchInp = punchToggle.querySelector('input');
+      if (punchInp) punchTool = punchInp.checked;
+    }
+
+    /* Payment method */
+    if (payMethods) {
+      var checkedPay = payMethods.querySelector('input:checked');
+      if (checkedPay) payMethod = checkedPay.value;
+    }
+
+    /* Recalculate shipping & totals with fresh state */
+    updateShipping();
+    if (appliedPromo) {
+      var promo = PROMO_CODES[appliedPromo];
+      if (promo) {
+        discount = promo.type === 'percent' ? Math.round(getSubtotal() * promo.value / 100) : promo.value;
+      }
+    }
+  }
+
   checkoutBtn.addEventListener('click', function () {
     if (isSubmitting) return;
+
+    /* Sync config from DOM before any validation or data collection */
+    syncConfigFromDOM();
+    updateUI();
 
     if (!termsCheck.checked) {
       termsCheck.closest('.form-checkbox').querySelector('.checkbox-box').style.borderColor = '#e74c3c';
