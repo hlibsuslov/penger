@@ -1247,6 +1247,5 @@
   updateShipping();
   updateDeliveryEstimate();
   updateUI();
-  updateProgress();
   updateMobileCta();
 })();
