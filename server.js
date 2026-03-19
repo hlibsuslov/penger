@@ -247,9 +247,7 @@ RULES:
    PROMO CODES CONFIG (server-side source of truth)
    ========================================================= */
 const PROMO_CODES = {
-  'PENGER10': { type: 'percent', value: 10, expires: null,         maxUses: null, isReferral: false },
-  'LAUNCH20': { type: 'percent', value: 20, expires: '2026-06-01', maxUses: 500,  isReferral: false },
-  'FIRST5':   { type: 'fixed',   value: 5,  expires: null,         maxUses: 1000, isReferral: false },
+  'PENGER10': { type: 'percent', value: 10, expires: null, maxUses: null, isReferral: false },
 };
 const REFERRAL_CODES = {
   'CRAFT2026': { type: 'percent', value: 20, expires: null, maxUses: null, isReferral: true },

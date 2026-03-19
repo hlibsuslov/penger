@@ -20,9 +20,7 @@
 
   /* Promo codes (demo) */
   var PROMO_CODES = {
-    'PENGER10': { type: 'percent', value: 10 },
-    'LAUNCH20': { type: 'percent', value: 20 },
-    'FIRST5': { type: 'fixed', value: 5 }
+    'PENGER10': { type: 'percent', value: 10 }
   };
 
   /* Referral codes (partner program) */
