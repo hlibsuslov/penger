@@ -82,18 +82,7 @@
   pointer-events: none;
 }
 .lp-hero-glow {
-  position: absolute;
-  top: -20%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 600px;
-  height: 400px;
-  z-index: 0;
-  border-radius: 50%;
-  background: radial-gradient(circle, var(--border-default) 0%, transparent 70%);
-  opacity: 0.5;
-  animation: heroGlowPulse 6s ease-in-out infinite;
-  pointer-events: none;
+  display: none;
 }
 
 /* === HERO IMAGE === */
