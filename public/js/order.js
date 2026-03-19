@@ -947,9 +947,11 @@
     /* When crypto is selected, show Helio inline and hide checkout button */
     if (payMethod === 'crypto') {
       checkoutBtn.style.display = 'none';
-      initHelioCheckout();
+      renderHelioWidget();
     } else {
       checkoutBtn.style.display = '';
+      helioContainer.innerHTML = '';
+      helioContainer.classList.add('hidden');
     }
     updatePayMethodAria();
   });
@@ -1319,92 +1321,101 @@
   }
 
   /* ===== HELIO CRYPTO CHECKOUT ===== */
-  function initHelioCheckout() {
-    if (!window.helioCheckout) {
-      /* SDK loads as type="module" — retry once after a short delay */
-      setTimeout(function () {
-        if (window.helioCheckout) initHelioCheckout();
-        else console.error('Helio SDK failed to load');
-      }, 1500);
+  var helioRetries = 0;
+  var HELIO_MAX_RETRIES = 20; /* 20 × 500ms = 10s max wait */
+
+  function waitForHelio(cb) {
+    if (window.helioCheckout) { cb(); return; }
+    if (helioRetries >= HELIO_MAX_RETRIES) {
+      helioContainer.innerHTML = '<p style="color:#e74c3c;text-align:center;padding:24px;">Crypto payment failed to load. Please refresh the page and try again.</p>';
       return;
     }
+    helioRetries++;
+    setTimeout(function () { waitForHelio(cb); }, 500);
+  }
 
-    /* Clear previous instance */
+  function renderHelioWidget() {
     helioContainer.innerHTML = '';
     helioContainer.classList.remove('hidden');
 
-    var amount = getTotal().toFixed(2);
-    var lang = t.langPrefix || '';
+    /* Loading indicator while SDK loads */
+    helioContainer.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--text-dim,#888);"><div style="margin-bottom:12px;">Loading crypto payment...</div><div style="width:32px;height:32px;border:3px solid rgba(100,0,204,.3);border-top-color:#6400CC;border-radius:50%;margin:0 auto;animation:helioSpin 0.8s linear infinite;"></div></div><style>@keyframes helioSpin{to{transform:rotate(360deg)}}</style>';
 
-    window.helioCheckout(helioContainer, {
-      paylinkId: 'zyBtgF4rM1vI~pqSltNzwheqjtL.8E5Oj~vblPO3_hbMF3hcjykrgcyE_9l.eQ6U',
-      theme: { themeMode: 'dark' },
-      primaryColor: '#6400CC',
-      neutralColor: '#5A6578',
-      amount: amount,
-      display: 'inline',
-      onSuccess: function (event) {
-        console.log('Helio payment success', event);
+    waitForHelio(function () {
+      helioContainer.innerHTML = '';
 
-        /* Generate order + save to session (same as normal checkout) */
-        var orderId = generateOrderId();
-        var total = getTotal();
-        var prefix = phonePrefix ? phonePrefix.textContent : '';
-        var orderData = {
-          order_id: orderId,
-          plates: plates,
-          sleeveColor: sleeveColor,
-          punchTool: punchTool,
-          value: total,
-          currency: 'EUR',
-          product_id: 'penger-v1',
-          pay_method: 'crypto',
-          shipping: shippingCost,
-          discount: discount,
-          promo: appliedPromo,
-          referral: (function () { try { return sessionStorage.getItem('penger_referral') || null; } catch (e) { return null; } })(),
-          contact: {
-            firstName: (document.getElementById('firstName') || {}).value || '',
-            lastName: (document.getElementById('lastName') || {}).value || '',
-            email: (document.getElementById('email') || {}).value || '',
-            phone: prefix + ((document.getElementById('phone') || {}).value || '')
-          },
-          address: {
-            street: (document.getElementById('street') || {}).value || '',
-            apt: (document.getElementById('apt') || {}).value || '',
-            city: cityEl ? cityEl.value : '',
-            zip: zipEl ? zipEl.value : '',
-            country: countryEl ? countryEl.value : ''
-          },
-          helio_tx: event && event.transactionId ? event.transactionId : '',
-          ts: Date.now()
-        };
-        try { sessionStorage.setItem('penger_order', JSON.stringify(orderData)); } catch (e) {}
+      var amount = getTotal().toFixed(2);
+      var lang = t.langPrefix || '';
 
-        var dl = window.dataLayer = window.dataLayer || [];
-        dl.push({
-          event: 'purchase',
-          order_id: orderId,
-          value: total,
-          currency: 'EUR',
-          payment_method: 'crypto_helio',
-          transaction_id: orderData.helio_tx
-        });
+      window.helioCheckout(helioContainer, {
+        paylinkId: 'zyBtgF4rM1vI~pqSltNzwheqjtL.8E5Oj~vblPO3_hbMF3hcjykrgcyE_9l.eQ6U',
+        theme: { themeMode: 'dark' },
+        primaryColor: '#6400CC',
+        neutralColor: '#5A6578',
+        amount: amount,
+        display: 'inline',
+        onSuccess: function (event) {
+          console.log('Helio payment success', event);
 
-        window.location.href = lang + '/payment-success?order_id=' + encodeURIComponent(orderId);
-      },
-      onError: function (event) {
-        console.error('Helio payment error', event);
-      },
-      onPending: function (event) {
-        console.log('Helio payment pending', event);
-      },
-      onCancel: function () {
-        console.log('Helio payment cancelled');
-      },
-      onStartPayment: function () {
-        console.log('Helio payment started');
-      }
+          var orderId = generateOrderId();
+          var total = getTotal();
+          var prefix = phonePrefix ? phonePrefix.textContent : '';
+          var orderData = {
+            order_id: orderId,
+            plates: plates,
+            sleeveColor: sleeveColor,
+            punchTool: punchTool,
+            value: total,
+            currency: 'EUR',
+            product_id: 'penger-v1',
+            pay_method: 'crypto',
+            shipping: shippingCost,
+            discount: discount,
+            promo: appliedPromo,
+            referral: (function () { try { return sessionStorage.getItem('penger_referral') || null; } catch (e) { return null; } })(),
+            contact: {
+              firstName: (document.getElementById('firstName') || {}).value || '',
+              lastName: (document.getElementById('lastName') || {}).value || '',
+              email: (document.getElementById('email') || {}).value || '',
+              phone: prefix + ((document.getElementById('phone') || {}).value || '')
+            },
+            address: {
+              street: (document.getElementById('street') || {}).value || '',
+              apt: (document.getElementById('apt') || {}).value || '',
+              city: cityEl ? cityEl.value : '',
+              zip: zipEl ? zipEl.value : '',
+              country: countryEl ? countryEl.value : ''
+            },
+            helio_tx: event && event.transactionId ? event.transactionId : '',
+            ts: Date.now()
+          };
+          try { sessionStorage.setItem('penger_order', JSON.stringify(orderData)); } catch (e) {}
+
+          var dl = window.dataLayer = window.dataLayer || [];
+          dl.push({
+            event: 'purchase',
+            order_id: orderId,
+            value: total,
+            currency: 'EUR',
+            payment_method: 'crypto_helio',
+            transaction_id: orderData.helio_tx
+          });
+
+          window.location.href = lang + '/payment-success?order_id=' + encodeURIComponent(orderId);
+        },
+        onError: function (event) {
+          console.error('Helio payment error', event);
+        },
+        onPending: function (event) {
+          console.log('Helio payment pending', event);
+        },
+        onCancel: function () {
+          console.log('Helio payment cancelled');
+        },
+        onStartPayment: function () {
+          console.log('Helio payment started');
+        }
+      });
     });
 
     helioContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -1412,6 +1423,9 @@
 
   checkoutBtn.addEventListener('click', function () {
     if (isSubmitting) return;
+
+    /* Crypto is handled entirely by Helio inline widget — never redirect */
+    if (payMethod === 'crypto') return;
 
     /* Sync config from DOM before any validation or data collection */
     syncConfigFromDOM();
