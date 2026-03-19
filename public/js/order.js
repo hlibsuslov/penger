@@ -321,11 +321,17 @@
     if (rowPunch) rowPunch.style.display = punchTool ? '' : 'none';
     if (rowPunchBottom) rowPunchBottom.style.display = punchTool ? '' : 'none';
 
-    /* Recalculate discount if promo is applied */
+    /* Recalculate discount if promo / referral is applied */
     if (appliedPromo) {
-      var promo = PROMO_CODES[appliedPromo];
+      var promo = PROMO_CODES[appliedPromo] || REFERRAL_CODES[appliedPromo];
       if (promo) {
         discount = promo.type === 'percent' ? Math.round(getSubtotal() * promo.value / 100) : promo.value;
+        if (promoMsg && promoMsg.classList.contains('success')) {
+          var isRef = !!REFERRAL_CODES[appliedPromo];
+          promoMsg.textContent = (isRef
+            ? (t.referralApplied || 'Referral discount applied!')
+            : (t.promoApplied || 'Promo code applied!')) + ' -\u20AC' + discount;
+        }
       }
     }
 
@@ -993,9 +999,9 @@
   }
 
   function applyPromo() {
+    if (!promoInput) return;
     var code = promoInput.value.trim().toUpperCase();
-    promoMsg.className = 'promo-msg';
-    promoMsg.textContent = '';
+    if (promoMsg) { promoMsg.className = 'promo-msg'; promoMsg.textContent = ''; }
 
     if (!code) return;
 
@@ -1008,19 +1014,22 @@
         discount = promo.value;
       }
       var isReferral = !!REFERRAL_CODES[code];
-      promoMsg.className = 'promo-msg success';
-      promoMsg.textContent = (isReferral
-        ? (t.referralApplied || 'Referral discount applied!')
-        : (t.promoApplied || 'Promo code applied!')) + ' -\u20AC' + discount;
-      promoInput.disabled = true;
-      promoApply.disabled = true;
-      promoApply.style.opacity = '0.4';
+      if (promoMsg) {
+        promoMsg.className = 'promo-msg success';
+        promoMsg.textContent = (isReferral
+          ? (t.referralApplied || 'Referral discount applied!')
+          : (t.promoApplied || 'Promo code applied!')) + ' -\u20AC' + discount;
+      }
+      if (promoInput) promoInput.disabled = true;
+      if (promoApply) { promoApply.disabled = true; promoApply.style.opacity = '0.4'; }
       updateUI();
     } else {
       discount = 0;
       appliedPromo = null;
-      promoMsg.className = 'promo-msg error';
-      promoMsg.textContent = t.promoInvalid || 'Invalid promo code';
+      if (promoMsg) {
+        promoMsg.className = 'promo-msg error';
+        promoMsg.textContent = t.promoInvalid || 'Invalid promo code';
+      }
       updateUI();
     }
   }
@@ -1176,7 +1185,7 @@
     /* Recalculate shipping & totals with fresh state */
     updateShipping();
     if (appliedPromo) {
-      var promo = PROMO_CODES[appliedPromo];
+      var promo = PROMO_CODES[appliedPromo] || REFERRAL_CODES[appliedPromo];
       if (promo) {
         discount = promo.type === 'percent' ? Math.round(getSubtotal() * promo.value / 100) : promo.value;
       }
@@ -1274,19 +1283,22 @@
     } catch (e) {}
 
     var dl = window.dataLayer = window.dataLayer || [];
+    var refCode = (function () { try { return sessionStorage.getItem('penger_referral') || ''; } catch (e) { return ''; } })();
     dl.push({
       event: 'begin_checkout',
       order_id: orderId,
       ecommerce: {
         currency: 'EUR',
         value: total,
+        coupon: appliedPromo || '',
         items: [{
           item_id: 'penger-v1',
           item_name: 'PENGER v1.0',
           item_brand: 'PENGER',
           item_category: 'titanium_backup',
           price: 49,
-          quantity: plates
+          quantity: plates,
+          discount: discount
         }]
       },
       config_plates: plates,
@@ -1301,6 +1313,9 @@
       config_plates: plates,
       value: total,
       currency: 'EUR',
+      coupon: appliedPromo || '',
+      discount: discount,
+      referral_code: refCode,
       page_section: 'order'
     });
 
