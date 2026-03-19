@@ -1014,12 +1014,20 @@
     if (promoInput) promoInput.disabled = true;
 
     var subtotal = getSubtotal();
+    var controller = new AbortController();
+    var fetchTimeout = setTimeout(function () { controller.abort(); }, 5000);
+
     fetch('/api/validate-promo', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code: code, subtotal: subtotal })
+      body: JSON.stringify({ code: code, subtotal: subtotal }),
+      signal: controller.signal
     })
-    .then(function (res) { return res.json(); })
+    .then(function (res) {
+      clearTimeout(fetchTimeout);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    })
     .then(function (data) {
       if (data.valid) {
         appliedPromo = code;
@@ -1113,7 +1121,7 @@
 
   /* ===== FORM DATA PERSISTENCE (sessionStorage) ===== */
   var STORAGE_KEY = 'penger_checkout_form';
-  var STORAGE_VERSION = 2;
+  var STORAGE_VERSION = 3;
   var STORAGE_TTL = 30 * 60 * 1000; /* 30 minutes */
 
   function saveFormData() {
@@ -1206,11 +1214,18 @@
             : (t.promoApplied || 'Promo code applied!')) + ' -\u20AC' + discount;
         }
         /* Background re-validate against server (code may have expired) */
+        var rc = new AbortController();
+        var rt = setTimeout(function () { rc.abort(); }, 5000);
         fetch('/api/validate-promo', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ code: data.promo, subtotal: sub })
-        }).then(function (r) { return r.json(); }).then(function (resp) {
+          body: JSON.stringify({ code: data.promo, subtotal: sub }),
+          signal: rc.signal
+        }).then(function (r) {
+          clearTimeout(rt);
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        }).then(function (resp) {
           if (!resp.valid) { removePromo(); }
         }).catch(function () { /* keep client-side state on network error */ });
       }
