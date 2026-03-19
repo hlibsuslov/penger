@@ -21,6 +21,9 @@ worker/.wrangler/
 Thumbs.db
 desktop.ini
 
+# SQLite database
+data/
+
 # Logs
 *.log
 npm-debug.log*
