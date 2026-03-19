@@ -1362,11 +1362,23 @@
     if (solanaTimerInterval) { clearInterval(solanaTimerInterval); solanaTimerInterval = null; }
   }
 
+  /* Wallet icon SVG used in button resets */
+  var walletIconSvg = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M16 14h2"/></svg> ';
+
   function setSolanaStatus(cls, text) {
-    var el = document.getElementById('solanaStatus');
-    if (!el) return;
-    el.className = 'solana-status ' + cls;
-    el.textContent = text;
+    var btn = document.getElementById('solanaWalletBtn');
+    if (!btn) return;
+    /* Strip previous status-* classes, keep base class */
+    btn.className = 'solana-wallet-btn';
+    if (cls === 'waiting') {
+      /* Reset to default "Pay with Wallet" */
+      btn.innerHTML = walletIconSvg + (t.cryptoOpenWallet || 'Pay with Wallet');
+      btn.disabled = false;
+      return;
+    }
+    btn.classList.add('status-' + cls);
+    btn.textContent = text;
+    btn.disabled = (cls !== 'error' && cls !== 'expired');
   }
 
   function startCountdown(expiresAt) {
@@ -1541,11 +1553,9 @@
     });
   }
 
-  /* Wallet icon SVG for button resets */
-  var walletIconSvg = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M16 14h2"/></svg> ';
-
   function resetWalletBtn() {
     if (!walletBtn) return;
+    walletBtn.className = 'solana-wallet-btn';
     walletBtn.innerHTML = walletIconSvg + (t.cryptoOpenWallet || 'Pay with Wallet');
     walletBtn.disabled = false;
   }
@@ -1553,10 +1563,34 @@
   /* Detect mobile */
   var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-  /* Mobile deeplink: open current page inside Phantom's in-app browser */
+  /* Mobile deeplink: try Phantom → Solflare → alert if neither installed */
   function openWalletBrowser() {
     var url = encodeURIComponent(window.location.href);
-    window.location.href = 'https://phantom.app/ul/browse/' + url;
+    var wallets = [
+      'https://phantom.app/ul/browse/' + url,
+      'https://solflare.com/ul/v1/browse/' + url
+    ];
+    var idx = 0;
+
+    function tryNext() {
+      if (idx >= wallets.length) {
+        alert(t.cryptoNoWallet || 'No Solana wallet detected. Please install Phantom or Solflare.');
+        return;
+      }
+      var opened = false;
+      function onVisChange() {
+        if (document.hidden) opened = true;
+      }
+      document.addEventListener('visibilitychange', onVisChange);
+      window.location.href = wallets[idx];
+      idx++;
+      setTimeout(function () {
+        document.removeEventListener('visibilitychange', onVisChange);
+        if (!opened) tryNext();
+      }, 1500);
+    }
+
+    tryNext();
   }
 
   /* Wallet button: mobile → deeplink, desktop → browser extension */
@@ -1597,7 +1631,6 @@
 
         if (txData.error) {
           setSolanaStatus('error', txData.error);
-          resetWalletBtn();
           return;
         }
 
@@ -1619,13 +1652,14 @@
 
         if (result && result.signature) {
           setSolanaStatus('confirming', t.cryptoConfirming || 'Payment detected, confirming...');
+        } else {
+          resetWalletBtn();
         }
-
-        resetWalletBtn();
       } catch (err) {
         console.error('Wallet error:', err);
-        resetWalletBtn();
-        if (err.code !== 4001) { /* 4001 = user rejected */
+        if (err.code === 4001) { /* 4001 = user rejected */
+          resetWalletBtn();
+        } else {
           setSolanaStatus('error', t.cryptoWalletError || 'Wallet error. Please try again or scan the QR code.');
         }
       }

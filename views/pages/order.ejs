@@ -911,17 +911,10 @@
     .solana-rate { text-align: center; font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); margin-bottom: 12px; }
     .solana-timer { text-align: center; font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); margin-bottom: 12px; }
     .solana-timer .timer-value { font-weight: 700; color: var(--text-primary); }
-    .solana-status {
-      text-align: center; padding: 6px 10px; border-radius: 4px; margin-bottom: 10px;
-      font-family: var(--font-mono); font-size: 10px; font-weight: 500;
-      letter-spacing: 0.02em;
-      border: none;
-    }
-    .solana-status.waiting { background: transparent; color: var(--text-dim); }
-    .solana-status.confirming { background: var(--bg-highlight); color: #b8860b; border-color: rgba(184,134,11,.25); }
-    .solana-status.paid { background: var(--bg-highlight); color: #2e7d32; border-color: rgba(46,125,50,.25); }
-    .solana-status.expired { background: var(--bg-highlight); color: var(--error-text); border-color: var(--error-border); }
-    .solana-status.error { background: var(--bg-highlight); color: var(--error-text); border-color: var(--error-border); }
+    .solana-wallet-btn.status-confirming { background: rgba(184,134,11,.1); border-color: rgba(184,134,11,.3); color: #b8860b; }
+    .solana-wallet-btn.status-paid { background: rgba(46,125,50,.1); border-color: rgba(46,125,50,.3); color: #2e7d32; }
+    .solana-wallet-btn.status-error { background: rgba(153,68,68,.1); border-color: var(--error-border); color: var(--error-text); }
+    .solana-wallet-btn.status-expired { background: rgba(153,68,68,.1); border-color: var(--error-border); color: var(--error-text); }
     /* Wallet button — matches .order-checkout-btn style */
     .solana-wallet-btn {
       display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -1548,11 +1541,10 @@
                     <span class="asset-amount" id="usdcAmount">—</span>
                   </button>
                 </div>
+                <div class="solana-timer" id="solanaTimer"></div>
                 <div class="solana-qr" id="solanaQr"></div>
                 <div class="solana-amount" id="solanaAmountDisplay"></div>
                 <div class="solana-rate" id="solanaRate"></div>
-                <div class="solana-timer" id="solanaTimer"></div>
-                <div class="solana-status waiting" id="solanaStatus"><%= t.order.cryptoWaiting || 'Waiting for payment...' %></div>
                 <button type="button" class="solana-wallet-btn" id="solanaWalletBtn">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M16 14h2"/></svg>
                   <%= t.order.cryptoOpenWallet || 'Pay with Wallet' %>
