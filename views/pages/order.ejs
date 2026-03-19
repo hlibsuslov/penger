@@ -1676,7 +1676,6 @@
     promoReplaceHint: '<%= t.order.promoReplaceHint %>'
   };
   </script>
-  <script type="module" crossorigin src="https://embed.hel.io/assets/index-v1.js"></script>
   <script src="/analytics.js"></script>
   <script src="/shared.js?v=3"></script>
   <% if (typeof extraJs !== 'undefined') { extraJs.forEach(function(js) { %>
@@ -1711,6 +1710,16 @@
         }
       });
     }
+  })();
+  </script>
+  <!-- Helio crypto checkout SDK — loaded last so window.helioCheckout is ready -->
+  <script>
+  (function () {
+    var s = document.createElement('script');
+    s.src = 'https://embed.hel.io/assets/index-v1.js';
+    s.type = 'module';
+    s.crossOrigin = 'anonymous';
+    document.body.appendChild(s);
   })();
   </script>
 </body>
