@@ -1098,17 +1098,20 @@
       if (data.city) cityEl.value = data.city;
       if (data.zip) zipEl.value = data.zip;
 
-      /* Restore promo code */
-      if (data.promo && PROMO_CODES[data.promo]) {
+      /* Restore promo / referral code */
+      var restoredPromo = data.promo && (PROMO_CODES[data.promo] || REFERRAL_CODES[data.promo]);
+      if (restoredPromo) {
         appliedPromo = data.promo;
-        var promo = PROMO_CODES[data.promo];
-        discount = promo.type === 'percent' ? Math.round(getSubtotal() * promo.value / 100) : promo.value;
+        discount = restoredPromo.type === 'percent' ? Math.round(getSubtotal() * restoredPromo.value / 100) : restoredPromo.value;
         if (promoInput) { promoInput.value = data.promo; promoInput.disabled = true; }
         if (promoApply) { promoApply.disabled = true; promoApply.style.opacity = '0.4'; }
         if (promoForm) promoForm.classList.add('open');
         if (promoMsg) {
+          var isRef = !!REFERRAL_CODES[data.promo];
           promoMsg.className = 'promo-msg success';
-          promoMsg.textContent = (t.promoApplied || 'Promo code applied!') + ' -\u20AC' + discount;
+          promoMsg.textContent = (isRef
+            ? (t.referralApplied || 'Referral discount applied!')
+            : (t.promoApplied || 'Promo code applied!')) + ' -\u20AC' + discount;
         }
       }
 
