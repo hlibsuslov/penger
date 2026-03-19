@@ -1553,43 +1553,22 @@
   /* Detect mobile */
   var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-  /* Wallet deeplink: open current page inside wallet's in-app browser */
-  function openWalletBrowser(wallet) {
+  /* Mobile deeplink: open current page inside Phantom's in-app browser */
+  function openWalletBrowser() {
     var url = encodeURIComponent(window.location.href);
-    if (wallet === 'phantom') {
-      window.location.href = 'https://phantom.app/ul/browse/' + url;
-    } else if (wallet === 'solflare') {
-      window.location.href = 'https://solflare.com/ul/v1/browse/' + url;
-    }
+    window.location.href = 'https://phantom.app/ul/browse/' + url;
   }
 
-  /* Mobile: show wallet chooser, hide single button; Desktop: vice versa */
+  /* Wallet button: mobile → deeplink, desktop → browser extension */
   var walletBtn = document.getElementById('solanaWalletBtn');
-  var walletChooser = document.getElementById('solanaWalletChooser');
-  if (walletBtn && walletChooser) {
-    if (isMobile) {
-      walletBtn.classList.add('hidden');
-      walletChooser.classList.remove('hidden');
-    } else {
-      walletBtn.classList.remove('hidden');
-      walletChooser.classList.add('hidden');
-    }
-  }
-
-  /* Wallet chooser buttons (mobile): redirect to wallet deeplink */
-  if (walletChooser) {
-    var walletOptions = walletChooser.querySelectorAll('.solana-wallet-option');
-    walletOptions.forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var wallet = btn.getAttribute('data-wallet');
-        openWalletBrowser(wallet);
-      });
-    });
-  }
-
-  /* Wallet button: connect to browser extension wallet (desktop) */
   if (walletBtn) {
     walletBtn.addEventListener('click', async function () {
+      /* On mobile: redirect to wallet's in-app browser */
+      if (isMobile) {
+        openWalletBrowser();
+        return;
+      }
+
       var invoiceId = walletBtn.getAttribute('data-invoice-id');
       if (!invoiceId) return;
 

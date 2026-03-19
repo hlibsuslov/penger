@@ -8,71 +8,102 @@
   <title><%= pageTitle %></title>
   <style>
     .status-page {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      display: flex; flex-direction: column; align-items: center;
       min-height: calc(100vh - var(--header-h) - 140px);
-      text-align: center; padding: 48px 24px;
+      padding: 48px 24px;
     }
-    .status-label {
-      font-family: var(--font-mono); font-size: 12px; font-weight: 600;
-      text-transform: uppercase; letter-spacing: 0.06em;
-      color: var(--text-label); margin-bottom: 24px;
+
+    /* Receipt card */
+    .receipt {
+      width: 100%; max-width: 420px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: 8px;
+      overflow: hidden;
     }
-    .status-icon {
-      width: 64px; height: 64px; border-radius: 50%;
+
+    /* Header area */
+    .receipt-header {
+      text-align: center;
+      padding: 32px 24px 24px;
+      border-bottom: 1px solid var(--border-default);
+    }
+    .receipt-label {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--text-dim); margin-bottom: 16px;
+    }
+    .receipt-icon {
+      width: 48px; height: 48px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      margin-bottom: 24px;
+      margin: 0 auto 16px;
       border: 2px solid var(--error-border);
       color: var(--error-text);
     }
-    .status-icon svg { width: 24px; height: 24px; }
-    .status-title {
-      font-family: var(--font-sans); font-size: 28px; font-weight: 700;
+    .receipt-icon svg { width: 20px; height: 20px; }
+    .receipt-title {
+      font-family: var(--font-sans); font-size: 20px; font-weight: 700;
       color: var(--text-accent); letter-spacing: -0.02em;
-      margin-bottom: 12px; line-height: 1.2;
+      margin-bottom: 8px; line-height: 1.3;
     }
-    .status-message {
-      font-family: var(--font-sans); font-size: 14px; line-height: 1.8;
-      color: var(--text-label); max-width: 440px; margin-bottom: 28px;
-    }
-    .status-reasons {
-      padding: 16px 20px; border-radius: 6px;
-      background: var(--bg-surface); border: 1px solid var(--border-default);
-      margin-bottom: 28px; text-align: left; max-width: 400px; width: 100%;
-    }
-    .status-reasons-title {
-      font-family: var(--font-mono); font-size: 10px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.06em;
-      color: var(--text-dim); margin-bottom: 10px;
-    }
-    .status-reasons ul { list-style: none; padding: 0; margin: 0; }
-    .status-reasons li {
+    .receipt-desc {
       font-family: var(--font-sans); font-size: 12px; line-height: 1.7;
-      color: var(--text-primary); padding: 5px 0;
+      color: var(--text-label); max-width: 340px; margin: 0 auto;
+    }
+
+    /* Section */
+    .receipt-section {
+      padding: 16px 24px;
       border-bottom: 1px solid var(--border-default);
     }
-    .status-reasons li:last-child { border-bottom: none; }
-    .status-reasons li::before {
+    .receipt-section:last-child { border-bottom: none; }
+
+    .receipt-section-title {
+      font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--text-dim); margin-bottom: 10px;
+    }
+
+    /* Reasons list */
+    .receipt-reasons { list-style: none; padding: 0; margin: 0; }
+    .receipt-reasons li {
+      font-family: var(--font-mono); font-size: 11px; line-height: 1.7;
+      color: var(--text-primary); padding: 4px 0;
+      border-bottom: 1px solid var(--border-default);
+    }
+    .receipt-reasons li:last-child { border-bottom: none; }
+    .receipt-reasons li::before {
       content: '\2013\00a0\00a0';
       color: var(--text-dim);
     }
-    .status-actions {
-      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+
+    /* Footer */
+    .receipt-footer {
+      padding: 20px 24px;
+      text-align: center;
     }
-    .status-contact {
-      font-family: var(--font-mono); font-size: 11px;
-      color: var(--text-dim); margin-top: 20px; line-height: 1.7;
+    .receipt-actions {
+      display: flex; gap: 8px; justify-content: center; margin-bottom: 12px;
     }
-    .status-contact a {
+    .receipt-actions .btn { font-size: 11px; padding: 10px 20px; min-height: 38px; }
+    .receipt-contact {
+      font-family: var(--font-mono); font-size: 10px;
+      color: var(--text-dim); line-height: 1.7;
+    }
+    .receipt-contact a {
       color: var(--text-accent); text-decoration: none;
       transition: color 0.2s ease;
     }
-    .status-contact a:hover { color: var(--text-accent-hover); }
+    .receipt-contact a:hover { color: var(--text-accent-hover); }
+
     @media (max-width: 520px) {
-      .status-page { padding: 36px 20px; }
-      .status-title { font-size: 22px; }
-      .status-message { font-size: 13px; }
-      .status-icon { width: 56px; height: 56px; }
-      .status-icon svg { width: 20px; height: 20px; }
+      .status-page { padding: 24px 16px; }
+      .receipt-header { padding: 24px 20px 20px; }
+      .receipt-section { padding: 14px 20px; }
+      .receipt-footer { padding: 16px 20px; }
+      .receipt-title { font-size: 18px; }
+      .receipt-icon { width: 42px; height: 42px; }
+      .receipt-icon svg { width: 18px; height: 18px; }
     }
   </style>
 </head>
@@ -83,39 +114,43 @@
 
   <%- include('../partials/header') %>
 
-  <!-- ===== PAYMENT FAILED ===== -->
   <main class="status-page" role="main">
+    <div class="receipt">
 
-    <p class="status-label"><%= t.paymentFailed.label %></p>
+      <!-- Header -->
+      <div class="receipt-header">
+        <p class="receipt-label"><%= t.paymentFailed.label %></p>
+        <div class="receipt-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+        </div>
+        <h1 class="receipt-title"><%= t.paymentFailed.h1 %></h1>
+        <p class="receipt-desc"><%= t.paymentFailed.desc %></p>
+      </div>
 
-    <div class="status-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+      <!-- Reasons -->
+      <div class="receipt-section">
+        <div class="receipt-section-title"><%= t.paymentFailed.reasonsTitle %></div>
+        <ul class="receipt-reasons">
+          <li><%= t.paymentFailed.reason1 %></li>
+          <li><%= t.paymentFailed.reason2 %></li>
+          <li><%= t.paymentFailed.reason3 %></li>
+          <li><%= t.paymentFailed.reason4 %></li>
+        </ul>
+      </div>
+
+      <!-- Footer -->
+      <div class="receipt-footer">
+        <div class="receipt-actions">
+          <a href="<%= langPrefix %>/order" class="btn btn-primary"><%= t.paymentFailed.tryAgain %></a>
+          <a href="<%= langPrefix %>/contacts" class="btn btn-secondary"><%= t.paymentFailed.contactSupport %></a>
+        </div>
+        <p class="receipt-contact">
+          <%= t.paymentFailed.helpNote %><br>
+          <a href="mailto:contact@mypenger.com">contact@mypenger.com</a>
+        </p>
+      </div>
+
     </div>
-
-    <h1 class="status-title"><%= t.paymentFailed.h1 %></h1>
-
-    <p class="status-message"><%= t.paymentFailed.desc %></p>
-
-    <div class="status-reasons">
-      <div class="status-reasons-title"><%= t.paymentFailed.reasonsTitle %></div>
-      <ul>
-        <li><%= t.paymentFailed.reason1 %></li>
-        <li><%= t.paymentFailed.reason2 %></li>
-        <li><%= t.paymentFailed.reason3 %></li>
-        <li><%= t.paymentFailed.reason4 %></li>
-      </ul>
-    </div>
-
-    <div class="status-actions">
-      <a href="<%= langPrefix %>/order" class="btn btn-primary"><%= t.paymentFailed.tryAgain %></a>
-      <a href="<%= langPrefix %>/contacts" class="btn btn-secondary"><%= t.paymentFailed.contactSupport %></a>
-    </div>
-
-    <p class="status-contact">
-      <%= t.paymentFailed.helpNote %><br>
-      <a href="mailto:contact@mypenger.com">contact@mypenger.com</a>
-    </p>
-
   </main>
 
   <%- include('../partials/footer') %>
