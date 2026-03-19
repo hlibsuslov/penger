@@ -1005,12 +1005,19 @@
 
 /* === DESKTOP-ONLY HERO ADJUSTMENTS === */
 @media (min-width: 769px) {
+  .lp-hero {
+    padding: 48px 0 64px;
+  }
   .lp-hero-image {
-    margin-top: 48px;
+    margin-top: 28px;
   }
   .lp-hero-image img {
     max-width: 440px;
     filter: none;
+  }
+  .lp-hero-tagline {
+    margin-top: 12px;
+    margin-bottom: 10px;
   }
   .lp-hero-grid-bg {
     display: none;
