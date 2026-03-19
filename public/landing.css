@@ -833,7 +833,7 @@
    ==================================================================== */
 @media (max-width: 768px) {
   .lp-hero { padding: 60px 0 56px; }
-  .lp-hero-image img { max-width: 320px; }
+  .lp-hero-image img { max-width: 480px; }
   .lp-h1 { font-size: 40px; margin-bottom: 15px; }
   .lp-h2 { font-size: 28px; }
   .lp-subheadline { font-size: 15px; }
@@ -862,7 +862,7 @@
   .lp-plate { width: min(420px, 110vw); max-width: none; }
   .lp-plate-stage { height: clamp(380px, 58vh, 520px); }
   .lp-hero { padding: 32px 0 40px; }
-  .lp-hero-image img { max-width: 260px; }
+  .lp-hero-image img { max-width: 390px; }
   .lp-h1 { font-size: 30px; }
   .lp-h2 { font-size: 24px; }
   .lp-subheadline { font-size: 14px; }
@@ -947,7 +947,7 @@
   .lp-plate { width: min(380px, 108vw); }
   .lp-plate-stage { height: clamp(340px, 50vh, 440px); }
   .lp-hero { padding: 20px 0 24px; }
-  .lp-hero-image img { max-width: 220px; }
+  .lp-hero-image img { max-width: 330px; }
   .lp-h1 { font-size: 24px; }
   .lp-h2 { font-size: 20px; }
   .lp-subheadline { font-size: 13px; }
