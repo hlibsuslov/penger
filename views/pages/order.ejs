@@ -706,7 +706,8 @@
       margin-bottom: 6px;
     }
     .form-row.full { grid-template-columns: 1fr; }
-    #deliveryForm .form-row { margin-bottom: 4px; }
+    #deliveryForm .form-row { margin-bottom: 3px; }
+    #deliveryForm .form-row .form-group { gap: 2px; }
     .form-group { display: flex; flex-direction: column; gap: 3px; }
     .form-label {
       font-family: var(--font-mono);
@@ -1060,8 +1061,8 @@
       align-items: center;
       gap: 8px;
       padding: 10px 12px;
-      background: var(--bg-main);
-      border: 1px solid var(--border-default);
+      background: transparent;
+      border: none;
       border-radius: 6px;
       margin-top: 12px;
       font-family: var(--font-sans);
@@ -1521,7 +1522,7 @@
                 <label class="pay-method active" data-method="crypto">
                   <input type="radio" name="payMethod" value="crypto" checked>
                   <span class="pay-radio"><span class="pay-radio-dot"></span></span>
-                  <svg class="pay-method-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1.73 14.49V18h-1.5v-1.41c-.83-.05-1.67-.28-2.12-.54l.37-1.43c.49.27 1.18.54 1.93.54.66 0 1.11-.25 1.11-.68 0-.41-.38-.67-1.22-.95-1.2-.41-2.04-1-2.04-2.13 0-1.03.72-1.83 1.97-2.09V8h1.5v1.3c.83.05 1.39.23 1.8.43l-.35 1.38c-.31-.14-.87-.43-1.72-.43-.74 0-1 .32-1 .62 0 .36.42.6 1.37.95 1.33.47 1.9 1.1 1.9 2.18 0 1.05-.75 1.92-2 2.16z"/></svg>
+                  <svg class="pay-method-icon" viewBox="0 0 397.7 311.7" fill="currentColor"><path d="M64.6 237.9c2.4-2.4 5.7-3.8 9.2-3.8h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1l62.7-62.7z"/><path d="M64.6 3.8C67.1 1.4 70.4 0 73.8 0h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1L64.6 3.8z"/><path d="M333.1 120.1c-2.4-2.4-5.7-3.8-9.2-3.8H6.5c-5.8 0-8.7 7-4.6 11.1l62.7 62.7c2.4 2.4 5.7 3.8 9.2 3.8h317.4c5.8 0 8.7-7 4.6-11.1l-62.7-62.7z"/></svg>
                   <span class="pay-method-info">
                     <span class="pay-method-name"><%= t.order.payCrypto %></span>
                     <span class="pay-method-desc"><%= t.order.payCryptoDesc %></span>
