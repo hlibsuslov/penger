@@ -1460,15 +1460,10 @@
       var ref = getRefCode();
       if (!ref) return;
 
-      if (REFERRAL_CODES[ref]) {
-        /* Valid referral code — auto-apply */
-        if (promoInput) promoInput.value = ref;
-        applyPromo();
-      } else if (PROMO_CODES[ref]) {
-        /* Regular promo passed via ?ref= — pre-fill only, do NOT auto-apply */
-        if (promoInput) promoInput.value = ref;
-      }
-      /* If code is not in either dict, ignore silently */
+      /* Any code passed via ?ref= link — auto-fill AND auto-apply.
+         Server validates; if code is invalid the error UI clears the field. */
+      if (promoInput) promoInput.value = ref;
+      applyPromo();
     } catch (e) {}
   }
 
