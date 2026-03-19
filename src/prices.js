@@ -3,10 +3,52 @@
 const BigNumber = require('bignumber.js');
 
 const CACHE_TTL_MS = 60 * 1000;        // 60 seconds
-const STALE_LIMIT_MS = 5 * 60 * 1000;  // 5 minutes hard limit
+const STALE_LIMIT_MS = 10 * 60 * 1000; // 10 minutes hard limit (was 5)
 const QUOTE_EXPIRY_S = 900;             // 15 minutes
 
 let cache = { solEur: null, usdcEur: null, ts: 0 };
+
+/**
+ * Try fetching prices from CoinGecko.
+ * Returns { solEur, usdcEur } or null on failure.
+ */
+async function tryCoingecko() {
+  const apiKey = process.env.COINGECKO_API_KEY;
+  const baseUrl = apiKey
+    ? 'https://pro-api.coingecko.com/api/v3'
+    : 'https://api.coingecko.com/api/v3';
+
+  const url = `${baseUrl}/simple/price?ids=solana,usd-coin&vs_currencies=eur`;
+  const headers = apiKey ? { 'x-cg-pro-api-key': apiKey } : {};
+
+  const res = await fetch(url, { headers, signal: AbortSignal.timeout(8000) });
+  if (!res.ok) return null;
+
+  const data = await res.json();
+  const solEur = data.solana?.eur;
+  const usdcEur = data['usd-coin']?.eur;
+  if (!solEur || !usdcEur) return null;
+  return { solEur, usdcEur };
+}
+
+/**
+ * Fallback: Binance public API (no key required, generous rate limits).
+ * Fetches SOL/EUR and USDC/EUR via SOL/USDT + USDT/EUR conversion.
+ */
+async function tryBinance() {
+  const url = 'https://api.binance.com/api/v3/ticker/price?symbols=["SOLUSDT","EURUSDT"]';
+  const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
+  if (!res.ok) return null;
+
+  const data = await res.json();
+  const solUsdt = parseFloat(data.find(t => t.symbol === 'SOLUSDT')?.price);
+  const eurUsdt = parseFloat(data.find(t => t.symbol === 'EURUSDT')?.price);
+  if (!solUsdt || !eurUsdt) return null;
+
+  const solEur = solUsdt / eurUsdt;
+  const usdcEur = 1 / eurUsdt; // USDC ≈ 1 USD ≈ 1 USDT
+  return { solEur, usdcEur };
+}
 
 async function fetchPrices() {
   const now = Date.now();
@@ -14,33 +56,27 @@ async function fetchPrices() {
     return { solEur: cache.solEur, usdcEur: cache.usdcEur, ts: cache.ts };
   }
 
-  const apiKey = process.env.COINGECKO_API_KEY;
-  const baseUrl = apiKey
-    ? 'https://pro-api.coingecko.com/api/v3'
-    : 'https://api.coingecko.com/api/v3';
+  // Try CoinGecko first, then Binance as fallback
+  let prices = null;
+  try { prices = await tryCoingecko(); } catch (e) { /* timeout/network */ }
 
-  const url = `${baseUrl}/simple/price?ids=solana,usd-coin&vs_currencies=eur&include_last_updated_at=true`;
-  const headers = apiKey ? { 'x-cg-pro-api-key': apiKey } : {};
-
-  const res = await fetch(url, { headers, signal: AbortSignal.timeout(10000) });
-  if (!res.ok) {
-    if (cache.solEur && (now - cache.ts) < STALE_LIMIT_MS) {
-      console.warn('[prices] CoinGecko error, using cached price from', new Date(cache.ts).toISOString());
-      return { solEur: cache.solEur, usdcEur: cache.usdcEur, ts: cache.ts };
-    }
-    throw new Error('Price feed unavailable and cache is stale');
+  if (!prices) {
+    console.warn('[prices] CoinGecko failed, trying Binance fallback...');
+    try { prices = await tryBinance(); } catch (e) { /* timeout/network */ }
   }
 
-  const data = await res.json();
-  const solEur = data.solana?.eur;
-  const usdcEur = data['usd-coin']?.eur;
-
-  if (!solEur || !usdcEur) {
-    throw new Error('Incomplete price data from CoinGecko');
+  if (prices) {
+    cache = { solEur: prices.solEur, usdcEur: prices.usdcEur, ts: now };
+    return { solEur: prices.solEur, usdcEur: prices.usdcEur, ts: now };
   }
 
-  cache = { solEur, usdcEur, ts: now };
-  return { solEur, usdcEur, ts: now };
+  // Both providers failed — use stale cache if available
+  if (cache.solEur && (now - cache.ts) < STALE_LIMIT_MS) {
+    console.warn('[prices] All providers failed, using cached price from', new Date(cache.ts).toISOString());
+    return { solEur: cache.solEur, usdcEur: cache.usdcEur, ts: cache.ts };
+  }
+
+  throw new Error('Price feed unavailable and cache is stale');
 }
 
 /**

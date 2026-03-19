@@ -500,10 +500,18 @@
     if (!mobileContinueBtn) return;
     if (currentStep === 'contact') {
       mobileContinueBtn.textContent = t.continueToDelivery || 'Continue to Delivery';
+      if (mobileCta) mobileCta.style.display = '';
     } else if (currentStep === 'delivery') {
       mobileContinueBtn.textContent = t.continueToPayment || 'Continue to Payment';
+      if (mobileCta) mobileCta.style.display = '';
     } else {
-      mobileContinueBtn.textContent = t.payNow || 'Pay Now';
+      /* On payment step with crypto, hide mobile CTA — Solana checkout has its own buttons */
+      if (payMethod === 'crypto') {
+        if (mobileCta) mobileCta.style.display = 'none';
+      } else {
+        mobileContinueBtn.textContent = t.payNow || 'Pay Now';
+        if (mobileCta) mobileCta.style.display = '';
+      }
     }
   }
 
@@ -1550,7 +1558,7 @@
 
       var provider = window.phantom?.solana || window.solana || window.solflare;
       if (!provider) {
-        alert(t.cryptoNoWallet || 'No Solana wallet detected. Please install Phantom or Solflare.');
+        alert(t.cryptoNoWallet || 'No Solana wallet detected. Install Phantom or Solflare.');
         return;
       }
 
@@ -1577,40 +1585,26 @@
           return;
         }
 
-        /* Deserialize and sign */
         walletBtn.textContent = t.cryptoSigning || 'Confirm in wallet...';
         var txBytes = Uint8Array.from(atob(txData.transaction), function (c) { return c.charCodeAt(0); });
 
-        var signed;
+        /* Sign and send via wallet provider */
+        var result;
         if (provider.signAndSendTransaction) {
-          /* Phantom-style: provider signs and submits */
-          var txObj = { serialize: function() { return txBytes; } };
-          /* Use the lower-level signTransaction + send pattern for broader compat */
+          /* Phantom & Solflare: pass object with serialize() returning raw bytes */
+          result = await provider.signAndSendTransaction({
+            serialize: function () { return txBytes; },
+          });
+        } else if (provider.request) {
+          /* Fallback: standard wallet JSON-RPC with base64 transaction */
+          result = await provider.request({
+            method: 'signAndSendTransaction',
+            params: { transaction: txData.transaction },
+          });
         }
 
-        /* Use signTransaction for broadest wallet support */
-        if (provider.signTransaction) {
-          /* Need to construct a transaction object the wallet understands.
-             Most wallets accept a raw buffer via request method. */
-          var result;
-          if (provider.request) {
-            /* Phantom wallet standard */
-            result = await provider.request({
-              method: 'signAndSendTransaction',
-              params: { message: btoa(String.fromCharCode.apply(null, txBytes)) }
-            });
-          } else if (provider.signAndSendTransaction) {
-            /* Pass transaction as Uint8Array; the wallet adapter handles the rest */
-            var Transaction = window.solanaWeb3 && window.solanaWeb3.Transaction;
-            if (Transaction) {
-              var tx = Transaction.from(txBytes);
-              result = await provider.signAndSendTransaction(tx);
-            }
-          }
-
-          if (result && result.signature) {
-            setSolanaStatus('confirming', t.cryptoConfirming || 'Payment detected, confirming...');
-          }
+        if (result && result.signature) {
+          setSolanaStatus('confirming', t.cryptoConfirming || 'Payment detected, confirming...');
         }
 
         walletBtn.textContent = t.cryptoOpenWallet || 'Pay with Wallet';
