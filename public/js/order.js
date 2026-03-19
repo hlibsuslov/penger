@@ -126,8 +126,7 @@
   var payMethods = document.getElementById('payMethods');
   var cardFields = document.getElementById('cardFields');
   var cardTypeIcons = document.getElementById('cardTypeIcons');
-  var helioContainer = document.getElementById('helioCheckoutContainer');
-  var helioInitialised = false;
+  var solanaCheckout = document.getElementById('solanaCheckout');
 
   /* Form fields */
   var countryEl      = document.getElementById('country');
@@ -943,15 +942,15 @@
     input.checked = true;
     payMethod = input.value;
     cardFields.classList.toggle('hidden', payMethod !== 'card');
-    helioContainer.classList.toggle('hidden', payMethod !== 'crypto');
-    /* When crypto is selected, show Helio inline and hide checkout button */
+    solanaCheckout.classList.toggle('hidden', payMethod !== 'crypto');
+    /* When crypto is selected, show Solana checkout inline and hide checkout button */
     if (payMethod === 'crypto') {
       checkoutBtn.style.display = 'none';
-      renderHelioWidget();
+      renderSolanaCheckout();
     } else {
       checkoutBtn.style.display = '';
-      helioContainer.innerHTML = '';
-      helioContainer.classList.add('hidden');
+      stopSolanaPolling();
+      solanaCheckout.classList.add('hidden');
     }
     updatePayMethodAria();
   });
@@ -1320,120 +1319,311 @@
     }
   }
 
-  /* ===== HELIO CRYPTO CHECKOUT ===== */
-  var helioRetries = 0;
-  var HELIO_MAX_RETRIES = 20; /* 20 × 500ms = 10s max wait */
+  /* ===== SOLANA CRYPTO CHECKOUT ===== */
+  var solanaInvoiceId = null;
+  var solanaPoller = null;
+  var solanaTimerInterval = null;
+  var selectedAsset = 'SOL';
 
-  function waitForHelio(cb) {
-    if (window.helioCheckout) { cb(); return; }
-    if (helioRetries >= HELIO_MAX_RETRIES) {
-      helioContainer.innerHTML = '<p style="color:#e74c3c;text-align:center;padding:24px;">Crypto payment failed to load. Please refresh the page and try again.</p>';
-      return;
-    }
-    helioRetries++;
-    setTimeout(function () { waitForHelio(cb); }, 500);
+  /* Collect order data for the invoice API */
+  function collectOrderData() {
+    var prefix = phonePrefix ? phonePrefix.textContent : '';
+    return {
+      order_id: generateOrderId(),
+      plates: plates,
+      sleeveColor: sleeveColor,
+      punchTool: punchTool,
+      country: countryEl ? countryEl.value : '',
+      shipping: shippingCost,
+      discount: discount,
+      promo: appliedPromo,
+      referral: (function () { try { return sessionStorage.getItem('penger_referral') || null; } catch (e) { return null; } })(),
+      contact: {
+        firstName: (document.getElementById('firstName') || {}).value || '',
+        lastName: (document.getElementById('lastName') || {}).value || '',
+        email: (document.getElementById('email') || {}).value || '',
+        phone: prefix + ((document.getElementById('phone') || {}).value || '')
+      },
+      address: {
+        street: (document.getElementById('street') || {}).value || '',
+        apt: (document.getElementById('apt') || {}).value || '',
+        city: cityEl ? cityEl.value : '',
+        zip: zipEl ? zipEl.value : '',
+        country: countryEl ? countryEl.value : ''
+      }
+    };
   }
 
-  function renderHelioWidget() {
-    helioRetries = 0; /* Reset for fresh poll cycle */
-    helioContainer.innerHTML = '';
-    helioContainer.classList.remove('hidden');
+  function stopSolanaPolling() {
+    if (solanaPoller) { clearInterval(solanaPoller); solanaPoller = null; }
+    if (solanaTimerInterval) { clearInterval(solanaTimerInterval); solanaTimerInterval = null; }
+  }
 
-    /* Loading indicator while SDK loads */
-    helioContainer.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--text-dim,#888);"><div style="margin-bottom:12px;">Loading crypto payment...</div><div style="width:32px;height:32px;border:3px solid rgba(100,0,204,.3);border-top-color:#6400CC;border-radius:50%;margin:0 auto;animation:helioSpin 0.8s linear infinite;"></div></div><style>@keyframes helioSpin{to{transform:rotate(360deg)}}</style>';
+  function setSolanaStatus(cls, text) {
+    var el = document.getElementById('solanaStatus');
+    if (!el) return;
+    el.className = 'solana-status ' + cls;
+    el.textContent = text;
+  }
 
-    waitForHelio(function () {
-      helioContainer.innerHTML = '';
+  function startCountdown(expiresAt) {
+    var timerEl = document.getElementById('solanaTimer');
+    if (!timerEl) return;
+    if (solanaTimerInterval) clearInterval(solanaTimerInterval);
 
-      var amount = getTotal().toFixed(2);
-      var lang = t.langPrefix || '';
+    function update() {
+      var remaining = Math.max(0, Math.floor((expiresAt - Date.now()) / 1000));
+      var min = Math.floor(remaining / 60);
+      var sec = remaining % 60;
+      timerEl.innerHTML = (t.cryptoQuoteExpires || 'Quote expires in') +
+        ' <span class="timer-value">' + min + ':' + (sec < 10 ? '0' : '') + sec + '</span>';
+      if (remaining <= 0) {
+        clearInterval(solanaTimerInterval);
+        setSolanaStatus('expired', t.cryptoExpired || 'Quote expired');
+        stopSolanaPolling();
+        showRetryButton();
+      }
+    }
+    update();
+    solanaTimerInterval = setInterval(update, 1000);
+  }
 
-      try {
-        var result = window.helioCheckout(helioContainer, {
-          paylinkId: 'zyBtgF4rM1vI~pqSltNzwheqjtL.8E5Oj~vblPO3_hbMF3hcjykrgcyE_9l.eQ6U',
-          theme: { themeMode: 'dark' },
-          primaryColor: '#6400CC',
-          neutralColor: '#5A6578',
-          amount: amount,
-          display: 'inline',
-          onSuccess: function (event) {
-            console.log('Helio payment success', event);
+  function showRetryButton() {
+    var container = document.getElementById('solanaCheckout');
+    var existing = container.querySelector('.solana-retry-btn');
+    if (existing) return;
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'solana-retry-btn';
+    btn.textContent = t.cryptoRetry || 'Get new quote';
+    btn.addEventListener('click', function () {
+      btn.remove();
+      startSolanaCheckout(selectedAsset);
+    });
+    container.appendChild(btn);
+  }
 
-            var orderId = generateOrderId();
-            var total = getTotal();
-            var prefix = phonePrefix ? phonePrefix.textContent : '';
-            var orderData = {
-              order_id: orderId,
-              plates: plates,
-              sleeveColor: sleeveColor,
-              punchTool: punchTool,
-              value: total,
-              currency: 'EUR',
-              product_id: 'penger-v1',
-              pay_method: 'crypto',
-              shipping: shippingCost,
-              discount: discount,
-              promo: appliedPromo,
-              referral: (function () { try { return sessionStorage.getItem('penger_referral') || null; } catch (e) { return null; } })(),
-              contact: {
-                firstName: (document.getElementById('firstName') || {}).value || '',
-                lastName: (document.getElementById('lastName') || {}).value || '',
-                email: (document.getElementById('email') || {}).value || '',
-                phone: prefix + ((document.getElementById('phone') || {}).value || '')
-              },
-              address: {
-                street: (document.getElementById('street') || {}).value || '',
-                apt: (document.getElementById('apt') || {}).value || '',
-                city: cityEl ? cityEl.value : '',
-                zip: zipEl ? zipEl.value : '',
-                country: countryEl ? countryEl.value : ''
-              },
-              helio_tx: event && event.transactionId ? event.transactionId : '',
-              ts: Date.now()
-            };
+  function startSolanaPolling(invoiceId) {
+    if (solanaPoller) clearInterval(solanaPoller);
+    solanaPoller = setInterval(function () {
+      fetch('/api/invoice/' + invoiceId)
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data.status === 'paid') {
+            stopSolanaPolling();
+            setSolanaStatus('paid', t.cryptoPaid || 'Payment confirmed!');
+            document.getElementById('solanaWalletBtn').disabled = true;
+
+            /* Store order + redirect */
+            var orderData = collectOrderData();
+            orderData.order_id = data.orderId;
+            orderData.pay_method = 'crypto_solana';
+            orderData.solana_tx = data.txSignature || '';
+            orderData.value = data.amountEur / 100;
+            orderData.currency = 'EUR';
+            orderData.product_id = 'penger-v1';
+            orderData.ts = Date.now();
             try { sessionStorage.setItem('penger_order', JSON.stringify(orderData)); } catch (e) {}
 
             var dl = window.dataLayer = window.dataLayer || [];
             dl.push({
               event: 'purchase',
-              order_id: orderId,
-              value: total,
+              order_id: data.orderId,
+              value: data.amountEur / 100,
               currency: 'EUR',
-              payment_method: 'crypto_helio',
-              transaction_id: orderData.helio_tx
+              payment_method: 'crypto_solana_' + data.asset,
+              transaction_id: data.txSignature || ''
             });
 
-            window.location.href = lang + '/payment-success?order_id=' + encodeURIComponent(orderId);
-          },
-          onError: function (event) {
-            console.error('Helio payment error', event);
-            helioContainer.innerHTML = '<p style="color:#e74c3c;text-align:center;padding:24px;">Payment error. Please try again.</p>';
-          },
-          onPending: function (event) {
-            console.log('Helio payment pending', event);
-          },
-          onCancel: function () {
-            console.log('Helio payment cancelled');
-          },
-          onStartPayment: function () {
-            console.log('Helio payment started');
+            var langPrefix = t.langPrefix || '';
+            setTimeout(function () {
+              window.location.href = langPrefix + '/payment-success?order_id=' + encodeURIComponent(data.orderId);
+            }, 1500);
+          } else if (data.status === 'confirming') {
+            setSolanaStatus('confirming', t.cryptoConfirming || 'Payment detected, confirming...');
+          } else if (data.status === 'expired') {
+            stopSolanaPolling();
+            setSolanaStatus('expired', t.cryptoExpired || 'Quote expired');
+            showRetryButton();
+          } else if (data.status === 'failed') {
+            stopSolanaPolling();
+            setSolanaStatus('error', t.cryptoFailed || 'Payment failed. Please try again.');
+            showRetryButton();
           }
+        })
+        .catch(function () { /* network error, will retry next interval */ });
+    }, 2500);
+  }
+
+  function startSolanaCheckout(asset) {
+    selectedAsset = asset;
+    stopSolanaPolling();
+
+    var qrEl = document.getElementById('solanaQr');
+    var amountEl = document.getElementById('solanaAmountDisplay');
+    var rateEl = document.getElementById('solanaRate');
+    var walletBtn = document.getElementById('solanaWalletBtn');
+
+    /* Show loading */
+    qrEl.innerHTML = '<div class="solana-spinner"></div>';
+    amountEl.textContent = '';
+    rateEl.textContent = '';
+    setSolanaStatus('waiting', t.cryptoLoading || 'Loading...');
+    walletBtn.disabled = true;
+
+    var orderData = collectOrderData();
+    fetch('/api/invoice', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ orderData: orderData, asset: asset })
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      if (data.error) {
+        setSolanaStatus('error', data.error);
+        qrEl.innerHTML = '';
+        return;
+      }
+
+      solanaInvoiceId = data.id;
+
+      /* Update amount display */
+      amountEl.textContent = data.amountCrypto + ' ' + data.asset;
+      rateEl.textContent = '1 ' + data.asset + ' = \u20AC' + parseFloat(data.rate).toFixed(2) +
+        ' \u00B7 ' + (t.cryptoTotal || 'Total') + ': \u20AC' + (data.amountEur / 100).toFixed(2);
+
+      /* QR code */
+      if (data.qrDataUrl) {
+        qrEl.innerHTML = '<img src="' + data.qrDataUrl + '" alt="Solana Pay QR" width="280" height="280">';
+      } else {
+        qrEl.innerHTML = '';
+      }
+
+      /* Update asset button amounts */
+      var solAmountEl = document.getElementById('solAmount');
+      var usdcAmountEl = document.getElementById('usdcAmount');
+      if (asset === 'SOL' && solAmountEl) solAmountEl.textContent = data.amountCrypto + ' SOL';
+      if (asset === 'USDC' && usdcAmountEl) usdcAmountEl.textContent = data.amountCrypto + ' USDC';
+
+      setSolanaStatus('waiting', t.cryptoWaiting || 'Waiting for payment...');
+      walletBtn.disabled = false;
+
+      /* Store payUrl for wallet button */
+      walletBtn.setAttribute('data-pay-url', '/api/pay/' + data.id);
+      walletBtn.setAttribute('data-invoice-id', data.id);
+
+      startCountdown(data.expiresAt);
+      startSolanaPolling(data.id);
+    })
+    .catch(function (err) {
+      setSolanaStatus('error', t.cryptoError || 'Failed to create invoice. Please try again.');
+      qrEl.innerHTML = '';
+    });
+  }
+
+  /* Asset selector click handler */
+  var assetSelect = document.getElementById('assetSelect');
+  if (assetSelect) {
+    assetSelect.addEventListener('click', function (e) {
+      var btn = e.target.closest('.solana-asset-btn');
+      if (!btn) return;
+      var asset = btn.getAttribute('data-asset');
+      if (!asset) return;
+      assetSelect.querySelectorAll('.solana-asset-btn').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      startSolanaCheckout(asset);
+    });
+  }
+
+  /* Wallet button: connect to browser wallet and sign */
+  var walletBtn = document.getElementById('solanaWalletBtn');
+  if (walletBtn) {
+    walletBtn.addEventListener('click', async function () {
+      var invoiceId = walletBtn.getAttribute('data-invoice-id');
+      if (!invoiceId) return;
+
+      var provider = window.phantom?.solana || window.solana || window.solflare;
+      if (!provider) {
+        alert(t.cryptoNoWallet || 'No Solana wallet detected. Please install Phantom or Solflare.');
+        return;
+      }
+
+      try {
+        walletBtn.disabled = true;
+        walletBtn.textContent = t.cryptoConnecting || 'Connecting...';
+
+        /* Connect wallet */
+        var resp = await provider.connect();
+        var pubkey = resp.publicKey.toString();
+
+        /* Fetch serialized transaction from server */
+        var txResp = await fetch('/api/pay/' + invoiceId, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ account: pubkey })
         });
-        /* helioCheckout is async — catch promise rejection */
-        if (result && typeof result.catch === 'function') {
-          result.catch(function (err) {
-            console.error('Helio async error:', err);
-            helioContainer.innerHTML = '<p style="color:#e74c3c;text-align:center;padding:24px;">Failed to initialize crypto payment. Please refresh and try again.</p>';
-          });
+        var txData = await txResp.json();
+
+        if (txData.error) {
+          setSolanaStatus('error', txData.error);
+          walletBtn.disabled = false;
+          walletBtn.textContent = t.cryptoOpenWallet || 'Pay with Wallet';
+          return;
         }
+
+        /* Deserialize and sign */
+        walletBtn.textContent = t.cryptoSigning || 'Confirm in wallet...';
+        var txBytes = Uint8Array.from(atob(txData.transaction), function (c) { return c.charCodeAt(0); });
+
+        var signed;
+        if (provider.signAndSendTransaction) {
+          /* Phantom-style: provider signs and submits */
+          var txObj = { serialize: function() { return txBytes; } };
+          /* Use the lower-level signTransaction + send pattern for broader compat */
+        }
+
+        /* Use signTransaction for broadest wallet support */
+        if (provider.signTransaction) {
+          /* Need to construct a transaction object the wallet understands.
+             Most wallets accept a raw buffer via request method. */
+          var result;
+          if (provider.request) {
+            /* Phantom wallet standard */
+            result = await provider.request({
+              method: 'signAndSendTransaction',
+              params: { message: btoa(String.fromCharCode.apply(null, txBytes)) }
+            });
+          } else if (provider.signAndSendTransaction) {
+            /* Pass transaction as Uint8Array; the wallet adapter handles the rest */
+            var Transaction = window.solanaWeb3 && window.solanaWeb3.Transaction;
+            if (Transaction) {
+              var tx = Transaction.from(txBytes);
+              result = await provider.signAndSendTransaction(tx);
+            }
+          }
+
+          if (result && result.signature) {
+            setSolanaStatus('confirming', t.cryptoConfirming || 'Payment detected, confirming...');
+          }
+        }
+
+        walletBtn.textContent = t.cryptoOpenWallet || 'Pay with Wallet';
+        walletBtn.disabled = false;
       } catch (err) {
-        console.error('Helio init error:', err);
-        helioContainer.innerHTML = '<p style="color:#e74c3c;text-align:center;padding:24px;">Failed to initialize crypto payment. Please refresh and try again.</p>';
+        console.error('Wallet error:', err);
+        walletBtn.textContent = t.cryptoOpenWallet || 'Pay with Wallet';
+        walletBtn.disabled = false;
+        if (err.code !== 4001) { /* 4001 = user rejected */
+          setSolanaStatus('error', t.cryptoWalletError || 'Wallet error. Please try again or scan the QR code.');
+        }
       }
     });
-    });
+  }
 
-    helioContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  function renderSolanaCheckout() {
+    solanaCheckout.classList.remove('hidden');
+    startSolanaCheckout(selectedAsset);
+    solanaCheckout.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
   checkoutBtn.addEventListener('click', function () {

@@ -192,9 +192,14 @@ app.get('/:page.html', function (req, res) {
 });
 
 /* =========================================================
-   HELIO (CRYPTO PAYMENTS) CONFIG
+   SOLANA CHECKOUT — Database + Invoice API + Verification
    ========================================================= */
-const HELIO_SECRET_KEY = process.env.HELIO_SECRET_KEY || '';
+const db = require('./src/db');
+const invoiceRoutes = require('./src/invoice-routes');
+const { startPoller } = require('./src/solana-verify');
+
+db.init();
+app.use('/api', invoiceRoutes);
 
 /* =========================================================
    OPENAI CONFIG
@@ -530,13 +535,15 @@ app.use(function (req, res) {
    START
    ========================================================= */
 app.listen(PORT, '0.0.0.0', () => {
+  startPoller();
   const envPath = path.join(__dirname, '.env');
   const envExists = require('fs').existsSync(envPath);
   console.log('');
   console.log('  PENGER server running on http://localhost:' + PORT);
   console.log('  .env file: ' + (envExists ? envPath : 'NOT FOUND at ' + envPath));
   console.log('  OpenAI API: ' + (OPENAI_API_KEY ? 'configured (' + OPENAI_MODEL + ')' : 'NOT configured — set OPENAI_API_KEY in .env'));
-  console.log('  Helio Crypto: ' + (HELIO_SECRET_KEY ? 'configured' : 'NOT configured — set HELIO_SECRET_KEY in .env'));
+  console.log('  Solana RPC: ' + (process.env.SOLANA_RPC_URL || 'default (mainnet-beta)'));
+  console.log('  Merchant Wallet: ' + (process.env.MERCHANT_WALLET || 'NOT configured — set MERCHANT_WALLET in .env'));
   console.log('  Languages: en, uk');
   console.log('');
 });

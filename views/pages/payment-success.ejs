@@ -109,6 +109,10 @@
         <span class="status-order-key"><%= t.order.totalLabel %></span>
         <span class="status-order-val" id="orderTotal">—</span>
       </div>
+      <div class="status-order-row" id="txRow" style="display:none;">
+        <span class="status-order-key">TX</span>
+        <span class="status-order-val"><a id="txLink" href="#" target="_blank" rel="noopener" style="color:var(--text-accent);text-decoration:underline;font-size:11px;">—</a></span>
+      </div>
     </div>
 
     <div class="status-actions">
@@ -138,6 +142,18 @@
         var order = JSON.parse(raw);
         var totalEl = document.getElementById('orderTotal');
         if (totalEl && order.value) totalEl.textContent = '\u20AC' + order.value;
+
+        /* Show Solana tx link if crypto payment */
+        if (order.solana_tx) {
+          var txRow = document.getElementById('txRow');
+          var txLink = document.getElementById('txLink');
+          if (txRow && txLink) {
+            txRow.style.display = '';
+            var shortSig = order.solana_tx.slice(0, 8) + '...' + order.solana_tx.slice(-8);
+            txLink.textContent = shortSig;
+            txLink.href = 'https://solscan.io/tx/' + encodeURIComponent(order.solana_tx);
+          }
+        }
       }
     } catch (e) {}
   })();

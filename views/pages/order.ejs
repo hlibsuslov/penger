@@ -891,8 +891,48 @@
     .card-fields { margin-top: 12px; }
     .card-fields .form-row { margin-bottom: 4px; }
     .card-fields.hidden { display: none; }
-    .helio-checkout-container.hidden { display: none; }
-    .helio-checkout-container { margin-top: 16px; border-radius: 12px; overflow: hidden; min-height: 400px; }
+    /* Solana Checkout */
+    .solana-checkout { margin-top: 16px; padding: 24px; border-radius: 12px; background: var(--bg-surface); border: 1px solid var(--border); }
+    .solana-checkout.hidden { display: none; }
+    .solana-asset-select { display: flex; gap: 8px; margin-bottom: 20px; }
+    .solana-asset-btn {
+      flex: 1; padding: 12px 16px; border-radius: 8px; border: 2px solid var(--border);
+      background: var(--bg); cursor: pointer; text-align: center; transition: all .2s;
+      font-family: inherit; font-size: 14px; color: var(--text);
+    }
+    .solana-asset-btn:hover { border-color: var(--border-hover); }
+    .solana-asset-btn.active { border-color: var(--text-accent); background: rgba(100,0,204,.08); }
+    .solana-asset-btn .asset-name { font-weight: 600; display: block; margin-bottom: 2px; }
+    .solana-asset-btn .asset-amount { font-size: 13px; color: var(--text-dim); }
+    .solana-qr { text-align: center; margin: 16px 0; }
+    .solana-qr img { max-width: 280px; border-radius: 8px; background: #fff; padding: 8px; }
+    .solana-amount { text-align: center; font-size: 20px; font-weight: 700; margin: 12px 0 4px; }
+    .solana-rate { text-align: center; font-size: 13px; color: var(--text-dim); margin-bottom: 16px; }
+    .solana-timer { text-align: center; font-size: 13px; color: var(--text-dim); margin-bottom: 16px; }
+    .solana-timer .timer-value { font-weight: 600; color: var(--text); }
+    .solana-status { text-align: center; padding: 12px; border-radius: 8px; margin-bottom: 16px; font-size: 14px; }
+    .solana-status.waiting { background: rgba(100,0,204,.08); color: var(--text-accent); }
+    .solana-status.confirming { background: rgba(255,165,0,.1); color: #e6a200; }
+    .solana-status.paid { background: rgba(0,180,80,.1); color: #00b450; }
+    .solana-status.expired { background: rgba(231,76,60,.08); color: #e74c3c; }
+    .solana-status.error { background: rgba(231,76,60,.08); color: #e74c3c; }
+    .solana-wallet-btn {
+      width: 100%; padding: 14px; border-radius: 8px; border: none;
+      background: var(--text-accent); color: #fff; font-weight: 600; font-size: 15px;
+      cursor: pointer; font-family: inherit; transition: opacity .2s;
+    }
+    .solana-wallet-btn:hover { opacity: .9; }
+    .solana-wallet-btn:disabled { opacity: .5; cursor: not-allowed; }
+    .solana-retry-btn {
+      width: 100%; padding: 12px; border-radius: 8px; border: 2px solid var(--text-accent);
+      background: transparent; color: var(--text-accent); font-weight: 600; font-size: 14px;
+      cursor: pointer; font-family: inherit; margin-top: 8px;
+    }
+    .solana-divider { text-align: center; font-size: 12px; color: var(--text-dim); margin: 12px 0; }
+    .solana-fallback { text-align: center; font-size: 12px; color: var(--text-dim); margin-top: 8px; word-break: break-all; }
+    .solana-fallback a { color: var(--text-accent); text-decoration: underline; }
+    @keyframes solanaSpin { to { transform: rotate(360deg); } }
+    .solana-spinner { width: 28px; height: 28px; border: 3px solid rgba(100,0,204,.2); border-top-color: var(--text-accent); border-radius: 50%; animation: solanaSpin .7s linear infinite; margin: 0 auto 12px; }
 
     /* Checkboxes */
     .form-checkbox {
@@ -1476,8 +1516,26 @@
                 </label>
               </div>
 
-              <!-- Helio crypto checkout container -->
-              <div class="helio-checkout-container hidden" id="helioCheckoutContainer"></div>
+              <!-- Solana Pay checkout container -->
+              <div class="solana-checkout hidden" id="solanaCheckout">
+                <div class="solana-asset-select" id="assetSelect">
+                  <button type="button" class="solana-asset-btn active" data-asset="SOL">
+                    <span class="asset-name">SOL</span>
+                    <span class="asset-amount" id="solAmount">—</span>
+                  </button>
+                  <button type="button" class="solana-asset-btn" data-asset="USDC">
+                    <span class="asset-name">USDC</span>
+                    <span class="asset-amount" id="usdcAmount">—</span>
+                  </button>
+                </div>
+                <div class="solana-qr" id="solanaQr"></div>
+                <div class="solana-amount" id="solanaAmountDisplay"></div>
+                <div class="solana-rate" id="solanaRate"></div>
+                <div class="solana-timer" id="solanaTimer"></div>
+                <div class="solana-status waiting" id="solanaStatus"><%= t.order.cryptoWaiting || 'Waiting for payment...' %></div>
+                <button type="button" class="solana-wallet-btn" id="solanaWalletBtn"><%= t.order.cryptoOpenWallet || 'Pay with Wallet' %></button>
+                <div class="solana-divider"><%= t.order.cryptoOrScan || 'or scan QR with your mobile wallet' %></div>
+              </div>
 
               <!-- Card fields -->
               <div class="card-fields" id="cardFields">
@@ -1710,16 +1768,6 @@
         }
       });
     }
-  })();
-  </script>
-  <!-- Helio crypto checkout SDK — loaded last so window.helioCheckout is ready -->
-  <script>
-  (function () {
-    var s = document.createElement('script');
-    s.src = 'https://embed.hel.io/assets/index-v1.js';
-    s.type = 'module';
-    s.crossOrigin = 'anonymous';
-    document.body.appendChild(s);
   })();
   </script>
 </body>
