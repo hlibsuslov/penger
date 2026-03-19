@@ -1665,7 +1665,10 @@
         termsCheck.closest('.form-checkbox').scrollIntoView({ behavior: 'smooth', block: 'center' });
         return;
       }
+      /* Hide PAY button, checkboxes, and trust badges */
       checkoutBtn.style.display = 'none';
+      var checkboxesArea = document.getElementById('checkboxesArea');
+      if (checkboxesArea) checkboxesArea.style.display = 'none';
       renderSolanaCheckout();
       return;
     }
