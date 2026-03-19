@@ -944,7 +944,13 @@
     payMethod = input.value;
     cardFields.classList.toggle('hidden', payMethod !== 'card');
     helioContainer.classList.toggle('hidden', payMethod !== 'crypto');
-    if (payMethod === 'crypto') initHelioCheckout();
+    /* When crypto is selected, show Helio inline and hide checkout button */
+    if (payMethod === 'crypto') {
+      checkoutBtn.style.display = 'none';
+      initHelioCheckout();
+    } else {
+      checkoutBtn.style.display = '';
+    }
     updatePayMethodAria();
   });
 
@@ -1313,19 +1319,25 @@
   }
 
   /* ===== HELIO CRYPTO CHECKOUT ===== */
-  function initHelioCheckout(orderId, total, langPrefix) {
+  function initHelioCheckout() {
     if (!window.helioCheckout) {
-      console.error('Helio SDK not loaded');
+      /* SDK loads as type="module" — retry once after a short delay */
+      setTimeout(function () {
+        if (window.helioCheckout) initHelioCheckout();
+        else console.error('Helio SDK failed to load');
+      }, 1500);
       return;
     }
+
     /* Clear previous instance */
     helioContainer.innerHTML = '';
     helioContainer.classList.remove('hidden');
 
-    var amount = (total || getTotal()).toFixed(2);
+    var amount = getTotal().toFixed(2);
+    var lang = t.langPrefix || '';
 
     window.helioCheckout(helioContainer, {
-      paylinkId: '69bc0c309af419f2ecfc2d09',
+      paylinkId: 'zyBtgF4rM1vI~pqSltNzwheqjtL.8E5Oj~vblPO3_hbMF3hcjykrgcyE_9l.eQ6U',
       theme: { themeMode: 'dark' },
       primaryColor: '#6400CC',
       neutralColor: '#5A6578',
@@ -1333,28 +1345,62 @@
       display: 'inline',
       onSuccess: function (event) {
         console.log('Helio payment success', event);
+
+        /* Generate order + save to session (same as normal checkout) */
+        var orderId = generateOrderId();
+        var total = getTotal();
+        var prefix = phonePrefix ? phonePrefix.textContent : '';
+        var orderData = {
+          order_id: orderId,
+          plates: plates,
+          sleeveColor: sleeveColor,
+          punchTool: punchTool,
+          value: total,
+          currency: 'EUR',
+          product_id: 'penger-v1',
+          pay_method: 'crypto',
+          shipping: shippingCost,
+          discount: discount,
+          promo: appliedPromo,
+          referral: (function () { try { return sessionStorage.getItem('penger_referral') || null; } catch (e) { return null; } })(),
+          contact: {
+            firstName: (document.getElementById('firstName') || {}).value || '',
+            lastName: (document.getElementById('lastName') || {}).value || '',
+            email: (document.getElementById('email') || {}).value || '',
+            phone: prefix + ((document.getElementById('phone') || {}).value || '')
+          },
+          address: {
+            street: (document.getElementById('street') || {}).value || '',
+            apt: (document.getElementById('apt') || {}).value || '',
+            city: cityEl ? cityEl.value : '',
+            zip: zipEl ? zipEl.value : '',
+            country: countryEl ? countryEl.value : ''
+          },
+          helio_tx: event && event.transactionId ? event.transactionId : '',
+          ts: Date.now()
+        };
+        try { sessionStorage.setItem('penger_order', JSON.stringify(orderData)); } catch (e) {}
+
         var dl = window.dataLayer = window.dataLayer || [];
         dl.push({
           event: 'purchase',
           order_id: orderId,
-          value: parseFloat(amount),
+          value: total,
           currency: 'EUR',
           payment_method: 'crypto_helio',
-          transaction_id: event && event.transactionId ? event.transactionId : ''
+          transaction_id: orderData.helio_tx
         });
-        window.location.href = (langPrefix || '') + '/payment-success?order_id=' + encodeURIComponent(orderId || '');
+
+        window.location.href = lang + '/payment-success?order_id=' + encodeURIComponent(orderId);
       },
       onError: function (event) {
         console.error('Helio payment error', event);
-        window.location.href = (langPrefix || '') + '/payment-failed?order_id=' + encodeURIComponent(orderId || '');
       },
       onPending: function (event) {
         console.log('Helio payment pending', event);
       },
       onCancel: function () {
         console.log('Helio payment cancelled');
-        helioContainer.innerHTML = '';
-        helioContainer.classList.add('hidden');
       },
       onStartPayment: function () {
         console.log('Helio payment started');
@@ -1493,16 +1539,6 @@
     });
 
     var langPrefix = t.langPrefix || '';
-
-    /* Crypto: launch Helio checkout instead of stub redirect */
-    if (payMethod === 'crypto') {
-      initHelioCheckout(orderId, total, langPrefix);
-      isSubmitting = false;
-      checkoutBtn.disabled = false;
-      if (checkoutBtnText) checkoutBtnText.textContent = t.payNow || 'Pay now';
-      return;
-    }
-
     window.location.href = langPrefix + '/payment-failed?order_id=' + encodeURIComponent(orderId);
   });
 
