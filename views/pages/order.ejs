@@ -916,13 +916,36 @@
     .solana-status.paid { background: rgba(0,180,80,.1); color: #00b450; }
     .solana-status.expired { background: rgba(231,76,60,.08); color: #e74c3c; }
     .solana-status.error { background: rgba(231,76,60,.08); color: #e74c3c; }
-    .solana-wallet-btn {
-      width: 100%; padding: 14px; border-radius: 8px; border: none;
-      background: var(--text-accent); color: #fff; font-weight: 600; font-size: 15px;
-      cursor: pointer; font-family: inherit; transition: opacity .2s;
+    /* Pre-confirm panel */
+    .solana-pre-confirm { text-align: center; padding: 20px 0; }
+    .solana-pre-confirm.hidden { display: none; }
+    .solana-pre-icon { margin-bottom: 12px; }
+    .solana-pre-label { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .solana-pre-total { font-size: 32px; font-weight: 800; color: var(--text-accent); margin-bottom: 8px; letter-spacing: -0.02em; }
+    .solana-pre-hint { font-size: 13px; color: var(--text-dim); margin-bottom: 20px; max-width: 320px; margin-left: auto; margin-right: auto; line-height: 1.5; }
+    .solana-confirm-pay-btn {
+      width: 100%; padding: 16px 24px; border-radius: 10px; border: none;
+      background: linear-gradient(135deg, var(--text-accent), #7c3aed); color: #fff;
+      font-weight: 700; font-size: 16px; cursor: pointer; font-family: inherit;
+      transition: transform .15s, box-shadow .15s;
+      box-shadow: 0 4px 14px rgba(100,0,204,.3);
+      display: inline-flex; align-items: center; justify-content: center;
     }
-    .solana-wallet-btn:hover { opacity: .9; }
-    .solana-wallet-btn:disabled { opacity: .5; cursor: not-allowed; }
+    .solana-confirm-pay-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(100,0,204,.4); }
+    .solana-confirm-pay-btn:active { transform: translateY(0); }
+
+    /* Wallet button */
+    .solana-wallet-btn {
+      width: 100%; padding: 15px 24px; border-radius: 10px; border: 2px solid var(--text-accent);
+      background: linear-gradient(135deg, var(--text-accent), #7c3aed); color: #fff;
+      font-weight: 700; font-size: 15px; cursor: pointer; font-family: inherit;
+      transition: transform .15s, box-shadow .15s, opacity .2s;
+      box-shadow: 0 4px 14px rgba(100,0,204,.25);
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .solana-wallet-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(100,0,204,.35); }
+    .solana-wallet-btn:active { transform: translateY(0); }
+    .solana-wallet-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
     .solana-retry-btn {
       width: 100%; padding: 12px; border-radius: 8px; border: 2px solid var(--text-accent);
       background: transparent; color: var(--text-accent); font-weight: 600; font-size: 14px;
@@ -1518,6 +1541,20 @@
 
               <!-- Solana Pay checkout container -->
               <div class="solana-checkout hidden" id="solanaCheckout">
+                <!-- Pre-confirm: show total and ask user to proceed -->
+                <div class="solana-pre-confirm" id="solanaPreConfirm">
+                  <div class="solana-pre-icon">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="24" fill="rgba(100,0,204,.1)"/><path d="M34.2 18.6c-.6-2.4-2.7-4.2-5.1-4.2-.9 0-1.8.3-2.7.6C25.2 13.8 23.7 13.2 22.2 13.2c-3.6 0-6.6 3-6.6 6.6 0 .3 0 .6.1.9-2.4.9-4.2 3.3-4.2 6 0 3.6 3 6.6 6.6 6.6h15c3 0 5.4-2.4 5.4-5.4 0-2.7-2.1-5.1-4.3-5.4z" fill="var(--text-accent)" opacity=".85"/></svg>
+                  </div>
+                  <div class="solana-pre-label"><%= t.order.cryptoPayLabel || 'Pay with Solana' %></div>
+                  <div class="solana-pre-total">—</div>
+                  <div class="solana-pre-hint"><%= t.order.cryptoPayHint || 'You will choose between SOL or USDC and see the exact crypto amount before sending.' %></div>
+                  <button type="button" class="solana-confirm-pay-btn" id="solanaConfirmPayBtn">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="margin-right:8px;vertical-align:middle"><path d="M10 1a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm3.7 7.3-4 4a1 1 0 0 1-1.4 0l-2-2a1 1 0 1 1 1.4-1.4L9 10.2l3.3-3.3a1 1 0 0 1 1.4 1.4z" fill="currentColor"/></svg>
+                    <%= t.order.cryptoConfirmPay || 'Proceed to Payment' %>
+                  </button>
+                </div>
+
                 <div class="solana-asset-select" id="assetSelect">
                   <button type="button" class="solana-asset-btn active" data-asset="SOL">
                     <span class="asset-name">SOL</span>
@@ -1533,7 +1570,10 @@
                 <div class="solana-rate" id="solanaRate"></div>
                 <div class="solana-timer" id="solanaTimer"></div>
                 <div class="solana-status waiting" id="solanaStatus"><%= t.order.cryptoWaiting || 'Waiting for payment...' %></div>
-                <button type="button" class="solana-wallet-btn" id="solanaWalletBtn"><%= t.order.cryptoOpenWallet || 'Pay with Wallet' %></button>
+                <button type="button" class="solana-wallet-btn" id="solanaWalletBtn">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M16 14h2"/></svg>
+                  <%= t.order.cryptoOpenWallet || 'Pay with Wallet' %>
+                </button>
                 <div class="solana-divider"><%= t.order.cryptoOrScan || 'or scan QR with your mobile wallet' %></div>
               </div>
 

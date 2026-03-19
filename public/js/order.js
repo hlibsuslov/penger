@@ -1522,9 +1522,12 @@
       setSolanaStatus('waiting', t.cryptoWaiting || 'Waiting for payment...');
       walletBtn.disabled = false;
 
-      /* Store payUrl for wallet button */
+      /* Store data for wallet button */
       walletBtn.setAttribute('data-pay-url', '/api/pay/' + data.id);
       walletBtn.setAttribute('data-invoice-id', data.id);
+      if (data.solanaPayUrl) {
+        walletBtn.setAttribute('data-solana-pay-url', data.solanaPayUrl);
+      }
 
       startCountdown(data.expiresAt);
       startSolanaPolling(data.id);
@@ -1549,15 +1552,53 @@
     });
   }
 
-  /* Wallet button: connect to browser wallet and sign */
+  /* Confirm-pay button in pre-confirm panel */
+  var confirmPayBtn = document.getElementById('solanaConfirmPayBtn');
+  if (confirmPayBtn) {
+    confirmPayBtn.addEventListener('click', function () {
+      confirmSolanaPayment();
+    });
+  }
+
+  /* Wallet icon SVG for button resets */
+  var walletIconSvg = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M16 14h2"/></svg> ';
+
+  function resetWalletBtn() {
+    if (!walletBtn) return;
+    walletBtn.innerHTML = walletIconSvg + (t.cryptoOpenWallet || 'Pay with Wallet');
+    walletBtn.disabled = false;
+  }
+
+  /* Detect mobile */
+  var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  /* Wallet button: connect to browser wallet (desktop) or open deep link (mobile) */
   var walletBtn = document.getElementById('solanaWalletBtn');
   if (walletBtn) {
     walletBtn.addEventListener('click', async function () {
       var invoiceId = walletBtn.getAttribute('data-invoice-id');
       if (!invoiceId) return;
 
+      /* On mobile: open solana: deep link to trigger wallet app */
+      if (isMobile) {
+        var solanaPayUrl = walletBtn.getAttribute('data-solana-pay-url');
+        if (solanaPayUrl) {
+          /* Try opening solana: URI — registered wallets (Phantom, Solflare) will intercept */
+          window.location.href = solanaPayUrl;
+          setSolanaStatus('waiting', t.cryptoCheckWallet || 'Check your wallet app to confirm...');
+          return;
+        }
+      }
+
+      /* Desktop: connect to browser extension wallet */
       var provider = window.phantom?.solana || window.solana || window.solflare;
       if (!provider) {
+        /* No extension detected — try deep link as last resort, or show install prompt */
+        var solPayUrl = walletBtn.getAttribute('data-solana-pay-url');
+        if (solPayUrl) {
+          window.location.href = solPayUrl;
+          return;
+        }
         alert(t.cryptoNoWallet || 'No Solana wallet detected. Install Phantom or Solflare.');
         return;
       }
@@ -1580,8 +1621,7 @@
 
         if (txData.error) {
           setSolanaStatus('error', txData.error);
-          walletBtn.disabled = false;
-          walletBtn.textContent = t.cryptoOpenWallet || 'Pay with Wallet';
+          resetWalletBtn();
           return;
         }
 
@@ -1591,12 +1631,10 @@
         /* Sign and send via wallet provider */
         var result;
         if (provider.signAndSendTransaction) {
-          /* Phantom & Solflare: pass object with serialize() returning raw bytes */
           result = await provider.signAndSendTransaction({
             serialize: function () { return txBytes; },
           });
         } else if (provider.request) {
-          /* Fallback: standard wallet JSON-RPC with base64 transaction */
           result = await provider.request({
             method: 'signAndSendTransaction',
             params: { transaction: txData.transaction },
@@ -1607,12 +1645,10 @@
           setSolanaStatus('confirming', t.cryptoConfirming || 'Payment detected, confirming...');
         }
 
-        walletBtn.textContent = t.cryptoOpenWallet || 'Pay with Wallet';
-        walletBtn.disabled = false;
+        resetWalletBtn();
       } catch (err) {
         console.error('Wallet error:', err);
-        walletBtn.textContent = t.cryptoOpenWallet || 'Pay with Wallet';
-        walletBtn.disabled = false;
+        resetWalletBtn();
         if (err.code !== 4001) { /* 4001 = user rejected */
           setSolanaStatus('error', t.cryptoWalletError || 'Wallet error. Please try again or scan the QR code.');
         }
@@ -1622,8 +1658,43 @@
 
   function renderSolanaCheckout() {
     solanaCheckout.classList.remove('hidden');
-    startSolanaCheckout(selectedAsset);
+
+    /* Show order summary and a confirm-pay button instead of starting checkout immediately */
+    var totalEur = getTotal();
+    var summaryEl = document.getElementById('solanaPreConfirm');
+    if (summaryEl) {
+      summaryEl.classList.remove('hidden');
+      var summaryTotal = summaryEl.querySelector('.solana-pre-total');
+      if (summaryTotal) summaryTotal.textContent = '\u20AC' + totalEur.toFixed(2);
+    }
+
+    /* Hide QR/amount/timer/status until user confirms */
+    var hideIds = ['solanaQr', 'solanaAmountDisplay', 'solanaRate', 'solanaTimer', 'solanaStatus', 'solanaWalletBtn'];
+    hideIds.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+    });
+    var dividerEl = solanaCheckout.querySelector('.solana-divider');
+    if (dividerEl) dividerEl.style.display = 'none';
+
     solanaCheckout.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  /* Called when user confirms they want to pay */
+  function confirmSolanaPayment() {
+    var summaryEl = document.getElementById('solanaPreConfirm');
+    if (summaryEl) summaryEl.classList.add('hidden');
+
+    /* Show payment UI elements */
+    var showIds = ['solanaQr', 'solanaAmountDisplay', 'solanaRate', 'solanaTimer', 'solanaStatus', 'solanaWalletBtn'];
+    showIds.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.style.display = '';
+    });
+    var dividerEl = solanaCheckout.querySelector('.solana-divider');
+    if (dividerEl) dividerEl.style.display = '';
+
+    startSolanaCheckout(selectedAsset);
   }
 
   checkoutBtn.addEventListener('click', function () {
