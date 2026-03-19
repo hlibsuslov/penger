@@ -518,6 +518,7 @@
     "promoDiscount": "Discount",
     "promoInvalid": "Invalid promo code",
     "promoApplied": "Promo code applied!",
+    "referralApplied": "Referral discount applied!",
     "processing": "Processing..."
   },
   "paymentSuccess": {
