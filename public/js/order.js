@@ -506,13 +506,8 @@
       mobileContinueBtn.textContent = t.continueToPayment || 'Continue to Payment';
       if (mobileCta) mobileCta.style.display = '';
     } else {
-      /* On payment step with crypto, hide mobile CTA — Solana checkout has its own buttons */
-      if (payMethod === 'crypto') {
-        if (mobileCta) mobileCta.style.display = 'none';
-      } else {
-        mobileContinueBtn.textContent = t.payNow || 'Pay Now';
-        if (mobileCta) mobileCta.style.display = '';
-      }
+      mobileContinueBtn.textContent = t.payNow || 'Pay Now';
+      if (mobileCta) mobileCta.style.display = '';
     }
   }
 
@@ -902,12 +897,6 @@
       activateStep(stepPayment);
       currentStep = 'payment';
 
-      /* Auto-show Solana checkout when crypto is the selected payment method */
-      if (payMethod === 'crypto') {
-        checkoutBtn.style.display = 'none';
-        renderSolanaCheckout();
-      }
-
       updateMobileCta();
       stepPayment.scrollIntoView({ behavior: 'smooth', block: 'start' });
       saveFormData();
@@ -957,16 +946,12 @@
     input.checked = true;
     payMethod = input.value;
     cardFields.classList.toggle('hidden', payMethod !== 'card');
-    solanaCheckout.classList.toggle('hidden', payMethod !== 'crypto');
-    /* When crypto is selected, show Solana checkout inline and hide checkout button */
-    if (payMethod === 'crypto') {
-      checkoutBtn.style.display = 'none';
-      renderSolanaCheckout();
-    } else {
-      checkoutBtn.style.display = '';
-      stopSolanaPolling();
-      solanaCheckout.classList.add('hidden');
-    }
+    /* When switching payment method: always show PAY button + checkboxes, hide solana checkout */
+    solanaCheckout.classList.add('hidden');
+    stopSolanaPolling();
+    checkoutBtn.style.display = '';
+    var checkboxesArea = document.getElementById('checkboxesArea');
+    if (checkboxesArea) checkboxesArea.style.display = '';
     updatePayMethodAria();
   });
 
@@ -1554,7 +1539,7 @@
   }
 
   /* Wallet icon SVG for button resets */
-  var walletIconSvg = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M16 14h2"/></svg> ';
+  var walletIconSvg = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M16 14h2"/></svg> ';
 
   function resetWalletBtn() {
     if (!walletBtn) return;
@@ -1572,13 +1557,40 @@
       var invoiceId = walletBtn.getAttribute('data-invoice-id');
       if (!invoiceId) return;
 
-      /* On mobile: open solana: deep link to trigger wallet app */
+      /* On mobile: open wallet app via deep links */
       if (isMobile) {
-        var solanaPayUrl = walletBtn.getAttribute('data-solana-pay-url');
-        if (solanaPayUrl) {
-          /* Try opening solana: URI — registered wallets (Phantom, Solflare) will intercept */
-          window.location.href = solanaPayUrl;
-          setSolanaStatus('waiting', t.cryptoCheckWallet || 'Check your wallet app to confirm...');
+        var solPayUrl = walletBtn.getAttribute('data-solana-pay-url');
+        if (solPayUrl) {
+          /* Build the current page URL for redirect back after payment */
+          var currentUrl = encodeURIComponent(window.location.href);
+
+          /* Solflare deep link: open the current page inside Solflare's in-app browser
+             which has the wallet provider injected, so the solana: URI can be handled */
+          var solflareUrl = 'https://solflare.com/ul/v1/browse/' + currentUrl + '?ref=' + currentUrl;
+
+          /* Phantom deep link: browse current page in Phantom's in-app browser */
+          var phantomUrl = 'https://phantom.app/ul/browse/' + currentUrl + '?ref=' + currentUrl;
+
+          /* Detect if user has Phantom or Solflare installed using intent-based approach:
+             Try solana: URI first (handled by default wallet), then fall back to store */
+          var isAndroid = /Android/i.test(navigator.userAgent);
+          var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+          if (isIOS) {
+            /* iOS: try solana: URI scheme, Phantom & Solflare both register it */
+            window.location.href = solPayUrl;
+          } else if (isAndroid) {
+            /* Android: use intent to try solana: scheme, with Solflare as fallback */
+            window.location.href = 'intent:' + solPayUrl.replace('solana:', '') +
+              '#Intent;scheme=solana;package=com.solflare.mobile;end';
+          } else {
+            window.location.href = solPayUrl;
+          }
+
+          setSolanaStatus('waiting', t.cryptoCheckWallet || 'Check your wallet app to confirm the payment...');
+          walletBtn.disabled = true;
+          /* Re-enable after a few seconds in case user comes back */
+          setTimeout(function () { walletBtn.disabled = false; }, 4000);
           return;
         }
       }
@@ -1586,13 +1598,7 @@
       /* Desktop: connect to browser extension wallet */
       var provider = window.phantom?.solana || window.solana || window.solflare;
       if (!provider) {
-        /* No extension detected — try deep link as last resort, or show install prompt */
-        var solPayUrl = walletBtn.getAttribute('data-solana-pay-url');
-        if (solPayUrl) {
-          window.location.href = solPayUrl;
-          return;
-        }
-        alert(t.cryptoNoWallet || 'No Solana wallet detected. Install Phantom or Solflare.');
+        alert(t.cryptoNoWallet || 'No Solana wallet detected. Please install Phantom or Solflare.');
         return;
       }
 

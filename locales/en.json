@@ -507,6 +507,8 @@
     "cryptoQuoteExpires": "Quote expires in",
     "cryptoNoWallet": "No Solana wallet detected. Please install Phantom or Solflare.",
     "cryptoWalletError": "Wallet error. Please try again or scan the QR code.",
+    "cryptoCheckWallet": "Check your wallet app to confirm the payment...",
+    "cryptoOpenInWallet": "Open in wallet app",
     "cryptoError": "Failed to create invoice. Please try again.",
     "cardNumber": "Card number",
     "cardExpiry": "Expiry date",
