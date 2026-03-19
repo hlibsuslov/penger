@@ -1019,10 +1019,14 @@
 
   /* ===== FORM DATA PERSISTENCE (sessionStorage) ===== */
   var STORAGE_KEY = 'penger_checkout_form';
+  var STORAGE_VERSION = 2;
+  var STORAGE_TTL = 30 * 60 * 1000; /* 30 minutes */
 
   function saveFormData() {
     try {
       var data = {
+        _v: STORAGE_VERSION,
+        _ts: Date.now(),
         plates: plates,
         sleeveColor: sleeveColor,
         punchTool: punchTool,
@@ -1046,6 +1050,13 @@
       var raw = sessionStorage.getItem(STORAGE_KEY);
       if (!raw) return;
       var data = JSON.parse(raw);
+
+      /* Discard stale or incompatible data */
+      if (data._v !== STORAGE_VERSION || (data._ts && Date.now() - data._ts > STORAGE_TTL)) {
+        sessionStorage.removeItem(STORAGE_KEY);
+        return;
+      }
+
       if (data.plates && data.plates >= 1 && data.plates <= 4) {
         plates = data.plates;
       }
@@ -1121,8 +1132,52 @@
   }
 
   /* ===== CHECKOUT (PAY NOW) WITH DOUBLE-SUBMIT PROTECTION ===== */
+
+  /* Re-read config state from DOM to catch any bfcache / stale-JS drift */
+  function syncConfigFromDOM() {
+    /* Plates: read whichever option is marked active */
+    if (platesPicker) {
+      var activeOpt = platesPicker.querySelector('.plates-option.active');
+      if (activeOpt) {
+        var domPlates = parseInt(activeOpt.getAttribute('data-val'), 10);
+        if (domPlates >= 1 && domPlates <= 4) plates = domPlates;
+      }
+    }
+
+    /* Sleeve colour */
+    if (sleeveOptions) {
+      var checkedSleeve = sleeveOptions.querySelector('input:checked');
+      if (checkedSleeve) sleeveColor = checkedSleeve.value;
+    }
+
+    /* Punch tool */
+    if (punchToggle) {
+      var punchInp = punchToggle.querySelector('input');
+      if (punchInp) punchTool = punchInp.checked;
+    }
+
+    /* Payment method */
+    if (payMethods) {
+      var checkedPay = payMethods.querySelector('input:checked');
+      if (checkedPay) payMethod = checkedPay.value;
+    }
+
+    /* Recalculate shipping & totals with fresh state */
+    updateShipping();
+    if (appliedPromo) {
+      var promo = PROMO_CODES[appliedPromo];
+      if (promo) {
+        discount = promo.type === 'percent' ? Math.round(getSubtotal() * promo.value / 100) : promo.value;
+      }
+    }
+  }
+
   checkoutBtn.addEventListener('click', function () {
     if (isSubmitting) return;
+
+    /* Sync config from DOM before any validation or data collection */
+    syncConfigFromDOM();
+    updateUI();
 
     if (!termsCheck.checked) {
       termsCheck.closest('.form-checkbox').querySelector('.checkbox-box').style.borderColor = '#e74c3c';
@@ -1248,4 +1303,15 @@
   updateDeliveryEstimate();
   updateUI();
   updateMobileCta();
+
+  /* Re-sync UI when page is restored from bfcache (back/forward navigation) */
+  window.addEventListener('pageshow', function (e) {
+    if (e.persisted) {
+      restoreFormData();
+      updateShipping();
+      updateDeliveryEstimate();
+      updateUI();
+      updateMobileCta();
+    }
+  });
 })();
