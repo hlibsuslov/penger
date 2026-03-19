@@ -137,7 +137,7 @@ function validateUsdcPayment(txData, invoice) {
 
     // Find owner — must be our merchant
     const owner = post.owner;
-    if (owner !== invoice.recipient) continue;
+    if (owner !== recipientAddr) continue;
 
     // Find matching pre-balance
     const pre = preTokenBalances.find(
