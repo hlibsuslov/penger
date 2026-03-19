@@ -152,7 +152,12 @@
   var promoForm   = document.getElementById('promoForm');
   var promoInput  = document.getElementById('promoInput');
   var promoApply  = document.getElementById('promoApply');
+  var promoRemove = document.getElementById('promoRemove');
   var promoMsg    = document.getElementById('promoMsg');
+
+  /* Cached promo metadata (for client-side recalc after server validation) */
+  var promoType  = null;   // 'percent' | 'fixed'
+  var promoValue = null;   // numeric value
 
   /* ===== HELPERS ===== */
   function getSubtotal() {
@@ -322,16 +327,15 @@
     if (rowPunchBottom) rowPunchBottom.style.display = punchTool ? '' : 'none';
 
     /* Recalculate discount if promo / referral is applied */
-    if (appliedPromo) {
-      var promo = PROMO_CODES[appliedPromo] || REFERRAL_CODES[appliedPromo];
-      if (promo) {
-        discount = promo.type === 'percent' ? Math.round(getSubtotal() * promo.value / 100) : promo.value;
-        if (promoMsg && promoMsg.classList.contains('success')) {
-          var isRef = !!REFERRAL_CODES[appliedPromo];
-          promoMsg.textContent = (isRef
-            ? (t.referralApplied || 'Referral discount applied!')
-            : (t.promoApplied || 'Promo code applied!')) + ' -\u20AC' + discount;
-        }
+    if (appliedPromo && promoType && promoValue) {
+      var sub = getSubtotal();
+      discount = promoType === 'percent' ? Math.round(sub * promoValue / 100) : promoValue;
+      discount = Math.min(discount, sub); /* Cap: discount cannot exceed subtotal */
+      if (promoMsg && promoMsg.classList.contains('success')) {
+        var isRef = !!REFERRAL_CODES[appliedPromo];
+        promoMsg.textContent = (isRef
+          ? (t.referralApplied || 'Referral discount applied!')
+          : (t.promoApplied || 'Promo code applied!')) + ' -\u20AC' + discount;
       }
     }
 
@@ -1005,33 +1009,106 @@
 
     if (!code) return;
 
-    var promo = PROMO_CODES[code] || REFERRAL_CODES[code];
-    if (promo) {
-      appliedPromo = code;
-      if (promo.type === 'percent') {
-        discount = Math.round(getSubtotal() * promo.value / 100);
+    /* Show loading state */
+    if (promoApply) { promoApply.disabled = true; promoApply.textContent = t.promoLoading || 'Checking...'; }
+    if (promoInput) promoInput.disabled = true;
+
+    var subtotal = getSubtotal();
+    fetch('/api/validate-promo', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: code, subtotal: subtotal })
+    })
+    .then(function (res) { return res.json(); })
+    .then(function (data) {
+      if (data.valid) {
+        appliedPromo = code;
+        promoType = data.type;
+        promoValue = data.value;
+        discount = Math.min(data.discount, subtotal);
+        var isReferral = !!data.isReferral;
+        if (promoMsg) {
+          promoMsg.className = 'promo-msg success';
+          promoMsg.textContent = (isReferral
+            ? (t.referralApplied || 'Referral discount applied!')
+            : (t.promoApplied || 'Promo code applied!')) + ' -\u20AC' + discount;
+        }
+        if (promoInput) promoInput.disabled = true;
+        if (promoApply) promoApply.style.display = 'none';
+        if (promoRemove) promoRemove.style.display = '';
+        updateUI();
+        saveFormData();
       } else {
-        discount = promo.value;
+        discount = 0;
+        appliedPromo = null;
+        promoType = null;
+        promoValue = null;
+        if (promoInput) promoInput.disabled = false;
+        if (promoApply) { promoApply.disabled = false; promoApply.textContent = t.promoApply || 'Apply'; }
+        if (promoMsg) {
+          promoMsg.className = 'promo-msg error';
+          promoMsg.textContent = data.error || t.promoInvalid || 'Invalid promo code';
+        }
+        updateUI();
       }
-      var isReferral = !!REFERRAL_CODES[code];
-      if (promoMsg) {
-        promoMsg.className = 'promo-msg success';
-        promoMsg.textContent = (isReferral
-          ? (t.referralApplied || 'Referral discount applied!')
-          : (t.promoApplied || 'Promo code applied!')) + ' -\u20AC' + discount;
+    })
+    .catch(function () {
+      /* Network error — fall back to client-side validation for resilience */
+      var promo = PROMO_CODES[code] || REFERRAL_CODES[code];
+      if (promo) {
+        appliedPromo = code;
+        promoType = promo.type;
+        promoValue = promo.value;
+        if (promo.type === 'percent') {
+          discount = Math.round(subtotal * promo.value / 100);
+        } else {
+          discount = promo.value;
+        }
+        discount = Math.min(discount, subtotal);
+        var isReferral = !!REFERRAL_CODES[code];
+        if (promoMsg) {
+          promoMsg.className = 'promo-msg success';
+          promoMsg.textContent = (isReferral
+            ? (t.referralApplied || 'Referral discount applied!')
+            : (t.promoApplied || 'Promo code applied!')) + ' -\u20AC' + discount;
+        }
+        if (promoInput) promoInput.disabled = true;
+        if (promoApply) promoApply.style.display = 'none';
+        if (promoRemove) promoRemove.style.display = '';
+        updateUI();
+        saveFormData();
+      } else {
+        discount = 0;
+        appliedPromo = null;
+        promoType = null;
+        promoValue = null;
+        if (promoInput) promoInput.disabled = false;
+        if (promoApply) { promoApply.disabled = false; promoApply.textContent = t.promoApply || 'Apply'; }
+        if (promoMsg) {
+          promoMsg.className = 'promo-msg error';
+          promoMsg.textContent = t.promoInvalid || 'Invalid promo code';
+        }
+        updateUI();
       }
-      if (promoInput) promoInput.disabled = true;
-      if (promoApply) { promoApply.disabled = true; promoApply.style.opacity = '0.4'; }
-      updateUI();
-    } else {
-      discount = 0;
-      appliedPromo = null;
-      if (promoMsg) {
-        promoMsg.className = 'promo-msg error';
-        promoMsg.textContent = t.promoInvalid || 'Invalid promo code';
-      }
-      updateUI();
-    }
+    });
+  }
+
+  /* ===== REMOVE PROMO CODE ===== */
+  function removePromo() {
+    appliedPromo = null;
+    promoType = null;
+    promoValue = null;
+    discount = 0;
+    if (promoInput) { promoInput.disabled = false; promoInput.value = ''; }
+    if (promoApply) { promoApply.style.display = ''; promoApply.disabled = false; promoApply.textContent = t.promoApply || 'Apply'; }
+    if (promoRemove) promoRemove.style.display = 'none';
+    if (promoMsg) { promoMsg.className = 'promo-msg'; promoMsg.textContent = ''; }
+    updateUI();
+    saveFormData();
+  }
+
+  if (promoRemove) {
+    promoRemove.addEventListener('click', removePromo);
   }
 
   /* ===== FORM DATA PERSISTENCE (sessionStorage) ===== */
@@ -1056,7 +1133,9 @@
         apt: document.getElementById('apt').value,
         city: cityEl.value,
         zip: zipEl.value,
-        promo: appliedPromo
+        promo: appliedPromo,
+        promoType: promoType,
+        promoValue: promoValue
       };
       sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     } catch (e) {}
@@ -1108,12 +1187,16 @@
       if (data.zip) zipEl.value = data.zip;
 
       /* Restore promo / referral code */
-      var restoredPromo = data.promo && (PROMO_CODES[data.promo] || REFERRAL_CODES[data.promo]);
-      if (restoredPromo) {
+      if (data.promo && data.promoType && data.promoValue) {
         appliedPromo = data.promo;
-        discount = restoredPromo.type === 'percent' ? Math.round(getSubtotal() * restoredPromo.value / 100) : restoredPromo.value;
+        promoType = data.promoType;
+        promoValue = data.promoValue;
+        var sub = getSubtotal();
+        discount = promoType === 'percent' ? Math.round(sub * promoValue / 100) : promoValue;
+        discount = Math.min(discount, sub); /* Cap: discount cannot exceed subtotal */
         if (promoInput) { promoInput.value = data.promo; promoInput.disabled = true; }
-        if (promoApply) { promoApply.disabled = true; promoApply.style.opacity = '0.4'; }
+        if (promoApply) promoApply.style.display = 'none';
+        if (promoRemove) promoRemove.style.display = '';
         if (promoForm) promoForm.classList.add('open');
         if (promoMsg) {
           var isRef = !!REFERRAL_CODES[data.promo];
@@ -1122,6 +1205,14 @@
             ? (t.referralApplied || 'Referral discount applied!')
             : (t.promoApplied || 'Promo code applied!')) + ' -\u20AC' + discount;
         }
+        /* Background re-validate against server (code may have expired) */
+        fetch('/api/validate-promo', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code: data.promo, subtotal: sub })
+        }).then(function (r) { return r.json(); }).then(function (resp) {
+          if (!resp.valid) { removePromo(); }
+        }).catch(function () { /* keep client-side state on network error */ });
       }
 
       /* Trigger validation on restored fields */
@@ -1184,11 +1275,10 @@
 
     /* Recalculate shipping & totals with fresh state */
     updateShipping();
-    if (appliedPromo) {
-      var promo = PROMO_CODES[appliedPromo] || REFERRAL_CODES[appliedPromo];
-      if (promo) {
-        discount = promo.type === 'percent' ? Math.round(getSubtotal() * promo.value / 100) : promo.value;
-      }
+    if (appliedPromo && promoType && promoValue) {
+      var sub = getSubtotal();
+      discount = promoType === 'percent' ? Math.round(sub * promoValue / 100) : promoValue;
+      discount = Math.min(discount, sub);
     }
   }
 
@@ -1296,8 +1386,9 @@
           item_name: 'PENGER v1.0',
           item_brand: 'PENGER',
           item_category: 'titanium_backup',
-          price: 49,
-          quantity: plates,
+          price: getSubtotal(),
+          quantity: 1,
+          item_variant: plates + ' plates',
           discount: discount
         }]
       },
@@ -1324,18 +1415,53 @@
   });
 
   /* ===== AUTO-APPLY REFERRAL CODE ===== */
+  var REF_LOCAL_TTL = 7 * 24 * 60 * 60 * 1000; /* 7 days */
+
+  function getRefCode() {
+    /* Try sessionStorage first, then localStorage with TTL check */
+    try {
+      var ref = sessionStorage.getItem('penger_referral');
+      if (ref) return ref;
+    } catch (e) {}
+    try {
+      var raw = localStorage.getItem('penger_referral');
+      if (raw) {
+        var data = JSON.parse(raw);
+        if (data && data.code && data.ts && (Date.now() - data.ts < REF_LOCAL_TTL)) {
+          /* Restore into sessionStorage for this session */
+          sessionStorage.setItem('penger_referral', data.code);
+          return data.code;
+        } else {
+          localStorage.removeItem('penger_referral');
+        }
+      }
+    } catch (e) {}
+    return null;
+  }
+
   function autoApplyReferral() {
     if (appliedPromo) return;
     try {
-      var ref = sessionStorage.getItem('penger_referral');
+      var ref = getRefCode();
       if (!ref) return;
-      if (!REFERRAL_CODES[ref] && !PROMO_CODES[ref]) return;
-      if (promoInput) promoInput.value = ref;
-      applyPromo();
+
+      if (REFERRAL_CODES[ref]) {
+        /* Valid referral code — auto-apply */
+        if (promoInput) promoInput.value = ref;
+        applyPromo();
+      } else if (PROMO_CODES[ref]) {
+        /* Regular promo passed via ?ref= — pre-fill only, do NOT auto-apply */
+        if (promoInput) promoInput.value = ref;
+      }
+      /* If code is not in either dict, ignore silently */
     } catch (e) {}
   }
 
-  /* ===== INIT ===== */
+  /* ===== INIT =====
+     Order matters: restoreFormData restores plates/config BEFORE discount calc.
+     autoApplyReferral skips if restoreFormData already restored a promo.
+     detectCountry → updateShipping must run after country is known.
+     updateUI recalculates totals with all state in place. */
   restoreFormData();
   autoApplyReferral();
   detectCountry();
@@ -1353,6 +1479,7 @@
       updateDeliveryEstimate();
       updateUI();
       updateMobileCta();
+      saveFormData(); /* Persist restored state back to sessionStorage */
     }
   });
 })();

@@ -1,14 +1,7 @@
 (function () {
   'use strict';
 
-  /* ===== REFERRAL CODE CAPTURE ===== */
-  try {
-    var _params = new URLSearchParams(window.location.search);
-    var _ref = _params.get('ref');
-    if (_ref && _ref.length >= 2 && _ref.length <= 30) {
-      sessionStorage.setItem('penger_referral', _ref.trim().toUpperCase());
-    }
-  } catch (_e) {}
+  /* Referral capture handled in head.ejs (single source of truth) */
 
   /* ===== MOBILE NAV HAMBURGER ===== */
   var navHamburger = document.getElementById('navHamburger');
