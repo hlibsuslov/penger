@@ -321,9 +321,9 @@
     if (rowPunch) rowPunch.style.display = punchTool ? '' : 'none';
     if (rowPunchBottom) rowPunchBottom.style.display = punchTool ? '' : 'none';
 
-    /* Recalculate discount if promo is applied */
+    /* Recalculate discount if promo / referral is applied */
     if (appliedPromo) {
-      var promo = PROMO_CODES[appliedPromo];
+      var promo = PROMO_CODES[appliedPromo] || REFERRAL_CODES[appliedPromo];
       if (promo) {
         discount = promo.type === 'percent' ? Math.round(getSubtotal() * promo.value / 100) : promo.value;
       }
@@ -1176,7 +1176,7 @@
     /* Recalculate shipping & totals with fresh state */
     updateShipping();
     if (appliedPromo) {
-      var promo = PROMO_CODES[appliedPromo];
+      var promo = PROMO_CODES[appliedPromo] || REFERRAL_CODES[appliedPromo];
       if (promo) {
         discount = promo.type === 'percent' ? Math.round(getSubtotal() * promo.value / 100) : promo.value;
       }
