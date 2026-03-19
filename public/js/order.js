@@ -1553,10 +1553,34 @@
   /* Detect mobile */
   var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-  /* Mobile deeplink: open current page inside Phantom's in-app browser */
+  /* Mobile deeplink: try Phantom → Solflare → alert if neither installed */
   function openWalletBrowser() {
     var url = encodeURIComponent(window.location.href);
-    window.location.href = 'https://phantom.app/ul/browse/' + url;
+    var wallets = [
+      'https://phantom.app/ul/browse/' + url,
+      'https://solflare.com/ul/v1/browse/' + url
+    ];
+    var idx = 0;
+
+    function tryNext() {
+      if (idx >= wallets.length) {
+        alert(t.cryptoNoWallet || 'No Solana wallet detected. Please install Phantom or Solflare.');
+        return;
+      }
+      var opened = false;
+      function onVisChange() {
+        if (document.hidden) opened = true;
+      }
+      document.addEventListener('visibilitychange', onVisChange);
+      window.location.href = wallets[idx];
+      idx++;
+      setTimeout(function () {
+        document.removeEventListener('visibilitychange', onVisChange);
+        if (!opened) tryNext();
+      }, 1500);
+    }
+
+    tryNext();
   }
 
   /* Wallet button: mobile → deeplink, desktop → browser extension */
