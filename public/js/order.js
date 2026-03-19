@@ -326,6 +326,12 @@
       var promo = PROMO_CODES[appliedPromo] || REFERRAL_CODES[appliedPromo];
       if (promo) {
         discount = promo.type === 'percent' ? Math.round(getSubtotal() * promo.value / 100) : promo.value;
+        if (promoMsg && promoMsg.classList.contains('success')) {
+          var isRef = !!REFERRAL_CODES[appliedPromo];
+          promoMsg.textContent = (isRef
+            ? (t.referralApplied || 'Referral discount applied!')
+            : (t.promoApplied || 'Promo code applied!')) + ' -\u20AC' + discount;
+        }
       }
     }
 
