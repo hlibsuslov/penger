@@ -4,40 +4,42 @@
   /* Referral capture handled in head.ejs (single source of truth) */
 
   /* ===== PROPAGATE REF TO INTERNAL LINKS ===== */
-  /* When a ref code is stored, append ?ref=CODE to all internal links on click
-     so the referral parameter is preserved across page navigations and in the
-     browser address bar (useful when users copy/share URLs). */
+  /* Append ?ref=CODE to all internal <a> hrefs so the referral parameter
+     is visible in hover previews and preserved across page navigations. */
   try {
     var _storedRef = sessionStorage.getItem('penger_referral');
     if (_storedRef) {
-      document.addEventListener('click', function (e) {
-        var link = e.target.closest('a[href]');
-        if (!link) return;
+      function _tagLink(link) {
         var href = link.getAttribute('href');
         if (!href || href.charAt(0) === '#') return;
-
-        /* Skip external protocols: mailto, tel, javascript, blob */
         if (/^(javascript:|mailto:|tel:|blob:)/i.test(href)) return;
-
         /* Absolute URLs — only modify same-origin */
         if (/^https?:\/\//i.test(href)) {
           try {
-            var linkUrl = new URL(href, location.origin);
-            if (linkUrl.origin !== location.origin) return;
-            if (!linkUrl.searchParams.has('ref')) {
-              linkUrl.searchParams.set('ref', _storedRef);
-              link.setAttribute('href', linkUrl.pathname + linkUrl.search + linkUrl.hash);
+            var u = new URL(href, location.origin);
+            if (u.origin !== location.origin) return;
+            if (!u.searchParams.has('ref')) {
+              u.searchParams.set('ref', _storedRef);
+              link.setAttribute('href', u.pathname + u.search + u.hash);
             }
-          } catch (_ex) {}
+          } catch (_) {}
           return;
         }
-
         /* Internal relative / absolute-path links */
         if (href.indexOf('ref=') === -1) {
           var sep = href.indexOf('?') === -1 ? '?' : '&';
           link.setAttribute('href', href + sep + 'ref=' + encodeURIComponent(_storedRef));
         }
-      }, true); /* capture phase — modify href before browser navigates */
+      }
+
+      /* Tag ALL existing links immediately on page load */
+      document.querySelectorAll('a[href]').forEach(_tagLink);
+
+      /* Capture-phase fallback for dynamically added links */
+      document.addEventListener('click', function (e) {
+        var link = e.target.closest('a[href]');
+        if (link) _tagLink(link);
+      }, true);
     }
   } catch (_re) {}
 

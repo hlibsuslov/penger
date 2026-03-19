@@ -1455,12 +1455,18 @@
   }
 
   function autoApplyReferral() {
-    if (appliedPromo) return;
     try {
       var ref = getRefCode();
       if (!ref) return;
 
-      /* Any code passed via ?ref= link — auto-fill AND auto-apply.
+      /* If a different promo was restored from session but URL carries a fresh
+         ?ref= code, override the old promo with the new referral */
+      if (appliedPromo && appliedPromo !== ref) {
+        removePromo();
+      }
+      if (appliedPromo) return; /* same code already applied — skip */
+
+      /* Auto-fill AND auto-apply any code passed via ?ref= link.
          Server validates; if code is invalid the error UI clears the field. */
       if (promoInput) promoInput.value = ref;
       applyPromo();

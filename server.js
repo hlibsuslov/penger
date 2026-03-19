@@ -264,7 +264,7 @@ const promoUsageCounts = {};
    ========================================================= */
 const promoLimiter = rateLimit({
   windowMs: 60 * 1000,
-  max: 5,
+  max: 10,
   standardHeaders: true,
   legacyHeaders: false,
   message: { valid: false, error: 'Too many attempts. Please wait a minute.' },
