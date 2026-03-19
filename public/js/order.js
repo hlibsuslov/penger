@@ -1553,50 +1553,45 @@
   /* Detect mobile */
   var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-  /* Wallet button: connect to browser wallet (desktop) or open deep link (mobile) */
+  /* Wallet deeplink: open current page inside wallet's in-app browser */
+  function openWalletBrowser(wallet) {
+    var url = encodeURIComponent(window.location.href);
+    if (wallet === 'phantom') {
+      window.location.href = 'https://phantom.app/ul/browse/' + url;
+    } else if (wallet === 'solflare') {
+      window.location.href = 'https://solflare.com/ul/v1/browse/' + url;
+    }
+  }
+
+  /* Mobile: show wallet chooser, hide single button; Desktop: vice versa */
   var walletBtn = document.getElementById('solanaWalletBtn');
+  var walletChooser = document.getElementById('solanaWalletChooser');
+  if (walletBtn && walletChooser) {
+    if (isMobile) {
+      walletBtn.classList.add('hidden');
+      walletChooser.classList.remove('hidden');
+    } else {
+      walletBtn.classList.remove('hidden');
+      walletChooser.classList.add('hidden');
+    }
+  }
+
+  /* Wallet chooser buttons (mobile): redirect to wallet deeplink */
+  if (walletChooser) {
+    var walletOptions = walletChooser.querySelectorAll('.solana-wallet-option');
+    walletOptions.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var wallet = btn.getAttribute('data-wallet');
+        openWalletBrowser(wallet);
+      });
+    });
+  }
+
+  /* Wallet button: connect to browser extension wallet (desktop) */
   if (walletBtn) {
     walletBtn.addEventListener('click', async function () {
       var invoiceId = walletBtn.getAttribute('data-invoice-id');
       if (!invoiceId) return;
-
-      /* On mobile: open wallet app via deep links */
-      if (isMobile) {
-        var solPayUrl = walletBtn.getAttribute('data-solana-pay-url');
-        if (solPayUrl) {
-          /* Build the current page URL for redirect back after payment */
-          var currentUrl = encodeURIComponent(window.location.href);
-
-          /* Solflare deep link: open the current page inside Solflare's in-app browser
-             which has the wallet provider injected, so the solana: URI can be handled */
-          var solflareUrl = 'https://solflare.com/ul/v1/browse/' + currentUrl + '?ref=' + currentUrl;
-
-          /* Phantom deep link: browse current page in Phantom's in-app browser */
-          var phantomUrl = 'https://phantom.app/ul/browse/' + currentUrl + '?ref=' + currentUrl;
-
-          /* Detect if user has Phantom or Solflare installed using intent-based approach:
-             Try solana: URI first (handled by default wallet), then fall back to store */
-          var isAndroid = /Android/i.test(navigator.userAgent);
-          var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-          if (isIOS) {
-            /* iOS: try solana: URI scheme, Phantom & Solflare both register it */
-            window.location.href = solPayUrl;
-          } else if (isAndroid) {
-            /* Android: use intent to try solana: scheme, with Solflare as fallback */
-            window.location.href = 'intent:' + solPayUrl.replace('solana:', '') +
-              '#Intent;scheme=solana;package=com.solflare.mobile;end';
-          } else {
-            window.location.href = solPayUrl;
-          }
-
-          setSolanaStatus('waiting', t.cryptoCheckWallet || 'Check your wallet app to confirm the payment...');
-          walletBtn.disabled = true;
-          /* Re-enable after a few seconds in case user comes back */
-          setTimeout(function () { walletBtn.disabled = false; }, 4000);
-          return;
-        }
-      }
 
       /* Desktop: connect to browser extension wallet */
       var provider = window.phantom?.solana || window.solana || window.solflare;
