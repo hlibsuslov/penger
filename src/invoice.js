@@ -48,8 +48,9 @@ function calcEurTotal(orderData) {
     }
   }
 
-  // Discount is applied client-side via promo; server re-validates
-  const discountCents = Math.max(0, parseInt(orderData.discount) || 0);
+  // Discount arrives from client in EUR (not cents); convert to cents
+  const discountEur = Math.max(0, parseFloat(orderData.discount) || 0);
+  const discountCents = Math.round(discountEur * 100);
   const total = Math.max(sub + shipping - discountCents, 0);
   return total;
 }

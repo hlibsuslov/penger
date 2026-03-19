@@ -32,27 +32,28 @@ router.post('/invoice', invoiceLimiter, async (req, res) => {
 
     const invoice = await createInvoice(orderData, asset);
 
-    // Generate Solana Pay Transaction Request URL for QR
+    // Build Solana Pay transfer request URL (universally supported by wallets)
+    let solanaPayUrl;
+    if (asset === 'SOL') {
+      solanaPayUrl = `solana:${invoice.recipient}?amount=${invoice.amountCrypto}&reference=${invoice.reference}&memo=${encodeURIComponent(invoice.memo)}&label=PENGER&message=${encodeURIComponent('PENGER order ' + invoice.orderId)}`;
+    } else {
+      solanaPayUrl = `solana:${invoice.recipient}?amount=${invoice.amountCrypto}&spl-token=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v&reference=${invoice.reference}&memo=${encodeURIComponent(invoice.memo)}&label=PENGER&message=${encodeURIComponent('PENGER order ' + invoice.orderId)}`;
+    }
+
+    // Transaction Request URL (for wallets that support server-mediated flow)
     const baseUrl = process.env.BASE_URL || ('http://localhost:' + (process.env.PORT || 3000));
     const payUrl = `solana:${baseUrl}/api/pay/${invoice.id}`;
 
+    // QR encodes the direct transfer URL (more universally compatible)
     let qrDataUrl;
     try {
-      qrDataUrl = await QRCode.toDataURL(payUrl, {
+      qrDataUrl = await QRCode.toDataURL(solanaPayUrl, {
         width: 280,
         margin: 2,
         color: { dark: '#000000', light: '#ffffff' },
       });
     } catch (e) {
       qrDataUrl = null;
-    }
-
-    // Also generate a fallback transfer request URL
-    let fallbackUrl;
-    if (asset === 'SOL') {
-      fallbackUrl = `solana:${invoice.recipient}?amount=${invoice.amountCrypto}&reference=${invoice.reference}&memo=${encodeURIComponent(invoice.memo)}`;
-    } else {
-      fallbackUrl = `solana:${invoice.recipient}?amount=${invoice.amountCrypto}&spl-token=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v&reference=${invoice.reference}&memo=${encodeURIComponent(invoice.memo)}`;
     }
 
     return res.json({
@@ -68,7 +69,7 @@ router.post('/invoice', invoiceLimiter, async (req, res) => {
       expiresAt: invoice.expiresAt,
       qrDataUrl,
       payUrl,
-      fallbackUrl,
+      solanaPayUrl,
     });
   } catch (err) {
     console.error('[invoice] Create error:', err.message);
