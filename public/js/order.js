@@ -484,6 +484,11 @@
     { value: 'coffee', img: '/photo/coffeesleeve.png' }
   ];
 
+  function getSleeveLabel(value) {
+    if (!sleeveOptions) return value;
+    return sleeveOptions.getAttribute('data-label-' + value) || value;
+  }
+
   function renderSleeveRows() {
     if (!sleeveOptions) return;
     var count = Math.max(1, plates);
@@ -498,8 +503,11 @@
       for (var j = 0; j < SLEEVE_OPTS.length; j++) {
         var o = SLEEVE_OPTS[j];
         var active = (o.value === cur) ? ' active' : '';
-        html += '<div class="sleeve-card' + active + '" data-value="' + o.value + '">'
+        html += '<div class="sleeve-card-wrap">'
+              + '<div class="sleeve-card' + active + '" data-value="' + o.value + '">'
               + '<img src="' + o.img + '" alt="' + o.value + '">'
+              + '</div>'
+              + '<span class="sleeve-card-label">' + getSleeveLabel(o.value) + '</span>'
               + '</div>';
       }
       html += '</div></div>';
@@ -509,7 +517,9 @@
 
   if (sleeveOptions) {
     sleeveOptions.addEventListener('click', function (e) {
-      var card = e.target.closest('.sleeve-card');
+      var wrap = e.target.closest('.sleeve-card-wrap');
+      if (!wrap) return;
+      var card = wrap.querySelector('.sleeve-card');
       if (!card) return;
       var row = card.closest('.sleeve-cards');
       var idx = parseInt(row.getAttribute('data-plate'), 10);
