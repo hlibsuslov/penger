@@ -989,6 +989,12 @@ body.nav-open {
 body.nav-open .tab-bar {
   z-index: 1;
 }
+body.nav-open .tutor-input-bar {
+  z-index: 1;
+}
+body.nav-open .dot-tooltip {
+  display: none;
+}
 
 /* === HERO === */
 .hero {
@@ -1574,7 +1580,7 @@ body.nav-open .tab-bar {
 }
 .dict-example-word {
   font-family: var(--font-mono); font-size: 18px; font-weight: 700;
-  color: var(--text-accent);
+  color: var(--text-accent); text-transform: uppercase;
 }
 .dict-example-grid-wrap {
   margin: 4px 0;
