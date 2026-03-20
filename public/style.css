@@ -986,6 +986,9 @@ body.nav-open {
   overflow: hidden;
   padding-right: var(--scrollbar-w, 0px);
 }
+body.nav-open .tab-bar {
+  z-index: 1;
+}
 
 /* === HERO === */
 .hero {
