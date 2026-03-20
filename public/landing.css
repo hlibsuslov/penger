@@ -747,11 +747,6 @@
 .lp-cta-product-img:hover {
   transform: perspective(800px) rotateX(0deg) scale(1.03);
 }
-@media (prefers-color-scheme: dark) {
-  .lp-cta-product-img {
-    filter: drop-shadow(0 24px 48px rgba(255, 255, 255, 0.06)) drop-shadow(0 8px 16px rgba(255, 255, 255, 0.04));
-  }
-}
 .lp-cta-sub {
   text-align: center; margin-left: auto; margin-right: auto;
   font-size: 18px; color: var(--text-label); margin-bottom: 40px;
@@ -823,10 +818,6 @@
   .lp-plate-front { transform: translate(-50%, -50%) translateX(18%) rotate(0deg) scale(1) !important; }
 }
 
-@media (prefers-color-scheme: dark) {
-  .lp-plate { filter: drop-shadow(0 8px 32px rgba(255, 255, 255, 0.06)); }
-  .lp-privacy-card:hover { box-shadow: 0 2px 16px rgba(255, 255, 255, 0.03); }
-}
 
 /* ====================================================================
    RESPONSIVE
