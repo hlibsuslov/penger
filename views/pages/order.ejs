@@ -184,9 +184,16 @@
       display: flex;
       gap: 8px;
     }
-    .sleeve-card {
+    .sleeve-card-wrap {
       flex: 1;
-      aspect-ratio: 1 / 0.8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .sleeve-card {
+      width: 100%;
+      aspect-ratio: 1 / 0.64;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -197,6 +204,20 @@
       cursor: pointer;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
       user-select: none;
+    }
+    .sleeve-card-label {
+      font-family: var(--font-sans);
+      font-size: var(--_label-font, 10px);
+      font-weight: 600;
+      color: var(--text-dim);
+      text-align: center;
+      line-height: 1;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 0.3s ease;
+    }
+    .sleeve-card-wrap .sleeve-card.active + .sleeve-card-label {
+      color: var(--text-accent);
     }
     .sleeve-card:hover {
       border-color: var(--border-hover);
@@ -210,6 +231,7 @@
       width: auto;
       object-fit: contain;
       pointer-events: none;
+      transform: scale(1.3);
     }
 
     /* Punch toggle — subtle iOS-style switch */
@@ -751,13 +773,13 @@
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 4px;
-      margin-bottom: 3px;
+      gap: 3px;
+      margin-bottom: 2px;
     }
     .form-row.full { grid-template-columns: 1fr; }
-    #deliveryForm .form-row { margin-bottom: 2px; }
+    #deliveryForm .form-row { margin-bottom: 1px; }
     #deliveryForm .form-row .form-group { gap: 1px; }
-    .form-group { display: flex; flex-direction: column; gap: 2px; }
+    .form-group { display: flex; flex-direction: column; gap: 1px; }
     .form-label {
       font-family: var(--font-mono);
       font-size: 10px;
@@ -1108,12 +1130,13 @@
     .delivery-estimate {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
       padding: 10px 12px;
       background: transparent;
       border: none;
       border-radius: 6px;
-      margin-top: 12px;
+      margin-top: 8px;
       font-family: var(--font-sans);
       font-size: 13px;
       color: var(--text-primary);
@@ -1360,7 +1383,11 @@
             <div class="config-row-header">
               <span class="config-row-title"><%= t.order.kitItem6 %></span>
             </div>
-            <div id="sleeveOptions"></div>
+            <div id="sleeveOptions"
+                 data-label-black="<%= t.order.sleeveBlack %>"
+                 data-label-blue="<%= t.order.sleeveBlue %>"
+                 data-label-red="<%= t.order.sleeveRed %>"
+                 data-label-coffee="<%= t.order.sleeveCoffee %>"></div>
           </div>
 
           <!-- Precision center punch tool -->
@@ -1511,11 +1538,11 @@
                     <div class="field-error-msg" id="cityError" role="alert"></div>
                   </div>
                 </div>
+                <button class="step-continue-btn" id="deliveryContinue" type="submit"><%= t.order.continueToPayment %></button>
                 <div class="delivery-estimate" id="deliveryEstimate" style="display:none">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
                   <span id="deliveryText"></span>
                 </div>
-                <button class="step-continue-btn" id="deliveryContinue" type="submit"><%= t.order.continueToPayment %></button>
               </form>
             </div>
           </div>
