@@ -1571,7 +1571,7 @@ body.nav-open {
 }
 .dict-example-word {
   font-family: var(--font-mono); font-size: 18px; font-weight: 700;
-  color: var(--text-accent); text-transform: uppercase;
+  color: var(--text-accent);
 }
 .dict-example-grid-wrap {
   margin: 4px 0;
