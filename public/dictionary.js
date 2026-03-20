@@ -75,11 +75,22 @@
     var bin = toBinary(exampleIdx); // "001111011001"
     var word = getWordByIndex(exampleIdx); // "inner"
 
+    var dotsContainer = document.getElementById('dictExampleDots');
     var gridContainer = document.getElementById('dictExampleGrid');
     var wordEl = document.getElementById('dictExampleWord');
     var formulaEl = document.getElementById('dictExampleFormula');
     if (!gridContainer || !wordEl) return;
 
+    // Render dots
+    if (dotsContainer) {
+      var dotsHtml = '';
+      for (var d = 0; d < bin.length; d++) {
+        dotsHtml += '<span class="dict-example-dot ' + (bin[d] === '1' ? 'on' : 'off') + '"></span>';
+      }
+      dotsContainer.innerHTML = dotsHtml;
+    }
+
+    // Render grid
     var html = '';
     for (var i = 0; i < BIT_COUNT; i++) {
       var isOn = bin[i] === '1';

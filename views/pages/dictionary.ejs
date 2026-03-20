@@ -82,22 +82,23 @@
       <div class="container">
 
         <!-- EXAMPLE ANIMATION -->
-        <div class="dict-example-bar">
+        <div class="dict-example-bar" style="margin-top: 20px;">
           <div class="dict-example-label"><%= t.dictionary.howToRead %></div>
           <div class="dict-example-row">
             <span class="dict-example-idx">1060</span>
             <span class="dict-example-eq">=</span>
             <span class="dict-example-word" id="dictExampleWord">LOVE</span>
           </div>
-
-          <div class="dict-example-grid-wrap">
-            <div class="detail-binary-cells" id="dictExampleGrid">
-              <!-- Filled by dictionary.js -->
+          <div class="dict-example-visual sim-example-dots">
+            <div class="dict-example-dots-wrap">
+              <div class="dict-example-dots" id="dictExampleDots"></div>
             </div>
           </div>
-
-          <div class="dict-example-formula" id="dictExampleFormula">
-            <!-- Filled by dictionary.js -->
+          <div class="sim-example-grid">
+            <div class="dict-example-grid-wrap">
+              <div class="detail-binary-cells" id="dictExampleGrid"></div>
+            </div>
+            <div class="dict-example-formula" id="dictExampleFormula"></div>
           </div>
         </div>
 
