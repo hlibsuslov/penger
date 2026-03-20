@@ -170,6 +170,47 @@
     .config-swatch-white { background: #f0f0f0; border-color: #ddd; }
     .config-opt.active .config-swatch { border-color: var(--text-accent); }
 
+    /* Sleeve rows — dynamic per plate */
+    .sleeve-plate-row { margin-bottom: 10px; }
+    .sleeve-plate-row:last-child { margin-bottom: 0; }
+    .sleeve-plate-label {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-dim);
+      margin-bottom: 6px;
+    }
+    .sleeve-cards {
+      display: flex;
+      gap: 8px;
+    }
+    .sleeve-card {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 4px;
+      background: transparent;
+      border: 1.5px solid var(--border-default);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      user-select: none;
+    }
+    .sleeve-card:hover {
+      border-color: var(--border-hover);
+    }
+    .sleeve-card.active {
+      border-color: var(--text-accent);
+      box-shadow: 0 0 0 1px var(--text-accent);
+    }
+    .sleeve-card img {
+      height: 28px;
+      width: auto;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
     /* Punch toggle — subtle iOS-style switch */
     .config-row--subtle {
       margin-bottom: 14px;
@@ -1306,23 +1347,12 @@
             </div>
           </div>
 
-          <!-- Security sleeve colour -->
+          <!-- Security sleeve colour (dynamic rows per plate) -->
           <div class="config-row" data-section="order">
             <div class="config-row-header">
               <span class="config-row-title"><%= t.order.kitItem6 %></span>
             </div>
-            <div class="config-options" id="sleeveOptions">
-              <label class="config-opt active">
-                <input type="radio" name="sleeveColor" value="black" checked>
-                <span class="config-swatch config-swatch-black"></span>
-                Black
-              </label>
-              <label class="config-opt">
-                <input type="radio" name="sleeveColor" value="white">
-                <span class="config-swatch config-swatch-white"></span>
-                White
-              </label>
-            </div>
+            <div id="sleeveOptions"></div>
           </div>
 
           <!-- Precision center punch tool -->
