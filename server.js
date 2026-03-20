@@ -196,10 +196,13 @@ app.get('/:page.html', function (req, res) {
    ========================================================= */
 const db = require('./src/db');
 const invoiceRoutes = require('./src/invoice-routes');
+const adminRoutes = require('./src/admin-routes');
 const { startPoller } = require('./src/solana-verify');
+const { startBot } = require('./src/telegram-bot');
 
 db.init();
 app.use('/api', invoiceRoutes);
+app.use('/api/admin', adminRoutes);
 
 /* =========================================================
    OPENAI CONFIG
@@ -537,6 +540,7 @@ app.use(function (req, res) {
    ========================================================= */
 app.listen(PORT, '0.0.0.0', () => {
   startPoller();
+  startBot();
   const envPath = path.join(__dirname, '.env');
   const envExists = require('fs').existsSync(envPath);
   console.log('');
@@ -545,6 +549,8 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log('  OpenAI API: ' + (OPENAI_API_KEY ? 'configured (' + OPENAI_MODEL + ')' : 'NOT configured — set OPENAI_API_KEY in .env'));
   console.log('  Solana RPC: ' + (process.env.SOLANA_RPC_URL || 'default (mainnet-beta)'));
   console.log('  Merchant Wallet: ' + (process.env.MERCHANT_WALLET || 'NOT configured — set MERCHANT_WALLET in .env'));
+  console.log('  Telegram Bot: ' + (process.env.TELEGRAM_BOT_TOKEN ? 'configured' : 'NOT configured — set TELEGRAM_BOT_TOKEN in .env'));
+  console.log('  Admin API: ' + (process.env.ADMIN_API_KEY ? 'configured' : 'NOT configured — set ADMIN_API_KEY in .env'));
   console.log('  Languages: en, uk');
   console.log('');
 });

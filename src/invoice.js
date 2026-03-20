@@ -4,6 +4,7 @@ const { randomUUID } = require('crypto');
 const { Keypair } = require('@solana/web3.js');
 const { getDb } = require('./db');
 const { getQuote } = require('./prices');
+const bus = require('./events');
 
 /* ===== PRICING (server-side source of truth, mirrors order.js) ===== */
 const BASE_PRICE = 4900;   // cents
@@ -105,7 +106,7 @@ async function createInvoice(orderData, asset) {
 
   logEvent(id, 'created', { asset, eurCents, rate: quote.rate, cryptoAmount: quote.cryptoAmount });
 
-  return {
+  const result = {
     id,
     orderId,
     status: 'quoted',
@@ -120,6 +121,10 @@ async function createInvoice(orderData, asset) {
     recipientAta: asset === 'USDC' ? merchantUsdcAta : null,
     expiresAt: quote.expiresAt,
   };
+
+  bus.emit('invoice:created', result, orderData);
+
+  return result;
 }
 
 function getInvoice(id) {
@@ -137,10 +142,21 @@ function updateStatus(id, newStatus, eventData) {
     throw new Error(`Invalid transition: ${invoice.status} -> ${newStatus}`);
   }
 
+  const oldStatus = invoice.status;
+
   db.prepare('UPDATE payment_invoices SET status = ?, updated_at = ? WHERE id = ?')
     .run(newStatus, Date.now(), id);
 
   logEvent(id, newStatus, eventData || {});
+
+  // Emit status change event
+  const fullInvoice = db.prepare('SELECT * FROM payment_invoices WHERE id = ?').get(id);
+  bus.emit('invoice:status', fullInvoice, oldStatus, newStatus);
+
+  if (newStatus === 'paid') {
+    bus.emit('invoice:paid', fullInvoice, fullInvoice.tx_signature);
+  }
+
   return true;
 }
 
