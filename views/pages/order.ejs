@@ -183,6 +183,7 @@
     .sleeve-cards {
       display: flex;
       gap: 8px;
+      max-width: 320px;
     }
     .sleeve-card-wrap {
       flex: 1;
@@ -231,9 +232,9 @@
       width: auto;
       object-fit: contain;
       pointer-events: none;
-      transform: scale(1.3);
     }
     @media (max-width: 520px) {
+      .sleeve-cards { max-width: none; }
       .sleeve-card-label { font-size: 9px; }
     }
     .sleeve-more-btn {
