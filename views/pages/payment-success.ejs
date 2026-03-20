@@ -297,8 +297,9 @@
       if (platesEl && order.plates) platesEl.textContent = order.plates;
 
       var sleeveEl = document.getElementById('sleeveVal');
-      if (sleeveEl && order.sleeveColor) {
-        sleeveEl.textContent = order.sleeveColor.charAt(0).toUpperCase() + order.sleeveColor.slice(1);
+      if (sleeveEl) {
+        var sc = order.sleeveColors || (order.sleeveColor ? [order.sleeveColor] : ['black']);
+        sleeveEl.textContent = sc.map(function (c) { return c.charAt(0).toUpperCase() + c.slice(1); }).join(', ');
       }
 
       var punchEl = document.getElementById('punchVal');

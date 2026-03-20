@@ -35,7 +35,7 @@
 
   /* ===== STATE ===== */
   var plates = 1;
-  var sleeveColor = 'black'; // black | white (always included, just pick colour)
+  var sleeveColors = ['black', 'black', 'black', 'black']; // per-plate sleeve colours
   var punchTool = true;       // yes | no
   var payMethod = 'crypto';
   var currentStep = 'contact'; // contact | delivery | payment
@@ -271,11 +271,13 @@
     /* Divider */
     html += '<div class="cart-config-divider"></div>';
 
-    /* Security sleeve: black/white */
-    html += '<div class="cart-config-line">'
-          + '<span class="cart-config-label">' + d.sleeveLabel + '</span>'
-          + '<span class="cart-config-value">' + sleeveColor + '</span>'
-          + '</div>';
+    /* Security sleeve per plate */
+    for (var s = 0; s < plates; s++) {
+      html += '<div class="cart-config-line">'
+            + '<span class="cart-config-label">' + d.sleeveLabel + ' #' + (s + 1) + '</span>'
+            + '<span class="cart-config-value">' + (sleeveColors[s] || 'black') + '</span>'
+            + '</div>';
+    }
 
     /* Precision center punch tool: Yes/No */
     var punchYes = punchTool;
@@ -291,6 +293,7 @@
 
   function updateUI() {
     updatePlatesPicker();
+    renderSleeveRows();
     if (cartPlates) cartPlates.textContent = plates;
     if (cartPlatesBottom) cartPlatesBottom.textContent = plates;
 
@@ -320,11 +323,11 @@
     var sleeveLabel = document.getElementById('sleeveLabel');
     var sleeveLabelBottom = document.getElementById('sleeveLabelBottom');
     if (rowSleeve) {
-      sleeveLabel.textContent = 'Sleeve (' + sleeveColor + ')';
+      sleeveLabel.textContent = 'Sleeve (' + sleeveColors.slice(0, plates).join(', ') + ')';
       rowSleeve.style.display = '';
     }
     if (rowSleeveBottom) {
-      sleeveLabelBottom.textContent = 'Sleeve (' + sleeveColor + ')';
+      sleeveLabelBottom.textContent = 'Sleeve (' + sleeveColors.slice(0, plates).join(', ') + ')';
       rowSleeveBottom.style.display = '';
     }
 
@@ -473,13 +476,51 @@
     });
   }
 
-  initConfigOptions(sleeveOptions, function (val) {
-    sleeveColor = val;
-    updateShipping();
-    updateUI();
-    saveFormData();
-    pushConfig('sleeve_change');
-  });
+  /* Sleeve colour options — per plate */
+  var SLEEVE_OPTS = [
+    { value: 'black',  img: '/photo/blacksleeve.png' },
+    { value: 'blue',   img: '/photo/bluesleeve.png' },
+    { value: 'red',    img: '/photo/redsleeve.png' },
+    { value: 'coffee', img: '/photo/coffeesleeve.png' }
+  ];
+
+  function renderSleeveRows() {
+    if (!sleeveOptions) return;
+    var html = '';
+    for (var i = 0; i < plates; i++) {
+      var cur = sleeveColors[i] || 'black';
+      html += '<div class="sleeve-plate-row">';
+      html += '<div class="sleeve-plate-label">Plate ' + (i + 1) + '</div>';
+      html += '<div class="sleeve-cards" data-plate="' + i + '">';
+      for (var j = 0; j < SLEEVE_OPTS.length; j++) {
+        var o = SLEEVE_OPTS[j];
+        var active = (o.value === cur) ? ' active' : '';
+        html += '<div class="sleeve-card' + active + '" data-value="' + o.value + '">'
+              + '<img src="' + o.img + '" alt="' + o.value + '">'
+              + '</div>';
+      }
+      html += '</div></div>';
+    }
+    sleeveOptions.innerHTML = html;
+  }
+
+  if (sleeveOptions) {
+    sleeveOptions.addEventListener('click', function (e) {
+      var card = e.target.closest('.sleeve-card');
+      if (!card) return;
+      var row = card.closest('.sleeve-cards');
+      var idx = parseInt(row.getAttribute('data-plate'), 10);
+      row.querySelectorAll('.sleeve-card').forEach(function (c) { c.classList.remove('active'); });
+      card.classList.add('active');
+      sleeveColors[idx] = card.getAttribute('data-value');
+      updateShipping();
+      updateUI();
+      saveFormData();
+      pushConfig('sleeve_change');
+    });
+  }
+
+  renderSleeveRows();
 
   /* Punch toggle */
   if (punchToggle) {
@@ -1143,7 +1184,7 @@
 
   /* ===== FORM DATA PERSISTENCE (sessionStorage) ===== */
   var STORAGE_KEY = 'penger_checkout_form';
-  var STORAGE_VERSION = 3;
+  var STORAGE_VERSION = 4;
   var STORAGE_TTL = 30 * 60 * 1000; /* 30 minutes */
 
   function saveFormData() {
@@ -1152,7 +1193,7 @@
         _v: STORAGE_VERSION,
         _ts: Date.now(),
         plates: plates,
-        sleeveColor: sleeveColor,
+        sleeveColors: sleeveColors.slice(0, plates),
         punchTool: punchTool,
         firstName: document.getElementById('firstName').value,
         lastName: document.getElementById('lastName').value,
@@ -1186,15 +1227,13 @@
       if (data.plates && data.plates >= 1 && data.plates <= 4) {
         plates = data.plates;
       }
-      if (data.sleeveColor) {
-        sleeveColor = data.sleeveColor;
-        if (sleeveOptions) {
-          sleeveOptions.querySelectorAll('.config-opt').forEach(function (o) {
-            var inp = o.querySelector('input');
-            if (inp && inp.value === sleeveColor) { o.classList.add('active'); inp.checked = true; }
-            else { o.classList.remove('active'); }
-          });
+      if (data.sleeveColors && Array.isArray(data.sleeveColors)) {
+        for (var si = 0; si < data.sleeveColors.length && si < 4; si++) {
+          sleeveColors[si] = data.sleeveColors[si];
         }
+      } else if (data.sleeveColor) {
+        /* Legacy: single color → apply to all plates */
+        for (var li = 0; li < 4; li++) sleeveColors[li] = data.sleeveColor;
       }
       if (typeof data.punchTool !== 'undefined') {
         punchTool = !!data.punchTool;
@@ -1295,10 +1334,13 @@
       }
     }
 
-    /* Sleeve colour */
+    /* Sleeve colours — read from rendered cards */
     if (sleeveOptions) {
-      var checkedSleeve = sleeveOptions.querySelector('input:checked');
-      if (checkedSleeve) sleeveColor = checkedSleeve.value;
+      sleeveOptions.querySelectorAll('.sleeve-cards').forEach(function (row) {
+        var idx = parseInt(row.getAttribute('data-plate'), 10);
+        var activeCard = row.querySelector('.sleeve-card.active');
+        if (activeCard && idx >= 0 && idx < 4) sleeveColors[idx] = activeCard.getAttribute('data-value');
+      });
     }
 
     /* Punch tool */
@@ -1334,7 +1376,7 @@
     return {
       order_id: generateOrderId(),
       plates: plates,
-      sleeveColor: sleeveColor,
+      sleeveColors: sleeveColors.slice(0, plates),
       punchTool: punchTool,
       country: countryEl ? countryEl.value : '',
       shipping: shippingCost,
@@ -1758,7 +1800,7 @@
     var orderData = {
       order_id: orderId,
       plates: plates,
-      sleeveColor: sleeveColor,
+      sleeveColors: sleeveColors.slice(0, plates),
       punchTool: punchTool,
       value: total,
       currency: 'EUR',
