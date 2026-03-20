@@ -89,7 +89,7 @@
       html += '</div>';
     }
     gridContainer.innerHTML = html;
-    wordEl.textContent = word.toUpperCase();
+    wordEl.textContent = word;
 
     // Render formula
     if (formulaEl) {
