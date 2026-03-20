@@ -486,11 +486,14 @@
 
   function renderSleeveRows() {
     if (!sleeveOptions) return;
+    var count = Math.max(1, plates);
     var html = '';
-    for (var i = 0; i < plates; i++) {
+    for (var i = 0; i < count; i++) {
       var cur = sleeveColors[i] || 'black';
       html += '<div class="sleeve-plate-row">';
-      html += '<div class="sleeve-plate-label">Plate ' + (i + 1) + '</div>';
+      if (count > 1) {
+        html += '<div class="sleeve-plate-label">Plate ' + (i + 1) + '</div>';
+      }
       html += '<div class="sleeve-cards" data-plate="' + i + '">';
       for (var j = 0; j < SLEEVE_OPTS.length; j++) {
         var o = SLEEVE_OPTS[j];
