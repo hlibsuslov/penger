@@ -183,25 +183,25 @@
     .sleeve-cards {
       display: flex;
       gap: 8px;
-      max-width: 320px;
     }
     .sleeve-card-wrap {
       flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
+      max-width: 72px;
     }
     .sleeve-card {
       width: 100%;
-      aspect-ratio: 1 / 0.64;
+      height: 44px;
       display: flex;
       align-items: center;
       justify-content: center;
       box-sizing: border-box;
       background: transparent;
       border: 1.5px solid var(--border-default);
-      border-radius: 10px;
+      border-radius: 8px;
       cursor: pointer;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
       user-select: none;
@@ -228,13 +228,14 @@
       border-color: var(--text-accent);
     }
     .sleeve-card img {
-      height: 78%;
+      height: 70%;
       width: auto;
       object-fit: contain;
       pointer-events: none;
     }
     @media (max-width: 520px) {
-      .sleeve-cards { max-width: none; }
+      .sleeve-card-wrap { max-width: 64px; }
+      .sleeve-card { height: 40px; }
       .sleeve-card-label { font-size: 9px; }
     }
     .sleeve-more-btn {
