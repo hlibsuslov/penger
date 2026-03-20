@@ -30,32 +30,7 @@
   --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-out: cubic-bezier(0, 0, 0.2, 1);
   --stagger-delay: 0.08s;
-  color-scheme: light dark;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-main: #0A0A0A;
-    --bg-surface: #111111;
-    --bg-surface-hover: #1A1A1A;
-    --bg-child: #0F0F0F;
-    --bg-highlight: #141414;
-    --text-primary: #D0D0D0;
-    --text-accent: #E8E8E8;
-    --text-accent-hover: #FFFFFF;
-    --text-label: #999999;
-    --text-dim: #666666;
-    --border-default: rgba(255,255,255,0.10);
-    --border-hover: rgba(255,255,255,0.16);
-    --border-active: rgba(255,255,255,0.25);
-    --border-success: rgba(255,255,255,0.28);
-    --glow: rgba(255,255,255,0.04);
-    --punch-fill: #D0D0D0;
-    --punch-empty: rgba(255,255,255,0.08);
-    --error-text: #CC6666;
-    --error-border: rgba(204,102,102,0.3);
-    --scrollbar-thumb: rgba(255,255,255,0.15);
-  }
+  color-scheme: light;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -118,12 +93,6 @@ a[x-apple-data-detectors]:visited {
 .footer-brand img { height: 16px; width: auto; display: inline-block; vertical-align: middle; }
 .copyright-logo { height: 11px; width: auto; display: inline-block; vertical-align: middle; margin-left: 4px; position: relative; top: -1px; }
 .header-right { display: flex; align-items: center; gap: 16px; }
-
-/* Invert logos in dark mode */
-@media (prefers-color-scheme: dark) {
-  .site-logo img,
-  .footer-brand img { filter: invert(1) brightness(0.85); }
-}
 
 /* === TYPOGRAPHY === */
 h1, h2, h3 {
@@ -876,11 +845,6 @@ h3 { font-size: 15px; font-weight: 600; }
   z-index: 110;
   box-shadow: 0 8px 32px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
 }
-@media (prefers-color-scheme: dark) {
-  .nav-dropdown-menu {
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 2px 8px rgba(0,0,0,0.15);
-  }
-}
 .nav-dropdown.open .nav-dropdown-menu {
   opacity: 1;
   pointer-events: auto;
@@ -1411,10 +1375,10 @@ body.nav-open {
     max-width: none;
     height: auto;
     max-height: min(80vh, 680px);
-    background: rgba(18, 18, 22, 0.92);
+    background: rgba(252, 252, 253, 0.94);
     backdrop-filter: blur(32px) saturate(1.4);
     -webkit-backdrop-filter: blur(32px) saturate(1.4);
-    border-left: 1px solid rgba(255, 255, 255, 0.06);
+    border-left: 1px solid rgba(0, 0, 0, 0.06);
     border-radius: 0 0 0 16px;
     flex-direction: column; align-items: stretch; gap: 0;
     padding: 14px 0 18px;
@@ -1515,13 +1479,13 @@ body.nav-open {
   }
   .nav-link:hover,
   .nav-link:focus-visible {
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(0, 0, 0, 0.03);
     color: var(--text-label);
   }
 
   /* ── Active: subtle row highlight + thin accent bar ── */
   .nav-link.active {
-    background: rgba(255, 255, 255, 0.045);
+    background: rgba(0, 0, 0, 0.04);
     color: var(--text-accent);
   }
   .nav-link.active::before {
@@ -1531,28 +1495,18 @@ body.nav-open {
     width: 2px;
     background: var(--text-accent);
     border-radius: 0 2px 2px 0;
-    opacity: 0.7;
+    opacity: 0.8;
   }
 
   .nav-hamburger { display: flex; }
 
-  /* ── Light theme overrides ── */
-  @media (prefers-color-scheme: light) {
-    .site-nav {
-      background: rgba(252, 252, 253, 0.94);
-      border-left-color: rgba(0, 0, 0, 0.06);
-      border-radius: 0 0 0 16px;
-      box-shadow: -12px 0 48px rgba(0, 0, 0, 0.1),
-                  -2px 0 8px rgba(0, 0, 0, 0.05),
-                  inset 1px 0 0 rgba(0, 0, 0, 0.03);
-    }
-    .nav-spacer { border-bottom-color: rgba(0, 0, 0, 0.05); }
-    .nav-mobile-group-label { opacity: 0.5; }
-    .nav-link:hover,
-    .nav-link:focus-visible { background: rgba(0, 0, 0, 0.03); }
-    .nav-link.active { background: rgba(0, 0, 0, 0.04); }
-    .nav-link.active::before { opacity: 0.8; }
+  .site-nav {
+    box-shadow: -12px 0 48px rgba(0, 0, 0, 0.1),
+                -2px 0 8px rgba(0, 0, 0, 0.05),
+                inset 1px 0 0 rgba(0, 0, 0, 0.03);
   }
+  .nav-spacer { border-bottom-color: rgba(0, 0, 0, 0.05); }
+  .nav-mobile-group-label { opacity: 0.5; }
 
   /* Hero responsive */
   .hero { padding: 48px 0 36px; }
