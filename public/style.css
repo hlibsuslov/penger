@@ -866,8 +866,6 @@ h3 { font-size: 15px; font-weight: 600; }
 .nav-dropdown-icon {
   width: 36px; height: 36px;
   display: flex; align-items: center; justify-content: center;
-  background: var(--bg-highlight);
-  border-radius: 8px;
   flex-shrink: 0;
   color: var(--text-primary);
 }
