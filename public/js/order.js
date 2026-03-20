@@ -489,34 +489,56 @@
     return sleeveOptions.getAttribute('data-label-' + value) || value;
   }
 
+  var sleeveExpanded = false;
+
+  function buildSleeveRow(i, count) {
+    var cur = sleeveColors[i] || 'black';
+    var html = '<div class="sleeve-plate-row">';
+    if (count > 1) {
+      html += '<div class="sleeve-plate-label">Plate ' + (i + 1) + '</div>';
+    }
+    html += '<div class="sleeve-cards" data-plate="' + i + '">';
+    for (var j = 0; j < SLEEVE_OPTS.length; j++) {
+      var o = SLEEVE_OPTS[j];
+      var active = (o.value === cur) ? ' active' : '';
+      html += '<div class="sleeve-card-wrap">'
+            + '<div class="sleeve-card' + active + '" data-value="' + o.value + '">'
+            + '<img src="' + o.img + '" alt="' + o.value + '">'
+            + '</div>'
+            + '<span class="sleeve-card-label">' + getSleeveLabel(o.value) + '</span>'
+            + '</div>';
+    }
+    html += '</div></div>';
+    return html;
+  }
+
   function renderSleeveRows() {
     if (!sleeveOptions) return;
     var count = Math.max(1, plates);
-    var html = '';
-    for (var i = 0; i < count; i++) {
-      var cur = sleeveColors[i] || 'black';
-      html += '<div class="sleeve-plate-row">';
-      if (count > 1) {
-        html += '<div class="sleeve-plate-label">Plate ' + (i + 1) + '</div>';
+    var html = buildSleeveRow(0, count);
+    if (count > 1) {
+      if (sleeveExpanded) {
+        for (var i = 1; i < count; i++) {
+          html += buildSleeveRow(i, count);
+        }
+        html += '<button type="button" class="sleeve-more-btn" data-action="collapse">less</button>';
+      } else {
+        html += '<button type="button" class="sleeve-more-btn" data-action="expand">more...</button>';
       }
-      html += '<div class="sleeve-cards" data-plate="' + i + '">';
-      for (var j = 0; j < SLEEVE_OPTS.length; j++) {
-        var o = SLEEVE_OPTS[j];
-        var active = (o.value === cur) ? ' active' : '';
-        html += '<div class="sleeve-card-wrap">'
-              + '<div class="sleeve-card' + active + '" data-value="' + o.value + '">'
-              + '<img src="' + o.img + '" alt="' + o.value + '">'
-              + '</div>'
-              + '<span class="sleeve-card-label">' + getSleeveLabel(o.value) + '</span>'
-              + '</div>';
-      }
-      html += '</div></div>';
+    } else {
+      sleeveExpanded = false;
     }
     sleeveOptions.innerHTML = html;
   }
 
   if (sleeveOptions) {
     sleeveOptions.addEventListener('click', function (e) {
+      var btn = e.target.closest('.sleeve-more-btn');
+      if (btn) {
+        sleeveExpanded = btn.getAttribute('data-action') === 'expand';
+        renderSleeveRows();
+        return;
+      }
       var wrap = e.target.closest('.sleeve-card-wrap');
       if (!wrap) return;
       var card = wrap.querySelector('.sleeve-card');
