@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>">
+<head>
+  <%- include('../partials/head') %>
+  <% if (typeof extraCss !== 'undefined') { extraCss.forEach(function(css) { %>
+  <link rel="stylesheet" href="/<%= css %>">
+  <% }); } %>
+  <title><%= pageTitle %></title>
+  <style>
+    .error-page {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: calc(100vh - var(--header-h) - 140px);
+      text-align: center; padding: 40px 24px;
+    }
+
+    /* ---- binary plate visual ---- */
+    .error-plate {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 4px;
+      width: 100%; max-width: 264px;
+      margin-bottom: 32px;
+      opacity: 0.35;
+    }
+    .error-plate .ebit {
+      aspect-ratio: 1; border-radius: 3px;
+      background: var(--punch-empty);
+      border: 1px solid var(--border-default);
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    .error-plate .ebit.on {
+      background: var(--punch-fill);
+      border-color: var(--punch-fill);
+    }
+
+    /* ---- 404 index ---- */
+    .error-index {
+      font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-dim); margin-bottom: 8px;
+    }
+
+    /* ---- big number ---- */
+    .error-code {
+      font-family: var(--font-mono); font-size: 72px; font-weight: 700;
+      color: var(--text-accent); line-height: 1; margin-bottom: 12px;
+      letter-spacing: -0.03em;
+    }
+    @media (max-width: 520px) { .error-code { font-size: 56px; } }
+
+    /* ---- message ---- */
+    .error-msg {
+      font-family: var(--font-sans); font-size: 15px; line-height: 1.6;
+      color: var(--text-label); max-width: 380px; margin-bottom: 28px;
+    }
+
+    /* ---- nav links ---- */
+    .error-nav {
+      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+    }
+    .error-nav a {
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono); font-size: 13px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      text-decoration: none;
+      padding: 12px 28px; border-radius: 4px;
+      border: 1px solid var(--border-default);
+      color: var(--text-accent); background: transparent;
+      transition: all 0.2s ease; min-height: 44px;
+      touch-action: manipulation;
+    }
+    .error-nav a:hover {
+      color: var(--text-accent-hover); border-color: var(--border-active);
+    }
+    .error-nav a:active { transform: scale(0.98); }
+    .error-nav a.primary {
+      background: var(--text-accent); color: var(--bg-main);
+      border-color: var(--text-accent);
+    }
+    .error-nav a.primary:hover {
+      background: var(--text-accent-hover); border-color: var(--text-accent-hover);
+      box-shadow: 0 0 16px var(--glow);
+    }
+
+    /* ---- punch pattern label ---- */
+    .error-punch-label {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      color: var(--text-dim); margin-bottom: 6px;
+    }
+    .error-page .detail-binary-cells {
+      margin-bottom: 28px; justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <%- include('../partials/gtm-body') %>
+
+  <noscript><p style="padding:40px;text-align:center;font-size:16px;">JavaScript is required.</p></noscript>
+
+  <%- include('../partials/header') %>
+
+  <!-- ===== 404 CONTENT ===== -->
+  <main class="error-page" role="main">
+
+    <!-- dot matrix: 4 columns encode 404 (no valid BIP39 word) -->
+    <div class="error-plate" id="errorPlate" aria-hidden="true"></div>
+
+    <p class="error-index"><%= t.error404.indexLabel %></p>
+
+    <h1 class="error-code">404</h1>
+
+    <!-- binary representation of 404 -->
+    <p class="error-punch-label"><%= t.error404.punchLabel %></p>
+    <div class="detail-binary-cells" id="errorBinaryCells"></div>
+
+    <div class="error-nav">
+      <a href="<%= langPrefix %>/" class="primary"><%= t.nav.home %></a>
+      <a href="<%= langPrefix %>/simulators"><%= t.nav.simulators %></a>
+      <a href="<%= langPrefix %>/dictionary"><%= t.nav.dictionary %></a>
+    </div>
+  </main>
+
+  <%- include('../partials/footer') %>
+
+  <script src="/analytics.js"></script>
+  <script src="/shared.js?v=3"></script>
+  <script>
+  (function () {
+    'use strict';
+
+    var BINARY_404 = '000110010100'; // 404 in 12-bit binary
+    var WEIGHTS = [2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1];
+
+    /* ---- render dictionary-style binary cells ---- */
+    var cellsEl = document.getElementById('errorBinaryCells');
+    if (cellsEl) {
+      for (var i = 0; i < BINARY_404.length; i++) {
+        var isOn = BINARY_404[i] === '1';
+        var col = document.createElement('div');
+        col.className = 'detail-binary-col';
+
+        var cell = document.createElement('div');
+        cell.className = 'detail-binary-cell ' + (isOn ? 'on' : 'off');
+        var digit = document.createElement('span');
+        digit.className = 'detail-binary-digit';
+        digit.textContent = BINARY_404[i];
+        cell.appendChild(digit);
+
+        var weight = document.createElement('span');
+        weight.className = 'detail-binary-weight' + (isOn ? ' active' : '');
+        weight.textContent = WEIGHTS[i];
+
+        col.appendChild(cell);
+        col.appendChild(weight);
+        cellsEl.appendChild(col);
+      }
+    }
+
+    /* ---- render mini plate (12x12 grid, column 1 encodes 404) ---- */
+    var plateEl = document.getElementById('errorPlate');
+    if (plateEl) {
+      // Build a sparse 12x12 matrix
+      // Columns represent "words" — we light up a pattern that spells 404
+      // Using 3 key columns for the 3 digits of 404
+      var cols = 12;
+      var rows = 12;
+      // 4 = 000000000100, 0 = 000000000000, 4 = 000000000100
+      var patterns = [
+        '000110010100', // 404
+        '000000000000', // empty
+        '000110010100', // 404
+        '000000000000', // empty
+        '000000000001', // 1
+        '000000000000', // empty
+        '100000000000', // 2048
+        '000000000000', // empty
+        '000110010100', // 404
+        '000000000000', // empty
+        '000110010100', // 404
+        '000000000000'  // empty
+      ];
+
+      for (var r = 0; r < rows; r++) {
+        for (var c = 0; c < cols; c++) {
+          var dot = document.createElement('div');
+          dot.className = 'ebit' + (patterns[c][r] === '1' ? ' on' : '');
+          plateEl.appendChild(dot);
+        }
+      }
+
+      // Subtle animation: randomly flip dots on/off (respect reduced motion)
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        var allDots = plateEl.querySelectorAll('.ebit');
+        setInterval(function () {
+          var idx = Math.floor(Math.random() * allDots.length);
+          var dot = allDots[idx];
+          if (dot.classList.contains('on')) {
+            dot.classList.remove('on');
+          } else {
+            dot.classList.add('on');
+          }
+        }, 600);
+      }
+    }
+  })();
+  </script>
+</body>
+</html>

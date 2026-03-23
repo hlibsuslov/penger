@@ -1,0 +1,210 @@
+<!DOCTYPE html><html lang="<%= lang %>">
+<head>
+  <%- include('../partials/head') %>
+  <% if (typeof extraCss !== 'undefined') { extraCss.forEach(function(css) { %>
+  <link rel="stylesheet" href="/<%= css %>">
+  <% }); } %>
+  <title><%= pageTitle %></title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "<%= pageTitle %>",
+    "url": "<%= canonicalBase %><%= langPrefix %>/guides",
+    "description": "<%= pageDescription %>",
+    "publisher": {
+      "@type": "Organization",
+      "name": "PENGER",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "<%= canonicalBase %>/PENGER.svg"
+      }
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "<%= lang === 'uk' ? 'Головна' : 'Home' %>", "item": "<%= canonicalBase %><%= langPrefix %>/" },
+      { "@type": "ListItem", "position": 2, "name": "<%= lang === 'uk' ? 'Академія' : 'Academy' %>" }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <%- include('../partials/gtm-body') %>
+  <noscript><p style="padding:40px;text-align:center;font-size:16px;">JavaScript is required.</p></noscript>
+  <%- include('../partials/header') %>
+
+  <main>
+
+    <!-- ACADEMY HERO -->
+    <section class="academy-hero">
+      <div class="academy-hero-grid"></div>
+      <div class="container academy-hero-inner">
+        <p class="label"><%= t.index.academyLabel %></p>
+        <h1 class="academy-hero-title"><%= t.index.academyH2 %></h1>
+        <p class="academy-hero-tagline"><%= t.index.academyTagline %></p>
+        <p class="academy-hero-desc"><%= t.index.academyDesc %></p>
+        <div class="academy-stats">
+          <div class="academy-stat">
+            <span class="academy-stat-num">7</span>
+            <span class="academy-stat-label"><%= t.index.academyStat1.replace('7 ', '') %></span>
+          </div>
+          <div class="academy-stat">
+            <span class="academy-stat-num">2</span>
+            <span class="academy-stat-label"><%= t.index.academyStat2.replace('2 ', '') %></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- START HERE -->
+    <section class="academy-start-here">
+      <div class="container">
+        <a href="<%= langPrefix %>/guides/seed-anatomy" class="start-here-card">
+          <div class="start-here-badge">01</div>
+          <div class="start-here-content">
+            <div class="start-here-label"><%= t.index.startHereLabel %></div>
+            <div class="start-here-title"><%= t.index.guideSeedTitle %></div>
+            <p class="start-here-desc"><%= t.index.startHereDesc %></p>
+          </div>
+          <span class="start-here-arrow"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M12 5l5 5-5 5"/></svg></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- FOUNDATIONS SECTION -->
+    <section class="academy-section">
+      <div class="container">
+        <div class="academy-section-title"><%= t.index.foundationsLabel %> <span class="academy-section-count">3 <%= t.index.guideCountSuffix %></span></div>
+        <div class="card-grid">
+
+          <a class="card" href="<%= langPrefix %>/guides/seed-anatomy">
+            <div class="card-meta">
+              <span class="card-order">01</span>
+              <span class="card-difficulty card-difficulty--beginner"><%= t.index.difficultyBeginner %></span>
+              <span class="card-reading-time">12 <%= t.index.minRead %></span>
+            </div>
+            <div class="card-title"><%= t.index.guideSeedTitle %></div>
+            <p class="card-desc"><%= t.index.guideSeedDesc %></p>
+            <span class="card-link"><%= t.index.readGuide %> <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M12 5l5 5-5 5"/></svg></span>
+          </a>
+
+          <a class="card" href="<%= langPrefix %>/guides/wallet-anatomy">
+            <div class="card-meta">
+              <span class="card-order">02</span>
+              <span class="card-difficulty card-difficulty--beginner"><%= t.index.difficultyBeginner %></span>
+              <span class="card-reading-time">14 <%= t.index.minRead %></span>
+            </div>
+            <div class="card-title"><%= t.index.guideWalletTitle %></div>
+            <p class="card-desc"><%= t.index.guideWalletDesc %></p>
+            <span class="card-link"><%= t.index.readGuide %> <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M12 5l5 5-5 5"/></svg></span>
+          </a>
+
+          <a class="card" href="<%= langPrefix %>/guides/self-sovereignty">
+            <div class="card-meta">
+              <span class="card-order">03</span>
+              <span class="card-difficulty card-difficulty--beginner"><%= t.index.difficultyBeginner %></span>
+              <span class="card-reading-time">10 <%= t.index.minRead %></span>
+            </div>
+            <div class="card-title"><%= t.index.guideSovereigntyTitle %></div>
+            <p class="card-desc"><%= t.index.guideSovereigntyDesc %></p>
+            <span class="card-link"><%= t.index.readGuide %> <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M12 5l5 5-5 5"/></svg></span>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- LEARNING PATH -->
+    <section class="academy-learning-path">
+      <div class="container">
+        <div class="learning-path-label"><%= t.index.learningPathLabel %></div>
+        <div class="learning-path-track">
+          <% var allGuides = [
+            { slug: 'seed-anatomy', title: t.index.guideSeedTitle, num: '01' },
+            { slug: 'wallet-anatomy', title: t.index.guideWalletTitle, num: '02' },
+            { slug: 'self-sovereignty', title: t.index.guideSovereigntyTitle, num: '03' },
+            { slug: 'wallet-comparison', title: t.index.guideComparisonTitle, num: '04' },
+            { slug: 'opsec', title: t.index.guideOpsecTitle, num: '05' },
+            { slug: 'passphrase', title: t.index.guidePassphraseTitle, num: '06' },
+            { slug: 'multisig', title: t.index.guideMultisigTitle, num: '07' }
+          ]; %>
+          <% allGuides.forEach(function(g, i) { %>
+            <a href="<%= langPrefix %>/guides/<%= g.slug %>" class="learning-path-node">
+              <span class="learning-path-num"><%= g.num %></span>
+              <span class="learning-path-title"><%= g.title %></span>
+            </a>
+            <% if (i < allGuides.length - 1) { %>
+              <div class="learning-path-connector"></div>
+            <% } %>
+          <% }); %>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECURITY SECTION -->
+    <section class="academy-section">
+      <div class="container">
+        <div class="academy-section-title"><%= t.index.securityLabel %> <span class="academy-section-count">4 <%= t.index.guideCountSuffix %></span></div>
+        <div class="card-grid">
+
+          <a class="card" href="<%= langPrefix %>/guides/wallet-comparison">
+            <div class="card-meta">
+              <span class="card-order">04</span>
+              <span class="card-difficulty card-difficulty--intermediate"><%= t.index.difficultyIntermediate %></span>
+              <span class="card-reading-time">13 <%= t.index.minRead %></span>
+            </div>
+            <div class="card-title"><%= t.index.guideComparisonTitle %></div>
+            <p class="card-desc"><%= t.index.guideComparisonDesc %></p>
+            <span class="card-link"><%= t.index.readGuide %> <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M12 5l5 5-5 5"/></svg></span>
+          </a>
+
+          <a class="card" href="<%= langPrefix %>/guides/opsec">
+            <div class="card-meta">
+              <span class="card-order">05</span>
+              <span class="card-difficulty card-difficulty--intermediate"><%= t.index.difficultyIntermediate %></span>
+              <span class="card-reading-time">15 <%= t.index.minRead %></span>
+            </div>
+            <div class="card-title"><%= t.index.guideOpsecTitle %></div>
+            <p class="card-desc"><%= t.index.guideOpsecDesc %></p>
+            <span class="card-link"><%= t.index.readGuide %> <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M12 5l5 5-5 5"/></svg></span>
+          </a>
+
+          <a class="card" href="<%= langPrefix %>/guides/passphrase">
+            <div class="card-meta">
+              <span class="card-order">06</span>
+              <span class="card-difficulty card-difficulty--intermediate"><%= t.index.difficultyIntermediate %></span>
+              <span class="card-reading-time">11 <%= t.index.minRead %></span>
+            </div>
+            <div class="card-title"><%= t.index.guidePassphraseTitle %></div>
+            <p class="card-desc"><%= t.index.guidePassphraseDesc %></p>
+            <span class="card-link"><%= t.index.readGuide %> <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M12 5l5 5-5 5"/></svg></span>
+          </a>
+
+          <a class="card" href="<%= langPrefix %>/guides/multisig">
+            <div class="card-meta">
+              <span class="card-order">07</span>
+              <span class="card-difficulty card-difficulty--advanced"><%= t.index.difficultyAdvanced %></span>
+              <span class="card-reading-time">16 <%= t.index.minRead %></span>
+            </div>
+            <div class="card-title"><%= t.index.guideMultisigTitle %></div>
+            <p class="card-desc"><%= t.index.guideMultisigDesc %></p>
+            <span class="card-link"><%= t.index.readGuide %> <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M12 5l5 5-5 5"/></svg></span>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <%- include('../partials/footer') %>
+
+  <script src="/analytics.js"></script>
+  <script src="/shared.js?v=3"></script>
+</body>
+</html>

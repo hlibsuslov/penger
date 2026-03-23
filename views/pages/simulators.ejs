@@ -1,0 +1,398 @@
+<!DOCTYPE html><html lang="<%= lang %>">
+<head>
+  <%- include('../partials/head') %>
+  <% if (typeof extraCss !== 'undefined') { extraCss.forEach(function(css) { %>
+  <link rel="stylesheet" href="/<%= css %>">
+  <% }); } %>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'">
+  <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=(), payment=(), usb=(), bluetooth=(), serial=(), accelerometer=(), gyroscope=(), magnetometer=()">
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title><%= pageTitle %></title>
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "<%= pageTitle %>",
+    "url": "<%= canonicalBase %><%= langPrefix %>/simulators",
+    "description": "<%= pageDescription %>",
+    "applicationCategory": "SecurityApplication",
+    "operatingSystem": "All",
+    "browserRequirements": "Requires JavaScript",
+    "softwareVersion": "1.0",
+    "permissions": "none",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "creator": {
+      "@type": "Organization",
+      "name": "PENGER",
+      "url": "<%= canonicalBase %>"
+    },
+    "featureList": [
+      "BIP39 seed phrase generation with SHA-256 checksum",
+      "12-bit binary encoding and decoding",
+      "Dot matrix visualization for metal plate backup",
+      "Support for 12, 15, 18, 21 and 24-word phrases",
+      "100% offline — no data transmitted",
+      "Interactive binary decoder with click-to-toggle grid"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "<%= t.nav.home %>", "item": "<%= canonicalBase %>/" },
+      { "@type": "ListItem", "position": 2, "name": "<%= t.nav.simulators %>", "item": "<%= canonicalBase %><%= langPrefix %>/simulators" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is a BIP39 seed phrase?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A BIP39 seed phrase (mnemonic phrase) is a set of 12 to 24 words chosen from a standardized list of 2048 words. It serves as a human-readable backup of your cryptocurrency wallet's private keys. Each word maps to an index (1–2048) that can be represented as a 12-bit binary value."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you convert a seed phrase to binary?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Each BIP39 word corresponds to an index number from 1 to 2048. This index is converted to a 12-bit binary value (e.g., index 985 = 001111011001). The binary representation can then be punched as a dot pattern on a metal plate — filled dot means 1, empty means 0."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why use a metal plate backup for seed phrases?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Paper backups are vulnerable to fire, water, and degradation. A titanium or steel plate backup stores your seed phrase as punched dot patterns that are fireproof, waterproof, and virtually indestructible. The binary encoding makes it compact and tamper-evident."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this seed phrase generator safe to use?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "This tool runs entirely in your browser with no network requests. No data is transmitted or stored on any server. The random generation uses the Web Crypto API (crypto.getRandomValues) for cryptographically secure randomness. For real wallet backups, always use your hardware wallet's built-in generator."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What do the dots on the metal plate mean?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Each column on the plate represents one word from your seed phrase. The 12 rows correspond to bit weights from 2048 (top) to 1 (bottom). A filled/punched dot means binary 1, an empty dot means binary 0. Reading the dots from top to bottom gives you the binary index of the word."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between the Generator and the Decoder?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Generator creates a random BIP39 seed phrase with a valid SHA-256 checksum and converts each word to its binary dot pattern. The Decoder works in reverse — you input a binary dot pattern by clicking dots on the grid, and the tool converts each column back into the corresponding BIP39 word."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I use this tool offline?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. All computation happens entirely in your browser using JavaScript. No network requests are made — the page blocks fetch, WebSocket, and XMLHttpRequest APIs as a privacy hardening measure. You can disconnect from the internet before using the tool."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a SHA-256 checksum in a seed phrase?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The last word in a BIP39 seed phrase is not fully random — part of it is a checksum derived from the SHA-256 hash of the entropy bits. This checksum allows wallets to detect transcription errors. If you change even one word, the checksum will not match and the phrase will be flagged as invalid."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why should I never enter my real seed phrase into any website?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Even if a website claims to be offline and secure, your device may be compromised by malware, keyloggers, or malicious browser extensions. Your seed phrase is the master key to all your funds — once exposed, your cryptocurrency can be stolen instantly and irreversibly. Always generate and handle real seed phrases only on trusted hardware wallets."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What do 12, 15, 18, 21 and 24-word seed phrases mean?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The word count determines the entropy (randomness) of your seed. 12 words = 128 bits, 15 = 160 bits, 18 = 192 bits, 21 = 224 bits, 24 = 256 bits. More words mean stronger security. Most hardware wallets use 12 or 24 words. The last word includes a SHA-256 checksum to catch transcription errors."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I read the dot pattern on a metal plate?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Each column on the plate represents one seed word. The 12 rows correspond to bit weights: 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1 (top to bottom). A punched dot = 1, empty = 0. Add up the bit weights for all punched positions to get the word index, then look it up in the BIP39 dictionary."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the BIP39 word list and where does it come from?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "BIP39 (Bitcoin Improvement Proposal 39) defines a standard list of 2048 English words used to encode wallet entropy as a mnemonic phrase. The words were carefully chosen to be unambiguous — no two words share the same first four letters. The list is an open standard maintained by the Bitcoin community."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I use any words as a seed phrase?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Only the 2048 words from the BIP39 standard list are valid. Each word maps to a specific index (1–2048), and the last word contains a SHA-256 checksum that depends on all the others. A random set of English words would almost certainly fail checksum validation."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between a seed phrase and a private key?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A seed phrase is a human-readable master backup from which all your private keys are mathematically derived through hierarchical derivation paths (BIP32/BIP44). One seed phrase can generate billions of private keys. A private key controls one specific address. Losing a seed phrase means losing access to every address derived from it."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many possible seed phrases exist?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A 12-word seed phrase has 128 bits of entropy, giving approximately 3.4 × 10^38 possible combinations. A 24-word phrase has 256 bits — about 1.16 × 10^77 possibilities. Brute-forcing a valid seed phrase is computationally infeasible with any current or foreseeable technology."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a passphrase (25th word)?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A passphrase is an optional extra string added on top of your seed phrase for additional security. Unlike seed words, it can be any text. Adding a passphrase creates a completely different set of derived keys and wallet addresses. If you forget the passphrase, you cannot access the funds, even with the correct seed phrase."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What happens if I enter an invalid pattern in the Decoder?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "If a column results in an index of 0 (all dots empty) or greater than 2048, it will be flagged as an invalid word. The status badge shows VALID when all indices fall within 1–2048, or INVALID otherwise. The Decoder maps individual columns to words and does not verify the SHA-256 checksum of the full phrase."
+        }
+      }
+    ]
+  }]
+  </script>
+</head>
+<body class="page-simulators">
+  <%- include('../partials/gtm-body') %>
+  <noscript>
+    <div style="padding:40px;max-width:640px;margin:0 auto;font-size:15px;line-height:1.8;">
+      <h1><%= t.simulators.genH1 %> &amp; Binary Encoder/Decoder</h1>
+      <p>This free offline tool generates BIP39 mnemonic seed phrases with SHA-256 checksum and converts them to 12-bit binary dot patterns for titanium metal plate backup.</p>
+      <p><strong>Features:</strong> Generate 12, 15, 18, 21 or 24-word seed phrases. Encode mnemonic words to binary. Decode binary patterns back to BIP39 words. Visualize dot matrix layouts for metal plate punching.</p>
+      <p>JavaScript is required to use the interactive simulator. Please enable JavaScript in your browser settings.</p>
+    </div>
+  </noscript>
+
+  <%- include('../partials/header') %>
+
+  <main>
+    <nav class="tab-bar" id="tabBar">
+      <button class="tab-btn active" data-tab="generate" type="button"><%= t.simulators.tabGenerate %></button>
+      <button class="tab-btn" data-tab="decode" type="button"><%= t.simulators.tabDecode %></button>
+    </nav>
+
+    <!-- ==================== TAB 1: GENERATE ==================== -->
+    <div class="tab-panel active" id="panel-generate">
+
+      <section class="section-intro">
+        <div class="container">
+          <p class="label"><%= t.simulators.genLabel %></p>
+          <h1><%= t.simulators.genH1 %></h1>
+          <p class="body-text"><%= t.simulators.genDesc %></p>
+
+          <div class="dict-example-bar" style="margin-top: 20px;">
+            <div class="dict-example-label"><%= t.simulators.example %></div>
+            <div class="dict-example-row">
+              <span class="dict-example-idx">1060</span>
+              <span class="dict-example-eq">=</span>
+              <span class="dict-example-word">LOVE</span>
+            </div>
+            <div class="dict-example-visual sim-example-dots">
+              <div class="dict-example-dots-wrap">
+                <div class="dict-example-dots" id="genExampleDots"></div>
+              </div>
+            </div>
+            <div class="sim-example-grid">
+              <div class="dict-example-grid-wrap">
+                <div class="detail-binary-cells" id="genExampleGrid"></div>
+              </div>
+              <div class="dict-example-formula" id="genExampleFormula"></div>
+            </div>
+          </div>
+
+          <div style="margin-top: 20px;">
+            <p class="label" style="margin-bottom: 8px;"><%= t.simulators.wordCount %></p>
+            <div class="pill-group" id="genWordCount">
+              <button class="pill active" data-count="12" type="button">12</button>
+              <button class="pill" data-count="15" type="button">15</button>
+              <button class="pill" data-count="18" type="button">18</button>
+              <button class="pill" data-count="21" type="button">21</button>
+              <button class="pill" data-count="24" type="button">24</button>
+            </div>
+          </div>
+
+          <div class="btn-group">
+            <button class="btn btn-primary" id="generateBtn" type="button"><%= t.simulators.generateSeed %></button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block result-area" id="genSeedSection" hidden>
+        <div class="container">
+          <p class="label"><%= t.simulators.seedPhraseLabel %></p>
+          <div class="seed-output" id="genSeedOutput"></div>
+          <div class="status-line" id="genStatus"><%= t.simulators.generated %></div>
+        </div>
+      </section>
+
+      <section class="section-block result-area" id="genPlateSection" hidden>
+        <div class="container">
+          <p class="label"><%= t.simulators.dotMatrixLabel %></p>
+          <h2><%= t.simulators.dotMatrixTitle %></h2>
+          <p class="body-text" style="margin-top: 8px;"><%= t.simulators.dotMatrixDesc %></p>
+          <div id="genPlateContainer"></div>
+        </div>
+      </section>
+
+      <section class="section-block result-area" id="genWordsSection" hidden>
+        <div class="container">
+          <p class="label"><%= t.simulators.wordTableLabel %></p>
+          <h2><%= t.simulators.wordTableTitle %></h2>
+          <p class="body-text" style="margin-top: 8px;"><%= t.simulators.wordTableDesc %></p>
+          <div class="word-table" id="genWordTable"></div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ==================== TAB 2: DECODE ==================== -->
+    <div class="tab-panel" id="panel-decode">
+
+      <section class="section-intro">
+        <div class="container">
+          <p class="label"><%= t.simulators.decLabel %></p>
+          <h1><%= t.simulators.decH1 %></h1>
+          <p class="body-text"><%= t.simulators.decDesc %></p>
+
+          <div class="dict-example-bar" style="margin-top: 20px;">
+            <div class="dict-example-label"><%= t.simulators.example %></div>
+            <div class="dict-example-row">
+              <span class="dict-example-idx">1060</span>
+              <span class="dict-example-eq">=</span>
+              <span class="dict-example-word">LOVE</span>
+            </div>
+            <div class="dict-example-visual sim-example-dots">
+              <div class="dict-example-dots-wrap">
+                <div class="dict-example-dots" id="decExampleDots"></div>
+              </div>
+            </div>
+            <div class="sim-example-grid">
+              <div class="dict-example-grid-wrap">
+                <div class="detail-binary-cells" id="decExampleGrid"></div>
+              </div>
+              <div class="dict-example-formula" id="decExampleFormula"></div>
+            </div>
+          </div>
+
+          <div style="margin-top: 20px;">
+            <p class="label" style="margin-bottom: 8px;"><%= t.simulators.wordCount %></p>
+            <div class="pill-group" id="decWordCount">
+              <button class="pill active" data-count="12" type="button">12</button>
+              <button class="pill" data-count="15" type="button">15</button>
+              <button class="pill" data-count="18" type="button">18</button>
+              <button class="pill" data-count="21" type="button">21</button>
+              <button class="pill" data-count="24" type="button">24</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block" id="decodeGridSection">
+        <div class="container">
+          <p class="label"><%= t.simulators.inputGridLabel %></p>
+          <h2><%= t.simulators.inputGridTitle %></h2>
+          <p class="body-text" style="margin-top: 8px;"><%= t.simulators.inputGridDesc %></p>
+
+          <div id="decodeMatrixContainer"></div>
+
+          <div class="btn-group" style="margin-top: 12px;">
+            <button class="btn btn-danger" id="decodeClearBtn" type="button"><%= t.simulators.clearAll %></button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="label"><%= t.simulators.decodedLabel %></p>
+          <h2><%= t.simulators.decodedTitle %></h2>
+
+          <div class="seed-output" id="decodeSeedOutput">
+            <span class="seed-word empty-word"><%= t.simulators.waitingForInput %></span>
+          </div>
+          <div id="decodeBadge" class="badge partial"><%= t.simulators.waitingBadge %></div>
+
+          <div class="word-table" id="decodeWordTable"></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ==================== DISCLAIMER ==================== -->
+    <section class="section-block sim-disclaimer-section">
+      <div class="container">
+        <div class="callout callout-warning sim-disclaimer">
+          <span class="callout-label"><%= t.simulators.warningTitle %></span>
+          <p><%= t.simulators.warningText %></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== FAQ ==================== -->
+    <section class="section-block faq-section">
+      <div class="container">
+        <p class="label"><%= t.simulators.faqLabel %></p>
+        <h2><%= t.simulators.faqTitle %></h2>
+        <div class="faq-chat" id="simFaq">
+          <% for (var fi = 1; fi <= 16; fi++) { %>
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button"><%= t.simulators['faq' + fi + 'q'] %><span class="faq-arrow">&#x203A;</span></button>
+            <div class="faq-bubble-wrap"><div class="faq-bubble"><%- t.simulators['faq' + fi + 'a'].replace(/%PREFIX%/g, langPrefix) %></div></div>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="dot-tooltip" id="dotTooltip"></div>
+
+  <%- include('../partials/footer') %>
+
+  <script src="/analytics.js"></script>
+  <script src="/shared.js?v=3"></script>
+  <% if (typeof extraJs !== 'undefined') { extraJs.forEach(function(js) { %>
+  <script src="/<%= js %>"></script>
+  <% }); } %>
+</body>
+</html>

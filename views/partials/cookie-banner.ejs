@@ -1,0 +1,190 @@
+<%# ===== COOKIE CONSENT BANNER + SETTINGS MODAL ===== %>
+<%# Zero dependency on t.cookie — all text hardcoded with lang switch %>
+<% var isUk = (typeof lang !== 'undefined' && lang === 'uk'); %>
+
+<!-- LAYER 1: Cookie Banner -->
+<div id="cb-banner" class="cb-banner" style="display:none;" role="dialog" aria-label="<%= isUk ? 'Ми використовуємо cookies' : 'We use cookies' %>" aria-modal="false">
+  <div class="cb-banner-inner">
+    <div class="cb-banner-body">
+      <p class="cb-banner-title"><%= isUk ? 'Ми використовуємо cookies' : 'We use cookies' %></p>
+      <p class="cb-banner-text"><%= isUk ? 'Ми використовуємо обов\u2019язкові cookies для роботи сайту, а також — з вашої згоди — аналітичні та маркетингові cookies для вимірювання ефективності, аналізу поведінки та реклами.' : 'We use strictly necessary cookies to run the site, and — with your consent — analytics and marketing cookies to measure performance, analyze behavior, and serve ads.' %></p>
+      <a href="<%= langPrefix %>/cookie-policy" class="cb-banner-link"><%= isUk ? 'Детальніше в Політиці cookies' : 'Learn more in our Cookie Policy' %></a>
+    </div>
+    <div class="cb-banner-actions">
+      <button id="cb-accept-all" class="cb-btn cb-btn--primary"><%= isUk ? 'Прийняти все' : 'Accept All' %></button>
+      <button id="cb-reject-all" class="cb-btn cb-btn--primary"><%= isUk ? 'Відхилити все' : 'Reject All' %></button>
+      <button id="cb-customize" class="cb-btn cb-btn--secondary"><%= isUk ? 'Налаштувати' : 'Customize' %></button>
+    </div>
+  </div>
+</div>
+
+<!-- LAYER 2: Settings Modal -->
+<div id="cb-overlay" class="cb-overlay" style="display:none;">
+  <div id="cb-modal" class="cb-modal" role="dialog" aria-label="<%= isUk ? 'Налаштування cookies' : 'Cookie Settings' %>" aria-modal="true">
+    <div class="cb-modal-header">
+      <p class="cb-modal-title"><%= isUk ? 'Налаштування cookies' : 'Cookie Settings' %></p>
+      <button id="cb-modal-close" class="cb-modal-close" aria-label="Close">&times;</button>
+    </div>
+    <div class="cb-modal-body">
+      <!-- Necessary -->
+      <div class="cb-category">
+        <div class="cb-category-header">
+          <div>
+            <p class="cb-category-name"><%= isUk ? 'Обов\u2019язкові' : 'Strictly Necessary' %></p>
+            <p class="cb-category-desc"><%= isUk ? 'Потрібні для коректної роботи сайту. Вимкнути неможливо.' : 'Required for the site to function correctly. Cannot be disabled.' %></p>
+          </div>
+          <div class="cb-toggle cb-toggle--locked">
+            <input type="checkbox" checked disabled id="cb-tog-necessary">
+            <label for="cb-tog-necessary"></label>
+          </div>
+        </div>
+      </div>
+      <!-- Analytics -->
+      <div class="cb-category">
+        <div class="cb-category-header">
+          <div>
+            <p class="cb-category-name"><%= isUk ? 'Аналітика' : 'Analytics' %></p>
+            <p class="cb-category-desc"><%= isUk ? 'Допомагає вимірювати відвідування, кліки, поведінку та якість трафіку.' : 'Helps measure visits, clicks, behavior, and traffic quality.' %></p>
+          </div>
+          <div class="cb-toggle">
+            <input type="checkbox" id="cb-tog-analytics">
+            <label for="cb-tog-analytics"></label>
+          </div>
+        </div>
+      </div>
+      <!-- Marketing -->
+      <div class="cb-category">
+        <div class="cb-category-header">
+          <div>
+            <p class="cb-category-name"><%= isUk ? 'Маркетинг' : 'Marketing' %></p>
+            <p class="cb-category-desc"><%= isUk ? 'Використовується для рекламних пікселів, ремаркетингу та вимірювання рекламних кампаній.' : 'Used for ad pixels, remarketing, and measuring ad campaigns.' %></p>
+          </div>
+          <div class="cb-toggle">
+            <input type="checkbox" id="cb-tog-marketing">
+            <label for="cb-tog-marketing"></label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cb-modal-footer">
+      <button id="cb-save" class="cb-btn cb-btn--primary"><%= isUk ? 'Зберегти вибір' : 'Save Choices' %></button>
+      <button id="cb-modal-accept-all" class="cb-btn cb-btn--secondary"><%= isUk ? 'Прийняти все' : 'Accept All' %></button>
+      <button id="cb-modal-reject-all" class="cb-btn cb-btn--secondary"><%= isUk ? 'Відхилити все' : 'Reject All' %></button>
+    </div>
+    <div class="cb-modal-link">
+      <a href="<%= langPrefix %>/cookie-policy"><%= isUk ? 'Детальніше в Політиці cookies' : 'Learn more in our Cookie Policy' %></a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  // Ensure gtag exists (head.ejs defines it, but fallback for cached pages)
+  window.dataLayer = window.dataLayer || [];
+  if (typeof gtag === 'undefined') { window.gtag = function() { dataLayer.push(arguments); }; }
+
+  var POLICY_VERSION = '1.0';
+  var CONSENT_KEY = 'penger_consent';
+  var CONSENT_TTL = 365 * 24 * 60 * 60 * 1000;
+
+  var banner = document.getElementById('cb-banner');
+  var overlay = document.getElementById('cb-overlay');
+  var togAnalytics = document.getElementById('cb-tog-analytics');
+  var togMarketing = document.getElementById('cb-tog-marketing');
+
+  function readConsent() {
+    try {
+      var raw = localStorage.getItem(CONSENT_KEY);
+      if (!raw) return null;
+      var data = JSON.parse(raw);
+      if (Date.now() - data.updated_at > CONSENT_TTL) { localStorage.removeItem(CONSENT_KEY); return null; }
+      if (data.policy_version !== POLICY_VERSION) { localStorage.removeItem(CONSENT_KEY); return null; }
+      return data;
+    } catch (e) { return null; }
+  }
+
+  function writeConsent(analytics, marketing) {
+    var data = { necessary: true, analytics: analytics, marketing: marketing, updated_at: Date.now(), policy_version: POLICY_VERSION };
+    localStorage.setItem(CONSENT_KEY, JSON.stringify(data));
+    return data;
+  }
+
+  function updateGtmConsent(analytics, marketing) {
+    gtag('consent', 'update', {
+      analytics_storage: analytics ? 'granted' : 'denied',
+      ad_storage: marketing ? 'granted' : 'denied',
+      ad_user_data: marketing ? 'granted' : 'denied',
+      ad_personalization: marketing ? 'granted' : 'denied'
+    });
+  }
+
+  function pushConsentEvent(eventName, analytics, marketing) {
+    window.dataLayer.push({ event: eventName, consent_analytics: analytics, consent_marketing: marketing, consent_version: POLICY_VERSION });
+  }
+
+  function deleteCookies() {
+    var patterns = ['_ga', '_gid', '_gat', '_clck', '_clsk', 'CLID', 'ANONCHK', 'MR', 'MUID', 'SM', '_fbp', 'fr'];
+    document.cookie.split(';').forEach(function(c) {
+      var name = c.split('=')[0].trim();
+      for (var i = 0; i < patterns.length; i++) {
+        if (name === patterns[i] || name.indexOf('_ga_') === 0 || name.indexOf('_gat_') === 0) {
+          document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=.' + location.hostname;
+          document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
+          break;
+        }
+      }
+    });
+  }
+
+  function applyConsent(analytics, marketing, eventName) {
+    writeConsent(analytics, marketing);
+    updateGtmConsent(analytics, marketing);
+    pushConsentEvent(eventName, analytics, marketing);
+    if (!analytics && !marketing) deleteCookies();
+    else if (!analytics) deleteCookies();
+    else if (!marketing) {
+      ['_fbp', 'fr'].forEach(function(name) {
+        document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=.' + location.hostname;
+        document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
+      });
+    }
+    hideBanner();
+    hideModal();
+  }
+
+  function showBanner() { banner.style.display = ''; }
+  function hideBanner() { banner.style.display = 'none'; }
+  function showModal() { overlay.style.display = ''; document.body.style.overflow = 'hidden'; }
+  function hideModal() { overlay.style.display = 'none'; document.body.style.overflow = ''; }
+
+  var stored = readConsent();
+  if (stored) {
+    updateGtmConsent(stored.analytics, stored.marketing);
+  } else {
+    showBanner();
+  }
+
+  document.getElementById('cb-accept-all').addEventListener('click', function() { applyConsent(true, true, 'consent_accept_all'); });
+  document.getElementById('cb-reject-all').addEventListener('click', function() { applyConsent(false, false, 'consent_reject_all'); });
+  document.getElementById('cb-customize').addEventListener('click', function() {
+    hideBanner();
+    togAnalytics.checked = false;
+    togMarketing.checked = false;
+    showModal();
+  });
+
+  document.getElementById('cb-save').addEventListener('click', function() { applyConsent(togAnalytics.checked, togMarketing.checked, 'consent_update'); });
+  document.getElementById('cb-modal-accept-all').addEventListener('click', function() { applyConsent(true, true, 'consent_accept_all'); });
+  document.getElementById('cb-modal-reject-all').addEventListener('click', function() { applyConsent(false, false, 'consent_reject_all'); });
+  document.getElementById('cb-modal-close').addEventListener('click', function() { hideModal(); if (!readConsent()) showBanner(); });
+  overlay.addEventListener('click', function(e) { if (e.target === overlay) { hideModal(); if (!readConsent()) showBanner(); } });
+
+  window.openCookieSettings = function() {
+    var existing = readConsent();
+    togAnalytics.checked = existing ? existing.analytics : false;
+    togMarketing.checked = existing ? existing.marketing : false;
+    hideBanner();
+    showModal();
+  };
+})();
+</script>
