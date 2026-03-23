@@ -106,6 +106,15 @@
     return out;
   }
 
+  /* ===== SHA-256 ASYNC (prefers native Web Crypto API) ===== */
+  async function sha256(bytes) {
+    if (typeof crypto !== 'undefined' && crypto.subtle) {
+      var buf = await crypto.subtle.digest('SHA-256', bytes);
+      return new Uint8Array(buf);
+    }
+    return sha256sync(bytes);
+  }
+
   /* ===== UTILITIES ===== */
   function formatBinaryHTML(bin) {
     var out = '';
@@ -133,13 +142,17 @@
 
   /* ===== BIP39 MNEMONIC GENERATION ===== */
   // Returns display indices 1..2048
-  function generateMnemonic(wordCount) {
+  async function generateMnemonic(wordCount) {
+    if (typeof crypto === 'undefined' || !crypto.getRandomValues) {
+      throw new Error('Web Crypto API unavailable. Use a modern browser with HTTPS or file:// protocol.');
+    }
+
     var entropyBits = ENTROPY_MAP[wordCount];
     var entropyBytes = entropyBits / 8;
     var entropy = new Uint8Array(entropyBytes);
     crypto.getRandomValues(entropy);
 
-    var hash = sha256sync(entropy);
+    var hash = await sha256(entropy);
     var entropyBitStr = bytesToBits(entropy);
     var hashBitStr = bytesToBits(hash);
     var checksumLen = entropyBits / 32;
@@ -151,7 +164,79 @@
       var raw = parseInt(allBits.slice(i * 11, (i + 1) * 11), 2);
       indices.push(raw + INDEX_OFFSET); // display index: 1..2048
     }
+
+    // Wipe sensitive data from memory
+    entropy.fill(0);
+    hash.fill(0);
+
     return indices;
+  }
+
+  /* ===== BIP39 MNEMONIC VALIDATION ===== */
+  // Validates checksum of a BIP39 mnemonic given as array of display indices (1..2048)
+  // Returns detailed result for UI feedback
+  async function validateMnemonic(displayIndices) {
+    var wordCount = displayIndices.length;
+    var entropyBits = ENTROPY_MAP[wordCount];
+    if (!entropyBits) return { valid: false, error: 'INVALID_WORD_COUNT' };
+
+    // Convert display indices to 11-bit binary string
+    var allBits = '';
+    for (var i = 0; i < wordCount; i++) {
+      var raw = displayIndices[i] - INDEX_OFFSET; // 0..2047
+      if (raw < 0 || raw > 2047) return { valid: false, error: 'INDEX_OUT_OF_RANGE' };
+      var s = raw.toString(2);
+      while (s.length < 11) s = '0' + s;
+      allBits += s;
+    }
+
+    var checksumLen = entropyBits / 32;
+    var entropyBitStr = allBits.slice(0, entropyBits);
+    var checksumBits = allBits.slice(entropyBits, entropyBits + checksumLen);
+
+    // Reconstruct entropy bytes
+    var entropyBytes = new Uint8Array(entropyBits / 8);
+    for (var i = 0; i < entropyBytes.length; i++) {
+      entropyBytes[i] = parseInt(entropyBitStr.slice(i * 8, (i + 1) * 8), 2);
+    }
+
+    // Compute expected checksum
+    var hash = await sha256(entropyBytes);
+    var hashBits = bytesToBits(hash);
+    var expectedChecksum = hashBits.slice(0, checksumLen);
+
+    // Wipe sensitive data
+    entropyBytes.fill(0);
+    hash.fill(0);
+
+    // The checksum sits in the last bits of the last word
+    // For 12 words / 128-bit entropy: last word = 7 entropy bits + 4 checksum bits
+    // Compute which word contains the checksum boundary
+    var lastWordIdx = wordCount; // 1-based word number (last word)
+    var checksumStartBit = entropyBits; // bit offset where checksum starts in the total bit string
+    // The last word spans bits [(wordCount-1)*11 .. wordCount*11)
+    // Checksum bits within last word: from (checksumStartBit - (wordCount-1)*11) to 10
+    var lastWordStart = (wordCount - 1) * 11;
+    var csOffsetInLastWord = checksumStartBit - lastWordStart; // how many entropy bits the last word contributes
+
+    if (checksumBits === expectedChecksum) {
+      return {
+        valid: true,
+        error: null,
+        checksumLen: checksumLen,
+        expected: expectedChecksum,
+        actual: checksumBits
+      };
+    }
+    return {
+      valid: false,
+      error: 'CHECKSUM_MISMATCH',
+      checksumLen: checksumLen,
+      expected: expectedChecksum,
+      actual: checksumBits,
+      lastWord: lastWordIdx,
+      entropyBitsInLastWord: csOffsetInLastWord
+    };
   }
 
   /* ===== DETAIL HTML BUILDER ===== */
@@ -214,13 +299,16 @@
 
   function renderGenSeed(indices) {
     var seedEl = $('genSeedOutput');
-    var words = indices.map(function (displayIdx) { return getWordByIndex(displayIdx); });
-    seedEl.textContent = words.join(' ');
-    seedEl.setAttribute('translate', 'no');
+    var html = '';
+    for (var i = 0; i < indices.length; i++) {
+      var word = getWordByIndex(indices[i]);
+      html += '<span class="seed-word" translate="no"><span class="seed-num">' + (i + 1) + '</span>' + word + '</span>';
+    }
+    seedEl.innerHTML = html;
+    seedEl.classList.add('seed-grid');
     seedEl.oncopy = function (e) { e.preventDefault(); };
     seedEl.oncut = function (e) { e.preventDefault(); };
     seedEl.oncontextmenu = function (e) { e.preventDefault(); };
-    $('genStatus').textContent = (i18n.generated || 'GENERATED') + ' / ' + indices.length + ' ' + (i18n.words || 'WORDS') + ' / ' + (indices.length * BIT_COUNT) + ' ' + (i18n.plateBits || 'PLATE BITS');
   }
 
   function renderGenWords(indices) {
@@ -437,8 +525,8 @@
     dotTooltip.style.top = y + 'px';
   }
 
-  $('generateBtn').addEventListener('click', function () {
-    genIndices = generateMnemonic(genWordCount);
+  $('generateBtn').addEventListener('click', async function () {
+    genIndices = await generateMnemonic(genWordCount);
     renderGenSeed(genIndices);
     renderGenWords(genIndices);
     renderGenPlate(genIndices);
@@ -455,6 +543,7 @@
   var decodeBits = [];
   var decodeTouched = [];
   var decodeInitialized = false;
+  var decodeValidationSeq = 0;
 
   function resetDecodeBits(count) {
     decodeBits = [];
@@ -681,33 +770,19 @@
 
     var seedHTML = '';
     for (var s = 0; s < words.length; s++) {
-      if (s > 0) seedHTML += ' ';
       var wi = words[s];
       var cls = 'seed-word';
       if (wi.empty) cls += ' empty-word';
       else if (wi.invalid) cls += ' invalid-word';
       var label = wi.empty ? '\u2014' : (wi.invalid ? '\u2014' : wi.word);
-      seedHTML += '<span class="' + cls + '" translate="no">' + label + '</span>';
+      seedHTML += '<span class="' + cls + '" translate="no"><span class="seed-num">' + (s + 1) + '</span>' + label + '</span>';
     }
     var dso = $('decodeSeedOutput');
     dso.innerHTML = seedHTML;
+    dso.classList.add('seed-grid');
     dso.oncopy = function (e) { e.preventDefault(); };
     dso.oncut = function (e) { e.preventDefault(); };
     dso.oncontextmenu = function (e) { e.preventDefault(); };
-
-    var badge = $('decodeBadge');
-    if (!anyInput) {
-      badge.className = 'badge partial'; badge.textContent = (i18n.waitingForInput || 'WAITING FOR INPUT');
-    } else if (hasInvalid) {
-      badge.className = 'badge error'; badge.textContent = (i18n.invalidIndex || 'INVALID INDEX') + ' \u2014 ' + (i18n.outOfRange || 'OUT OF RANGE 1\u20132048');
-    } else {
-      var filled = words.filter(function (wi) { return !wi.empty; }).length;
-      if (filled === count) {
-        badge.className = 'badge valid'; badge.textContent = (i18n.decoded || 'DECODED') + ' / ' + count + ' ' + (i18n.words || 'WORDS') + ' / ' + (i18n.allValidBip39 || 'ALL VALID BIP39');
-      } else {
-        badge.className = 'badge partial'; badge.textContent = (i18n.decoding || 'DECODING') + ' / ' + filled + ' ' + (i18n.of || 'OF') + ' ' + count + ' ' + (i18n.wordsSet || 'WORDS SET');
-      }
-    }
 
     // Update live column index labels in decoder header
     document.querySelectorAll('.col-idx[data-wh]').forEach(function (el) {

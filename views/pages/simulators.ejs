@@ -262,7 +262,6 @@
         <div class="container">
           <p class="label"><%= t.simulators.seedPhraseLabel %></p>
           <div class="seed-output" id="genSeedOutput"></div>
-          <div class="status-line" id="genStatus"><%= t.simulators.generated %></div>
         </div>
       </section>
 
@@ -332,7 +331,7 @@
         <div class="container">
           <p class="label"><%= t.simulators.inputGridLabel %></p>
           <h2><%= t.simulators.inputGridTitle %></h2>
-          <p class="body-text" style="margin-top: 8px;"><%= t.simulators.inputGridDesc %></p>
+          <p class="body-text grid-hint"><%= t.simulators.inputGridDesc %></p>
 
           <div id="decodeMatrixContainer"></div>
 
@@ -350,7 +349,6 @@
           <div class="seed-output" id="decodeSeedOutput">
             <span class="seed-word empty-word"><%= t.simulators.waitingForInput %></span>
           </div>
-          <div id="decodeBadge" class="badge partial"><%= t.simulators.waitingBadge %></div>
 
           <div class="word-table" id="decodeWordTable"></div>
         </div>
