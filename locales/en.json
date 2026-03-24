@@ -334,7 +334,7 @@
     "generateSeed": "GENERATE SEED",
     "seedPhraseLabel": "[ SEED PHRASE ]",
     "dotMatrixLabel": "[ DOT MATRIX ]",
-    "dotMatrixTitle": "Seed Phrase Dot Matrix for Metal Plate",
+    "dotMatrixTitle": "Seed Phrase Dot Matrix",
     "dotMatrixDesc": "Each column represents one word from your seed phrase. A filled dot means punch (binary 1), empty means skip (binary 0). Rows are bit weights from 2048 (top) to 1 (bottom).",
     "wordTableLabel": "[ WORD TABLE ]",
     "wordTableTitle": "Word Index & Binary Breakdown",
