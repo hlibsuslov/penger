@@ -4,7 +4,7 @@
   var t = window.ORDER_I18N || {};
 
   /* ===== PRICING ===== */
-  var BASE_PRICE = 49;
+  var BASE_PRICE = 59;
   var EXTRA_PLATE = 35;
 
   /* ===== ADDON PRICES ===== */

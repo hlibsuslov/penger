@@ -7,7 +7,7 @@ const { getQuote } = require('./prices');
 const bus = require('./events');
 
 /* ===== PRICING (server-side source of truth, mirrors order.js) ===== */
-const BASE_PRICE = 4900;   // cents
+const BASE_PRICE = 5900;   // cents
 const EXTRA_PLATE = 3500;  // cents
 const SLEEVE_PRICE = 1000; // cents (always included)
 const PUNCH_PRICE = 1000;  // cents
