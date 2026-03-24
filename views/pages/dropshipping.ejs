@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>">
+<head>
+  <%- include('../partials/head') %>
+  <% if (typeof extraCss !== 'undefined') { extraCss.forEach(function(css) { %>
+  <link rel="stylesheet" href="/<%= css %>">
+  <% }); } %>
+  <title><%= pageTitle %></title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "<%= pageTitle %>",
+    "url": "<%= canonicalBase %><%= langPrefix %>/dropshipping",
+    "description": "<%= t.dropshipping.metaDescription %>"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "<%= lang === 'uk' ? 'Головна' : 'Home' %>", "item": "<%= canonicalBase %><%= langPrefix %>/" },
+      { "@type": "ListItem", "position": 2, "name": "<%= lang === 'uk' ? 'Дропшипінг та реферальна програма' : 'Dropshipping & Referral Program' %>" }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <%- include('../partials/gtm-body') %>
+
+  <noscript><p style="padding:40px;text-align:center;font-size:16px;">JavaScript is required.</p></noscript>
+
+  <%- include('../partials/header') %>
+
+  <main>
+
+    <!-- ===== HERO ===== -->
+    <section class="ds-hero">
+      <div class="container">
+        <p class="label"><%= t.dropshipping.heroLabel %></p>
+        <h1><%= t.dropshipping.heroH1 %></h1>
+        <p class="body-text"><%= t.dropshipping.heroDesc %></p>
+      </div>
+    </section>
+
+    <!-- ===== WHAT IS DROPSHIPPING ===== -->
+    <section class="ds-section">
+      <div class="container">
+        <p class="label"><%= t.dropshipping.whatLabel %></p>
+        <h2><%= t.dropshipping.whatH2 %></h2>
+        <div class="ds-text-block">
+          <p><%= t.dropshipping.whatP1 %></p>
+          <p><%= t.dropshipping.whatP2 %></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== HOW IT WORKS ===== -->
+    <section class="ds-section">
+      <div class="container">
+        <p class="label"><%= t.dropshipping.howLabel %></p>
+        <h2><%= t.dropshipping.howH2 %></h2>
+        <div class="ds-steps">
+          <div class="ds-step">
+            <div class="ds-step-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            </div>
+            <div class="ds-step-content">
+              <h3><%= t.dropshipping.step1Title %></h3>
+              <p><%= t.dropshipping.step1Desc %></p>
+            </div>
+          </div>
+          <div class="ds-step">
+            <div class="ds-step-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </div>
+            <div class="ds-step-content">
+              <h3><%= t.dropshipping.step2Title %></h3>
+              <p><%= t.dropshipping.step2Desc %></p>
+            </div>
+          </div>
+          <div class="ds-step">
+            <div class="ds-step-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            </div>
+            <div class="ds-step-content">
+              <h3><%= t.dropshipping.step3Title %></h3>
+              <p><%= t.dropshipping.step3Desc %></p>
+            </div>
+          </div>
+          <div class="ds-step">
+            <div class="ds-step-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <div class="ds-step-content">
+              <h3><%= t.dropshipping.step4Title %></h3>
+              <p><%= t.dropshipping.step4Desc %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== COMMISSION STRUCTURE ===== -->
+    <section class="ds-section">
+      <div class="container">
+        <p class="label"><%= t.dropshipping.profitLabel %></p>
+        <h2><%= t.dropshipping.profitH2 %></h2>
+        <p class="body-text"><%= t.dropshipping.profitDesc %></p>
+        <div class="ds-tiers">
+          <div class="ds-tier">
+            <div class="ds-tier-value"><%= t.dropshipping.tier1Value %></div>
+            <h3 class="ds-tier-title"><%= t.dropshipping.tier1Title %></h3>
+            <p class="ds-tier-desc"><%= t.dropshipping.tier1Desc %></p>
+          </div>
+          <div class="ds-tier ds-tier--highlight">
+            <div class="ds-tier-value"><%= t.dropshipping.tier2Value %></div>
+            <h3 class="ds-tier-title"><%= t.dropshipping.tier2Title %></h3>
+            <p class="ds-tier-desc"><%= t.dropshipping.tier2Desc %></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== REFERRAL SYSTEM ===== -->
+    <section class="ds-section">
+      <div class="container">
+        <p class="label"><%= t.dropshipping.referralLabel %></p>
+        <h2><%= t.dropshipping.referralH2 %></h2>
+        <div class="ds-text-block">
+          <p><%= t.dropshipping.referralP1 %></p>
+          <p><%= t.dropshipping.referralP2 %></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PARTNER SUPPORT ===== -->
+    <section class="ds-section">
+      <div class="container">
+        <p class="label"><%= t.dropshipping.supportLabel %></p>
+        <h2><%= t.dropshipping.supportH2 %></h2>
+        <div class="ds-support-grid">
+          <div class="ds-support-card">
+            <div class="ds-support-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <h3><%= t.dropshipping.support1Title %></h3>
+            <p><%= t.dropshipping.support1Desc %></p>
+          </div>
+          <div class="ds-support-card">
+            <div class="ds-support-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            </div>
+            <h3><%= t.dropshipping.support2Title %></h3>
+            <p><%= t.dropshipping.support2Desc %></p>
+          </div>
+          <div class="ds-support-card">
+            <div class="ds-support-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <h3><%= t.dropshipping.support3Title %></h3>
+            <p><%= t.dropshipping.support3Desc %></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CTA / CONTACT ===== -->
+    <section class="ds-cta">
+      <div class="container">
+        <p class="label"><%= t.dropshipping.ctaLabel %></p>
+        <h2><%= t.dropshipping.ctaH2 %></h2>
+        <p class="body-text"><%= t.dropshipping.ctaDesc %></p>
+        <div class="ds-cta-email">
+          <span class="ds-cta-email-address"><%= t.dropshipping.ctaEmail %></span>
+          <div class="ds-cta-buttons">
+            <a class="ds-cta-btn ds-cta-btn--primary" href="mailto:<%= t.dropshipping.ctaEmail %>?subject=<%= encodeURIComponent(t.dropshipping.ctaEmailSubject) %>&body=<%= encodeURIComponent(t.dropshipping.ctaEmailBody) %>">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg>
+              <%= t.dropshipping.ctaSendEmail %>
+            </a>
+            <button class="ds-cta-btn ds-cta-btn--secondary" type="button" data-copy-email="<%= t.dropshipping.ctaEmail %>">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span><%= t.dropshipping.ctaCopyEmail %></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <%- include('../partials/footer') %>
+
+  <script>
+  (function() {
+    var btns = document.querySelectorAll('[data-copy-email]');
+    btns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var email = btn.getAttribute('data-copy-email');
+        navigator.clipboard.writeText(email).then(function() {
+          var span = btn.querySelector('span');
+          if (span) {
+            var original = span.textContent;
+            span.textContent = '<%= lang === "uk" ? "Скопійовано!" : "Copied!" %>';
+            setTimeout(function() { span.textContent = original; }, 2000);
+          }
+        });
+      });
+    });
+  })();
+  </script>
+  <script src="/analytics.js"></script>
+  <script src="/shared.js?v=3"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+{
+  "name": "PENGER",
+  "symbol": "PNGR",
+  "description": "PENGER is a community-driven token built on the Solana blockchain. It aims to provide a fast, decentralized, and transparent digital asset for community participation, trading, and ecosystem growth.",
+  "image": "https://raw.githubusercontent.com/hlibsuslov/penger/main/photo/photo_2026-03-07_21-40-58.jpg",
+  "external_url": "https://github.com/hlibsuslov/penger",
+  "attributes": [
+    {
+      "trait_type": "Token Type",
+      "value": "Fungible"
+    },
+    {
+      "trait_type": "Blockchain",
+      "value": "Solana"
+    },
+    {
+      "trait_type": "Category",
+      "value": "Community Token"
+    },
+    {
+      "trait_type": "Decimals",
+      "value": "9"
+    },
+    {
+      "trait_type": "Standard",
+      "value": "SPL Token"
+    }
+  ],
+  "properties": {
+    "category": "token",
+    "files": [
+      {
+        "uri": "https://raw.githubusercontent.com/hlibsuslov/penger/main/photo/photo_2026-03-07_21-40-58.jpg",
+        "type": "image/jpeg"
+      }
+    ],
+    "creators": [
+      {
+        "address": "65A7XtLEHpS2PUB25J3mbj2g3XDWDC57uMuxvdWTRM5u",
+        "share": 100
+      }
+    ]
+  },
+  "seller_fee_basis_points": 0
+}

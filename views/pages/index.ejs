@@ -1,0 +1,1154 @@
+<!DOCTYPE html><html lang="<%= lang %>">
+<head>
+  <%- include('../partials/head') %>
+  <% if (typeof extraCss !== 'undefined') { extraCss.forEach(function(css) { %>
+  <link rel="stylesheet" href="/<%= css %>">
+  <% }); } %>
+
+  <!-- Font preload: critical weights only -->
+  <link rel="preload" href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hjQ.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Critical above-fold inline CSS -->
+  <style>
+    .lp-hero{min-height:50vh}
+    .site-header{background:var(--bg-main)}
+  </style>
+
+  <title><%= pageTitle %></title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "PENGER v1.0",
+    "description": "<%= typeof ogDescription !== 'undefined' && ogDescription ? ogDescription : pageDescription %>",
+    "url": "<%= canonicalBase %><%= langPrefix %>/",
+    "image": "<%= canonicalBase %>/imagepackage.png",
+    "brand": { "@type": "Brand", "name": "PENGER" },
+    "manufacturer": { "@type": "Organization", "name": "PENGER", "url": "<%= canonicalBase %>" },
+    "category": "Security Equipment",
+    "material": "Grade 2 Titanium (ASTM B265)",
+    "offers": {
+      "@type": "Offer",
+      "price": "49.00",
+      "priceCurrency": "EUR",
+      "priceValidUntil": "2026-12-31",
+      "availability": "https://schema.org/PreOrder",
+      "url": "<%= canonicalBase %><%= langPrefix %>/order"
+    },
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "cssSelector": [".lp-h1", ".lp-hero-tagline", ".lp-subheadline"]
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "PENGER",
+    "url": "<%= canonicalBase %>",
+    "logo": "<%= canonicalBase %>/PENGER.svg",
+    "image": "<%= canonicalBase %>/imagepackage.png",
+    "description": "<%= pageDescription %>",
+    "email": "contact@mypenger.com",
+    "founder": {
+      "@type": "Person",
+      "name": "Hlib Suslov",
+      "jobTitle": "CEO & Founder"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "email": "contact@mypenger.com",
+      "contactType": "customer support",
+      "availableLanguage": ["English", "Ukrainian"]
+    },
+    "sameAs": [
+      "https://t.me/pengercom"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "PENGER",
+    "url": "<%= canonicalBase %>",
+    "inLanguage": ["en", "uk"],
+    "publisher": { "@type": "Organization", "name": "PENGER", "url": "<%= canonicalBase %>" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "PENGER — Site Navigation",
+    "itemListElement": [
+      { "@type": "SiteNavigationElement", "position": 1, "name": "<%= lang === 'uk' ? 'Академія' : 'Academy' %>", "url": "<%= canonicalBase %><%= langPrefix %>/guides" },
+      { "@type": "SiteNavigationElement", "position": 2, "name": "<%= lang === 'uk' ? 'Симулятори' : 'Simulators' %>", "url": "<%= canonicalBase %><%= langPrefix %>/simulators" },
+      { "@type": "SiteNavigationElement", "position": 3, "name": "<%= lang === 'uk' ? 'Словник' : 'Dictionary' %>", "url": "<%= canonicalBase %><%= langPrefix %>/dictionary" },
+      { "@type": "SiteNavigationElement", "position": 4, "name": "<%= lang === 'uk' ? 'AI Тьютор' : 'AI Tutor' %>", "url": "<%= canonicalBase %><%= langPrefix %>/ai-tutor" },
+      { "@type": "SiteNavigationElement", "position": 5, "name": "<%= lang === 'uk' ? 'Про нас' : 'About Us' %>", "url": "<%= canonicalBase %><%= langPrefix %>/about-us" },
+      { "@type": "SiteNavigationElement", "position": 6, "name": "<%= lang === 'uk' ? 'Контакти' : 'Contacts' %>", "url": "<%= canonicalBase %><%= langPrefix %>/contacts" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "<%= lang === 'uk' ? 'Як зробити бекап сід-фрази на титановій пластині PENGER' : 'How to Back Up a Seed Phrase on a PENGER Titanium Plate' %>",
+    "description": "<%= lang === 'uk' ? 'Три кроки для перманентного кодування BIP39 сід-фрази на титановій пластині PENGER' : 'Three-step process to permanently encode a BIP39 seed phrase onto a PENGER titanium plate' %>",
+    "totalTime": "PT30M",
+    "supply": [
+      { "@type": "HowToSupply", "name": "PENGER v1.0 titanium plate" },
+      { "@type": "HowToSupply", "name": "Practice template (included in kit)" }
+    ],
+    "tool": [
+      { "@type": "HowToTool", "name": "PENGER center punch (included in kit)" },
+      { "@type": "HowToTool", "name": "BIP39 wordlist or PENGER Dictionary" }
+    ],
+    "step": [
+      {
+        "@type": "HowToStep",
+        "position": 1,
+        "name": "<%= lang === 'uk' ? 'Знайдіть кожне слово' : 'Look up each word' %>",
+        "text": "<%= lang === 'uk' ? 'Знайдіть BIP39 індекс для кожного слова вашої сід-фрази за допомогою Словника PENGER або будь-якого списку BIP39.' : 'Find the BIP39 index for every word in your seed phrase using the PENGER Dictionary or any BIP39 wordlist.' %>",
+        "url": "<%= canonicalBase %><%= langPrefix %>/dictionary"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 2,
+        "name": "<%= lang === 'uk' ? 'Конвертуйте в двійковий код' : 'Convert to binary' %>",
+        "text": "<%= lang === 'uk' ? 'Конвертуйте кожен індекс у 12-бітну двійкову послідовність за допомогою Симулятора або вручну.' : 'Convert each index to a 12-bit binary sequence using the Simulator, a reference chart, or manual calculation.' %>",
+        "url": "<%= canonicalBase %><%= langPrefix %>/simulators"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 3,
+        "name": "<%= lang === 'uk' ? 'Пробийте пластину' : 'Punch the plate' %>",
+        "text": "<%= lang === 'uk' ? 'Використовуйте кернер для позначення кожного 1-біта на титановій сітці. Один стовпець на слово, зверху вниз.' : 'Use the center punch tool to mark each 1-bit on the titanium grid. One column per word, top-to-bottom.' %>"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <%- include('../partials/gtm-body') %>
+  <noscript><p style="padding:40px;text-align:center;font-size:16px;">JavaScript is required.</p></noscript>
+  <%- include('../partials/header') %>
+
+  <main>
+
+    <!-- ===== BLOCK 1: HERO ===== -->
+    <section class="lp-hero" id="hero" data-section="hero">
+      <div class="lp-hero-grid-bg"></div>
+      <div class="lp-hero-glow"></div>
+
+      <div class="container">
+        <h1 class="lp-h1"><%= t.index.heroH1 %> <br><span class="lp-h1-highlight"><%= t.index.heroH1Highlight %></span></h1>
+
+        <div class="lp-hero-image" id="heroImage">
+          <img src="/photo/package.png" alt="Penger v1.0 titanium seed phrase backup" width="1038" height="1107">
+        </div>
+
+        <p class="lp-hero-tagline"><%= t.index.heroTagline %></p>
+        <p class="lp-subheadline"><%= t.index.heroSubheadline %></p>
+        <div class="lp-cta-group">
+          <a href="<%= langPrefix %>/order" class="lp-hero-buy" data-track="buy_click" data-cta-id="hero_buy" data-section="hero"><%= t.index.buyShort %></a>
+          <a href="#encoding-guide" class="btn lp-btn-outline lp-hero-link" data-track="cta_click" data-cta-id="hero_explore_more" data-section="hero"><%= t.index.exploreMore %> <span class="lp-hero-link-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ===== BLOCK 3: THE REALITY CHECK ===== -->
+    <section class="lp-section lp-section-problem lp-no-border-bottom" id="problem" data-section="problem">
+      <div class="container">
+        <p class="lp-section-label anim-fade-in"><%= t.index.vulnerabilityLabel %></p>
+        <h2 class="lp-h2 anim-fade-in"><%- t.index.vulnerabilityH2 %></h2>
+        <p class="lp-text anim-fade-in"><%= t.index.vulnerabilityText %></p>
+        <ul class="lp-anti-features">
+          <li class="anim-fade-in"><%= t.index.antiFeat1 %></li>
+          <li class="anim-fade-in"><%= t.index.antiFeat2 %></li>
+          <li class="anim-fade-in"><%= t.index.antiFeat3 %></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== PLATE PARALLAX ===== -->
+    <section class="lp-section lp-section-plate lp-no-border-bottom">
+      <div class="container">
+        <div class="lp-plate-stage">
+          <img src="/photo/plate.png" alt="<%= t.index.plateBackAlt || 'PENGER titanium plate back side with BIP39 grid' %>" class="lp-plate lp-plate-back" loading="lazy">
+          <img src="/photo/front_plate.png" alt="<%= t.index.plateFrontAlt || 'PENGER titanium plate front side with punched seed phrase' %>" class="lp-plate lp-plate-front" loading="lazy">
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BLOCK 4: ABSOLUTE PRIVACY ===== -->
+    <section class="lp-section lp-section-privacy" id="social-proof" data-section="social-proof">
+      <div class="container">
+        <p class="lp-section-label anim-fade-in"><%= t.index.privacyLabel %></p>
+        <h2 class="lp-h2 anim-fade-in"><%= t.index.privacyH2 %></h2>
+
+        <div class="lp-privacy-grid">
+
+          <div class="lp-privacy-card anim-fade-in">
+            <svg class="lp-privacy-icon" viewBox="0 0 473 320" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M64 150 C105 92, 150 58, 210 58 C270 58, 315 92, 356 150 C315 208, 270 242, 210 242 C150 242, 105 208, 64 150 Z" fill="none" stroke="currentColor" stroke-width="16" stroke-linejoin="round" stroke-linecap="round"/>
+              <circle cx="210" cy="150" r="49" fill="none" stroke="currentColor" stroke-width="16"/>
+              <line x1="93" y1="270" x2="328" y2="33" stroke="currentColor" stroke-width="16" stroke-linecap="round"/>
+            </svg>
+            <h3 class="lp-privacy-title"><%= t.index.privacyTitle1 %></h3>
+            <p class="lp-privacy-desc"><%= t.index.privacyDesc1 %></p>
+          </div>
+
+          <div class="lp-privacy-card anim-fade-in">
+            <svg class="lp-privacy-icon" viewBox="0 0 5120 5120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <g transform="translate(0,5120) scale(1,-1)" fill="currentColor" stroke="none">
+                <path d="M850 4265 l-75 -75 434 -434 434 -434 -58 -78 c-71 -98 -146 -252 -178 -364 l-25 -85 -83 -6 c-177 -12 -319 -78 -450 -209 -71 -71 -94 -101 -133 -180 -101 -205 -101 -409 1 -619 78 -164 232 -296 418 -359 l80 -27 1180 -3 1180 -2 307 -308 308 -307 77 78 78 77 -1705 1705 c-938 938 -1707 1705 -1710 1705 -3 0 -39 -34 -80 -75z m1484 -2663 c-890 -2 -1034 0 -1091 13 -346 80 -502 484 -293 761 111 147 244 204 475 204 l131 0 31 140 c35 154 97 301 169 397 l39 52 783 -782 782 -782 -1026 -3z"/>
+                <path d="M2352 3715 c-137 -25 -362 -105 -362 -129 0 -6 33 -45 74 -85 l74 -73 63 25 c119 47 211 62 369 61 122 -1 160 -5 241 -27 234 -62 447 -211 573 -401 21 -32 60 -104 87 -160 l48 -103 108 -6 c123 -7 202 -25 288 -66 269 -127 406 -420 328 -701 -38 -140 -155 -292 -276 -360 l-59 -33 78 -78 78 -78 38 21 c58 33 173 143 223 213 55 77 106 186 131 280 28 105 25 294 -5 400 -93 330 -357 557 -703 606 l-90 13 -25 51 c-165 325 -496 565 -870 630 -104 18 -311 18 -411 0z"/>
+              </g>
+            </svg>
+            <h3 class="lp-privacy-title"><%= t.index.privacyTitle2 %></h3>
+            <p class="lp-privacy-desc"><%= t.index.privacyDesc2 %></p>
+          </div>
+
+          <div class="lp-privacy-card anim-fade-in">
+            <svg class="lp-privacy-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 280" fill="none" aria-hidden="true">
+              <path d="M 68 140 C 68 95, 104 75, 140 75 C 174 75, 196 97, 244 140 C 292 97, 314 75, 348 75 C 384 75, 420 95, 420 140 C 420 185, 384 205, 348 205 C 314 205, 292 183, 244 140 C 196 183, 174 205, 140 205 C 104 205, 68 185, 68 140" stroke="currentColor" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+            <h3 class="lp-privacy-title"><%= t.index.privacyTitle3 %></h3>
+            <p class="lp-privacy-desc"><%= t.index.privacyDesc3 %></p>
+          </div>
+
+        </div>
+        <div class="lp-privacy-cta anim-fade-in">
+          <a href="<%= langPrefix %>/simulators" class="btn lp-btn-ghost"><%= t.index.privacyCta || 'Start to use' %></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BLOCK 5: SOLUTION & THE KIT ===== -->
+    <section class="lp-section lp-section-kit" id="benefits" data-section="benefits">
+      <div class="container">
+        <p class="lp-section-label anim-fade-in"><%= t.index.kitLabel %></p>
+        <h2 class="lp-h2 anim-fade-in"><%- t.index.kitH2 %></h2>
+        <p class="lp-text anim-fade-in" style="margin-bottom: 48px;"><%= t.index.kitIntro %></p>
+
+        <!-- Bento grid kit showcase -->
+        <div class="kit-bento anim-fade-in">
+
+          <!-- Hero: full-width product image -->
+          <div class="kit-hero">
+            <div class="kit-hero-grid"></div>
+            <div class="kit-hero-content">
+              <img src="/photo/blacksleeve1.png" alt="<%= t.index.kitHeroAlt || 'PENGER v1.0 complete kit' %>" loading="lazy" width="400" height="280" class="kit-hero-img">
+            </div>
+            <span class="kit-hero-badge">PENGER v1.0</span>
+          </div>
+
+          <!-- Items: 2-column grid -->
+          <div class="kit-items">
+            <div class="kit-item anim-fade-in">
+              <div class="kit-item-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 100 100" fill="none"><g fill="currentColor" stroke="none"><rect x="6" y="6" width="18" height="18" rx="4"/><rect x="54" y="6" width="18" height="18" rx="4"/><rect x="30" y="30" width="18" height="18" rx="4"/><rect x="78" y="30" width="18" height="18" rx="4"/><rect x="54" y="54" width="18" height="18" rx="4"/><rect x="78" y="54" width="18" height="18" rx="4"/><rect x="6" y="78" width="18" height="18" rx="4"/><rect x="30" y="78" width="18" height="18" rx="4"/></g><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="30" y="6" width="18" height="18" rx="4"/><rect x="78" y="6" width="18" height="18" rx="4"/><rect x="6" y="30" width="18" height="18" rx="4"/><rect x="54" y="30" width="18" height="18" rx="4"/><rect x="6" y="54" width="18" height="18" rx="4"/><rect x="30" y="54" width="18" height="18" rx="4"/><rect x="54" y="78" width="18" height="18" rx="4"/><rect x="78" y="78" width="18" height="18" rx="4"/></g></svg>
+              </div>
+              <div class="kit-item-body">
+                <span class="kit-item-num">01</span>
+                <h3 class="kit-item-name">Penger V1.0</h3>
+                <p class="kit-item-desc"><%= t.index.kitItem1 %></p>
+              </div>
+            </div>
+
+            <div class="kit-item anim-fade-in">
+              <div class="kit-item-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <div class="kit-item-body">
+                <span class="kit-item-num">02</span>
+                <h3 class="kit-item-name">Security Sleeve</h3>
+                <p class="kit-item-desc"><%= t.index.kitItem2 %></p>
+              </div>
+            </div>
+
+            <div class="kit-item anim-fade-in">
+              <div class="kit-item-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v4"/><path d="M12 18v4"/><path d="M4.93 4.93l2.83 2.83"/><path d="M16.24 16.24l2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="M4.93 19.07l2.83-2.83"/><path d="M16.24 7.76l2.83-2.83"/></svg>
+              </div>
+              <div class="kit-item-body">
+                <span class="kit-item-num">03</span>
+                <h3 class="kit-item-name">Precision Center Punch</h3>
+                <p class="kit-item-desc"><%= t.index.kitItem3 %></p>
+              </div>
+            </div>
+
+            <div class="kit-item anim-fade-in">
+              <div class="kit-item-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.83 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+              </div>
+              <div class="kit-item-body">
+                <span class="kit-item-num">04</span>
+                <h3 class="kit-item-name">Training Pencil</h3>
+                <p class="kit-item-desc"><%= t.index.kitItem4 %></p>
+              </div>
+            </div>
+
+            <div class="kit-item anim-fade-in">
+              <div class="kit-item-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              </div>
+              <div class="kit-item-body">
+                <span class="kit-item-num">05</span>
+                <h3 class="kit-item-name">Guides</h3>
+                <p class="kit-item-desc"><%= t.index.kitItem5 %></p>
+              </div>
+            </div>
+
+            <!-- Bonus: Academy -->
+            <div class="kit-item kit-item-bonus anim-fade-in">
+              <div class="kit-item-icon kit-icon-accent">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 3 3 6 3s6-1 6-3v-5"/></svg>
+              </div>
+              <div class="kit-item-body">
+                <span class="kit-item-badge"><%= t.index.kitExtraTag %></span>
+                <a href="<%= langPrefix %>/guides" class="kit-item-link">Penger Academy <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+                <p class="kit-item-desc"><%= t.index.kitItem6 %></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Price + CTA row -->
+          <div class="kit-cta">
+            <div class="kit-cta-price">
+              <span class="kit-cta-from"><%= t.index.kitFrom || 'From' %></span>
+              <span class="kit-cta-amount">&euro;59</span>
+            </div>
+            <a href="<%= langPrefix %>/order" class="kit-cta-btn" data-track="kit_order_click" data-cta-id="kit_order">
+              <%= t.index.kitOrderBtn || 'Configure your kit' %>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BLOCK 6: HOW IT WORKS ===== -->
+    <section class="lp-section lp-section-how" id="how-it-works" data-section="how-it-works">
+      <div class="container">
+        <p class="lp-section-label anim-fade-in"><%= t.index.protocolLabel %></p>
+        <h2 class="lp-h2 anim-fade-in"><%= t.index.protocolH2 %></h2>
+        <p class="lp-text anim-fade-in"><%- t.index.protocolDesc %></p>
+        <ol class="lp-steps">
+          <li class="lp-step anim-fade-in">
+            <span class="lp-step-num">01</span>
+            <div class="lp-step-content">
+              <h3 class="lp-step-title"><%= t.index.stepLocate %></h3>
+              <p class="lp-step-desc"><%= t.index.stepLocateDesc %></p>
+            </div>
+          </li>
+          <li class="lp-step anim-fade-in">
+            <span class="lp-step-num">02</span>
+            <div class="lp-step-content">
+              <h3 class="lp-step-title"><%= t.index.stepPunch %></h3>
+              <p class="lp-step-desc"><%= t.index.stepPunchDesc %></p>
+            </div>
+          </li>
+          <li class="lp-step anim-fade-in">
+            <span class="lp-step-num">03</span>
+            <div class="lp-step-content">
+              <h3 class="lp-step-title"><%- t.index.stepRecover %></h3>
+              <p class="lp-step-desc"><%= t.index.stepRecoverDesc %></p>
+            </div>
+          </li>
+        </ol>
+        <div class="edu-links">
+          <a href="<%= langPrefix %>/guides" class="edu-link">
+            <span class="edu-link-icon" aria-hidden="true">
+              <svg viewBox="0 0 512 512" width="18" height="18" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M256 130L66 200l190 70 190-70z" stroke="currentColor" stroke-width="24" stroke-linejoin="round"/><path d="M136 258l120 44 120-44v72c0 70-240 70-240 0z"/><rect x="398" y="225" width="16" height="140"/><rect x="376" y="350" width="60" height="90" rx="20"/></svg>
+            </span>
+            <span class="edu-link-text">
+              <span class="edu-link-title"><%= t.nav.academy %></span>
+              <span class="edu-link-desc"><%= t.index.eduAcademyDesc %></span>
+            </span>
+            <span class="edu-link-arrow" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </span>
+          </a>
+          <a href="<%= langPrefix %>/simulators" class="edu-link">
+            <span class="edu-link-icon" aria-hidden="true">
+              <svg viewBox="0 0 491 531" width="18" height="18" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M35 78h83v21H56v62H35z"/><path d="M335 78h83v83h-21V99h-62z"/><path d="M35 378h21v62h62v21H35z"/><path d="M335 461h83V378h-21v62h-62z"/><path d="M112 188l115-66 115 66-115 66z"/><path d="M99 209l115 66v135L99 344z"/><path d="M239 275l115-66v135L239 410z"/></svg>
+            </span>
+            <span class="edu-link-text">
+              <span class="edu-link-title"><%= t.nav.simulators %></span>
+              <span class="edu-link-desc"><%= t.index.eduSimulatorsDesc %></span>
+            </span>
+            <span class="edu-link-arrow" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </span>
+          </a>
+          <a href="<%= langPrefix %>/ai-tutor" class="edu-link">
+            <span class="edu-link-icon" aria-hidden="true">
+              <svg class="icon-ai-tutor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1001 1002" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M512 38 L506 42 462 167 435 226 392 292 356 333 308 376 247 416 197 440 57 491 54 500 58 507 180 550 241 577 294 610 342 650 386 697 432 765 462 830 505 952 510 958 520 958 526 951 573 817 596 768 633 711 666 672 719 623 784 580 850 550 965 510 974 504 975 496 973 491 841 443 796 423 737 387 684 343 632 284 596 228 566 162 526 46 520 39 Z"/></svg>
+            </span>
+            <span class="edu-link-text">
+              <span class="edu-link-title"><%= t.nav.aiTutor %></span>
+              <span class="edu-link-desc"><%= t.index.eduAiTutorDesc %></span>
+            </span>
+            <span class="edu-link-arrow" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BLOCK 6.5: ENCODING GUIDE & SIMULATOR INFO ===== -->
+    <section class="lp-section lp-section-guide" id="encoding-guide" data-section="encoding-guide">
+      <div class="container">
+        <p class="lp-section-label anim-fade-in"><%= t.index.encodingLabel %></p>
+        <h2 class="lp-h2 anim-fade-in"><%- t.index.encodingH2 %></h2>
+        <ol class="lp-encoding-points">
+          <li class="lp-encoding-point anim-fade-in">
+            <div class="lp-encoding-badge">
+              <span class="lp-encoding-num">01</span>
+            </div>
+            <div class="lp-encoding-content">
+              <%- t.index.enc01 %>
+            </div>
+          </li>
+          <li class="lp-encoding-point anim-fade-in">
+            <div class="lp-encoding-badge">
+              <span class="lp-encoding-num">02</span>
+            </div>
+            <div class="lp-encoding-content">
+              <%- t.index.enc02 %>
+            </div>
+          </li>
+          <li class="lp-encoding-point anim-fade-in">
+            <div class="lp-encoding-badge">
+              <span class="lp-encoding-num">03</span>
+            </div>
+            <div class="lp-encoding-content">
+              <%- t.index.enc03 %>
+            </div>
+          </li>
+        </ol>
+
+        <!-- Step-by-step encoding flow -->
+        <div class="lp-guide-flow">
+
+          <!-- STEP 1: Word List -->
+          <div class="lp-guide-step anim-fade-in">
+            <div class="lp-guide-step-header">
+              <span class="lp-guide-step-num">01</span>
+              <h3 class="lp-guide-step-title"><%= t.index.encStep1Title %></h3>
+            </div>
+            <p class="lp-guide-step-text"><%- t.index.encStep1Text.replace(/%PREFIX%/g, langPrefix) %></p>
+            <div class="lp-guide-example">
+              <div class="lp-guide-example-row lp-guide-seed-row">
+                <span class="lp-guide-tag"><%= t.index.encSeedTag %></span>
+                <span class="lp-guide-seed-phrase">plate scheme quality <strong class="lp-guide-seed-hl">night</strong> sample steel exercise perfect</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="lp-guide-arrow">&darr;</div>
+
+          <!-- STEP 2: Index Lookup -->
+          <div class="lp-guide-step anim-fade-in">
+            <div class="lp-guide-step-header">
+              <span class="lp-guide-step-num">02</span>
+              <h3 class="lp-guide-step-title"><%= t.index.encStep2Title %></h3>
+            </div>
+            <p class="lp-guide-step-text"><%- t.index.encStep2Text.replace(/%PREFIX%/g, langPrefix) %></p>
+            <div class="lp-guide-example lp-guide-dict">
+              <div class="lp-guide-dict-head">
+                <span class="lp-guide-dict-idx"><%= t.index.encDictIndex %></span>
+                <span class="lp-guide-dict-word"><%= t.index.encDictWord %>
+              </div>
+              <div class="lp-guide-dict-body">
+                <div class="lp-guide-dict-row"><span class="lp-guide-dict-idx">1189</span><span class="lp-guide-dict-word">negative</span></div>
+                <div class="lp-guide-dict-row"><span class="lp-guide-dict-idx">1190</span><span class="lp-guide-dict-word">net</span></div>
+                <div class="lp-guide-dict-row"><span class="lp-guide-dict-idx">1191</span><span class="lp-guide-dict-word">network</span></div>
+                <div class="lp-guide-dict-row"><span class="lp-guide-dict-idx">1192</span><span class="lp-guide-dict-word">neutral</span></div>
+                <div class="lp-guide-dict-row"><span class="lp-guide-dict-idx">1193</span><span class="lp-guide-dict-word">never</span></div>
+                <div class="lp-guide-dict-row"><span class="lp-guide-dict-idx">1194</span><span class="lp-guide-dict-word">news</span></div>
+                <div class="lp-guide-dict-row"><span class="lp-guide-dict-idx">1195</span><span class="lp-guide-dict-word">next</span></div>
+                <div class="lp-guide-dict-row"><span class="lp-guide-dict-idx">1196</span><span class="lp-guide-dict-word">nice</span></div>
+                <div class="lp-guide-dict-row lp-guide-dict-active"><span class="lp-guide-dict-idx">1197</span><span class="lp-guide-dict-word">night</span></div>
+                <div class="lp-guide-dict-row"><span class="lp-guide-dict-idx">1198</span><span class="lp-guide-dict-word">noble</span></div>
+                <div class="lp-guide-dict-row"><span class="lp-guide-dict-idx">1199</span><span class="lp-guide-dict-word">noise</span></div>
+                <div class="lp-guide-dict-row"><span class="lp-guide-dict-idx">1200</span><span class="lp-guide-dict-word">nominee</span></div>
+                <div class="lp-guide-dict-row"><span class="lp-guide-dict-idx">1201</span><span class="lp-guide-dict-word">noodle</span></div>
+                <div class="lp-guide-dict-row"><span class="lp-guide-dict-idx">1202</span><span class="lp-guide-dict-word">normal</span></div>
+                <div class="lp-guide-dict-row"><span class="lp-guide-dict-idx">1203</span><span class="lp-guide-dict-word">north</span></div>
+                <div class="lp-guide-dict-row"><span class="lp-guide-dict-idx">1204</span><span class="lp-guide-dict-word">nose</span></div>
+                <div class="lp-guide-dict-row"><span class="lp-guide-dict-idx">1205</span><span class="lp-guide-dict-word">notable</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lp-guide-arrow">&darr;</div>
+
+          <!-- STEP 3: Binary Conversion -->
+          <div class="lp-guide-step anim-fade-in">
+            <div class="lp-guide-step-header">
+              <span class="lp-guide-step-num">03</span>
+              <h3 class="lp-guide-step-title"><%= t.index.encStep3Title %></h3>
+            </div>
+            <p class="lp-guide-step-text"><%= t.index.encStep3Text %></p>
+
+            <div class="lp-binary-card">
+              <div class="lp-binary-index-row">
+                <span class="lp-binary-label"><%= t.index.encBinaryIndex %></span>
+                <span class="lp-binary-index-val">1197</span>
+              </div>
+
+              <div class="lp-binary-grid">
+                <span class="lp-binary-edge-label lp-binary-edge-top"><%= t.index.encTopLabel %></span>
+                <div class="lp-binary-cells">
+                  <div class="lp-binary-col">
+                    <div class="lp-binary-cell off"><span class="lp-binary-digit">0</span></div>
+                    <span class="lp-binary-weight">2048</span>
+                  </div>
+                  <div class="lp-binary-col">
+                    <div class="lp-binary-cell on"><span class="lp-binary-digit">1</span></div>
+                    <span class="lp-binary-weight active">1024</span>
+                  </div>
+                  <div class="lp-binary-col">
+                    <div class="lp-binary-cell off"><span class="lp-binary-digit">0</span></div>
+                    <span class="lp-binary-weight">512</span>
+                  </div>
+                  <div class="lp-binary-col">
+                    <div class="lp-binary-cell off"><span class="lp-binary-digit">0</span></div>
+                    <span class="lp-binary-weight">256</span>
+                  </div>
+                  <div class="lp-binary-col">
+                    <div class="lp-binary-cell on"><span class="lp-binary-digit">1</span></div>
+                    <span class="lp-binary-weight active">128</span>
+                  </div>
+                  <div class="lp-binary-col">
+                    <div class="lp-binary-cell off"><span class="lp-binary-digit">0</span></div>
+                    <span class="lp-binary-weight">64</span>
+                  </div>
+                  <div class="lp-binary-col">
+                    <div class="lp-binary-cell on"><span class="lp-binary-digit">1</span></div>
+                    <span class="lp-binary-weight active">32</span>
+                  </div>
+                  <div class="lp-binary-col">
+                    <div class="lp-binary-cell off"><span class="lp-binary-digit">0</span></div>
+                    <span class="lp-binary-weight">16</span>
+                  </div>
+                  <div class="lp-binary-col">
+                    <div class="lp-binary-cell on"><span class="lp-binary-digit">1</span></div>
+                    <span class="lp-binary-weight active">8</span>
+                  </div>
+                  <div class="lp-binary-col">
+                    <div class="lp-binary-cell on"><span class="lp-binary-digit">1</span></div>
+                    <span class="lp-binary-weight active">4</span>
+                  </div>
+                  <div class="lp-binary-col">
+                    <div class="lp-binary-cell off"><span class="lp-binary-digit">0</span></div>
+                    <span class="lp-binary-weight">2</span>
+                  </div>
+                  <div class="lp-binary-col">
+                    <div class="lp-binary-cell on"><span class="lp-binary-digit">1</span></div>
+                    <span class="lp-binary-weight active">1</span>
+                  </div>
+                </div>
+                <span class="lp-binary-edge-label lp-binary-edge-bottom"><%= t.index.encBottomLabel %></span>
+              </div>
+
+              <div class="lp-binary-check">
+                <span class="lp-binary-label"><%= t.index.encCheckLabel %></span>
+                <span class="lp-binary-formula"><strong>1024</strong> + <strong>128</strong> + <strong>32</strong> + <strong>8</strong> + <strong>4</strong> + <strong>1</strong> = <strong>1197</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="lp-guide-arrow">&darr;</div>
+
+          <!-- STEP 4: Punch -->
+          <div class="lp-guide-step anim-fade-in">
+            <div class="lp-guide-step-header">
+              <span class="lp-guide-step-num">04</span>
+              <h3 class="lp-guide-step-title"><%= t.index.encStep4Title %></h3>
+            </div>
+            <p class="lp-guide-step-text"><%= t.index.encStep4Text %></p>
+            <div class="lp-guide-punch-visual">
+              <div class="lp-guide-punch-content">
+                <div class="lp-guide-punch-dots">
+                  <span class="lp-gdot off"></span>
+                  <span class="lp-gdot on"></span>
+                  <span class="lp-gdot off"></span>
+                  <span class="lp-gdot off"></span>
+                  <span class="lp-gdot on"></span>
+                  <span class="lp-gdot off"></span>
+                  <span class="lp-gdot on"></span>
+                  <span class="lp-gdot off"></span>
+                  <span class="lp-gdot on"></span>
+                  <span class="lp-gdot on"></span>
+                  <span class="lp-gdot off"></span>
+                  <span class="lp-gdot on"></span>
+                </div>
+                <svg class="lp-guide-arrow-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+                <picture class="lp-guide-punch-img">
+                  <img src="/photo/oceanB.png" alt="ocean punch result">
+                </picture>
+                <span class="lp-guide-punch-word">&ldquo;night&rdquo; &middot; #1197</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Simulator callout -->
+        <div class="lp-guide-simulator-callout anim-fade-in">
+          <h3 class="lp-guide-callout-title"><%= t.index.simCalloutTitle %></h3>
+          <p class="lp-guide-callout-text"><%- t.index.simCalloutText %></p>
+          <div class="btn-group lp-btn-group-callout">
+            <a href="<%= langPrefix %>/simulators" class="btn lp-btn-primary lp-btn-with-icon" data-track="cta_click" data-cta-id="guide_try_simulators" data-section="encoding-guide"><span class="lp-btn-icon"><svg viewBox="0 0 491 531" width="56" height="56" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M35 78h83v21H56v62H35z"/><path d="M335 78h83v83h-21V99h-62z"/><path d="M35 378h21v62h62v21H35z"/><path d="M335 461h83V378h-21v62h-62z"/><path d="M112 188l115-66 115 66-115 66z"/><path d="M99 209l115 66v135L99 344z"/><path d="M239 275l115-66v135L239 410z"/></svg></span><%= t.index.trySimulators %></a>
+            <a href="<%= langPrefix %>/dictionary" class="btn lp-btn-outline" data-track="cta_click" data-cta-id="guide_browse_dictionary" data-section="encoding-guide"><%= t.index.browseDictionary %></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BLOCK 7: THE GUARDIAN MANIFESTO ===== -->
+    <section class="lp-section lp-section-manifesto" id="manifesto" data-section="manifesto">
+      <div class="container">
+        <p class="lp-section-label anim-fade-in"><%= t.index.manifestoLabel %></p>
+        <h2 class="lp-h2 anim-fade-in"><%= t.index.manifestoH2 %></h2>
+        <p class="lp-text lp-manifesto-text anim-fade-in"><%= t.index.manifestoText %></p>
+      </div>
+    </section>
+
+    <!-- ===== BLOCK 8: FINAL CTA ===== -->
+    <section class="lp-section lp-section-final-cta" id="pricing" data-section="pricing" data-track-offer data-offer-id="penger-v1-main" data-product-id="penger-v1">
+      <div class="container">
+        <div class="lp-cta-product anim-fade-in" data-track="product_image_view" data-cta-id="pricing_product_image" data-section="pricing" data-product-id="penger-v1">
+          <img src="/photo/plate.png" alt="Penger v1.0 titanium plate" class="lp-cta-product-img" loading="lazy" width="560" height="310">
+        </div>
+        <p class="lp-section-label anim-fade-in"><%= t.index.ctaLabel %></p>
+        <h2 class="lp-h2 anim-fade-in"><%- t.index.ctaH2 %></h2>
+        <p class="lp-subheadline lp-cta-sub anim-fade-in"><%= t.index.ctaSub %></p>
+        <div class="lp-cta-group anim-fade-in">
+          <a href="<%= langPrefix %>/order" class="btn lp-btn-primary lp-btn-cta-final" data-track="buy_click" data-cta-id="pricing_buy" data-section="pricing" data-product-id="penger-v1">
+            <span class="lp-btn-cta-text"><%= t.index.ctaBtn %></span>
+            <svg class="lp-btn-cta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+        </div>
+        <p class="lp-shipping-info anim-fade-in"><%= t.index.ctaShipping %></p>
+      </div>
+    </section>
+
+    <!-- ===== BLOCK 9: LOSS STATS ===== -->
+    <section class="lp-section lp-section-loss" id="loss-stats" data-section="loss-stats">
+      <div class="container">
+        <p class="lp-section-label anim-fade-in"><%= t.index.lossLabel %></p>
+        <h2 class="lp-h2 anim-fade-in"><%- t.index.lossH2 %></h2>
+        <p class="lp-text lp-loss-sub anim-fade-in"><%- t.index.lossSub %></p>
+
+        <!-- ── Big stat counters ── -->
+        <div class="lp-loss-kpi anim-fade-in">
+          <div class="lp-loss-kpi-item">
+            <span class="lp-loss-kpi-val" data-count="1000000000" data-prefix="$" data-suffix=""><%- t.index.lossTotal %></span>
+            <span class="lp-loss-kpi-label"><%= t.index.lossTotalSub %></span>
+          </div>
+          <div class="lp-loss-kpi-divider"></div>
+          <div class="lp-loss-kpi-item">
+            <span class="lp-loss-kpi-val"><%- t.index.lossVictims %></span>
+            <span class="lp-loss-kpi-label"><%= t.index.lossVictimsSub %></span>
+          </div>
+        </div>
+
+        <!-- ── Dual bar chart ── -->
+        <div class="lp-loss-chart anim-fade-in" id="lossChart">
+          <div class="lp-loss-chart-legend">
+            <span class="lp-loss-legend-item"><span class="lp-loss-legend-dot lp-loss-legend-dot--money"></span> <%= t.index.lossChartLabelMoney %></span>
+            <span class="lp-loss-legend-item"><span class="lp-loss-legend-dot lp-loss-legend-dot--people"></span> <%= t.index.lossChartLabelPeople %></span>
+          </div>
+
+          <!-- Year rows -->
+          <div class="lp-loss-row">
+            <span class="lp-loss-year"><%= t.index.lossYear2023 %></span>
+            <div class="lp-loss-bars">
+              <div class="lp-loss-bar-wrap">
+                <div class="lp-loss-bar lp-loss-bar--money" style="--pct:17.1%"><span class="lp-loss-bar-val"><%= t.index.lossAmt2023 %></span></div>
+              </div>
+              <div class="lp-loss-bar-wrap">
+                <div class="lp-loss-bar lp-loss-bar--people" style="--pct:92.6%"><span class="lp-loss-bar-val"><%= t.index.lossPeople2023 %></span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lp-loss-row">
+            <span class="lp-loss-year"><%= t.index.lossYear2024 %></span>
+            <div class="lp-loss-bars">
+              <div class="lp-loss-bar-wrap">
+                <div class="lp-loss-bar lp-loss-bar--money" style="--pct:70%"><span class="lp-loss-bar-val"><%= t.index.lossAmt2024 %></span></div>
+              </div>
+              <div class="lp-loss-bar-wrap">
+                <div class="lp-loss-bar lp-loss-bar--people" style="--pct:100%"><span class="lp-loss-bar-val"><%= t.index.lossPeople2024 %></span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lp-loss-row">
+            <span class="lp-loss-year"><%= t.index.lossYear2025 %></span>
+            <div class="lp-loss-bars">
+              <div class="lp-loss-bar-wrap">
+                <div class="lp-loss-bar lp-loss-bar--money" style="--pct:100%"><span class="lp-loss-bar-val"><%= t.index.lossAmt2025 %></span></div>
+              </div>
+              <div class="lp-loss-bar-wrap">
+                <div class="lp-loss-bar lp-loss-bar--people" style="--pct:42.9%"><span class="lp-loss-bar-val"><%= t.index.lossPeople2025 %></span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lp-loss-row lp-loss-row--current">
+            <span class="lp-loss-year"><%= t.index.lossYear2026 %></span>
+            <div class="lp-loss-bars">
+              <div class="lp-loss-bar-wrap">
+                <div class="lp-loss-bar lp-loss-bar--money" style="--pct:85.7%"><span class="lp-loss-bar-val"><%= t.index.lossAmt2026 %></span></div>
+              </div>
+              <div class="lp-loss-bar-wrap">
+                <div class="lp-loss-bar lp-loss-bar--people" style="--pct:12%"><span class="lp-loss-bar-val"><%= t.index.lossPeople2026 %></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="lp-loss-source anim-fade-in"><%= t.index.lossSource %></p>
+      </div>
+    </section>
+
+  </main>
+
+  <%- include('../partials/footer') %>
+
+  <script src="/analytics.js" defer></script>
+  <script src="/shared.js?v=3" defer></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    /* Loss chart — static, no animation */
+
+    var stage = document.querySelector('.lp-plate-stage');
+    if (!stage) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var back  = stage.querySelector('.lp-plate-back');
+    var front = stage.querySelector('.lp-plate-front');
+    if (!back || !front) return;
+
+    /* --- Configuration --- */
+    var MOBILE_BP = 520;
+    var isMobile = function () { return window.innerWidth <= MOBILE_BP; };
+
+    var config = {
+      spreadFar:  function () { return window.innerWidth > MOBILE_BP ? 35 : 65; },
+      spreadNear: function () { return isMobile() ? 18 : 35; },
+      maxOffset:  65,     /* clamp to prevent overflow */
+      scaleFar:   0.95,   /* scale when far */
+      scaleNear:  1.0,    /* scale when near */
+      rotFar:     function () { return window.innerWidth > MOBILE_BP ? 0 : 1.0; },
+      rotNear:    0,      /* rotation degrees when near */
+      opacityFar: 0.85,   /* back plate opacity when far */
+      opacityNear: 0.95   /* back plate opacity when near */
+    };
+
+    /* --- State --- */
+    var currentOffset = config.spreadFar();
+    var currentScale  = config.scaleFar;
+    var currentRot    = config.rotFar();
+    var currentAlpha  = config.opacityFar;
+    var targetOffset  = config.spreadFar();
+    var targetScale   = config.scaleFar;
+    var targetRot     = config.rotFar();
+    var targetAlpha   = config.opacityFar;
+    var visible = false;
+    var animating = false;
+
+    /* --- Math helpers --- */
+    function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    /* Smooth ease-in-out cubic */
+    function ease(t) {
+      return t < 0.5
+        ? 4 * t * t * t
+        : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+
+    /* --- Compute scroll progress (0 = far, 1 = centered) --- */
+    function getProgress() {
+      var rect = stage.getBoundingClientRect();
+      var winH = window.innerHeight;
+      var stageCenter = rect.top + rect.height / 2;
+      var viewCenter  = winH / 2;
+      var dist = Math.abs(stageCenter - viewCenter) / (winH * 0.55);
+      return clamp(1 - dist, 0, 1);
+    }
+
+    /* --- Update targets from scroll --- */
+    function updateTargets() {
+      var raw = getProgress();
+      var p   = ease(raw);
+      var nearOff = config.spreadNear();
+
+      targetOffset = clamp(lerp(config.spreadFar(), nearOff, p), 0, config.maxOffset);
+      targetScale  = lerp(config.scaleFar, config.scaleNear, p);
+      targetRot    = lerp(config.rotFar(), config.rotNear, p);
+      targetAlpha  = lerp(config.opacityFar, config.opacityNear, p);
+    }
+
+    /* --- Clip plates to stage boundaries --- */
+    function setClip(el, value) {
+      el.style.clipPath = value;
+      el.style.webkitClipPath = value;
+    }
+    function clipPlates() {
+      var plates = [back, front];
+      if (window.innerWidth > MOBILE_BP) {
+        for (var i = 0; i < plates.length; i++) {
+          setClip(plates[i], 'none');
+        }
+        return;
+      }
+      var stageRect = stage.getBoundingClientRect();
+      for (var i = 0; i < plates.length; i++) {
+        var plate = plates[i];
+        var pr = plate.getBoundingClientRect();
+        var pw = pr.width;
+        var ph = pr.height;
+        if (pw === 0 || ph === 0) continue;
+        var overTop    = Math.max(0, stageRect.top  - pr.top);
+        var overRight  = Math.max(0, pr.right  - stageRect.right);
+        var overBottom = Math.max(0, pr.bottom - stageRect.bottom);
+        var overLeft   = Math.max(0, stageRect.left  - pr.left);
+        var insetTop    = (overTop    / ph * 100).toFixed(2);
+        var insetRight  = (overRight  / pw * 100).toFixed(2);
+        var insetBottom = (overBottom / ph * 100).toFixed(2);
+        var insetLeft   = (overLeft   / pw * 100).toFixed(2);
+        var needsClip = overTop > 0.5 || overRight > 0.5 || overBottom > 0.5 || overLeft > 0.5;
+        setClip(plate, needsClip
+          ? 'inset(' + insetTop + '% ' + insetRight + '% ' + insetBottom + '% ' + insetLeft + '%)'
+          : 'none');
+      }
+    }
+
+    /* --- Render loop with lerp smoothing --- */
+    function tick() {
+      if (!visible) { animating = false; return; }
+
+      var smoothing = 0.12;
+      currentOffset = lerp(currentOffset, targetOffset, smoothing);
+      currentScale  = lerp(currentScale, targetScale, smoothing);
+      currentRot    = lerp(currentRot, targetRot, smoothing);
+      currentAlpha  = lerp(currentAlpha, targetAlpha, smoothing);
+
+      /* Apply transforms */
+      var off = currentOffset;
+      var sc  = currentScale.toFixed(4);
+      var rot = currentRot.toFixed(2);
+
+      back.style.transform  = 'translate(-50%,-50%) translateX(' + (-off).toFixed(2) + '%) rotate(' + (-rot) + 'deg) scale(' + sc + ')';
+      front.style.transform = 'translate(-50%,-50%) translateX(' + off.toFixed(2) + '%) rotate(' + rot + 'deg) scale(' + sc + ')';
+      back.style.opacity = currentAlpha.toFixed(3);
+
+      /* Clip plates to stage bounds (prevents overflow on all browsers) */
+      clipPlates();
+
+      /* Keep looping if delta is significant */
+      var delta = Math.abs(currentOffset - targetOffset) + Math.abs(currentScale - targetScale);
+      if (delta > 0.01) {
+        requestAnimationFrame(tick);
+      } else {
+        animating = false;
+      }
+    }
+
+    function startAnimation() {
+      if (!animating) {
+        animating = true;
+        requestAnimationFrame(tick);
+      }
+    }
+
+    function onScroll() {
+      updateTargets();
+      startAnimation();
+    }
+
+    /* --- Event listeners --- */
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    /* Track previous mobile state to detect transitions */
+    var wasMobile = isMobile();
+    window.addEventListener('resize', function () {
+      var nowMobile = isMobile();
+      if (wasMobile !== nowMobile) {
+        /* Immediately clear or apply clip on breakpoint transition */
+        clipPlates();
+        wasMobile = nowMobile;
+      }
+      onScroll();
+    }, { passive: true });
+
+    /* Only animate when section is near viewport */
+    var observer = new IntersectionObserver(function (entries) {
+      visible = entries[0].isIntersecting;
+      if (visible) onScroll();
+    }, { rootMargin: '200px 0px' });
+    observer.observe(stage);
+
+    /* Initial render */
+    visible = true;
+    updateTargets();
+    currentOffset = targetOffset;
+    currentScale  = targetScale;
+    currentRot    = targetRot;
+    currentAlpha  = targetAlpha;
+    requestAnimationFrame(tick);
+  });
+
+  /* Sync TOP/BOTTOM edge label size with actual binary cell size */
+  (function () {
+    function syncBinaryEdge() {
+      var cell = document.querySelector('.lp-binary-cell');
+      var grid = document.querySelector('.lp-binary-grid');
+      if (cell && grid) {
+        grid.style.setProperty('--lp-binary-edge-size', cell.offsetHeight + 'px');
+      }
+    }
+    window.addEventListener('load', syncBinaryEdge);
+    window.addEventListener('resize', syncBinaryEdge);
+  })();
+
+  /* === COUNTER ANIMATION (enhanced) === */
+  (function () {
+    var counters = document.querySelectorAll('.lp-counter');
+    if (!counters.length) return;
+
+    function animateCounter(el) {
+      var target = parseInt(el.getAttribute('data-target'), 10);
+      /* Scale duration by magnitude: small numbers animate faster */
+      var duration = target < 10 ? 800 : target < 100 ? 1200 : 2000;
+      var start = null;
+
+      function step(timestamp) {
+        if (!start) start = timestamp;
+        var progress = Math.min((timestamp - start) / duration, 1);
+        /* ease-out expo for a snappier feel */
+        var eased = 1 - Math.pow(1 - progress, 4);
+        el.textContent = Math.floor(eased * target);
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          el.textContent = target;
+        }
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          animateCounter(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    counters.forEach(function (el) { observer.observe(el); });
+  })();
+
+  /* === SCROLL HINT FADE === */
+  (function () {
+    var hint = document.getElementById('heroScrollHint');
+    if (!hint) return;
+    var hidden = false;
+
+    window.addEventListener('scroll', function () {
+      if (hidden) return;
+      if (window.scrollY > 100) {
+        hint.style.opacity = '0';
+        hint.style.transition = 'opacity 0.4s ease';
+        hidden = true;
+      }
+    }, { passive: true });
+  })();
+
+  /* === DICT PICKER: scroll with spring snap-back to active row === */
+  (function () {
+    var body = document.querySelector('.lp-guide-dict-body');
+    if (!body) return;
+
+    var SPRING_STIFFNESS = 300;
+    var SPRING_DAMPING   = 28;
+    var RUBBER_FACTOR    = 0.35;
+    var SETTLE_VEL       = 0.15;
+    var SETTLE_POS       = 0.25;
+    var DT               = 1 / 60;
+
+    var rows = Array.prototype.slice.call(body.querySelectorAll('.lp-guide-dict-row'));
+    if (!rows.length) return;
+
+    var track = document.createElement('div');
+    track.className = 'lp-guide-dict-track';
+    while (body.firstChild) track.appendChild(body.firstChild);
+    body.appendChild(track);
+
+    var rowHeight = 0, viewH = 0, centerOffset = 0, maxOffset = 0;
+    var offset = 0, velocity = 0, activeIndex = 0;
+    var animating = false, phase = 'idle', rafId = null;
+    var dragging = false, dragStartY = 0, dragStartOff = 0;
+
+    function recalcGeometry() {
+      rowHeight    = rows[0].offsetHeight;
+      viewH        = body.clientHeight;
+      centerOffset = Math.floor((viewH - rowHeight) / 2);
+      maxOffset    = Math.max(0, (rows.length - 1) * rowHeight);
+    }
+
+    function getOffsetForIdx(idx) { return idx * rowHeight; }
+
+    function clampOffset(off) { return Math.max(0, Math.min(off, maxOffset)); }
+
+    function rubberBand(off) {
+      if (off < 0) return off * RUBBER_FACTOR;
+      if (off > maxOffset) return maxOffset + (off - maxOffset) * RUBBER_FACTOR;
+      return off;
+    }
+
+    function render() {
+      var visualOff = rubberBand(offset);
+      track.style.transform = 'translateY(' + (centerOffset - visualOff) + 'px)';
+    }
+
+    function startAnim() {
+      if (animating) return;
+      animating = true;
+      rafId = requestAnimationFrame(tick);
+    }
+
+    function stopAnim() {
+      animating = false;
+      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+    }
+
+    function tick() {
+      if (!animating) return;
+      if (phase === 'spring') {
+        var target = getOffsetForIdx(activeIndex);
+        var displacement = offset - target;
+        var springForce = -SPRING_STIFFNESS * displacement - SPRING_DAMPING * velocity;
+        velocity += springForce * DT;
+        offset += velocity * DT;
+        render();
+        if (Math.abs(velocity) < SETTLE_VEL && Math.abs(offset - target) < SETTLE_POS) {
+          offset = target;
+          velocity = 0;
+          phase = 'idle';
+          render();
+          stopAnim();
+          return;
+        }
+        rafId = requestAnimationFrame(tick);
+      } else {
+        stopAnim();
+      }
+    }
+
+    function springBack() {
+      phase = 'spring';
+      velocity = 0;
+      startAnim();
+    }
+
+    /* Touch */
+    body.addEventListener('touchstart', function (e) {
+      stopAnim(); phase = 'dragging'; dragging = true;
+      var t = e.touches[0];
+      dragStartY = t.clientY; dragStartOff = offset;
+    }, { passive: true });
+
+    body.addEventListener('touchmove', function (e) {
+      if (!dragging) return;
+      var t = e.touches[0];
+      offset = dragStartOff + (dragStartY - t.clientY);
+      render();
+    }, { passive: true });
+
+    body.addEventListener('touchend', function () {
+      if (!dragging) return;
+      dragging = false;
+      springBack();
+    }, { passive: true });
+    body.addEventListener('touchcancel', function () {
+      if (!dragging) return;
+      dragging = false;
+      springBack();
+    }, { passive: true });
+
+    /* Mouse drag */
+    var mouseDragging = false;
+    body.addEventListener('mousedown', function (e) {
+      if (e.button !== 0) return;
+      e.preventDefault();
+      stopAnim(); phase = 'dragging'; mouseDragging = true;
+      dragStartY = e.clientY; dragStartOff = offset;
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
+    });
+
+    function onMouseMove(e) {
+      if (!mouseDragging) return;
+      offset = dragStartOff + (dragStartY - e.clientY);
+      render();
+    }
+
+    function onMouseUp() {
+      if (!mouseDragging) return;
+      mouseDragging = false;
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+      springBack();
+    }
+
+    body.style.userSelect = 'none';
+    body.style.webkitUserSelect = 'none';
+    body.style.touchAction = 'pan-x';
+
+    /* Resize */
+    function handleResize() {
+      recalcGeometry();
+      offset = getOffsetForIdx(activeIndex);
+      velocity = 0; phase = 'idle';
+      stopAnim(); render();
+    }
+    if (typeof ResizeObserver !== 'undefined') {
+      new ResizeObserver(handleResize).observe(body);
+    } else {
+      window.addEventListener('resize', handleResize);
+    }
+
+    /* Init */
+    function init() {
+      recalcGeometry();
+      if (!rowHeight || !viewH) {
+        requestAnimationFrame(init);
+        return;
+      }
+      var initialActive = body.querySelector('.lp-guide-dict-active');
+      if (initialActive) activeIndex = rows.indexOf(initialActive);
+      if (activeIndex < 0) activeIndex = 0;
+      offset = getOffsetForIdx(activeIndex);
+      render();
+    }
+    init();
+  })();
+  </script>
+</body>
+</html>
