@@ -209,6 +209,7 @@ app.get('/guides.html', function (req, res) {
 var PAGE_CONFIGS = {
   '/': { view: 'pages/index', dataKey: 'index', css: ['landing.css?v=48', 'about-us.css'], js: [], preloadFont: true },
   '/guides': { view: 'pages/guides', dataKey: 'guides', css: [], js: [] },
+  '/quiz': { view: 'pages/quiz', dataKey: 'quiz', css: [], js: [] },
   '/simulators': { view: 'pages/simulators', dataKey: 'simulators', css: [], js: ['js/bip39-wordlist.js', 'script.js?v=12'] },
   '/dictionary': { view: 'pages/dictionary', dataKey: 'dictionary', css: [], js: ['js/bip39-wordlist.js', 'dictionary.js'] },
   '/ai-tutor': { view: 'pages/ai-tutor', dataKey: 'aiTutor', css: [], js: ['js/ai-tutor.js'] },

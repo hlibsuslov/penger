@@ -1,0 +1,351 @@
+<!DOCTYPE html><html lang="<%= lang %>">
+<head>
+  <%- include('../partials/head') %>
+  <% if (typeof extraCss !== 'undefined') { extraCss.forEach(function(css) { %>
+  <link rel="stylesheet" href="/<%= css %>">
+  <% }); } %>
+  <title><%= pageTitle %></title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Quiz",
+    "name": "<%= pageTitle %>",
+    "url": "<%= canonicalBase %><%= langPrefix %>/quiz",
+    "description": "<%= pageDescription %>",
+    "publisher": {
+      "@type": "Organization",
+      "name": "PENGER",
+      "logo": { "@type": "ImageObject", "url": "<%= canonicalBase %>/PENGER.svg" }
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "<%= lang === 'uk' ? 'Головна' : 'Home' %>", "item": "<%= canonicalBase %><%= langPrefix %>/" },
+      { "@type": "ListItem", "position": 2, "name": "<%= lang === 'uk' ? 'Академія' : 'Academy' %>", "item": "<%= canonicalBase %><%= langPrefix %>/guides" },
+      { "@type": "ListItem", "position": 3, "name": "<%= lang === 'uk' ? 'Перевірка знань' : 'Knowledge Check' %>" }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <%- include('../partials/gtm-body') %>
+  <noscript><p style="padding:40px;text-align:center;font-size:16px;">JavaScript is required.</p></noscript>
+  <%- include('../partials/header') %>
+
+  <main>
+    <section class="quiz-hero">
+      <div class="container">
+        <a href="<%= langPrefix %>/guides" class="quiz-back-link">
+          <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 10H4M8 5l-5 5 5 5"/></svg>
+          <%= lang === 'uk' ? 'Академія' : 'Academy' %>
+        </a>
+        <p class="label"><%= lang === 'uk' ? '[ ПЕРЕВІРКА ЗНАНЬ ]' : '[ KNOWLEDGE CHECK ]' %></p>
+        <h1 class="quiz-hero-title"><%= lang === 'uk' ? 'Де ваші прогалини в знаннях?' : 'Where Are Your Knowledge Gaps?' %></h1>
+        <p class="quiz-hero-desc"><%= lang === 'uk' ? '8 запитань за ~2 хвилини. Визначте теми, які варто вивчити глибше, та отримайте персоналізовані рекомендації гайдів.' : '8 questions in ~2 minutes. Identify topics worth exploring deeper and get personalized guide recommendations.' %></p>
+      </div>
+    </section>
+
+    <section class="quiz-container">
+      <div class="container">
+
+        <!-- QUIZ BODY -->
+        <div class="quiz-card" id="quiz-card">
+          <div class="quiz-progress-bar">
+            <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
+          </div>
+
+          <div class="quiz-question-area" id="quiz-question-area">
+            <div class="quiz-question-header">
+              <span class="quiz-question-counter" id="quiz-counter"></span>
+              <span class="quiz-question-topic" id="quiz-topic"></span>
+            </div>
+            <p class="quiz-question-text" id="quiz-question-text"></p>
+            <div class="quiz-options" id="quiz-options"></div>
+          </div>
+
+          <div class="quiz-nav" id="quiz-nav">
+            <button class="cb-btn cb-btn--secondary" id="quiz-prev" disabled>
+              <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 10H4M8 5l-5 5 5 5"/></svg>
+              <%= lang === 'uk' ? 'Назад' : 'Back' %>
+            </button>
+            <button class="cb-btn cb-btn--primary" id="quiz-next" disabled>
+              <%= lang === 'uk' ? 'Далі' : 'Next' %>
+              <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M12 5l5 5-5 5"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- RESULTS (hidden until complete) -->
+        <div class="quiz-results" id="quiz-results" style="display:none;">
+          <div class="quiz-results-header">
+            <div class="quiz-score-circle" id="quiz-score-circle">
+              <span class="quiz-score-num" id="quiz-score-num"></span>
+              <span class="quiz-score-label"><%= lang === 'uk' ? 'з 8' : 'of 8' %></span>
+            </div>
+            <div>
+              <h2 class="quiz-results-title" id="quiz-results-title"></h2>
+              <p class="quiz-results-desc" id="quiz-results-desc"></p>
+            </div>
+          </div>
+
+          <div class="quiz-results-guides" id="quiz-results-guides"></div>
+
+          <div class="quiz-results-actions">
+            <button class="cb-btn cb-btn--secondary" id="quiz-restart">
+              <%= lang === 'uk' ? 'Пройти ще раз' : 'Retake Quiz' %>
+            </button>
+            <a href="<%= langPrefix %>/guides" class="cb-btn cb-btn--primary">
+              <%= lang === 'uk' ? 'До Академії' : 'Go to Academy' %>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <%- include('../partials/footer') %>
+
+  <script src="/analytics.js"></script>
+  <script src="/shared.js?v=3"></script>
+  <script>
+  (function() {
+    var isUk = '<%= lang %>' === 'uk';
+    var LP = '<%= langPrefix %>';
+
+    var QUESTIONS = [
+      {
+        topic: 'seed-anatomy',
+        topicLabel: isUk ? 'Сід-фрази' : 'Seed Phrases',
+        question: isUk
+          ? 'Який стандарт визначає список із 2048 слів для сід-фраз?'
+          : 'What standard defines the 2048-word list used for seed phrases?',
+        options: isUk
+          ? ['BIP32', 'BIP39', 'BIP44', 'EIP-721']
+          : ['BIP32', 'BIP39', 'BIP44', 'EIP-721'],
+        correct: 1,
+        guideTitle: isUk ? 'Анатомія сід-фрази' : 'Anatomy of a Seed Phrase'
+      },
+      {
+        topic: 'wallet-anatomy',
+        topicLabel: isUk ? 'Гаманці' : 'Wallets',
+        question: isUk
+          ? 'Яка основна функція HD-гаманця?'
+          : 'What is the primary function of an HD wallet?',
+        options: isUk
+          ? ['Зберігати паролі', 'Деривувати багато адрес з одного сіда', 'Підключатися до бірж', 'Майнити криптовалюту']
+          : ['Store passwords', 'Derive multiple addresses from one seed', 'Connect to exchanges', 'Mine cryptocurrency'],
+        correct: 1,
+        guideTitle: isUk ? 'Анатомія гаманця' : 'Anatomy of a Wallet'
+      },
+      {
+        topic: 'self-sovereignty',
+        topicLabel: isUk ? 'Самосуверенітет' : 'Self-Sovereignty',
+        question: isUk
+          ? 'Що означає принцип «не твої ключі — не твої монети»?'
+          : 'What does "not your keys, not your coins" mean?',
+        options: isUk
+          ? ['Потрібні фізичні монети', 'Тільки апаратні гаманці безпечні', 'Без контролю приватних ключів ви не володієте криптою', 'Ключі треба друкувати на папері']
+          : ['You need physical coins', 'Only hardware wallets are safe', 'Without controlling private keys you don\'t truly own crypto', 'Keys must be printed on paper'],
+        correct: 2,
+        guideTitle: isUk ? 'Самосуверенітет' : 'Self-Sovereignty'
+      },
+      {
+        topic: 'wallet-comparison',
+        topicLabel: isUk ? 'Типи гаманців' : 'Wallet Types',
+        question: isUk
+          ? 'Який тип гаманця забезпечує найвищу безпеку для довгострокового зберігання?'
+          : 'Which wallet type offers the highest security for long-term storage?',
+        options: isUk
+          ? ['Мобільний гарячий гаманець', 'Браузерне розширення', 'Ейр-гепд апаратний гаманець', 'Біржовий акаунт']
+          : ['Mobile hot wallet', 'Browser extension wallet', 'Air-gapped hardware wallet', 'Exchange account'],
+        correct: 2,
+        guideTitle: isUk ? 'Порівняння типів гаманців' : 'Wallet Types Compared'
+      },
+      {
+        topic: 'opsec',
+        topicLabel: isUk ? 'OpSec' : 'OpSec',
+        question: isUk
+          ? 'Яка головна мета операційної безпеки (OpSec) у криптовалюті?'
+          : 'What is the main goal of operational security (OpSec) in crypto?',
+        options: isUk
+          ? ['Максимізувати прибуток від трейдингу', 'Мінімізувати вектори атак та захистити приватні ключі', 'Збільшити швидкість транзакцій', 'Зменшити комісії']
+          : ['Maximize trading profits', 'Minimize attack surface and protect private keys', 'Increase transaction speed', 'Reduce gas fees'],
+        correct: 1,
+        guideTitle: isUk ? 'Операційна безпека (OpSec)' : 'Operational Security (OpSec)'
+      },
+      {
+        topic: 'passphrase',
+        topicLabel: isUk ? 'Пасфраза' : 'Passphrase',
+        question: isUk
+          ? 'Що робить пасфраза BIP39 (25-те слово)?'
+          : 'What does the BIP39 passphrase (25th word) do?',
+        options: isUk
+          ? ['Замінює сід-фразу', 'Створює зовсім інший гаманець з того ж сіда', 'Шифрує блокчейн', 'Прискорює транзакції']
+          : ['Replaces the seed phrase', 'Creates a completely different wallet from the same seed', 'Encrypts the blockchain', 'Speeds up transactions'],
+        correct: 1,
+        guideTitle: isUk ? '25-те слово (Пасфраза)' : 'The 25th Word (Passphrase)'
+      },
+      {
+        topic: 'multisig',
+        topicLabel: isUk ? 'Мультипідпис' : 'Multisig',
+        question: isUk
+          ? 'Скільки ключів потрібно для підпису транзакції в схемі 2-з-3 мультипідпису?'
+          : 'In a 2-of-3 multisig setup, how many keys are needed to sign a transaction?',
+        options: isUk
+          ? ['1', '2', '3', 'Усі ключі плюс пароль']
+          : ['1', '2', '3', 'All keys plus a password'],
+        correct: 1,
+        guideTitle: isUk ? 'Мультипідпис (Multisig)' : 'Multisignature (Multisig)'
+      },
+      {
+        topic: 'hodl',
+        topicLabel: isUk ? 'HODL' : 'HODL',
+        question: isUk
+          ? 'Що таке Dollar Cost Averaging (DCA)?'
+          : 'What is Dollar Cost Averaging (DCA)?',
+        options: isUk
+          ? ['Купувати тільки на просадках', 'Інвестувати фіксовану суму через рівні інтервали незалежно від ціни', 'Продавати невеликі суми щодня', 'Конвертувати в стейблкоїни']
+          : ['Buying only at market dips', 'Investing a fixed amount at regular intervals regardless of price', 'Selling small amounts daily', 'Converting to stablecoins'],
+        correct: 1,
+        guideTitle: isUk ? 'HODL: стратегія довгострокового утримання' : 'HODL: The Long-Term Holding Strategy'
+      }
+    ];
+
+    var currentQ = 0;
+    var answers = new Array(QUESTIONS.length).fill(-1);
+
+    var counterEl = document.getElementById('quiz-counter');
+    var topicEl = document.getElementById('quiz-topic');
+    var questionEl = document.getElementById('quiz-question-text');
+    var optionsEl = document.getElementById('quiz-options');
+    var progressEl = document.getElementById('quiz-progress-fill');
+    var prevBtn = document.getElementById('quiz-prev');
+    var nextBtn = document.getElementById('quiz-next');
+    var cardEl = document.getElementById('quiz-card');
+    var resultsEl = document.getElementById('quiz-results');
+
+    function render() {
+      var q = QUESTIONS[currentQ];
+      counterEl.textContent = (currentQ + 1) + ' / ' + QUESTIONS.length;
+      topicEl.textContent = q.topicLabel;
+      questionEl.textContent = q.question;
+      progressEl.style.width = ((currentQ + 1) / QUESTIONS.length * 100) + '%';
+
+      optionsEl.innerHTML = '';
+      q.options.forEach(function(opt, i) {
+        var btn = document.createElement('button');
+        btn.className = 'quiz-option' + (answers[currentQ] === i ? ' selected' : '');
+        btn.textContent = opt;
+        btn.addEventListener('click', function() {
+          answers[currentQ] = i;
+          render();
+        });
+        optionsEl.appendChild(btn);
+      });
+
+      prevBtn.disabled = currentQ === 0;
+      var isLast = currentQ === QUESTIONS.length - 1;
+      nextBtn.disabled = answers[currentQ] === -1;
+      nextBtn.innerHTML = isLast
+        ? (isUk ? 'Результати' : 'See Results') + ' <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M12 5l5 5-5 5"/></svg>'
+        : (isUk ? 'Далі' : 'Next') + ' <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M12 5l5 5-5 5"/></svg>';
+    }
+
+    prevBtn.addEventListener('click', function() {
+      if (currentQ > 0) { currentQ--; render(); }
+    });
+
+    nextBtn.addEventListener('click', function() {
+      if (answers[currentQ] === -1) return;
+      if (currentQ < QUESTIONS.length - 1) {
+        currentQ++;
+        render();
+      } else {
+        showResults();
+      }
+    });
+
+    function showResults() {
+      cardEl.style.display = 'none';
+      resultsEl.style.display = '';
+
+      var score = 0;
+      var weak = [];
+      QUESTIONS.forEach(function(q, i) {
+        if (answers[i] === q.correct) {
+          score++;
+        } else {
+          weak.push(q);
+        }
+      });
+
+      document.getElementById('quiz-score-num').textContent = score;
+
+      var titleEl = document.getElementById('quiz-results-title');
+      var descEl = document.getElementById('quiz-results-desc');
+      var guidesEl = document.getElementById('quiz-results-guides');
+
+      if (score === QUESTIONS.length) {
+        titleEl.textContent = isUk ? 'Чудовий результат!' : 'Excellent Result!';
+        descEl.textContent = isUk
+          ? 'Ви відповіли правильно на всі запитання. Ви добре розумієте основи крипто-самосуверенітету!'
+          : 'You answered all questions correctly. You have a solid understanding of crypto self-custody fundamentals!';
+        guidesEl.innerHTML = '<p class="quiz-results-all-good">' + (isUk
+          ? 'Продовжуйте поглиблювати знання в наших гайдах для просунутого рівня.'
+          : 'Continue deepening your knowledge with our advanced-level guide content.') + '</p>';
+      } else if (score >= 6) {
+        titleEl.textContent = isUk ? 'Хороший результат!' : 'Good Result!';
+        descEl.textContent = isUk
+          ? 'У вас міцна база, але є кілька тем, які варто повторити.'
+          : 'You have a strong foundation, but there are a few topics worth revisiting.';
+      } else if (score >= 4) {
+        titleEl.textContent = isUk ? 'Є над чим попрацювати' : 'Room for Improvement';
+        descEl.textContent = isUk
+          ? 'Деякі концепції потребують уваги. Рекомендуємо пройти гайди нижче.'
+          : 'Some concepts need attention. We recommend going through the guides below.';
+      } else {
+        titleEl.textContent = isUk ? 'Саме час навчатись!' : 'Time to Learn!';
+        descEl.textContent = isUk
+          ? 'Не хвилюйтесь — наші гайди допоможуть вам опанувати всі ці теми з нуля.'
+          : 'Don\'t worry — our guides will help you master all these topics from scratch.';
+      }
+
+      if (weak.length > 0) {
+        var heading = document.createElement('p');
+        heading.className = 'quiz-results-heading';
+        heading.textContent = isUk ? 'Рекомендовані гайди:' : 'Recommended guides:';
+        guidesEl.innerHTML = '';
+        guidesEl.appendChild(heading);
+
+        weak.forEach(function(q) {
+          var a = document.createElement('a');
+          a.href = LP + '/guides/' + q.topic;
+          a.className = 'quiz-results-guide';
+          a.innerHTML = '<span class="quiz-results-guide-title">' + q.guideTitle + '</span>' +
+            '<svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M12 5l5 5-5 5"/></svg>';
+          guidesEl.appendChild(a);
+        });
+      }
+
+      resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    document.getElementById('quiz-restart').addEventListener('click', function() {
+      currentQ = 0;
+      answers = new Array(QUESTIONS.length).fill(-1);
+      cardEl.style.display = '';
+      resultsEl.style.display = 'none';
+      render();
+      cardEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    render();
+  })();
+  </script>
+</body>
+</html>

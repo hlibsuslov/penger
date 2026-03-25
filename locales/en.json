@@ -1151,5 +1151,10 @@
     "conclusionH2": "Conclusion",
     "conclusionP1": "Self-custody means accepting full responsibility for your keys. That responsibility demands a backup method that matches the permanence of the assets it protects. Paper doesn't. Electronics don't. Titanium does.",
     "conclusionP2": "PENGER v1.0 is the answer to a simple question: <strong>if you had to store 24 words for 50 years with zero maintenance, zero dependencies, and zero trust — what would you build?</strong> This is what we built."
+  },
+  "quiz": {
+    "title": "Knowledge Check — PENGER Academy",
+    "metaDescription": "Take a quick 8-question quiz to identify your crypto self-custody knowledge gaps and get personalized guide recommendations.",
+    "keywords": "crypto quiz, self-custody test, knowledge check, crypto education, seed phrase quiz, wallet security quiz"
   }
 }

@@ -69,7 +69,6 @@
     <section class="academy-start-here">
       <div class="container">
         <a href="<%= langPrefix %>/guides/seed-anatomy" class="start-here-card">
-          <div class="start-here-badge">01</div>
           <div class="start-here-content">
             <div class="start-here-label"><%= t.index.startHereLabel %></div>
             <div class="start-here-title"><%= t.index.guideSeedTitle %></div>
@@ -88,7 +87,6 @@
 
           <a class="card" href="<%= langPrefix %>/guides/seed-anatomy">
             <div class="card-meta">
-              <span class="card-order">01</span>
               <span class="card-difficulty card-difficulty--beginner"><%= t.index.difficultyBeginner %></span>
               <span class="card-reading-time">12 <%= t.index.minRead %></span>
             </div>
@@ -99,7 +97,6 @@
 
           <a class="card" href="<%= langPrefix %>/guides/wallet-anatomy">
             <div class="card-meta">
-              <span class="card-order">02</span>
               <span class="card-difficulty card-difficulty--beginner"><%= t.index.difficultyBeginner %></span>
               <span class="card-reading-time">14 <%= t.index.minRead %></span>
             </div>
@@ -110,7 +107,6 @@
 
           <a class="card" href="<%= langPrefix %>/guides/self-sovereignty">
             <div class="card-meta">
-              <span class="card-order">03</span>
               <span class="card-difficulty card-difficulty--beginner"><%= t.index.difficultyBeginner %></span>
               <span class="card-reading-time">10 <%= t.index.minRead %></span>
             </div>
@@ -159,7 +155,6 @@
 
           <a class="card" href="<%= langPrefix %>/guides/wallet-comparison">
             <div class="card-meta">
-              <span class="card-order">04</span>
               <span class="card-difficulty card-difficulty--intermediate"><%= t.index.difficultyIntermediate %></span>
               <span class="card-reading-time">13 <%= t.index.minRead %></span>
             </div>
@@ -170,7 +165,6 @@
 
           <a class="card" href="<%= langPrefix %>/guides/opsec">
             <div class="card-meta">
-              <span class="card-order">05</span>
               <span class="card-difficulty card-difficulty--intermediate"><%= t.index.difficultyIntermediate %></span>
               <span class="card-reading-time">15 <%= t.index.minRead %></span>
             </div>
@@ -181,7 +175,6 @@
 
           <a class="card" href="<%= langPrefix %>/guides/passphrase">
             <div class="card-meta">
-              <span class="card-order">06</span>
               <span class="card-difficulty card-difficulty--intermediate"><%= t.index.difficultyIntermediate %></span>
               <span class="card-reading-time">11 <%= t.index.minRead %></span>
             </div>
@@ -192,7 +185,6 @@
 
           <a class="card" href="<%= langPrefix %>/guides/multisig">
             <div class="card-meta">
-              <span class="card-order">07</span>
               <span class="card-difficulty card-difficulty--advanced"><%= t.index.difficultyAdvanced %></span>
               <span class="card-reading-time">16 <%= t.index.minRead %></span>
             </div>
@@ -213,7 +205,6 @@
 
           <a class="card" href="<%= langPrefix %>/guides/hodl">
             <div class="card-meta">
-              <span class="card-order">08</span>
               <span class="card-difficulty card-difficulty--intermediate"><%= t.index.difficultyIntermediate %></span>
               <span class="card-reading-time">13 <%= t.index.minRead %></span>
             </div>
@@ -229,6 +220,53 @@
   </main>
 
   <%- include('../partials/footer') %>
+
+  <!-- QUIZ SUGGESTION BANNER -->
+  <div id="quiz-banner" class="quiz-banner" style="display:none;" role="dialog" aria-label="<%= lang === 'uk' ? 'Перевірка знань' : 'Knowledge Check' %>">
+    <div class="quiz-banner-inner">
+      <div class="quiz-banner-body">
+        <p class="quiz-banner-title"><%= lang === 'uk' ? 'Наскільки добре ви знаєте крипто-безпеку?' : 'How well do you know crypto security?' %></p>
+        <p class="quiz-banner-text"><%= lang === 'uk' ? 'Пройдіть швидкий тест з 8 запитань, щоб визначити прогалини та отримати персоналізовані рекомендації.' : 'Take a quick 8-question quiz to identify knowledge gaps and get personalized recommendations.' %></p>
+      </div>
+      <div class="quiz-banner-actions">
+        <a href="<%= langPrefix %>/quiz" class="cb-btn cb-btn--primary" id="quiz-banner-cta"><%= lang === 'uk' ? 'Пройти тест' : 'Take the Quiz' %></a>
+        <button class="cb-btn cb-btn--secondary" id="quiz-banner-dismiss"><%= lang === 'uk' ? 'Не зараз' : 'Not now' %></button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function() {
+    var STORAGE_KEY = 'penger_quiz_banner_dismissed';
+    var banner = document.getElementById('quiz-banner');
+    if (!banner) return;
+
+    // Don't show if already dismissed
+    try { if (localStorage.getItem(STORAGE_KEY)) return; } catch(e) {}
+
+    // Wait for cookie banner to be dismissed first, then show quiz banner
+    function tryShow() {
+      var cb = document.getElementById('cb-banner');
+      if (cb && cb.style.display !== 'none') {
+        // Cookie banner is visible — wait and check again
+        setTimeout(tryShow, 1500);
+        return;
+      }
+      // Show quiz banner with a short delay
+      setTimeout(function() { banner.style.display = ''; }, 800);
+    }
+    tryShow();
+
+    document.getElementById('quiz-banner-dismiss').addEventListener('click', function() {
+      banner.style.display = 'none';
+      try { localStorage.setItem(STORAGE_KEY, Date.now()); } catch(e) {}
+    });
+
+    document.getElementById('quiz-banner-cta').addEventListener('click', function() {
+      try { localStorage.setItem(STORAGE_KEY, Date.now()); } catch(e) {}
+    });
+  })();
+  </script>
 
   <script src="/analytics.js"></script>
   <script src="/shared.js?v=3"></script>
