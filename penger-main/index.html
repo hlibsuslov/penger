@@ -1,0 +1,1798 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="format-detection" content="telephone=no, date=no, email=no, address=no">
+  <meta name="x-ms-format-detection" content="none">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#000000">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=(), payment=(), usb=(), bluetooth=(), serial=(), accelerometer=(), gyroscope=(), magnetometer=()">
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="description" content="Free offline BIP39 seed phrase generator, binary encoder, decoder and complete 2048-word dictionary. Convert mnemonic words to 11-bit binary for metal backup. Supports 12, 15, 18, 21 and 24 word phrases with SHA-256 checksum.">
+  <meta name="keywords" content="BIP39, seed phrase, mnemonic, binary encoder, crypto backup, bitcoin wallet, seed generator, binary decoder, 2048 wordlist, dot matrix">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="PENGER">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>PENGER</title>
+  <style>
+    :root {
+      --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, 'DejaVu Sans Mono', 'Courier New', monospace;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'SF Pro Display', Helvetica, Arial, sans-serif;
+      --header-h: 52px;
+      --tab-h: 48px;
+    }
+
+    :root[data-theme="dark"] {
+      --bg-main: #000000;
+      --bg-surface: #0A0A0A;
+      --bg-surface-hover: #1A1A1A;
+      --bg-child: #080808;
+      --bg-highlight: #111111;
+      --text-primary: #B8B8B8;
+      --text-accent: #E0E0E0;
+      --text-accent-hover: #FFFFFF;
+      --text-label: #787878;
+      --text-dim: #505050;
+      --border-default: #1A1A1A;
+      --border-hover: #2A2A2A;
+      --border-active: #3A3A3A;
+      --border-success: rgba(255,255,255,0.30);
+      --glow: rgba(255,255,255,0.08);
+      --punch-fill: #E0E0E0;
+      --punch-empty: #1A1A1A;
+      --error-text: #886060;
+      --error-border: #332222;
+      --scrollbar-thumb: #2A2A2A;
+    }
+
+    :root[data-theme="light"] {
+      --bg-main: #FAFAFA;
+      --bg-surface: #FFFFFF;
+      --bg-surface-hover: #F2F2F2;
+      --bg-child: #F7F7F7;
+      --bg-highlight: #F3F3F3;
+      --text-primary: #1A1A1A;
+      --text-accent: #0A0A0A;
+      --text-accent-hover: #000000;
+      --text-label: #4A4A4A;
+      --text-dim: #888888;
+      --border-default: #E0E0E0;
+      --border-hover: #CFCFCF;
+      --border-active: #BBBBBB;
+      --border-success: rgba(0,0,0,0.28);
+      --glow: rgba(0,0,0,0.06);
+      --punch-fill: #0A0A0A;
+      --punch-empty: #E0E0E0;
+      --error-text: #994444;
+      --error-border: #DDBBBB;
+      --scrollbar-thumb: #CFCFCF;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; font-size: 16px; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-main);
+      color: var(--text-primary);
+      font-size: 14px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      font-feature-settings: 'liga' 1, 'calt' 1;
+      overflow-x: hidden;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding-top: calc(var(--header-h) + env(safe-area-inset-top, 0px));
+      padding-bottom: max(24px, env(safe-area-inset-bottom, 0px));
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    ::selection { background: var(--text-accent); color: var(--bg-main); }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 2px; }
+
+    a[x-apple-data-detectors],
+    a[x-apple-data-detectors]:hover,
+    a[x-apple-data-detectors]:active,
+    a[x-apple-data-detectors]:visited {
+      color: inherit !important;
+      text-decoration: none !important;
+      font: inherit !important;
+      line-height: inherit !important;
+    }
+
+    .container { width: 100%; max-width: 800px; margin: 0 auto; padding: 0 24px; }
+
+    /* === HEADER === */
+    .site-header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: var(--bg-main);
+      border-bottom: 1px solid var(--border-default);
+      padding-top: env(safe-area-inset-top, 0px);
+      transition: background 0.2s ease;
+    }
+    .site-header .container {
+      display: flex; justify-content: space-between; align-items: center;
+      height: var(--header-h);
+    }
+    .site-logo {
+      font-family: var(--font-mono); font-size: 15px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--text-accent); text-decoration: none;
+    }
+    .header-right { display: flex; align-items: center; gap: 16px; }
+    .header-status {
+      font-family: var(--font-mono); font-size: 11px; font-weight: 500; text-transform: uppercase;
+      letter-spacing: 1.5px; color: var(--text-label);
+    }
+    .theme-toggle {
+      width: 36px; height: 36px; border-radius: 4px; border: 1px solid var(--border-default);
+      background: transparent; color: var(--text-label); cursor: pointer;
+      font-size: 16px; display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s ease; font-family: var(--font-mono);
+    }
+    .theme-toggle:hover { border-color: var(--border-hover); color: var(--text-accent); }
+
+    /* === TYPOGRAPHY === */
+    h1, h2, h3 {
+      font-family: var(--font-sans); color: var(--text-accent);
+      line-height: 1.25; letter-spacing: -0.02em;
+    }
+    h1 { font-size: 30px; font-weight: 600; }
+    h2 { font-size: 22px; font-weight: 700; }
+    h3 { font-size: 15px; font-weight: 600; }
+
+    .label {
+      font-family: var(--font-mono); font-size: 12px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--text-label); margin-bottom: 12px;
+    }
+    .body-text {
+      font-family: var(--font-sans); font-size: 14px; line-height: 1.8;
+      color: var(--text-primary); max-width: 640px;
+    }
+    .meta-text { font-family: var(--font-sans); font-size: 12px; color: var(--text-label); line-height: 1.6; }
+
+    /* === TABS === */
+    .tab-bar {
+      position: sticky; top: calc(var(--header-h) + env(safe-area-inset-top, 0px));
+      z-index: 90; display: flex; gap: 0;
+      border-bottom: 1px solid var(--border-default);
+      background: var(--bg-main); transition: background 0.2s ease;
+    }
+    .tab-btn {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono); font-size: 12px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--text-dim); background: transparent; border: none;
+      border-bottom: 2px solid transparent; padding: 14px 12px;
+      cursor: pointer; transition: all 0.2s ease;
+      touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+    }
+    .tab-btn:hover { color: var(--text-label); }
+    .tab-btn.active { color: var(--text-accent); border-bottom-color: var(--text-accent); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* === SECTIONS === */
+    .section-intro { padding: 40px 0 32px; border-bottom: 1px solid var(--border-default); }
+    .section-intro h1 { margin-top: 8px; margin-bottom: 12px; }
+    .section-block { padding: 32px 0; border-bottom: 1px solid var(--border-default); }
+
+    /* === PILL SELECTOR === */
+    .pill-group { display: flex; gap: 0; margin-top: 8px; }
+    .pill {
+      font-family: var(--font-mono); font-size: 13px; font-weight: 500;
+      padding: 10px 18px; border: 1px solid var(--border-default);
+      background: transparent; color: var(--text-dim); cursor: pointer;
+      transition: all 0.15s ease; touch-action: manipulation;
+    }
+    .pill:first-child { border-radius: 4px 0 0 4px; }
+    .pill:last-child { border-radius: 0 4px 4px 0; }
+    .pill:not(:first-child) { border-left: none; }
+    .pill:hover { color: var(--text-label); background: var(--bg-surface-hover); }
+    .pill.active {
+      color: var(--bg-main); background: var(--text-accent);
+      border-color: var(--text-accent);
+    }
+    .pill.active + .pill { border-left: 1px solid var(--text-accent); }
+
+    /* === BUTTONS === */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono); font-size: 13px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      padding: 12px 28px; border-radius: 4px; border: none; cursor: pointer;
+      transition: all 0.2s ease; white-space: nowrap; text-decoration: none;
+      touch-action: manipulation; min-height: 44px;
+    }
+    .btn-primary {
+      background: var(--text-accent); color: var(--bg-main);
+      border: 1px solid var(--text-accent);
+    }
+    .btn-primary:hover {
+      background: var(--text-accent-hover); border-color: var(--text-accent-hover);
+      box-shadow: 0 0 16px var(--glow);
+    }
+    .btn-primary:active { transform: scale(0.98); }
+    .btn-secondary {
+      background: transparent; color: var(--text-accent);
+      border: 1px solid var(--border-default);
+    }
+    .btn-secondary:hover { border-color: var(--border-active); color: var(--text-accent-hover); }
+    .btn-danger {
+      background: transparent; color: var(--error-text);
+      border: 1px solid var(--error-border);
+    }
+    .btn-danger:hover { color: var(--text-accent); border-color: var(--border-active); }
+    .btn-group { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+
+    /* === RESULT AREAS === */
+    .result-area {
+      opacity: 0; transform: translateY(8px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      pointer-events: none;
+    }
+    .result-area.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+    /* === SEED OUTPUT === */
+    .seed-output {
+      margin-top: 16px; padding: 16px 20px;
+      background: var(--bg-child); border: 1px solid var(--border-default);
+      border-radius: 4px; font-family: var(--font-mono); font-size: 14px; line-height: 2.1;
+      color: var(--text-accent); word-break: break-word;
+      font-weight: 500; letter-spacing: 0.02em; position: relative;
+    }
+    .seed-output, .decode-seed-output {
+      user-select: none; -webkit-user-select: none; -moz-user-select: none;
+    }
+
+    /* === WORD TABLE === */
+    .word-table { display: grid; gap: 0; margin-top: 16px; }
+    .word-row {
+      display: grid; grid-template-columns: 32px 120px 60px 1fr;
+      gap: 8px; padding: 10px 12px; font-size: 13px; align-items: center;
+      font-family: var(--font-mono);
+      border-bottom: 1px solid var(--border-default);
+      transition: background 0.15s ease; cursor: pointer; position: relative;
+    }
+    .word-row.table-head {
+      font-size: 11px; font-weight: 600; color: var(--text-label);
+      text-transform: uppercase; letter-spacing: 0.04em;
+      border-bottom: 1px solid var(--border-hover);
+      padding-bottom: 10px; cursor: default;
+    }
+    @media (hover: hover) { .word-row:not(.table-head):hover { background: var(--bg-surface-hover); } }
+    .word-row:last-child { border-bottom: none; }
+    .w-num { color: var(--text-dim); font-weight: 600; font-size: 11px; text-align: right; }
+    .w-word { color: var(--text-accent); font-weight: 600; }
+    .w-index { color: var(--text-primary); font-weight: 600; text-align: right; }
+    .w-binary { color: var(--text-label); letter-spacing: 1.5px; font-size: 12px; }
+    .w-binary .bit-one { color: var(--text-accent); font-weight: 700; }
+
+    .word-row:not(.table-head)::after {
+      content: '+'; position: absolute; right: 4px; top: 50%; transform: translateY(-50%);
+      font-size: 12px; color: var(--text-dim); transition: color 0.2s ease;
+    }
+    .word-row.expanded::after { content: '−'; color: var(--text-label); }
+
+    .word-detail {
+      grid-column: 1 / -1; overflow: hidden; max-height: 0;
+      transition: max-height 0.25s ease-out;
+    }
+    .word-detail-inner {
+      background: var(--bg-child); border: 1px solid var(--border-default);
+      border-radius: 4px; padding: 14px 16px; margin: 4px 0 2px;
+      font-family: var(--font-mono); font-size: 11px; line-height: 1.75;
+      color: var(--text-primary); white-space: pre; overflow-x: auto;
+    }
+    .word-detail-inner .dl { color: var(--text-dim); }
+    .word-detail-inner .dh { color: var(--text-accent); font-weight: 700; }
+    .word-detail-inner .da { color: var(--text-accent-hover); font-weight: 700; }
+    .word-detail-inner .ds { color: var(--text-label); }
+    .word-detail-inner .dg { color: var(--text-dim); }
+    .word-detail-inner .check-line {
+      margin-top: 6px; padding-top: 6px;
+      border-top: 1px solid var(--border-default); color: var(--text-accent);
+    }
+
+    /* === PLATE VISUALIZATION === */
+    .plate-vis {
+      margin-top: 16px; padding: 24px 20px;
+      background: var(--bg-child); border: 1px solid var(--border-default);
+      border-radius: 4px; overflow-x: auto;
+      --cell-w: 32px; --dot-s: 16px;
+      width: 100%;
+      max-width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .plate-vis.wc-md { --cell-w: 28px; --dot-s: 14px; }
+    .plate-vis.wc-lg { --cell-w: 24px; --dot-s: 12px; }
+    .plate-title {
+      font-family: var(--font-mono); font-size: 11px; font-weight: 600; text-transform: uppercase;
+      color: var(--text-label); letter-spacing: 0.06em; text-align: center; margin-bottom: 4px;
+    }
+    .plate-subtitle {
+      font-family: var(--font-mono); font-size: 10px; color: var(--text-dim); text-align: center;
+      margin-bottom: 16px; letter-spacing: 0.04em;
+    }
+    .word-header { display: flex; align-items: flex-end; gap: 0; margin-bottom: 4px; padding-left: 48px; }
+    .word-header span {
+      width: var(--cell-w); height: 20px; display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 600; color: var(--text-label);
+      transition: color 0.15s ease;
+    }
+    .plate-rows { display: flex; flex-direction: column; gap: 2px; position: relative; }
+    .plate-row {
+      display: flex; align-items: center; gap: 0;
+      padding: 2px 0; border-radius: 2px; position: relative; z-index: 1;
+    }
+    .col-line {
+      position: absolute; top: -2px; bottom: -2px;
+      pointer-events: none; background: var(--glow);
+      border-radius: 3px; opacity: 0; transition: opacity 0.15s ease; z-index: 0;
+    }
+    .col-line.visible { opacity: 1; }
+    .word-header span.col-hover {
+      color: var(--text-accent-hover); font-weight: 600;
+    }
+    .plate-bit-label {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+      color: var(--text-dim); width: 44px; text-align: right; flex-shrink: 0; margin-right: 4px;
+    }
+    .plate-dots { display: flex; gap: 0; }
+    .dot-cell {
+      width: var(--cell-w); height: 28px; display: flex; align-items: center;
+      justify-content: center; flex-shrink: 0;
+    }
+    .dot {
+      width: var(--dot-s); height: var(--dot-s); border-radius: 50%;
+      background: var(--punch-empty); flex-shrink: 0;
+      transition: all 0.15s ease;
+    }
+    .dot.on { background: var(--punch-fill); box-shadow: 0 0 5px var(--glow); }
+    .plate-legend {
+      display: flex; gap: 16px; margin-top: 12px; padding-top: 12px;
+      border-top: 1px solid var(--border-default);
+      font-family: var(--font-mono); font-size: 11px; color: var(--text-label);
+    }
+    .legend-item { display: flex; align-items: center; gap: 6px; }
+    .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .legend-dot.on { background: var(--punch-fill); }
+    .legend-dot.off { background: var(--punch-empty); }
+
+    /* === GEN PLATE CONTAINER === */
+    #genPlateContainer {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+
+    /* === DECODE PLATE === */
+    #decodeMatrixContainer {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+    .decode-plate .dot-cell {
+      cursor: pointer; touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      position: relative;
+    }
+    .decode-plate .dot-cell::before {
+      content: ''; position: absolute;
+      inset: -3px -2px;
+    }
+    .decode-plate .dot { cursor: pointer; transition: all 0.1s ease; }
+    @media (hover: hover) {
+      .decode-plate .dot:hover { box-shadow: 0 0 6px var(--glow); transform: scale(1.15); }
+    }
+    .decode-plate .dot:active { transform: scale(0.9); }
+    @media (hover: none) {
+      .decode-plate .dot-cell { min-height: 32px; }
+      .decode-plate .dot-cell::before { inset: -4px -3px; }
+    }
+
+    .decode-seed-output {
+      margin-top: 16px; padding: 16px 20px;
+      background: var(--bg-child); border: 1px solid var(--border-default);
+      border-radius: 4px; font-family: var(--font-mono); font-size: 14px; line-height: 2.1;
+      color: var(--text-accent); word-break: break-word; font-weight: 500;
+    }
+    .decode-seed-output .seed-word.empty-word { color: var(--text-dim); }
+
+    /* === DECODE WORD TABLE === */
+    .decode-word-table { display: grid; gap: 0; margin-top: 16px; }
+    .decode-word-row {
+      display: grid; grid-template-columns: 32px 60px 1fr 120px;
+      gap: 8px; padding: 10px 12px; font-size: 13px; align-items: center;
+      font-family: var(--font-mono);
+      border-bottom: 1px solid var(--border-default); transition: background 0.15s ease;
+    }
+    @media (hover: hover) { .decode-word-row:not(.table-head):hover { background: var(--bg-surface-hover); } }
+    .decode-word-row:last-child { border-bottom: none; }
+    .decode-word-row.table-head {
+      font-size: 11px; font-weight: 600; color: var(--text-label);
+      text-transform: uppercase; letter-spacing: 0.04em;
+      border-bottom: 1px solid var(--border-hover); padding-bottom: 10px;
+    }
+    .decode-word-row .dw-num { color: var(--text-dim); font-weight: 600; font-size: 11px; text-align: right; }
+    .decode-word-row .dw-index { color: var(--text-primary); font-weight: 600; text-align: right; }
+    .decode-word-row .dw-binary { color: var(--text-label); letter-spacing: 1.5px; font-size: 12px; }
+    .decode-word-row .dw-word { color: var(--text-accent); font-weight: 600; }
+    .decode-word-row.empty .dw-word { color: var(--text-dim); }
+
+    /* === STATUS / BADGE === */
+    .status-line {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      color: var(--text-label); padding: 6px 14px;
+      border: 1px solid var(--border-success); border-radius: 4px;
+      box-shadow: 0 0 8px var(--glow); margin-top: 16px;
+    }
+    .status-line::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--border-success); flex-shrink: 0;
+    }
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--font-mono); font-size: 11px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.04em; padding: 6px 14px; border-radius: 4px; margin-top: 16px;
+    }
+    .badge::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
+    }
+    .badge.valid { border: 1px solid var(--border-success); color: var(--text-accent); box-shadow: 0 0 8px var(--glow); }
+    .badge.valid::before { background: var(--border-success); }
+    .badge.partial { border: 1px solid var(--border-default); color: var(--text-dim); }
+    .badge.partial::before { background: var(--text-dim); }
+    .badge.error { border: 1px solid var(--error-border); color: var(--error-text); }
+    .badge.error::before { background: var(--error-text); }
+
+    /* === TERMINAL BLOCK === */
+    .terminal {
+      background: var(--bg-child); border: 1px solid var(--border-default);
+      border-radius: 4px; padding: 16px 20px;
+      font-family: var(--font-mono); font-size: 13px; line-height: 1.7;
+      color: var(--text-primary); overflow-x: auto; white-space: pre; margin-top: 12px;
+    }
+    .terminal .hl { color: var(--text-accent); font-weight: 700; }
+    .terminal .dim { color: var(--text-dim); }
+
+    /* === DICTIONARY === */
+    .dict-controls {
+      display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 16px;
+    }
+    .dict-search {
+      flex: 1; min-width: 200px; padding: 10px 14px;
+      font-family: var(--font-mono); font-size: 14px;
+      background: var(--bg-child); border: 1px solid var(--border-default);
+      border-radius: 4px; color: var(--text-accent);
+      transition: border-color 0.2s ease; outline: none;
+    }
+    .dict-search:focus { border-color: var(--border-active); }
+    .dict-search::placeholder { color: var(--text-dim); }
+    .dict-count {
+      font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap;
+    }
+    .dict-alpha {
+      display: flex; gap: 2px; flex-wrap: wrap; margin-top: 12px;
+    }
+    .alpha-btn {
+      font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+      width: 28px; height: 28px; border-radius: 3px; border: 1px solid var(--border-default);
+      background: transparent; color: var(--text-dim); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s ease; text-transform: uppercase;
+    }
+    .alpha-btn:hover { color: var(--text-label); border-color: var(--border-hover); }
+    .alpha-btn.active { color: var(--bg-main); background: var(--text-accent); border-color: var(--text-accent); }
+
+    .dict-list { margin-top: 16px; }
+    .dict-row {
+      display: grid; grid-template-columns: 48px 120px 130px 1fr;
+      gap: 8px; padding: 8px 12px; font-size: 13px; align-items: center;
+      font-family: var(--font-mono);
+      border-bottom: 1px solid var(--border-default);
+      cursor: pointer; transition: background 0.15s ease;
+    }
+    @media (hover: hover) { .dict-row:hover { background: var(--bg-surface-hover); } }
+    .dict-row .dr-idx { color: var(--text-dim); font-weight: 600; font-size: 11px; text-align: right; }
+    .dict-row .dr-word { color: var(--text-accent); font-weight: 600; }
+    .dict-row .dr-binary { color: var(--text-label); letter-spacing: 1px; font-size: 11px; }
+    .dict-row .dr-dots { display: flex; gap: 2px; }
+    .dict-row .mini-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--punch-empty); flex-shrink: 0;
+    }
+    .dict-row .mini-dot.on { background: var(--punch-fill); }
+    .dict-row-detail {
+      overflow: hidden; max-height: 0; transition: max-height 0.25s ease-out;
+      border-bottom: 1px solid var(--border-default);
+    }
+    .dict-row.expanded { background: var(--bg-surface-hover); }
+
+    .dict-pagination {
+      display: flex; gap: 4px; justify-content: center;
+      margin-top: 20px; flex-wrap: wrap;
+    }
+    .page-btn {
+      font-family: var(--font-mono); font-size: 12px; font-weight: 500;
+      padding: 6px 10px; border-radius: 3px; border: 1px solid var(--border-default);
+      background: transparent; color: var(--text-dim); cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .page-btn:hover { color: var(--text-label); border-color: var(--border-hover); }
+    .page-btn.active { color: var(--bg-main); background: var(--text-accent); border-color: var(--text-accent); }
+    .page-btn:disabled { opacity: 0.3; cursor: default; }
+
+    /* === INFO TABLE === */
+    .info-table {
+      margin-top: 12px; font-family: var(--font-mono); font-size: 13px;
+    }
+    .info-table .info-row {
+      display: flex; padding: 7px 0; border-bottom: 1px solid var(--border-default);
+    }
+    .info-table .info-row:last-child { border-bottom: none; }
+    .info-table .info-key {
+      width: 140px; flex-shrink: 0; color: var(--text-label); font-weight: 600;
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .info-table .info-val { color: var(--text-accent); font-weight: 500; }
+
+    /* === TOOLTIP === */
+    .dot-tooltip {
+      position: fixed; z-index: 200; background: var(--bg-surface);
+      border: 1px solid var(--border-hover); border-radius: 4px;
+      padding: 10px 14px; font-family: var(--font-mono); font-size: 11px;
+      line-height: 1.65; color: var(--text-primary); white-space: pre;
+      pointer-events: none; opacity: 0; transition: opacity 0.15s ease;
+      box-shadow: 0 0 10px var(--glow); max-width: 320px;
+    }
+    .dot-tooltip.visible { opacity: 1; }
+    .dot-tooltip .th { color: var(--text-label); font-weight: 600; font-size: 10px; text-transform: uppercase; }
+    .dot-tooltip .tv { color: var(--text-accent); font-weight: 700; }
+    .dot-tooltip .td { color: var(--text-dim); }
+    .dot-tooltip .tp { color: var(--text-accent-hover); font-weight: 700; }
+    @media (hover: none) { .dot-tooltip { display: none; } }
+
+    /* === FOOTER === */
+    .site-footer {
+      background: var(--bg-surface); border-top: 1px solid var(--border-default);
+      padding: 32px 0; margin-top: 48px; transition: background 0.2s ease;
+    }
+    .footer-content { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+    .footer-brand { font-family: var(--font-mono); font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-accent); }
+    .footer-disclaimer { font-family: var(--font-sans); font-size: 12px; line-height: 1.7; color: var(--text-label); max-width: 500px; margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border-default); }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; gap: 12px; font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); }
+
+    /* === ANIMATIONS === */
+    @keyframes rowFadeIn {
+      from { opacity: 0; transform: translateX(-4px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .animate { animation: rowFadeIn 0.2s ease forwards; }
+
+    /* === RESPONSIVE: Tablet === */
+    @media (max-width: 768px) {
+      .container { padding: 0 20px; }
+      h1 { font-size: 24px; }
+      h2 { font-size: 19px; }
+      .body-text { font-size: 13px; }
+      .word-row { grid-template-columns: 28px 100px 50px 1fr; gap: 6px; font-size: 12px; }
+      .decode-word-row { grid-template-columns: 28px 50px 1fr 100px; gap: 6px; font-size: 12px; }
+      .dict-row { grid-template-columns: 42px 100px 120px 1fr; gap: 6px; font-size: 12px; }
+      .plate-vis { padding: 20px 14px; --cell-w: 28px; --dot-s: 14px; }
+      .plate-vis.wc-md { --cell-w: 24px; --dot-s: 12px; }
+      .plate-vis.wc-lg { --cell-w: 20px; --dot-s: 10px; }
+      .dot-cell { height: 26px; }
+      .word-header { padding-left: 44px; }
+      .word-header span { font-size: 9px; }
+      .plate-bit-label { width: 40px; font-size: 9px; }
+    }
+
+    /* === RESPONSIVE: Phone === */
+    @media (max-width: 520px) {
+      .container { padding: 0 14px; }
+      h1 { font-size: 21px; }
+      h2 { font-size: 17px; }
+      .body-text { font-size: 13px; line-height: 1.75; }
+      .label { font-size: 11px; margin-bottom: 8px; }
+      .section-intro { padding: 24px 0 20px; }
+      .section-block { padding: 24px 0; }
+      .header-status { display: none; }
+
+      .pill { padding: 8px 12px; font-size: 12px; }
+
+      .word-row {
+        grid-template-columns: 24px 1fr;
+        gap: 3px 8px; padding: 10px 8px; font-size: 12px;
+      }
+      .word-row .w-index { grid-column: 2; text-align: left; font-size: 11px; }
+      .word-row .w-binary { grid-column: 2; font-size: 11px; }
+      .word-row.table-head { display: none; }
+      .word-row:not(.table-head)::after { right: 8px; }
+
+      .decode-word-row {
+        grid-template-columns: 24px 1fr;
+        gap: 3px 8px; padding: 10px 8px; font-size: 12px;
+      }
+      .decode-word-row .dw-index { grid-column: 2; text-align: left; }
+      .decode-word-row .dw-binary { grid-column: 2; font-size: 11px; }
+      .decode-word-row .dw-word { grid-column: 2; }
+      .decode-word-row.table-head { display: none; }
+
+      .dict-row {
+        grid-template-columns: 36px 1fr;
+        gap: 3px 8px; padding: 10px 8px; font-size: 12px;
+      }
+      .dict-row .dr-binary { grid-column: 2; font-size: 11px; }
+      .dict-row .dr-dots { grid-column: 2; }
+
+      .word-detail-inner { font-size: 10px; padding: 10px 10px; }
+      .plate-vis { padding: 14px 8px; --cell-w: 26px; --dot-s: 14px; }
+      .plate-vis.wc-md { --cell-w: 20px; --dot-s: 10px; }
+      .plate-vis.wc-lg { --cell-w: 16px; --dot-s: 8px; }
+      .dot-cell { height: 26px; }
+      .word-header { padding-left: 34px; }
+      .word-header span { height: 20px; font-size: 9px; }
+      .plate-bit-label { width: 30px; font-size: 9px; }
+      .plate-subtitle { font-size: 9px; }
+      .btn { padding: 12px 20px; font-size: 12px; width: 100%; justify-content: center; }
+      .btn-group { flex-direction: column; }
+      .terminal { font-size: 11px; padding: 12px 10px; }
+      .seed-output { font-size: 13px; padding: 14px; }
+      .decode-seed-output { font-size: 13px; padding: 14px; }
+
+      .site-header .container { height: 46px; }
+      .site-logo { font-size: 13px; }
+      body { padding-top: calc(46px + env(safe-area-inset-top, 0px)); }
+      .tab-bar { top: calc(46px + env(safe-area-inset-top, 0px)); }
+      --header-h: 46px;
+
+      .dict-search { min-width: 140px; font-size: 13px; padding: 8px 12px; }
+      .alpha-btn { width: 26px; height: 26px; font-size: 10px; }
+    }
+
+    @media (max-width: 380px) {
+      .container { padding: 0 10px; }
+      h1 { font-size: 18px; }
+      .plate-vis { --cell-w: 24px; --dot-s: 12px; }
+      .plate-vis.wc-md { --cell-w: 18px; --dot-s: 9px; }
+      .plate-vis.wc-lg { --cell-w: 14px; --dot-s: 7px; }
+      .dot-cell { height: 24px; }
+      .word-header span { font-size: 8px; }
+      .word-header { padding-left: 30px; }
+      .plate-bit-label { width: 26px; font-size: 8px; }
+      .dict-row .mini-dot { width: 6px; height: 6px; }
+    }
+
+    @media (max-height: 500px) and (orientation: landscape) {
+      body { padding-top: calc(42px + env(safe-area-inset-top, 0px)); }
+      .site-header .container { height: 42px; }
+      .tab-bar { top: calc(42px + env(safe-area-inset-top, 0px)); }
+      .tab-btn { padding: 10px 8px; }
+      .section-intro { padding: 16px 0 12px; }
+      .section-block { padding: 16px 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+
+    :focus-visible { outline: 2px solid var(--border-success); outline-offset: 2px; border-radius: 2px; }
+
+    @media print {
+      .site-header, .btn-group, .tab-bar, .theme-toggle, .decode-actions { display: none; }
+      body { background: #fff; color: #000; padding-top: 0; }
+      .plate-vis { border-color: #ccc; }
+      .dot.on { background: #111; }
+      .dot { background: #ddd; }
+    }
+  </style>
+</head>
+<body>
+  <noscript><p style="padding:40px;text-align:center;font-size:16px;">This application requires JavaScript to function. Please enable JavaScript in your browser settings.</p></noscript>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo">PENGER</a>
+      <div class="header-right">
+        <span class="header-status" id="headerStatus">SEED ENCODER</span>
+        <button class="theme-toggle" id="themeToggle" type="button" title="Toggle theme" aria-label="Toggle theme">D</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <nav class="tab-bar" id="tabBar">
+      <button class="tab-btn active" data-tab="generate" type="button">GENERATE</button>
+      <button class="tab-btn" data-tab="decode" type="button">DECODE</button>
+      <button class="tab-btn" data-tab="dictionary" type="button">DICTIONARY</button>
+    </nav>
+
+    <!-- ==================== TAB 1: GENERATE ==================== -->
+    <div class="tab-panel active" id="panel-generate">
+
+      <section class="section-intro">
+        <div class="container">
+          <p class="label">[ BIP39 / BINARY ENCODER ]</p>
+          <h1>Seed Phrase Generator</h1>
+          <p class="body-text">Generate a cryptographically random BIP39 seed phrase with proper SHA-256 checksum. Each word index (0&ndash;2047) is encoded as an 11-bit binary value and visualized as a dot matrix for metal backup encoding.</p>
+
+          <div style="margin-top: 20px;">
+            <p class="label" style="margin-bottom: 8px;">WORD COUNT</p>
+            <div class="pill-group" id="genWordCount">
+              <button class="pill active" data-count="12" type="button">12</button>
+              <button class="pill" data-count="15" type="button">15</button>
+              <button class="pill" data-count="18" type="button">18</button>
+              <button class="pill" data-count="21" type="button">21</button>
+              <button class="pill" data-count="24" type="button">24</button>
+            </div>
+            <div class="info-table" style="margin-top: 12px;">
+              <div class="info-row"><span class="info-key">Entropy</span><span class="info-val" id="genEntropy">128 bits</span></div>
+              <div class="info-row"><span class="info-key">Checksum</span><span class="info-val" id="genChecksum">4 bits</span></div>
+              <div class="info-row"><span class="info-key">Total bits</span><span class="info-val" id="genTotalBits">132 bits (12 &times; 11)</span></div>
+            </div>
+          </div>
+
+          <div class="btn-group">
+            <button class="btn btn-primary" id="generateBtn" type="button">GENERATE SEED</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block result-area" id="genSeedSection" hidden>
+        <div class="container">
+          <p class="label">[ SEED PHRASE ]</p>
+          <div class="seed-output" id="genSeedOutput"></div>
+          <div class="status-line" id="genStatus">GENERATED</div>
+        </div>
+      </section>
+
+      <section class="section-block result-area" id="genWordsSection" hidden>
+        <div class="container">
+          <p class="label">[ WORD TABLE ]</p>
+          <h2>Index / Binary Breakdown</h2>
+          <p class="body-text" style="margin-top: 8px;">Click any row to see the step-by-step binary conversion. Index 0 = all zeros (abandon), index 2047 = all ones (zoo).</p>
+          <div class="word-table" id="genWordTable"></div>
+        </div>
+      </section>
+
+      <section class="section-block result-area" id="genPlateSection" hidden>
+        <div class="container">
+          <p class="label">[ DOT MATRIX ]</p>
+          <h2>Dot Matrix Layout</h2>
+          <p class="body-text" style="margin-top: 8px;">Columns = words. Rows = bit positions (1024 down to 1). Filled dot = 1. Empty = 0.</p>
+          <div id="genPlateContainer"></div>
+        </div>
+      </section>
+
+      <section class="section-block result-area" id="genExplainSection" hidden>
+        <div class="container">
+          <p class="label">[ HOW IT WORKS ]</p>
+          <h2>Binary Encoding Logic</h2>
+          <p class="body-text" style="margin-top: 8px;">BIP39 defines 2048 words indexed 0&ndash;2047. Since 2048&nbsp;=&nbsp;2<sup>11</sup>, each index fits in exactly 11 binary digits. Each word count uses different entropy lengths with a SHA-256 checksum appended.</p>
+
+          <div class="info-table" style="margin-top: 12px;">
+            <div class="info-row"><span class="info-key">12 words</span><span class="info-val">128-bit entropy + 4-bit checksum</span></div>
+            <div class="info-row"><span class="info-key">15 words</span><span class="info-val">160-bit entropy + 5-bit checksum</span></div>
+            <div class="info-row"><span class="info-key">18 words</span><span class="info-val">192-bit entropy + 6-bit checksum</span></div>
+            <div class="info-row"><span class="info-key">21 words</span><span class="info-val">224-bit entropy + 7-bit checksum</span></div>
+            <div class="info-row"><span class="info-key">24 words</span><span class="info-val">256-bit entropy + 8-bit checksum</span></div>
+          </div>
+
+          <div class="terminal" id="genTerminal">
+<span class="dim">  Index range:  </span><span class="hl">0</span><span class="dim"> (00000&#8203;000000) &mdash; </span><span class="hl">2047</span><span class="dim"> (11111&#8203;111111)</span>
+<span class="dim">  Bit weights:  1024  512  256  128   64   32   16    8    4    2    1</span>
+<span class="dim">  Example:      </span><span class="hl" id="exWord">&mdash;</span><span class="dim"> = index </span><span class="hl" id="exIndex">&mdash;</span><span class="dim"> = </span><span class="hl" id="exBinary">&mdash;</span></div>
+
+          <p class="meta-text" style="margin-top: 12px;">This generator runs entirely in your browser using the Web Crypto API. No data is transmitted. Close the tab when done.</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- ==================== TAB 2: DECODE ==================== -->
+    <div class="tab-panel" id="panel-decode">
+
+      <section class="section-intro">
+        <div class="container">
+          <p class="label">[ BIP39 / BINARY DECODER ]</p>
+          <h1>Binary Decoder</h1>
+          <p class="body-text">Input binary patterns by clicking dots on the grid. Each column decodes into a BIP39 word in real time. Supports 12, 15, 18, 21, and 24-word phrases.</p>
+
+          <div style="margin-top: 20px;">
+            <p class="label" style="margin-bottom: 8px;">WORD COUNT</p>
+            <div class="pill-group" id="decWordCount">
+              <button class="pill active" data-count="12" type="button">12</button>
+              <button class="pill" data-count="15" type="button">15</button>
+              <button class="pill" data-count="18" type="button">18</button>
+              <button class="pill" data-count="21" type="button">21</button>
+              <button class="pill" data-count="24" type="button">24</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="label">[ INPUT GRID ]</p>
+          <h2>Click to Toggle Dots</h2>
+          <p class="body-text" style="margin-top: 8px;">Each column = one word. Click a dot to toggle 1/0. All zeros = abandon (index 0). All ones = zoo (index 2047).</p>
+
+          <div id="decodeMatrixContainer"></div>
+
+          <div class="btn-group" style="margin-top: 12px;">
+            <button class="btn btn-danger" id="decodeClearBtn" type="button">CLEAR ALL</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="label">[ DECODED RESULT ]</p>
+          <h2>Seed Phrase</h2>
+
+          <div class="decode-seed-output" id="decodeSeedOutput">
+            <span class="seed-word empty-word">waiting for input...</span>
+          </div>
+          <div id="decodeBadge" class="badge partial">WAITING FOR INPUT</div>
+
+          <div class="decode-word-table" id="decodeWordTable"></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ==================== TAB 3: DICTIONARY ==================== -->
+    <div class="tab-panel" id="panel-dictionary">
+
+      <section class="section-intro">
+        <div class="container">
+          <p class="label">[ BIP39 / WORDLIST ]</p>
+          <h1>Complete Dictionary</h1>
+          <p class="body-text">All 2048 BIP39 English words, indexed 0&ndash;2047. Each index maps to an 11-bit binary code. Index 0 (00000&#8203;000000) = <strong>abandon</strong>. Index 2047 (11111&#8203;111111) = <strong>zoo</strong>. Click any word to see the full binary breakdown.</p>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <div class="dict-controls">
+            <input type="text" class="dict-search" id="dictSearch" placeholder="Search word or index...">
+            <span class="dict-count" id="dictCount">2048 / 2048</span>
+          </div>
+          <div class="dict-alpha" id="dictAlpha"></div>
+          <div class="dict-list" id="dictList"></div>
+          <div class="dict-pagination" id="dictPagination"></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="dot-tooltip" id="dotTooltip"></div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <span class="footer-brand">PENGER</span>
+        <span class="meta-text">BIP39 Binary Encoder by PENGER</span>
+      </div>
+      <div class="footer-disclaimer">
+        This tool is for educational and verification purposes. It runs fully offline in your browser &mdash; no data is transmitted. For real wallet backups, always use your hardware wallet's built-in seed generator. Never share your seed phrase with anyone.
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 PENGER</span>
+        <span>OFFLINE / CLIENT-SIDE / NO TRACKING</span>
+      </div>
+    </div>
+  </footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ===== PRIVACY HARDENING ===== */
+  (function hardenNetworkSurface() {
+    // Block runtime network primitives to keep the app strictly local-only.
+    var blocked = function () {
+      throw new Error('Network APIs are disabled in privacy mode.');
+    };
+    try { window.fetch = blocked; } catch (e) {}
+    try { navigator.sendBeacon = function () { return false; }; } catch (e) {}
+    try { window.WebSocket = function () { throw new Error('WebSocket disabled.'); }; } catch (e) {}
+    try { window.EventSource = function () { throw new Error('EventSource disabled.'); }; } catch (e) {}
+    try {
+      if (window.XMLHttpRequest && window.XMLHttpRequest.prototype) {
+        window.XMLHttpRequest.prototype.open = blocked;
+        window.XMLHttpRequest.prototype.send = blocked;
+      }
+    } catch (e) {}
+  })();
+
+  /* ===== BIP39 WORDLIST ===== */
+  var BIP39 = "abandon ability able about above absent absorb abstract absurd abuse access accident account accuse achieve acid acoustic acquire across act action actor actress actual adapt add addict address adjust admit adult advance advice aerobic affair afford afraid again age agent agree ahead aim air airport aisle alarm album alcohol alert alien all alley allow almost alone alpha already also alter always amateur amazing among amount amused analyst anchor ancient anger angle angry animal ankle announce annual another answer antenna antique anxiety any apart apology appear apple approve april arch arctic area arena argue arm armed armor army around arrange arrest arrive arrow art artefact artist artwork ask aspect assault asset assist assume asthma athlete atom attack attend attitude attract auction audit august aunt author auto autumn average avocado avoid awake aware away awesome awful awkward axis baby bachelor bacon badge bag balance balcony ball bamboo banana banner bar barely bargain barrel base basic basket battle beach bean beauty because become beef before begin behave behind believe below belt bench benefit best betray better between beyond bicycle bid bike bind biology bird birth bitter black blade blame blanket blast bleak bless blind blood blossom blouse blue blur blush board boat body boil bomb bone bonus book boost border boring borrow boss bottom bounce box boy bracket brain brand brass brave bread breeze brick bridge brief bright bring brisk broccoli broken bronze broom brother brown brush bubble buddy budget buffalo build bulb bulk bullet bundle bunker burden burger burst bus business busy butter buyer buzz cabbage cabin cable cactus cage cake call calm camera camp can canal cancel candy cannon canoe canvas canyon capable capital captain car carbon card cargo carpet carry cart case cash casino castle casual cat catalog catch category cattle caught cause caution cave ceiling celery cement census century cereal certain chair chalk champion change chaos chapter charge chase chat cheap check cheese chef cherry chest chicken chief child chimney choice choose chronic chuckle chunk churn cigar cinnamon circle citizen city civil claim clap clarify claw clay clean clerk clever click client cliff climb clinic clip clock clog close cloth cloud clown club clump cluster clutch coach coast coconut code coffee coil coin collect color column combine come comfort comic common company concert conduct confirm congress connect consider control convince cook cool copper copy coral core corn correct cost cotton couch country couple course cousin cover coyote crack cradle craft cram crane crash crater crawl crazy cream credit creek crew cricket crime crisp critic crop cross crouch crowd crucial cruel cruise crumble crunch crush cry crystal cube culture cup cupboard curious current curtain curve cushion custom cute cycle dad damage damp dance danger daring dash daughter dawn day deal debate debris decade december decide decline decorate decrease deer defense define defy degree delay deliver demand demise denial dentist deny depart depend deposit depth deputy derive describe desert design desk despair destroy detail detect develop device devote diagram dial diamond diary dice diesel diet differ digital dignity dilemma dinner dinosaur direct dirt disagree discover disease dish dismiss disorder display distance divert divide divorce dizzy doctor document dog doll dolphin domain donate donkey donor door dose double dove draft dragon drama drastic draw dream dress drift drill drink drip drive drop drum dry duck dumb dune during dust dutch duty dwarf dynamic eager eagle early earn earth easily east easy echo ecology economy edge edit educate effort egg eight either elbow elder electric elegant element elephant elevator elite else embark embody embrace emerge emotion employ empower empty enable enact end endless endorse enemy energy enforce engage engine enhance enjoy enlist enough enrich enroll ensure enter entire entry envelope episode equal equip era erase erode erosion error erupt escape essay essence estate eternal ethics evidence evil evoke evolve exact example excess exchange excite exclude excuse execute exercise exhaust exhibit exile exist exit exotic expand expect expire explain expose express extend extra eye eyebrow fabric face faculty fade faint faith fall false fame family famous fan fancy fantasy farm fashion fat fatal father fatigue fault favorite feature february federal fee feed feel female fence festival fetch fever few fiber fiction field figure file film filter final find fine finger finish fire firm first fiscal fish fit fitness fix flag flame flash flat flavor flee flight flip float flock floor flower fluid flush fly foam focus fog foil fold follow food foot force forest forget fork fortune forum forward fossil foster found fox fragile frame frequent fresh friend fringe frog front frost frown frozen fruit fuel fun funny furnace fury future gadget gain galaxy gallery game gap garage garbage garden garlic garment gas gasp gate gather gauge gaze general genius genre gentle genuine gesture ghost giant gift giggle ginger giraffe girl give glad glance glare glass glide glimpse globe gloom glory glove glow glue goat goddess gold good goose gorilla gospel gossip govern gown grab grace grain grant grape grass gravity great green grid grief grit grocery group grow grunt guard guess guide guilt guitar gun gym habit hair half hammer hamster hand happy harbor hard harsh harvest hat have hawk hazard head health heart heavy hedgehog height hello helmet help hen hero hidden high hill hint hip hire history hobby hockey hold hole holiday hollow home honey hood hope horn horror horse hospital host hotel hour hover hub huge human humble humor hundred hungry hunt hurdle hurry hurt husband hybrid ice icon idea identify idle ignore ill illegal illness image imitate immense immune impact impose improve impulse inch include income increase index indicate indoor industry infant inflict inform inhale inherit initial inject injury inmate inner innocent input inquiry insane insect inside inspire install intact interest into invest invite involve iron island isolate issue item ivory jacket jaguar jar jazz jealous jeans jelly jewel job join joke journey joy judge juice jump jungle junior junk just kangaroo keen keep ketchup key kick kid kidney kind kingdom kiss kit kitchen kite kitten kiwi knee knife knock know lab label labor ladder lady lake lamp language laptop large later latin laugh laundry lava law lawn lawsuit layer lazy leader leaf learn leave lecture left leg legal legend leisure lemon lend length lens leopard lesson letter level liar liberty library license life lift light like limb limit link lion liquid list little live lizard load loan lobster local lock logic lonely long loop lottery loud lounge love loyal lucky luggage lumber lunar lunch luxury lyrics machine mad magic magnet maid mail main major make mammal man manage mandate mango mansion manual maple marble march margin marine market marriage mask mass master match material math matrix matter maximum maze meadow mean measure meat mechanic medal media melody melt member memory mention menu mercy merge merit merry mesh message metal method middle midnight milk million mimic mind minimum minor minute miracle mirror misery miss mistake mix mixed mixture mobile model modify mom moment monitor monkey monster month moon moral more morning mosquito mother motion motor mountain mouse move movie much muffin mule multiply muscle museum mushroom music must mutual myself mystery myth naive name napkin narrow nasty nation nature near neck need negative neglect neither nephew nerve nest net network neutral never news next nice night noble noise nominee noodle normal north nose notable note nothing notice novel now nuclear number nurse nut oak obey object oblige obscure observe obtain obvious occur ocean october odor off offer office often oil okay old olive olympic omit once one onion online only open opera opinion oppose option orange orbit orchard order ordinary organ orient original orphan ostrich other outdoor outer output outside oval oven over own owner oxygen oyster ozone pact paddle page pair palace palm panda panel panic panther paper parade parent park parrot party pass patch path patient patrol pattern pause pave payment peace peanut pear peasant pelican pen penalty pencil people pepper perfect permit person pet phone photo phrase physical piano picnic picture piece pig pigeon pill pilot pink pioneer pipe pistol pitch pizza place planet plastic plate play please pledge pluck plug plunge poem poet point polar pole police pond pony pool popular portion position possible post potato pottery poverty powder power practice praise predict prefer prepare present pretty prevent price pride primary print priority prison private prize problem process produce profit program project promote proof property prosper protect proud provide public pudding pull pulp pulse pumpkin punch pupil puppy purchase purity purpose purse push put puzzle pyramid quality quantum quarter question quick quit quiz quote rabbit raccoon race rack radar radio rail rain raise rally ramp ranch random range rapid rare rate rather raven raw razor ready real reason rebel rebuild recall receive recipe record recycle reduce reflect reform refuse region regret regular reject relax release relief rely remain remember remind remove render renew rent reopen repair repeat replace report require rescue resemble resist resource response result retire retreat return reunion reveal review reward rhythm rib ribbon rice rich ride ridge rifle right rigid ring riot ripple risk ritual rival river road roast robot robust rocket romance roof rookie room rose rotate rough round route royal rubber rude rug rule run runway rural sad saddle sadness safe sail salad salmon salon salt salute same sample sand satisfy satoshi sauce sausage save say scale scan scare scatter scene scheme school science scissors scorpion scout scrap screen script scrub sea search season seat second secret section security seed seek segment select sell seminar senior sense sentence series service session settle setup seven shadow shaft shallow share shed shell sheriff shield shift shine ship shiver shock shoe shoot shop short shoulder shove shrimp shrug shuffle shy sibling sick side siege sight sign silent silk silly silver similar simple since sing siren sister situate six size skate sketch ski skill skin skirt skull slab slam sleep slender slice slide slight slim slogan slot slow slush small smart smile smoke smooth snack snake snap sniff snow soap soccer social sock soda soft solar soldier solid solution solve someone song soon sorry sort soul sound soup source south space spare spatial spawn speak special speed spell spend sphere spice spider spike spin spirit split spoil sponsor spoon sport spot spray spread spring spy square squeeze squirrel stable stadium staff stage stairs stamp stand start state stay steak steel stem step stereo stick still sting stock stomach stone stool story stove strategy street strike strong struggle student stuff stumble style subject submit subway success such sudden suffer sugar suggest suit summer sun sunny sunset super supply supreme sure surface surge surprise surround survey suspect sustain swallow swamp swap swarm swear sweet swift swim swing switch sword symbol symptom syrup system table tackle tag tail talent talk tank tape target task taste tattoo taxi teach team tell ten tenant tennis tent term test text thank that theme then theory there they thing this thought three thrive throw thumb thunder ticket tide tiger tilt timber time tiny tip tired tissue title toast tobacco today toddler toe together toilet token tomato tomorrow tone tongue tonight tool tooth top topic topple torch tornado tortoise toss total tourist toward tower town toy track trade traffic tragic train transfer trap trash travel tray treat tree trend trial tribe trick trigger trim trip trophy trouble truck true truly trumpet trust truth try tube tuition tumble tuna tunnel turkey turn turtle twelve twenty twice twin twist two type typical ugly umbrella unable unaware uncle uncover under undo unfair unfold unhappy uniform unique unit universe unknown unlock until unusual unveil update upgrade uphold upon upper upset urban urge usage use used useful useless usual utility vacant vacuum vague valid valley valve van vanish vapor various vast vault vehicle velvet vendor venture venue verb verify version very vessel veteran viable vibrant vicious victory video view village vintage violin virtual virus visa visit visual vital vivid vocal voice void volcano volume vote voyage wage wagon wait walk wall walnut want warfare warm warrior wash wasp waste water wave way wealth weapon wear weasel weather web wedding weekend weird welcome west wet whale what wheat wheel when where whip whisper wide width wife wild will win window wine wing wink winner winter wire wisdom wise wish witness wolf woman wonder wood wool word work world worry worth wrap wreck wrestle wrist write wrong yard year yellow you young youth zebra zero zone zoo";
+  var wordlist = BIP39.split(' ');
+  var wordMap = {};
+  wordlist.forEach(function (w, i) { wordMap[w] = i; });
+
+  var BIT_POSITIONS = [1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1];
+  var ENTROPY_MAP = {12: 128, 15: 160, 18: 192, 21: 224, 24: 256};
+
+  /* ===== SHA-256 (pure JS fallback for file:// protocol) ===== */
+  var K256 = new Uint32Array([
+    0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+    0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+    0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+    0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+    0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+    0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+    0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+    0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2
+  ]);
+
+  function rotr(x, n) { return (x >>> n) | (x << (32 - n)); }
+
+  function sha256sync(bytes) {
+    var H = new Uint32Array([0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19]);
+    var len = bytes.length;
+    var bitLen = len * 8;
+    var padded = new Uint8Array(((len + 9 + 63) & ~63));
+    padded.set(bytes);
+    padded[len] = 0x80;
+    var dv = new DataView(padded.buffer);
+    dv.setUint32(padded.length - 4, bitLen, false);
+
+    var W = new Uint32Array(64);
+    for (var off = 0; off < padded.length; off += 64) {
+      for (var i = 0; i < 16; i++) W[i] = dv.getUint32(off + i * 4, false);
+      for (var i = 16; i < 64; i++) {
+        var s0 = rotr(W[i-15],7) ^ rotr(W[i-15],18) ^ (W[i-15]>>>3);
+        var s1 = rotr(W[i-2],17) ^ rotr(W[i-2],19) ^ (W[i-2]>>>10);
+        W[i] = (W[i-16] + s0 + W[i-7] + s1) | 0;
+      }
+      var a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
+      for (var i = 0; i < 64; i++) {
+        var S1 = rotr(e,6) ^ rotr(e,11) ^ rotr(e,25);
+        var ch = (e & f) ^ (~e & g);
+        var t1 = (h + S1 + ch + K256[i] + W[i]) | 0;
+        var S0 = rotr(a,2) ^ rotr(a,13) ^ rotr(a,22);
+        var maj = (a & b) ^ (a & c) ^ (b & c);
+        var t2 = (S0 + maj) | 0;
+        h=g; g=f; f=e; e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0;
+      }
+      H[0]=(H[0]+a)|0; H[1]=(H[1]+b)|0; H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0;
+      H[4]=(H[4]+e)|0; H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0; H[7]=(H[7]+h)|0;
+    }
+    var out = new Uint8Array(32);
+    for (var i = 0; i < 8; i++) {
+      out[i*4]=(H[i]>>>24)&0xff; out[i*4+1]=(H[i]>>>16)&0xff;
+      out[i*4+2]=(H[i]>>>8)&0xff; out[i*4+3]=H[i]&0xff;
+    }
+    return out;
+  }
+
+  /* ===== UTILITIES ===== */
+  function toBinary11(n) { var s = n.toString(2); while (s.length < 11) s = '0' + s; return s; }
+
+  function formatBinaryHTML(bin) {
+    var out = '';
+    for (var i = 0; i < bin.length; i++) {
+      out += bin[i] === '1' ? '<span class="bit-one">1</span>' : '0';
+    }
+    return out;
+  }
+
+  function pad(s, len) { while (s.length < len) s = ' ' + s; return s; }
+
+  function bytesToBits(bytes) {
+    var bits = '';
+    for (var i = 0; i < bytes.length; i++) bits += bytes[i].toString(2).padStart(8, '0');
+    return bits;
+  }
+
+  /* ===== BIP39 MNEMONIC GENERATION ===== */
+  function generateMnemonic(wordCount) {
+    var entropyBits = ENTROPY_MAP[wordCount];
+    var entropyBytes = entropyBits / 8;
+    var entropy = new Uint8Array(entropyBytes);
+    crypto.getRandomValues(entropy);
+
+    var hash = sha256sync(entropy);
+    var entropyBitStr = bytesToBits(entropy);
+    var hashBitStr = bytesToBits(hash);
+    var checksumLen = entropyBits / 32;
+    var allBits = entropyBitStr + hashBitStr.slice(0, checksumLen);
+
+    var indices = [];
+    for (var i = 0; i < wordCount; i++) {
+      indices.push(parseInt(allBits.slice(i * 11, (i + 1) * 11), 2));
+    }
+    return indices;
+  }
+
+  /* ===== DETAIL HTML BUILDER ===== */
+  function buildDetailHTML(idx, wordNum) {
+    var word = wordlist[idx];
+    var bin = toBinary11(idx);
+    var remainder = idx;
+    var lines = [];
+    var activeBits = [];
+
+    lines.push('<span class="ds">Word #' + wordNum + ':</span> <span class="dh">' + word + '</span>  <span class="ds">Index:</span> <span class="dh">' + idx + '</span>');
+    lines.push('<span class="dg">\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500</span>');
+    lines.push('<span class="ds">  Pos    Bit   Remainder  Calculation</span>');
+    lines.push('<span class="dg">\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500</span>');
+
+    for (var b = 0; b < 11; b++) {
+      var pos = BIT_POSITIONS[b];
+      var bit = bin[b];
+      var posStr = pad(String(pos), 5);
+      var remStr = pad(String(remainder), 5);
+      if (bit === '1') {
+        var nr = remainder - pos;
+        lines.push('  <span class="dl">' + posStr + '</span>    <span class="da">1</span>   <span class="dh">' + remStr + '</span>      <span class="dl">' + remainder + ' \u2265 ' + pos + ' \u2192 ' + remainder + ' \u2212 ' + pos + ' = ' + nr + '</span>');
+        activeBits.push(pos);
+        remainder = nr;
+      } else {
+        lines.push('  <span class="dl">' + posStr + '</span>    <span class="dg">0</span>   <span class="dh">' + remStr + '</span>      <span class="dg">' + remainder + ' < ' + pos + ' \u2192 skip</span>');
+      }
+    }
+
+    lines.push('<span class="dg">\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500</span>');
+    lines.push('<span class="ds">Binary:</span>  <span class="dh">' + bin.split('').join(' ') + '</span>');
+    if (activeBits.length > 0) {
+      lines.push('<div class="check-line"><span class="ds">Check:</span>  ' + activeBits.join(' + ') + ' = <span class="da">' + idx + ' \u2713</span></div>');
+    } else {
+      lines.push('<div class="check-line"><span class="ds">Check:</span>  0 = <span class="da">0 \u2713</span></div>');
+    }
+    return lines.join('\n');
+  }
+
+  /* ===== DOM REFS ===== */
+  var $ = function(id) { return document.getElementById(id); };
+
+  /* ===== GENERATE TAB ===== */
+  var genWordCount = 12;
+  var genIndices = [];
+
+  function updateGenInfo() {
+    var ent = ENTROPY_MAP[genWordCount];
+    var cs = ent / 32;
+    $('genEntropy').textContent = ent + ' bits';
+    $('genChecksum').textContent = cs + ' bits';
+    $('genTotalBits').innerHTML = (ent + cs) + ' bits (' + genWordCount + ' &times; 11)';
+  }
+
+  document.querySelectorAll('#genWordCount .pill').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('#genWordCount .pill').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      genWordCount = parseInt(btn.getAttribute('data-count'), 10);
+      updateGenInfo();
+    });
+  });
+
+  function renderGenSeed(indices) {
+    var seedEl = $('genSeedOutput');
+    var words = indices.map(function (idx) { return wordlist[idx]; });
+    seedEl.textContent = words.join(' ');
+    seedEl.oncopy = function (e) { e.preventDefault(); };
+    seedEl.oncut = function (e) { e.preventDefault(); };
+    seedEl.oncontextmenu = function (e) { e.preventDefault(); };
+    $('genStatus').textContent = 'GENERATED / ' + indices.length + ' WORDS / ' + (indices.length * 11) + ' BITS';
+  }
+
+  function renderGenWords(indices) {
+    var table = $('genWordTable');
+    table.innerHTML = '<div class="word-row table-head"><span>#</span><span>Word</span><span>Index</span><span>Binary (11-bit)</span></div>';
+
+    indices.forEach(function (idx, i) {
+      var word = wordlist[idx];
+      var bin = toBinary11(idx);
+      var row = document.createElement('div');
+      row.className = 'word-row animate';
+      row.style.animationDelay = (i * 30) + 'ms';
+      row.style.opacity = '0';
+      row.innerHTML =
+        '<span class="w-num">' + String(i + 1).padStart(2, '0') + '</span>' +
+        '<span class="w-word">' + word + '</span>' +
+        '<span class="w-index">' + idx + '</span>' +
+        '<span class="w-binary">' + formatBinaryHTML(bin) + '</span>';
+
+      var detail = document.createElement('div');
+      detail.className = 'word-detail';
+      detail.innerHTML = '<div class="word-detail-inner">' + buildDetailHTML(idx, i + 1) + '</div>';
+
+      row.addEventListener('click', function () {
+        var isExpanded = row.classList.contains('expanded');
+        document.querySelectorAll('.word-row.expanded').forEach(function (other) {
+          if (other !== row) { other.classList.remove('expanded'); var od = other.nextElementSibling; if (od && od.classList.contains('word-detail')) od.style.maxHeight = '0'; }
+        });
+        if (isExpanded) { row.classList.remove('expanded'); detail.style.maxHeight = '0'; }
+        else { row.classList.add('expanded'); detail.style.maxHeight = detail.scrollHeight + 'px'; }
+      });
+
+      table.appendChild(row);
+      table.appendChild(detail);
+    });
+  }
+
+  function setPlateWc(plateVis, count) {
+    plateVis.classList.remove('wc-md', 'wc-lg');
+    if (count >= 21) plateVis.classList.add('wc-lg');
+    else if (count >= 15) plateVis.classList.add('wc-md');
+  }
+
+  function renderGenPlate(indices) {
+    var count = indices.length;
+    var container = $('genPlateContainer');
+    container.innerHTML = '';
+
+    var isMobile = window.innerWidth < 768;
+    var shouldSplit = isMobile && count > 12;
+    
+    // Helper function to create a matrix
+    function createMatrix(startIdx, endIdx, title, indices) {
+      var wordCount = endIdx - startIdx;
+      var subIndices = indices.slice(startIdx, endIdx);
+      
+      var plateVis = document.createElement('div');
+      plateVis.className = 'plate-vis';
+      setPlateWc(plateVis, wordCount);
+      
+      var plateTitle = document.createElement('div');
+      plateTitle.className = 'plate-title';
+      plateTitle.textContent = title;
+      plateVis.appendChild(plateTitle);
+      
+      var subtitle = document.createElement('div');
+      subtitle.className = 'plate-subtitle';
+      subtitle.textContent = wordCount + ' words × 11 bits = ' + (wordCount * 11) + ' positions' + (shouldSplit ? ' (Words ' + (startIdx + 1) + '-' + endIdx + ')' : '');
+      plateVis.appendChild(subtitle);
+      
+      var header = document.createElement('div');
+      header.className = 'word-header';
+      for (var w = startIdx; w < endIdx; w++) {
+        header.innerHTML += '<span>' + (w + 1) + '</span>';
+      }
+      plateVis.appendChild(header);
+      
+      var rows = document.createElement('div');
+      rows.className = 'plate-rows';
+      rows.setAttribute('data-start', startIdx);
+      rows.setAttribute('data-end', endIdx);
+      
+      var binaries = subIndices.map(function (idx) { return toBinary11(idx); });
+
+      BIT_POSITIONS.forEach(function (pos, bitIdx) {
+        var row = document.createElement('div');
+        row.className = 'plate-row animate';
+        row.style.animationDelay = (bitIdx * 35 + 60) + 'ms';
+        row.style.opacity = '0';
+        var dotsHTML = '';
+        for (var w = 0; w < wordCount; w++) {
+          var isOn = binaries[w][bitIdx] === '1';
+          var globalW = startIdx + w;
+          dotsHTML += '<div class="dot-cell" data-w="' + globalW + '" data-b="' + bitIdx + '"><span class="dot' + (isOn ? ' on' : '') + '"></span></div>';
+        }
+        row.innerHTML = '<span class="plate-bit-label">' + pos + '</span><div class="plate-dots">' + dotsHTML + '</div>';
+        rows.appendChild(row);
+      });
+      
+      plateVis.appendChild(rows);
+      
+      var legend = document.createElement('div');
+      legend.className = 'plate-legend';
+      legend.innerHTML = '<div class="legend-item"><span class="legend-dot on"></span><span>1 — ON</span></div>' +
+                         '<div class="legend-item"><span class="legend-dot off"></span><span>0 — OFF</span></div>';
+      plateVis.appendChild(legend);
+      
+      return { plateVis: plateVis, rows: rows, header: header };
+    }
+    
+    // Create matrix/matrices
+    var matrices = [];
+    if (shouldSplit) {
+      matrices.push(createMatrix(0, 12, 'PENGER BINARY ENCODER (PART 1)', indices));
+      matrices.push(createMatrix(12, count, 'PENGER BINARY ENCODER (PART 2)', indices));
+    } else {
+      matrices.push(createMatrix(0, count, 'PENGER BINARY ENCODER', indices));
+    }
+    
+    // Add matrices to container
+    matrices.forEach(function(matrix) {
+      container.appendChild(matrix.plateVis);
+    });
+    
+    // Set up event listeners for all grids
+    setupGenPlateListeners(matrices, indices);
+  }
+
+  function setupGenPlateListeners(matrices, indices) {
+    matrices.forEach(function(matrix) {
+      var rows = matrix.rows;
+      var header = matrix.header;
+      var startIdx = parseInt(rows.getAttribute('data-start'), 10);
+      
+      rows.addEventListener('mouseover', function (e) {
+        if (isTouchDevice || indices.length === 0) return;
+        var cell = e.target.closest('.dot-cell');
+        if (!cell) {
+          dotTooltip.classList.remove('visible');
+          clearColumnHighlight(rows, header);
+          return;
+        }
+        var w = parseInt(cell.getAttribute('data-w'), 10);
+        var b = parseInt(cell.getAttribute('data-b'), 10);
+        highlightColumn(rows, header, w - startIdx);
+        dotTooltip.innerHTML = buildTooltipHTML(indices, w, b);
+        dotTooltip.classList.add('visible');
+      });
+      
+      rows.addEventListener('mousemove', positionTooltip);
+      
+      rows.addEventListener('mouseleave', function () {
+        dotTooltip.classList.remove('visible');
+        clearColumnHighlight(rows, header);
+      });
+    });
+  }
+
+  function renderGenExplanation(indices) {
+    var idx = indices[0];
+    var word = wordlist[idx];
+    var bin = toBinary11(idx);
+    $('exWord').textContent = word;
+    $('exIndex').textContent = String(idx);
+    $('exBinary').textContent = bin.split('').join('  ');
+  }
+
+  /* Tooltip for generate plate */
+  var dotTooltip = $('dotTooltip');
+  var isTouchDevice = window.matchMedia('(hover: none)').matches;
+
+  var activeCol = -1;
+
+  function highlightColumn(plateEl, headerEl, colIdx) {
+    if (colIdx === activeCol) return;
+    clearColumnHighlight(plateEl, headerEl);
+    activeCol = colIdx;
+    if (colIdx < 0) return;
+
+    var line = plateEl.querySelector('.col-line');
+    if (!line) {
+      line = document.createElement('div');
+      line.className = 'col-line';
+      plateEl.appendChild(line);
+    }
+    var cell = plateEl.querySelector('.dot-cell[data-w="' + colIdx + '"]');
+    if (!cell) return;
+    var plateRect = plateEl.getBoundingClientRect();
+    var cellRect = cell.getBoundingClientRect();
+    line.style.left = (cellRect.left - plateRect.left + plateEl.scrollLeft) + 'px';
+    line.style.width = cellRect.width + 'px';
+    line.classList.add('visible');
+
+    var hSpans = headerEl.children;
+    if (hSpans[colIdx]) hSpans[colIdx].classList.add('col-hover');
+  }
+
+  function clearColumnHighlight(plateEl, headerEl) {
+    activeCol = -1;
+    var line = plateEl.querySelector('.col-line');
+    if (line) line.classList.remove('visible');
+    headerEl.querySelectorAll('.col-hover').forEach(function (c) { c.classList.remove('col-hover'); });
+  }
+
+  function buildTooltipHTML(indices, wIdx, bIdx) {
+    var idx = indices[wIdx];
+    var word = wordlist[idx];
+    var bin = toBinary11(idx);
+    var pos = BIT_POSITIONS[bIdx];
+    var bit = bin[bIdx];
+    var remainder = idx;
+    for (var b = 0; b < bIdx; b++) { if (bin[b] === '1') remainder -= BIT_POSITIONS[b]; }
+    var html = '<span class="th">Word #' + (wIdx + 1) + '</span>\n';
+    html += '<span class="tv">' + word + '</span>  <span class="td">index ' + idx + '</span>\n';
+    html += '<span class="td">\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500</span>\n';
+    html += '<span class="th">Bit position:</span> <span class="tv">' + pos + '</span>\n';
+    html += '<span class="th">Remainder:</span>    <span class="tv">' + remainder + '</span>\n';
+    if (bit === '1') {
+      html += '\n<span class="td">' + remainder + ' \u2265 ' + pos + '</span>\n';
+      html += '<span class="tp">\u2192 BIT = 1</span>';
+    } else {
+      html += '\n<span class="td">' + remainder + ' < ' + pos + '</span>\n';
+      html += '<span class="td">\u2192 BIT = 0</span>';
+    }
+    return html;
+  }
+
+  function positionTooltip(e) {
+    if (!dotTooltip.classList.contains('visible')) return;
+    var x = e.clientX + 14;
+    var y = e.clientY + 14;
+    var r = dotTooltip.getBoundingClientRect();
+    if (x + r.width > window.innerWidth - 10) x = e.clientX - r.width - 10;
+    if (y + r.height > window.innerHeight - 10) y = e.clientY - r.height - 10;
+    dotTooltip.style.left = x + 'px';
+    dotTooltip.style.top = y + 'px';
+  }
+
+  $('generateBtn').addEventListener('click', function () {
+    genIndices = generateMnemonic(genWordCount);
+    renderGenSeed(genIndices);
+    renderGenWords(genIndices);
+    renderGenPlate(genIndices);
+    renderGenExplanation(genIndices);
+    ['genSeedSection', 'genWordsSection', 'genPlateSection', 'genExplainSection'].forEach(function (sectionId) {
+      var section = $(sectionId);
+      section.hidden = false;
+      section.classList.add('visible');
+    });
+    setTimeout(function () { $('genSeedSection').scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 80);
+  });
+
+  updateGenInfo();
+
+  /* ===== DECODE TAB ===== */
+  var decWordCount = 12;
+  var decodeBits = [];
+  var decodeTouched = [];
+  var decodeInitialized = false;
+
+  function resetDecodeBits(count) {
+    decodeBits = [];
+    decodeTouched = [];
+    for (var w = 0; w < count; w++) {
+      decodeBits[w] = [0,0,0,0,0,0,0,0,0,0,0];
+      decodeTouched[w] = false;
+    }
+  }
+
+  resetDecodeBits(12);
+
+  function initDecode() {
+    decodeInitialized = true;
+    var count = decWordCount;
+    resetDecodeBits(count);
+
+    var container = $('decodeMatrixContainer');
+    container.innerHTML = '';
+
+    var isMobile = window.innerWidth < 768;
+    var shouldSplit = isMobile && count > 12;
+    
+    // Helper function to create a matrix
+    function createMatrix(startIdx, endIdx, title) {
+      var wordCount = endIdx - startIdx;
+      
+      var plateVis = document.createElement('div');
+      plateVis.className = 'plate-vis decode-plate';
+      setPlateWc(plateVis, wordCount);
+      
+      var plateTitle = document.createElement('div');
+      plateTitle.className = 'plate-title';
+      plateTitle.textContent = title;
+      plateVis.appendChild(plateTitle);
+      
+      var subtitle = document.createElement('div');
+      subtitle.className = 'plate-subtitle';
+      subtitle.textContent = wordCount + ' words × 11 bits' + (shouldSplit ? ' (Words ' + (startIdx + 1) + '-' + endIdx + ')' : '');
+      plateVis.appendChild(subtitle);
+      
+      var header = document.createElement('div');
+      header.className = 'word-header';
+      for (var w = startIdx; w < endIdx; w++) {
+        header.innerHTML += '<span>' + (w + 1) + '</span>';
+      }
+      plateVis.appendChild(header);
+      
+      var grid = document.createElement('div');
+      grid.className = 'plate-rows';
+      grid.setAttribute('data-start', startIdx);
+      grid.setAttribute('data-end', endIdx);
+      
+      BIT_POSITIONS.forEach(function (pos, bitIdx) {
+        var row = document.createElement('div');
+        row.className = 'plate-row';
+        var dotsHTML = '';
+        for (var w = startIdx; w < endIdx; w++) {
+          dotsHTML += '<div class="dot-cell" data-w="' + w + '" data-b="' + bitIdx + '"><span class="dot"></span></div>';
+        }
+        row.innerHTML = '<span class="plate-bit-label">' + pos + '</span><div class="plate-dots">' + dotsHTML + '</div>';
+        grid.appendChild(row);
+      });
+      
+      plateVis.appendChild(grid);
+      
+      var legend = document.createElement('div');
+      legend.className = 'plate-legend';
+      legend.innerHTML = '<div class="legend-item"><span class="legend-dot on"></span><span>1 — ON</span></div>' +
+                         '<div class="legend-item"><span class="legend-dot off"></span><span>0 — OFF</span></div>';
+      plateVis.appendChild(legend);
+      
+      return { plateVis: plateVis, grid: grid, header: header };
+    }
+    
+    // Create matrix/matrices
+    var matrices = [];
+    if (shouldSplit) {
+      matrices.push(createMatrix(0, 12, 'PENGER BINARY DECODER (PART 1)'));
+      matrices.push(createMatrix(12, count, 'PENGER BINARY DECODER (PART 2)'));
+    } else {
+      matrices.push(createMatrix(0, count, 'PENGER BINARY DECODER'));
+    }
+    
+    // Add matrices to container
+    matrices.forEach(function(matrix) {
+      container.appendChild(matrix.plateVis);
+    });
+    
+    // Set up event listeners for all grids
+    var allGrids = matrices.map(function(m) { return m.grid; });
+    var lastTouchEnd = 0;
+    
+    function setupGridListeners(grid, header) {
+      var startIdx = parseInt(grid.getAttribute('data-start'), 10);
+      
+      grid.onclick = function (e) {
+        if (Date.now() - lastTouchEnd < 400) return;
+        var cell = e.target.closest('.dot-cell');
+        if (!cell) return;
+        var w = parseInt(cell.getAttribute('data-w'), 10);
+        var b = parseInt(cell.getAttribute('data-b'), 10);
+        var dot = cell.querySelector('.dot');
+        decodeBits[w][b] = decodeBits[w][b] ? 0 : 1;
+        decodeTouched[w] = true;
+        dot.classList.toggle('on', !!decodeBits[w][b]);
+        updateDecodeResult();
+      };
+
+      grid.addEventListener('mouseover', function (e) {
+        if (isTouchDevice) return;
+        var cell = e.target.closest('.dot-cell');
+        if (!cell) { clearColumnHighlight(grid, header); return; }
+        var w = parseInt(cell.getAttribute('data-w'), 10);
+        highlightColumn(grid, header, w - startIdx);
+      });
+      grid.addEventListener('mouseleave', function () {
+        clearColumnHighlight(grid, header);
+      });
+
+      var paintMode = -1;
+      var lastPainted = null;
+
+      grid.addEventListener('touchstart', function (e) {
+        var cell = e.target.closest('.dot-cell');
+        if (!cell) return;
+        var w = parseInt(cell.getAttribute('data-w'), 10);
+        var b = parseInt(cell.getAttribute('data-b'), 10);
+        var dot = cell.querySelector('.dot');
+        decodeBits[w][b] = decodeBits[w][b] ? 0 : 1;
+        decodeTouched[w] = true;
+        paintMode = decodeBits[w][b];
+        lastPainted = w + ',' + b;
+        dot.classList.toggle('on', !!decodeBits[w][b]);
+        updateDecodeResult();
+        e.preventDefault();
+      }, { passive: false });
+
+      grid.addEventListener('touchmove', function (e) {
+        if (paintMode < 0) return;
+        var touch = e.touches[0];
+        var el = document.elementFromPoint(touch.clientX, touch.clientY);
+        if (!el) return;
+        var cell = el.closest('.dot-cell');
+        if (!cell || !grid.contains(cell)) return;
+        var w = parseInt(cell.getAttribute('data-w'), 10);
+        var b = parseInt(cell.getAttribute('data-b'), 10);
+        var key = w + ',' + b;
+        if (key === lastPainted) return;
+        lastPainted = key;
+        decodeBits[w][b] = paintMode;
+        decodeTouched[w] = true;
+        cell.querySelector('.dot').classList.toggle('on', !!paintMode);
+        updateDecodeResult();
+        e.preventDefault();
+      }, { passive: false });
+
+      grid.addEventListener('touchend', function () { paintMode = -1; lastPainted = null; lastTouchEnd = Date.now(); });
+      grid.addEventListener('touchcancel', function () { paintMode = -1; lastPainted = null; });
+    }
+    
+    matrices.forEach(function(matrix) {
+      setupGridListeners(matrix.grid, matrix.header);
+    });
+
+    updateDecodeResult();
+  }
+
+  function updateDecodeResult() {
+    var count = decWordCount;
+    var words = [];
+    var anyInput = false;
+    var tableHTML = '<div class="decode-word-row table-head"><span>#</span><span>Index</span><span>Binary</span><span>Word</span></div>';
+
+    for (var w = 0; w < count; w++) {
+      var bits = decodeBits[w];
+      var idx = 0;
+      var binStr = '';
+      for (var b = 0; b < 11; b++) {
+        binStr += bits[b];
+        if (bits[b]) idx += BIT_POSITIONS[b];
+      }
+      if (decodeTouched[w]) anyInput = true;
+      var word = wordlist[idx];
+      var isEmpty = !decodeTouched[w];
+      words.push({ word: word, idx: idx, empty: isEmpty, bin: binStr });
+
+      var binHTML = '';
+      for (var bi = 0; bi < binStr.length; bi++) {
+        binHTML += binStr[bi] === '1' ? '<span class="bit-one">' + binStr[bi] + '</span>' : binStr[bi];
+      }
+      var rowClass = 'decode-word-row' + (isEmpty ? ' empty' : '');
+      tableHTML += '<div class="' + rowClass + '">' +
+        '<span class="dw-num">' + String(w + 1).padStart(2, '0') + '</span>' +
+        '<span class="dw-index">' + idx + '</span>' +
+        '<span class="dw-binary">' + binHTML + '</span>' +
+        '<span class="dw-word">' + (isEmpty ? '(' + word + ')' : word) + '</span></div>';
+    }
+
+    $('decodeWordTable').innerHTML = tableHTML;
+
+    var seedHTML = '';
+    for (var s = 0; s < words.length; s++) {
+      if (s > 0) seedHTML += ' ';
+      var cls = 'seed-word' + (words[s].empty ? ' empty-word' : '');
+      seedHTML += '<span class="' + cls + '">' + words[s].word + '</span>';
+    }
+    var dso = $('decodeSeedOutput');
+    dso.innerHTML = seedHTML;
+    dso.oncopy = function (e) { e.preventDefault(); };
+    dso.oncut = function (e) { e.preventDefault(); };
+    dso.oncontextmenu = function (e) { e.preventDefault(); };
+
+    var badge = $('decodeBadge');
+    if (!anyInput) {
+      badge.className = 'badge partial'; badge.textContent = 'WAITING FOR INPUT';
+    } else {
+      var filled = words.filter(function (w) { return !w.empty; }).length;
+      if (filled === count) {
+        badge.className = 'badge valid'; badge.textContent = 'DECODED / ' + count + ' WORDS / ALL VALID BIP39';
+      } else {
+        badge.className = 'badge partial'; badge.textContent = 'DECODING / ' + filled + ' OF ' + count + ' WORDS SET';
+      }
+    }
+  }
+
+  document.querySelectorAll('#decWordCount .pill').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('#decWordCount .pill').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      decWordCount = parseInt(btn.getAttribute('data-count'), 10);
+      initDecode();
+    });
+  });
+
+  $('decodeClearBtn').addEventListener('click', function () {
+    resetDecodeBits(decWordCount);
+    $('decodeMatrixContainer').querySelectorAll('.dot.on').forEach(function (d) { d.classList.remove('on'); });
+    updateDecodeResult();
+  });
+
+  /* ===== DICTIONARY TAB ===== */
+  var DICT_PAGE_SIZE = 100;
+  var dictPage = 0;
+  var dictFilter = 'all';
+  var dictQuery = '';
+  var dictFiltered = [];
+
+  function getDictFiltered() {
+    var results = [];
+    var useLetterFilter = dictFilter !== 'all' && !dictQuery;
+    for (var i = 0; i < wordlist.length; i++) {
+      var w = wordlist[i];
+      if (useLetterFilter && w[0] !== dictFilter) continue;
+      if (dictQuery) {
+        var idxStr = String(i);
+        var padIdx = idxStr.padStart(4, '0');
+        if (w.indexOf(dictQuery) === -1 && idxStr.indexOf(dictQuery) === -1 && padIdx.indexOf(dictQuery) === -1) continue;
+      }
+      results.push(i);
+    }
+    return results;
+  }
+
+  function renderDictAlpha() {
+    var el = $('dictAlpha');
+    var letters = 'abcdefghijklmnopqrstuvwxyz'.split('');
+    var html = '<button class="alpha-btn active" data-letter="all">ALL</button>';
+    letters.forEach(function (l) {
+      html += '<button class="alpha-btn" data-letter="' + l + '">' + l.toUpperCase() + '</button>';
+    });
+    el.innerHTML = html;
+    el.addEventListener('click', function (e) {
+      var btn = e.target.closest('.alpha-btn');
+      if (!btn) return;
+      el.querySelectorAll('.alpha-btn').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      dictFilter = btn.getAttribute('data-letter');
+      dictPage = 0;
+      renderDict();
+    });
+  }
+
+  function renderDict() {
+    dictFiltered = getDictFiltered();
+    $('dictCount').textContent = dictFiltered.length + ' / 2048';
+
+    var start = dictPage * DICT_PAGE_SIZE;
+    var end = Math.min(start + DICT_PAGE_SIZE, dictFiltered.length);
+    var pageItems = dictFiltered.slice(start, end);
+
+    var listEl = $('dictList');
+    listEl.innerHTML = '';
+
+    pageItems.forEach(function (idx) {
+      var word = wordlist[idx];
+      var bin = toBinary11(idx);
+
+      var row = document.createElement('div');
+      row.className = 'dict-row';
+      row.setAttribute('data-idx', idx);
+
+      var dotsHTML = '';
+      for (var b = 0; b < 11; b++) {
+        dotsHTML += '<span class="mini-dot' + (bin[b] === '1' ? ' on' : '') + '"></span>';
+      }
+
+      row.innerHTML =
+        '<span class="dr-idx">' + String(idx).padStart(4, '0') + '</span>' +
+        '<span class="dr-word">' + word + '</span>' +
+        '<span class="dr-binary">' + formatBinaryHTML(bin) + '</span>' +
+        '<span class="dr-dots">' + dotsHTML + '</span>';
+
+      var detail = document.createElement('div');
+      detail.className = 'dict-row-detail';
+
+      row.addEventListener('click', function () {
+        var isExpanded = row.classList.contains('expanded');
+        listEl.querySelectorAll('.dict-row.expanded').forEach(function (other) {
+          if (other !== row) { other.classList.remove('expanded'); var od = other.nextElementSibling; if (od) od.style.maxHeight = '0'; }
+        });
+        if (isExpanded) {
+          row.classList.remove('expanded'); detail.style.maxHeight = '0';
+        } else {
+          if (!detail.innerHTML) detail.innerHTML = '<div class="word-detail-inner">' + buildDetailHTML(idx, idx) + '</div>';
+          row.classList.add('expanded');
+          detail.style.maxHeight = detail.scrollHeight + 'px';
+        }
+      });
+
+      listEl.appendChild(row);
+      listEl.appendChild(detail);
+    });
+
+    renderDictPagination();
+  }
+
+  function renderDictPagination() {
+    var totalPages = Math.ceil(dictFiltered.length / DICT_PAGE_SIZE);
+    var pagEl = $('dictPagination');
+    if (totalPages <= 1) { pagEl.innerHTML = ''; return; }
+
+    var html = '';
+    html += '<button class="page-btn" data-page="prev" ' + (dictPage === 0 ? 'disabled' : '') + '>&laquo;</button>';
+    for (var p = 0; p < totalPages; p++) {
+      html += '<button class="page-btn' + (p === dictPage ? ' active' : '') + '" data-page="' + p + '">' + (p + 1) + '</button>';
+    }
+    html += '<button class="page-btn" data-page="next" ' + (dictPage >= totalPages - 1 ? 'disabled' : '') + '>&raquo;</button>';
+    pagEl.innerHTML = html;
+
+    pagEl.onclick = function (e) {
+      var btn = e.target.closest('.page-btn');
+      if (!btn || btn.disabled) return;
+      var val = btn.getAttribute('data-page');
+      if (val === 'prev') dictPage = Math.max(0, dictPage - 1);
+      else if (val === 'next') dictPage = Math.min(totalPages - 1, dictPage + 1);
+      else dictPage = parseInt(val, 10);
+      renderDict();
+      $('dictList').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+  }
+
+  var searchTimeout;
+  $('dictSearch').addEventListener('input', function (e) {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(function () {
+      dictQuery = e.target.value.trim().toLowerCase();
+      dictPage = 0;
+      renderDict();
+    }, 150);
+  });
+
+  renderDictAlpha();
+
+  /* ===== TAB SYSTEM ===== */
+  var tabBtns = document.querySelectorAll('.tab-btn');
+  var tabPanels = document.querySelectorAll('.tab-panel');
+  var statusMap = { generate: 'SEED ENCODER', decode: 'BINARY DECODER', dictionary: 'DICTIONARY' };
+
+  tabBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var target = btn.getAttribute('data-tab');
+      tabBtns.forEach(function (b) { b.classList.remove('active'); });
+      tabPanels.forEach(function (p) { p.classList.remove('active'); });
+      btn.classList.add('active');
+      $('panel-' + target).classList.add('active');
+      $('headerStatus').textContent = statusMap[target] || '';
+      if (target === 'decode' && !decodeInitialized) initDecode();
+      if (target === 'dictionary' && dictFiltered.length === 0) renderDict();
+    });
+  });
+
+  /* ===== THEME TOGGLE ===== */
+  var themeBtn = $('themeToggle');
+  function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    themeBtn.textContent = theme === 'dark' ? 'D' : 'L';
+    themeBtn.title = theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme';
+    document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#000000' : '#FAFAFA';
+  }
+  themeBtn.addEventListener('click', function () {
+    var current = document.documentElement.getAttribute('data-theme');
+    setTheme(current === 'dark' ? 'light' : 'dark');
+  });
+  var preferredDark = false;
+  try { preferredDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; } catch (e) {}
+  setTheme(preferredDark ? 'dark' : 'light');
+
+  /* ===== RESIZE HANDLER FOR MATRICES ===== */
+  var lastWidth = window.innerWidth;
+  var resizeTimeout;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(function() {
+      var currentWidth = window.innerWidth;
+      var wasDesktop = lastWidth >= 768;
+      var isDesktop = currentWidth >= 768;
+      
+      // Only reinitialize if we crossed the mobile/desktop threshold
+      if (wasDesktop !== isDesktop) {
+        // Reinitialize decode if it was initialized
+        if (decodeInitialized) {
+          initDecode();
+        }
+        // Re-render generator if it has data
+        if (genIndices.length > 0) {
+          renderGenPlate(genIndices);
+        }
+      }
+      lastWidth = currentWidth;
+    }, 250);
+  });
+
+})();
+</script>
+
+</body>
+</html>
+
+

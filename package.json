@@ -1,0 +1,35 @@
+{
+  "name": "penger",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PENGER — BIP39 Self-Custody Tools & Guides",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "build:js": "npx terser public/shared.js -o public/shared.min.js -c -m && npx terser public/analytics.js -o public/analytics.min.js -c -m && npx terser public/script.js -o public/script.min.js -c -m && npx terser public/dictionary.js -o public/dictionary.min.js -c -m && npx terser public/passphrase-sim.js -o public/passphrase-sim.min.js -c -m && for f in public/js/*.js; do case \"$f\" in *.min.js) continue;; esac; npx terser \"$f\" -o \"${f%.js}.min.js\" -c -m; done",
+    "build:css": "npx lightningcss --minify public/style.css -o public/style.min.css && npx lightningcss --minify public/landing.css -o public/landing.min.css && npx lightningcss --minify public/about-us.css -o public/about-us.min.css && npx lightningcss --minify public/contacts.css -o public/contacts.min.css",
+    "build": "npm run build:js && npm run build:css"
+  },
+  "dependencies": {
+    "@solana/spl-token": "^0.4.14",
+    "@solana/web3.js": "^1.98.4",
+    "better-sqlite3": "^11.10.0",
+    "bignumber.js": "^10.0.2",
+    "compression": "^1.8.1",
+    "dotenv": "^16.4.0",
+    "ejs": "^5.0.1",
+    "express": "^4.21.0",
+    "express-rate-limit": "^7.4.0",
+    "googleapis": "^171.4.0",
+    "helmet": "^8.0.0",
+    "node-telegram-bot-api": "^0.67.0",
+    "pdfkit": "^0.18.0",
+    "qrcode": "^1.5.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

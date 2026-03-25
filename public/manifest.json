@@ -1,0 +1,23 @@
+{
+  "name": "PENGER — Titanium Seed Phrase Backup",
+  "short_name": "PENGER",
+  "description": "Aerospace-grade titanium seed phrase storage kit with free self-custody education platform.",
+  "start_url": "/",
+  "display": "browser",
+  "theme_color": "#FAFAFA",
+  "background_color": "#FAFAFA",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/svg/p.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/og-image.png",
+      "sizes": "1200x630",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["security", "finance", "education"]
+}
