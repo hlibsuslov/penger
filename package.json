@@ -27,6 +27,7 @@
     "qrcode": "^1.5.4"
   },
   "devDependencies": {
+    "lightningcss-cli": "^1.32.0",
     "nodemon": "^3.1.0"
   },
   "engines": {
