@@ -152,8 +152,7 @@ h3 { font-size: 15px; font-weight: 600; }
   object-fit: contain;
   object-position: center;
   border-radius: 4px;
-  mix-blend-mode: multiply;
-  filter: brightness(1.12) contrast(1.08);
+  filter: brightness(1.07);
 }
 /* === GUIDE HERO (article page) === */
 .guide-hero-banner {
@@ -164,8 +163,7 @@ h3 { font-size: 15px; font-weight: 600; }
   object-position: center;
   display: block;
   border-radius: 8px;
-  mix-blend-mode: multiply;
-  filter: brightness(1.12) contrast(1.08);
+  filter: brightness(1.07);
   margin-bottom: 20px;
 }
 .section-intro h1 { margin-top: 4px; margin-bottom: 0; }
