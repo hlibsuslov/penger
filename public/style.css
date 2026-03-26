@@ -147,8 +147,9 @@ h3 { font-size: 15px; font-weight: 600; }
   display: block;
   width: calc(100% + 48px);
   margin: -24px -24px 16px;
-  aspect-ratio: 4 / 1;
+  height: 140px;
   object-fit: cover;
+  object-position: center;
   border-radius: 7px 7px 0 0;
   background: var(--bg-child);
   transition: opacity var(--duration-normal) var(--ease-default);
@@ -1916,7 +1917,7 @@ body.nav-open .dot-tooltip {
 
   .card-grid { grid-template-columns: 1fr; }
   .card { padding: 20px; }
-  .card-thumb { width: calc(100% + 40px); margin: -20px -20px 14px; }
+  .card-thumb { width: calc(100% + 40px); margin: -20px -20px 14px; height: 120px; }
 
   .site-nav { width: 50%; border-radius: 0 0 0 14px; }
 
