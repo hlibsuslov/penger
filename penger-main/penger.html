@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark" data-lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PENGER — Titanium Seed Phrase Backup</title>
+  <meta name="description" content="Титановый backup seed-фразы с бинарной кодировкой. Физическое хранение на десятилетия. Offline. Без электроники.">
+  <meta property="og:title" content="PENGER — Titanium Seed Phrase Backup">
+  <meta property="og:description" content="Финальный backup для цифрового капитала. Aerospace-grade titanium. 12-word seed.">
+  <meta property="og:type" content="product">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="PENGER — Titanium Seed Phrase Backup">
+  <link rel="canonical" href="https://pfrz.store">
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#FAFAFA" media="(prefers-color-scheme: light)">
+  <link rel="stylesheet" href="styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "PENGER Titanium Seed Phrase Storage",
+    "description": "Titanium seed phrase backup with binary encoding layout. 12-word BIP39 support.",
+    "brand": { "@type": "Brand", "name": "PENGER" },
+    "category": "Security & Storage"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Это кошелёк?", "acceptedAnswer": { "@type": "Answer", "text": "Нет. PENGER — это физический носитель для хранения seed-фразы, а не кошелёк." }},
+      { "@type": "Question", "name": "Это шифрование?", "acceptedAnswer": { "@type": "Answer", "text": "Нет. Бинарная кодировка — это способ записи, а не криптографическое шифрование." }},
+      { "@type": "Question", "name": "Почему титан, а не бумага?", "acceptedAnswer": { "@type": "Answer", "text": "Титан устойчив к огню, воде, коррозии и не деградирует со временем." }},
+      { "@type": "Question", "name": "What if I make a mistake?", "acceptedAnswer": { "@type": "Answer", "text": "The kit includes a training template. Always verify before final storage." }}
+    ]
+  }
+  </script>
+</head>
+<body>
+<div class="page-shell">
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container">
+      <a href="#" class="site-logo">PENGER</a>
+      <div class="header-right">
+        <nav class="nav-links" aria-label="Navigation">
+          <a href="#how-to-encode" class="nav-link">
+            <span class="t-ru">Инструкция</span><span class="t-en">Guide</span>
+          </a>
+          <a href="#specs" class="nav-link">
+            <span class="t-ru">Характеристики</span><span class="t-en">Specs</span>
+          </a>
+          <a href="#faq" class="nav-link">FAQ</a>
+        </nav>
+        <button class="icon-btn" id="langToggle" type="button" aria-label="Switch language">
+          <span class="t-ru">EN</span><span class="t-en">RU</span>
+        </button>
+        <button class="icon-btn" id="themeToggle" type="button" aria-label="Toggle theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="hero">
+      <div class="container">
+        <div class="hero-content">
+          <p class="label">[ SEED BACKUP / TITANIUM ]</p>
+
+          <h1>
+            <span class="t-ru">Ваш seed на титане.<br>Один раз. На десятилетия.</span>
+            <span class="t-en">Your seed on titanium.<br>Once. For decades.</span>
+          </h1>
+
+          <p class="body-text">
+            <span class="t-ru">Титановая пластина для физического хранения seed-фразы (12&nbsp;слов). Запись через бинарную кодировку — без электроники, без&nbsp;интернета, без&nbsp;зависимости от&nbsp;сервисов. Набили — убрали — забыли на&nbsp;годы.</span>
+            <span class="t-en">Titanium plate for physical seed phrase storage (12&nbsp;words). Binary encoding punch system — no electronics, no internet, no service dependency. Punch it — store it — forget it for years.</span>
+          </p>
+
+          <div class="price-block">
+            <div class="price-amount">$149</div>
+            <p class="price-note">
+              <span class="t-ru">Бесплатная доставка / Комплект для записи в наборе</span>
+              <span class="t-en">Free shipping / Encoding kit included</span>
+            </p>
+          </div>
+
+          <div class="btn-group">
+            <a href="#buy" class="btn btn-primary" data-track="click_primary_cta">
+              <span class="t-ru">КУПИТЬ</span><span class="t-en">BUY NOW</span>
+            </a>
+            <a href="#how-to-encode" class="btn btn-secondary">
+              <span class="t-ru">КАК ЭТО РАБОТАЕТ</span><span class="t-en">HOW IT WORKS</span>
+            </a>
+          </div>
+
+          <div class="status-line">OFFLINE / NO ELECTRONICS / LONG-TERM</div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="product-frame">
+            <div class="product-placeholder">
+              <svg viewBox="0 0 80 80" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="8" y="14" width="64" height="52" rx="2"/>
+                <line x1="18" y1="28" x2="62" y2="28"/>
+                <line x1="18" y1="38" x2="62" y2="38"/>
+                <line x1="18" y1="48" x2="50" y2="48"/>
+              </svg>
+              <span>[ PRODUCT PHOTO ]</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PROBLEM ===== -->
+    <section id="problem">
+      <div class="container narrow">
+        <div class="section-head">
+          <p class="label">[ RISK ]</p>
+          <h2>
+            <span class="t-ru">Потеряли seed — потеряли всё</span>
+            <span class="t-en">Lose the seed — lose everything</span>
+          </h2>
+        </div>
+
+        <p class="body-text">
+          <span class="t-ru">Seed-фраза — единственный ключ к&nbsp;вашим криптоактивам. Нет&nbsp;seed = нет&nbsp;доступа. Нет&nbsp;службы поддержки, которая восстановит пароль. Нет&nbsp;банка, который вернёт деньги. Вопрос не&nbsp;«если», а&nbsp;«как надёжно вы его сохранили».</span>
+          <span class="t-en">Your seed phrase is the only key to your crypto assets. No&nbsp;seed = no&nbsp;access. No support team to reset your password. No bank to reverse the transaction. The question isn't "if" — it's "how reliably have you stored it."</span>
+        </p>
+
+        <div class="card" style="margin-top: 24px;">
+          <div class="data-row">
+            <span class="key">
+              <span class="t-ru">Бумага</span><span class="t-en">Paper</span>
+            </span>
+            <span class="val">
+              <span class="t-ru">Горит, мокнет, выцветает, легко читается</span>
+              <span class="t-en">Burns, soaks, fades, easily readable</span>
+            </span>
+          </div>
+          <div class="data-row">
+            <span class="key">
+              <span class="t-ru">Облако</span><span class="t-en">Cloud</span>
+            </span>
+            <span class="val">
+              <span class="t-ru">Взлом, утечка, блокировка аккаунта</span>
+              <span class="t-en">Hack, leak, account lockout</span>
+            </span>
+          </div>
+          <div class="data-row">
+            <span class="key">
+              <span class="t-ru">Устройство</span><span class="t-en">Device</span>
+            </span>
+            <span class="val">
+              <span class="t-ru">Поломка, потеря, устаревание</span>
+              <span class="t-en">Failure, loss, obsolescence</span>
+            </span>
+          </div>
+          <div class="data-row">
+            <span class="key">
+              <span class="t-ru">Память</span><span class="t-en">Memory</span>
+            </span>
+            <span class="val">
+              <span class="t-ru">Забыли через год — всё пропало</span>
+              <span class="t-en">Forgot in a year — gone forever</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== WHAT IS PENGER ===== -->
+    <section id="product">
+      <div class="container narrow">
+        <div class="section-head">
+          <p class="label">[ PRODUCT ]</p>
+          <h2>
+            <span class="t-ru">Что такое PENGER</span>
+            <span class="t-en">What is PENGER</span>
+          </h2>
+        </div>
+
+        <p class="body-text">
+          <span class="t-ru">Это набор для создания физического backup seed-фразы на&nbsp;титановой пластине. Вы&nbsp;переводите каждое слово в&nbsp;бинарный код и&nbsp;набиваете его кернером. Результат — металлическая пластина, которая хранит ваш seed десятилетиями, не&nbsp;зависит от&nbsp;электроники и&nbsp;не&nbsp;читается «на&nbsp;глаз».</span>
+          <span class="t-en">It's a kit for creating a physical seed phrase backup on a titanium plate. You convert each word into binary code and punch it with a center punch. The result is a metal plate that stores your seed for decades, independent of electronics and not readable at a glance.</span>
+        </p>
+
+        <div class="feat-grid" style="margin-top: 32px;">
+          <div class="feat-card">
+            <p class="feat-title">
+              <span class="t-ru">Не кошелёк</span><span class="t-en">Not a wallet</span>
+            </p>
+            <p class="feat-desc">
+              <span class="t-ru">Не хранит ключи, не подключается к сети. Только физический backup.</span>
+              <span class="t-en">Doesn't store keys, doesn't connect to a network. Physical backup only.</span>
+            </p>
+          </div>
+          <div class="feat-card">
+            <p class="feat-title">
+              <span class="t-ru">Не шифрование</span><span class="t-en">Not encryption</span>
+            </p>
+            <p class="feat-desc">
+              <span class="t-ru">Бинарная запись — это способ хранения, а не криптография. Но seed не виден в открытом виде.</span>
+              <span class="t-en">Binary encoding is a storage method, not cryptography. But the seed isn't visible in plain text.</span>
+            </p>
+          </div>
+          <div class="feat-card">
+            <p class="feat-title">
+              <span class="t-ru">Не гаджет</span><span class="t-en">Not a gadget</span>
+            </p>
+            <p class="feat-desc">
+              <span class="t-ru">Нет батареек, экранов и прошивок. Титан не нуждается в обновлениях.</span>
+              <span class="t-en">No batteries, screens, or firmware. Titanium doesn't need updates.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== HOW TO ENCODE — THE KEY SECTION ===== -->
+    <section class="encode-section" id="how-to-encode">
+      <div class="container narrow">
+        <div class="section-head">
+          <p class="label">[ INSTRUCTION ]</p>
+          <h2>
+            <span class="t-ru">Как записать seed на&nbsp;титановую пластину</span>
+            <span class="t-en">How to encode your seed onto titanium</span>
+          </h2>
+        </div>
+
+        <p class="body-text">
+          <span class="t-ru">Каждое слово BIP39 имеет порядковый номер (индекс) от&nbsp;0 до&nbsp;2047. Этот номер переводится в&nbsp;11-битный двоичный код. Вы&nbsp;набиваете код кернером на&nbsp;пластину: удар = 1, пропуск = 0. Ниже — пошаговый процесс.</span>
+          <span class="t-en">Every BIP39 word has an index number from 0 to 2047. This number converts to an 11-bit binary code. You punch the code onto the plate: punch = 1, skip = 0. Here's the step-by-step process.</span>
+        </p>
+
+        <!-- Step 1 -->
+        <div class="encode-steps">
+          <div class="encode-step">
+            <span class="encode-num">01</span>
+            <div class="encode-body">
+              <h3>
+                <span class="t-ru">Найдите индекс каждого слова</span>
+                <span class="t-en">Find the index of each word</span>
+              </h3>
+              <p class="body-text">
+                <span class="t-ru">Откройте список BIP39 (2048 слов). Каждому слову соответствует номер. Например:</span>
+                <span class="t-en">Open the BIP39 wordlist (2048 words). Each word has a number. For example:</span>
+              </p>
+
+              <div class="word-table">
+                <div class="word-row table-head">
+                  <span>
+                    <span class="t-ru">Слово</span><span class="t-en">Word</span>
+                  </span>
+                  <span>
+                    <span class="t-ru">Индекс</span><span class="t-en">Index</span>
+                  </span>
+                  <span>
+                    <span class="t-ru">Двоичный код</span><span class="t-en">Binary</span>
+                  </span>
+                </div>
+                <div class="word-row">
+                  <span class="w-word">abandon</span>
+                  <span class="w-index">0</span>
+                  <span class="w-binary">00000000000</span>
+                </div>
+                <div class="word-row">
+                  <span class="w-word">ability</span>
+                  <span class="w-index">1</span>
+                  <span class="w-binary">00000000001</span>
+                </div>
+                <div class="word-row">
+                  <span class="w-word">abstract</span>
+                  <span class="w-index">6</span>
+                  <span class="w-binary">00000000110</span>
+                </div>
+                <div class="word-row">
+                  <span class="w-word">crisp</span>
+                  <span class="w-index">427</span>
+                  <span class="w-binary">00110101011</span>
+                </div>
+                <div class="word-row">
+                  <span class="w-word">ocean</span>
+                  <span class="w-index">1199</span>
+                  <span class="w-binary">10010101111</span>
+                </div>
+                <div class="word-row">
+                  <span class="w-word">zoo</span>
+                  <span class="w-index">2047</span>
+                  <span class="w-binary">11111111111</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="encode-step">
+            <span class="encode-num">02</span>
+            <div class="encode-body">
+              <h3>
+                <span class="t-ru">Переведите индекс в&nbsp;двоичный код (11 бит)</span>
+                <span class="t-en">Convert the index to binary (11 bits)</span>
+              </h3>
+              <p class="body-text">
+                <span class="t-ru">Каждый индекс записывается ровно 11 цифрами (нулями и единицами). Число 2048 = 2<sup>11</sup>, поэтому любое слово из&nbsp;списка вмещается в&nbsp;11 бит. Пример:</span>
+                <span class="t-en">Each index is written as exactly 11 digits (zeros and ones). Since 2048 = 2<sup>11</sup>, any word from the list fits into 11 bits. Example:</span>
+              </p>
+              <div class="terminal" style="margin-top: 16px;"><span class="prompt">  </span><span class="comment"><span class="t-ru">Слово</span><span class="t-en">Word</span>:     ocean
+</span><span class="prompt">  </span><span class="comment"><span class="t-ru">Индекс</span><span class="t-en">Index</span>:    1199
+</span><span class="prompt">  </span><span class="t-ru">Двоичный</span><span class="t-en">Binary</span>:  1  0  0  1  0  1  0  1  1  1  1
+<span class="prompt">  </span><span class="t-ru">Позиция</span><span class="t-en">Position</span>: 1024 512 256 128 64 32 16 8  4  2  1</div>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="encode-step">
+            <span class="encode-num">03</span>
+            <div class="encode-body">
+              <h3>
+                <span class="t-ru">Набейте код кернером на&nbsp;пластину</span>
+                <span class="t-en">Punch the code onto the plate</span>
+              </h3>
+              <p class="body-text">
+                <span class="t-ru">На пластине 12 строк (по одной на&nbsp;слово) и 11 позиций в&nbsp;каждой строке. Для каждого бита: <strong>1 = удар кернером</strong> (точка), <strong>0 = пропуск</strong> (пусто). Пример — seed из 4 слов:</span>
+                <span class="t-en">The plate has 12 rows (one per word) and 11 positions per row. For each bit: <strong>1 = punch</strong> (dot), <strong>0 = skip</strong> (empty). Example — 4-word seed:</span>
+              </p>
+
+              <div class="plate-vis">
+                <div class="plate-header">PENGER TITANIUM PLATE</div>
+                <div class="plate-rows">
+                  <div class="plate-row">
+                    <span class="plate-num">01</span>
+                    <div class="plate-dots">
+                      <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot on"></span>
+                    </div>
+                  </div>
+                  <div class="plate-row">
+                    <span class="plate-num">02</span>
+                    <div class="plate-dots">
+                      <span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot on"></span><span class="dot"></span><span class="dot on"></span><span class="dot"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span>
+                    </div>
+                  </div>
+                  <div class="plate-row">
+                    <span class="plate-num">03</span>
+                    <div class="plate-dots">
+                      <span class="dot"></span><span class="dot"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot on"></span><span class="dot"></span><span class="dot on"></span><span class="dot"></span><span class="dot on"></span><span class="dot on"></span>
+                    </div>
+                  </div>
+                  <div class="plate-row">
+                    <span class="plate-num">04</span>
+                    <div class="plate-dots">
+                      <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span>
+                    </div>
+                  </div>
+                  <div class="plate-row" style="opacity: 0.3;">
+                    <span class="plate-num">05</span>
+                    <div class="plate-dots">
+                      <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                    </div>
+                  </div>
+                  <div class="plate-row" style="opacity: 0.15;">
+                    <span class="plate-num">···</span>
+                    <div class="plate-dots">
+                      <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                    </div>
+                  </div>
+                  <div class="plate-row" style="opacity: 0.3;">
+                    <span class="plate-num">12</span>
+                    <div class="plate-dots">
+                      <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <p class="meta-text" style="margin-top: 12px;">
+                <span class="t-ru">● = удар (бит 1) &nbsp;&nbsp; ○ = пропуск (бит 0)</span>
+                <span class="t-en">● = punch (bit 1) &nbsp;&nbsp; ○ = skip (bit 0)</span>
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="encode-step">
+            <span class="encode-num">04</span>
+            <div class="encode-body">
+              <h3>
+                <span class="t-ru">Проверьте запись</span>
+                <span class="t-en">Verify the record</span>
+              </h3>
+              <p class="body-text">
+                <span class="t-ru">Пройдите по&nbsp;каждой строке: переведите набитый двоичный код обратно в&nbsp;число, найдите слово по&nbsp;индексу. Совпадает с&nbsp;оригиналом — запись верна. В&nbsp;наборе есть тренировочный шаблон для&nbsp;отработки до финальной записи.</span>
+                <span class="t-en">Go through each row: convert the punched binary back to a number, find the word by index. If it matches the original — the record is correct. The kit includes a training template to practice before the final recording.</span>
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="encode-step">
+            <span class="encode-num">05</span>
+            <div class="encode-body">
+              <h3>
+                <span class="t-ru">Уберите на&nbsp;хранение</span>
+                <span class="t-en">Store it safely</span>
+              </h3>
+              <p class="body-text">
+                <span class="t-ru">Поместите пластину в&nbsp;безопасное физическое место. Титан не&nbsp;боится воды, огня и&nbsp;коррозии. Seed записан в&nbsp;формате, который не&nbsp;читается без&nbsp;знания системы. Это ваш финальный backup.</span>
+                <span class="t-en">Place the plate in a secure physical location. Titanium resists water, fire, and corrosion. The seed is recorded in a format that can't be read without knowledge of the system. This is your final backup.</span>
+              </p>
+              <div class="status-line">
+                <span class="t-ru">ЗАПИСАНО / ПРОВЕРЕНО / УБРАНО</span>
+                <span class="t-en">RECORDED / VERIFIED / STORED</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== WHY TITANIUM ===== -->
+    <section id="specs">
+      <div class="container narrow">
+        <div class="section-head">
+          <p class="label">[ MATERIAL ]</p>
+          <h2>
+            <span class="t-ru">Почему титан</span>
+            <span class="t-en">Why titanium</span>
+          </h2>
+        </div>
+
+        <p class="body-text">
+          <span class="t-ru">Aerospace-grade titanium — материал, рассчитанный на&nbsp;экстремальные условия. Не&nbsp;ржавеет, не&nbsp;горит при обычных температурах, не&nbsp;ломается от&nbsp;удара. Данные на&nbsp;нём не&nbsp;деградируют со&nbsp;временем, потому что это физические углубления в&nbsp;металле, а&nbsp;не&nbsp;магнитные или электрические сигналы.</span>
+          <span class="t-en">Aerospace-grade titanium is built for extreme conditions. It doesn't rust, doesn't burn at normal temperatures, doesn't break on impact. Data on it doesn't degrade over time because it's physical indentations in metal, not magnetic or electrical signals.</span>
+        </p>
+
+        <div class="card" style="margin-top: 24px;">
+          <div class="data-row">
+            <span class="key">
+              <span class="t-ru">Материал</span><span class="t-en">Material</span>
+            </span>
+            <span class="val">Aerospace-grade titanium</span>
+          </div>
+          <div class="data-row">
+            <span class="key">
+              <span class="t-ru">Коррозия</span><span class="t-en">Corrosion</span>
+            </span>
+            <span class="val">
+              <span class="t-ru">Устойчив</span><span class="t-en">Proof</span>
+            </span>
+          </div>
+          <div class="data-row">
+            <span class="key">
+              <span class="t-ru">Огонь</span><span class="t-en">Fire</span>
+            </span>
+            <span class="val">
+              <span class="t-ru">Плавление при ~1668°C</span><span class="t-en">Melts at ~1668°C</span>
+            </span>
+          </div>
+          <div class="data-row">
+            <span class="key">
+              <span class="t-ru">Удар</span><span class="t-en">Impact</span>
+            </span>
+            <span class="val">
+              <span class="t-ru">Устойчив</span><span class="t-en">Resistant</span>
+            </span>
+          </div>
+          <div class="data-row">
+            <span class="key">
+              <span class="t-ru">Электроника</span><span class="t-en">Electronics</span>
+            </span>
+            <span class="val">
+              <span class="t-ru">Отсутствует</span><span class="t-en">None</span>
+            </span>
+          </div>
+          <div class="data-row">
+            <span class="key">
+              <span class="t-ru">Срок хранения</span><span class="t-en">Lifespan</span>
+            </span>
+            <span class="val">
+              <span class="t-ru">Десятилетия+</span><span class="t-en">Decades+</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== WHAT'S IN THE BOX ===== -->
+    <section id="box">
+      <div class="container narrow">
+        <div class="section-head">
+          <p class="label">[ KIT ]</p>
+          <h2>
+            <span class="t-ru">Что в&nbsp;наборе</span>
+            <span class="t-en">What's in the box</span>
+          </h2>
+        </div>
+
+        <p class="body-text">
+          <span class="t-ru">Всё, что нужно для&nbsp;создания backup — в&nbsp;одной коробке. Не&nbsp;нужно ничего докупать.</span>
+          <span class="t-en">Everything you need to create a backup — in one box. Nothing extra to buy.</span>
+        </p>
+
+        <div class="box-grid">
+          <div class="box-item">
+            <p class="box-num">01</p>
+            <p class="box-name">
+              <span class="t-ru">Титановая пластина</span><span class="t-en">Titanium plate</span>
+            </p>
+          </div>
+          <div class="box-item">
+            <p class="box-num">02</p>
+            <p class="box-name">
+              <span class="t-ru">Кернер</span><span class="t-en">Center punch</span>
+            </p>
+          </div>
+          <div class="box-item">
+            <p class="box-num">03</p>
+            <p class="box-name">
+              <span class="t-ru">Тренировочный шаблон</span><span class="t-en">Training template</span>
+            </p>
+          </div>
+          <div class="box-item">
+            <p class="box-num">04</p>
+            <p class="box-name">
+              <span class="t-ru">Карандаш</span><span class="t-en">Pencil</span>
+            </p>
+          </div>
+          <div class="box-item">
+            <p class="box-num">05</p>
+            <p class="box-name">
+              <span class="t-ru">Кейс</span><span class="t-en">Case</span>
+            </p>
+          </div>
+          <div class="box-item">
+            <p class="box-num">06</p>
+            <p class="box-name">
+              <span class="t-ru">Инструкция</span><span class="t-en">Guide</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== COMPARISON ===== -->
+    <section id="compare">
+      <div class="container narrow">
+        <div class="section-head">
+          <p class="label">[ COMPARISON ]</p>
+          <h2>
+            <span class="t-ru">Сравнение способов хранения</span>
+            <span class="t-en">Storage methods compared</span>
+          </h2>
+        </div>
+
+        <div class="compare-grid">
+          <div class="compare-row">
+            <span class="compare-method">
+              <span class="t-ru">Бумага</span><span class="t-en">Paper</span>
+            </span>
+            <span class="compare-desc">
+              <span class="t-ru">Горит, мокнет, выцветает. Seed виден в открытом виде.</span>
+              <span class="t-en">Burns, soaks, fades. Seed visible in plain text.</span>
+            </span>
+          </div>
+          <div class="compare-row">
+            <span class="compare-method">
+              <span class="t-ru">Заметки в облаке</span><span class="t-en">Cloud notes</span>
+            </span>
+            <span class="compare-desc">
+              <span class="t-ru">Онлайн = поверхность атаки. Зависимость от сервиса.</span>
+              <span class="t-en">Online = attack surface. Service dependency.</span>
+            </span>
+          </div>
+          <div class="compare-row">
+            <span class="compare-method">
+              <span class="t-ru">Память / устройство</span><span class="t-en">Memory / device</span>
+            </span>
+            <span class="compare-desc">
+              <span class="t-ru">Отказ, потеря, устаревание. Не масштабируется на десятилетия.</span>
+              <span class="t-en">Failure, loss, obsolescence. Doesn't scale to decades.</span>
+            </span>
+          </div>
+          <div class="compare-row is-product">
+            <span class="compare-method">PENGER</span>
+            <span class="compare-desc">
+              <span class="t-ru">Титан / офлайн / бинарная запись / десятилетия / без электроники</span>
+              <span class="t-en">Titanium / offline / binary encoding / decades / no electronics</span>
+            </span>
+          </div>
+        </div>
+
+        <p class="meta-text" style="margin-top: 20px;">
+          <span class="t-ru">Сравнение на уровне категорий, не конкретных брендов.</span>
+          <span class="t-en">Comparison at the category level, not specific brands.</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section id="faq">
+      <div class="container narrow">
+        <div class="section-head">
+          <p class="label">[ FAQ ]</p>
+          <h2>
+            <span class="t-ru">Вопросы</span>
+            <span class="t-en">Questions</span>
+          </h2>
+        </div>
+
+        <div class="faq-list">
+
+          <div class="faq-item" data-open="false">
+            <button class="faq-trigger" aria-expanded="false" aria-controls="faq-1" data-track="faq_open">
+              <span>
+                <span class="t-ru">Это кошелёк?</span>
+                <span class="t-en">Is this a wallet?</span>
+              </span>
+              <svg class="faq-icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <div class="faq-panel" id="faq-1" role="region">
+              <div class="faq-answer">
+                <span class="t-ru">Нет. PENGER не генерирует ключи, не подключается к сети и не хранит активы. Это физический носитель для резервной копии seed-фразы — как сейф для записки, только из титана и с бинарной кодировкой.</span>
+                <span class="t-en">No. PENGER doesn't generate keys, doesn't connect to a network, and doesn't store assets. It's a physical medium for backing up your seed phrase — like a safe for a note, but made of titanium with binary encoding.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-open="false">
+            <button class="faq-trigger" aria-expanded="false" aria-controls="faq-2" data-track="faq_open">
+              <span>
+                <span class="t-ru">Бинарная кодировка — это шифрование?</span>
+                <span class="t-en">Is binary encoding encryption?</span>
+              </span>
+              <svg class="faq-icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <div class="faq-panel" id="faq-2" role="region">
+              <div class="faq-answer">
+                <span class="t-ru">Нет. Это не криптографическое шифрование. Бинарная запись — это структурированный способ хранения: слова переводятся в числа и записываются точками. Это добавляет слой обфускации (seed не читается «на глаз»), но не является защитой в криптографическом смысле.</span>
+                <span class="t-en">No. It's not cryptographic encryption. Binary encoding is a structured storage method: words are converted to numbers and recorded as dots. This adds an obfuscation layer (the seed can't be read at a glance), but it's not protection in a cryptographic sense.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-open="false">
+            <button class="faq-trigger" aria-expanded="false" aria-controls="faq-3" data-track="faq_open">
+              <span>
+                <span class="t-ru">Почему титан, а не сталь или бумага?</span>
+                <span class="t-en">Why titanium, not steel or paper?</span>
+              </span>
+              <svg class="faq-icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <div class="faq-panel" id="faq-3" role="region">
+              <div class="faq-answer">
+                <span class="t-ru">Титан не ржавеет, не горит при обычных температурах (плавление ~1668°C), устойчив к ударам и химическим воздействиям. Бумага разрушается от воды и огня. Сталь подвержена коррозии. Титан — это инженерный выбор для хранения на десятилетия.</span>
+                <span class="t-en">Titanium doesn't rust, doesn't burn at normal temperatures (melts at ~1668°C), resists impact and chemical exposure. Paper is destroyed by water and fire. Steel corrodes. Titanium is the engineering choice for decades of storage.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-open="false">
+            <button class="faq-trigger" aria-expanded="false" aria-controls="faq-4" data-track="faq_open">
+              <span>
+                <span class="t-ru">Что если я ошибусь при набивке?</span>
+                <span class="t-en">What if I make a mistake while punching?</span>
+              </span>
+              <svg class="faq-icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <div class="faq-panel" id="faq-4" role="region">
+              <div class="faq-answer">
+                <span class="t-ru">В наборе есть тренировочный шаблон — потренируйтесь на нём перед финальной записью. Также обязательно выполните шаг верификации: переведите набитый код обратно в слова и сравните с оригиналом. Никогда не убирайте пластину на хранение без проверки.</span>
+                <span class="t-en">The kit includes a training template — practice on it before the final recording. Also always perform the verification step: convert the punched code back to words and compare with the original. Never store the plate without verification.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-open="false">
+            <button class="faq-trigger" aria-expanded="false" aria-controls="faq-5" data-track="faq_open">
+              <span>
+                <span class="t-ru">Подходит для 24 слов?</span>
+                <span class="t-en">Does it support 24 words?</span>
+              </span>
+              <svg class="faq-icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <div class="faq-panel" id="faq-5" role="region">
+              <div class="faq-answer">
+                <span class="t-ru">PENGER v1.0 рассчитан на 12-word seed phrase (BIP39). Поддержка 24 слов возможна в будущих версиях. Используйте продукт только с подтверждённым форматом.</span>
+                <span class="t-en">PENGER v1.0 is designed for 12-word seed phrases (BIP39). 24-word support may come in future versions. Only use the product with the confirmed format.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-open="false">
+            <button class="faq-trigger" aria-expanded="false" aria-controls="faq-6" data-track="faq_open">
+              <span>
+                <span class="t-ru">Можно ли сделать несколько копий?</span>
+                <span class="t-en">Can I make multiple copies?</span>
+              </span>
+              <svg class="faq-icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <div class="faq-panel" id="faq-6" role="region">
+              <div class="faq-answer">
+                <span class="t-ru">Да, вы можете приобрести несколько наборов для создания копий в разных физических локациях. Количество копий и стратегия хранения — ваша зона ответственности согласно вашей модели безопасности.</span>
+                <span class="t-en">Yes, you can purchase multiple kits to create copies in different physical locations. The number of copies and storage strategy is your responsibility according to your security model.</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FINAL CTA ===== -->
+    <section class="final-cta" id="buy">
+      <div class="container">
+        <p class="label">[ FINAL STEP ]</p>
+        <h2>
+          <span class="t-ru">Вы защитили свой капитал.<br>Осталось защитить к&nbsp;нему доступ.</span>
+          <span class="t-en">You secured your capital.<br>Now secure the access to it.</span>
+        </h2>
+        <p class="body-text">
+          <span class="t-ru">PENGER — это физический backup, который переживёт бумагу, облако и любое устройство. Один набор. Одна запись. Десятилетия хранения.</span>
+          <span class="t-en">PENGER is a physical backup that outlasts paper, cloud, and any device. One kit. One recording. Decades of storage.</span>
+        </p>
+
+        <div class="price-block" style="display: inline-block; margin-top: 28px; text-align: left;">
+          <div class="price-amount">$149</div>
+          <p class="price-note">
+            <span class="t-ru">Полный набор / Бесплатная доставка</span>
+            <span class="t-en">Complete kit / Free shipping</span>
+          </p>
+        </div>
+
+        <div class="btn-group">
+          <a href="#" class="btn btn-primary" data-track="click_buy_footer">
+            <span class="t-ru">КУПИТЬ</span><span class="t-en">BUY NOW</span>
+          </a>
+          <a href="#how-to-encode" class="btn btn-secondary">
+            <span class="t-ru">ЧИТАТЬ ИНСТРУКЦИЮ</span><span class="t-en">READ GUIDE</span>
+          </a>
+        </div>
+
+        <p class="meta-text" style="margin-top: 28px;">
+          <span class="t-ru">Офлайн-инструмент. Без электроники. Без зависимости от сервисов.</span>
+          <span class="t-en">Offline tool. No electronics. No service dependency.</span>
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <span class="footer-brand">PENGER</span>
+        <nav class="footer-links" aria-label="Footer links">
+          <a href="#" class="footer-link">Terms</a>
+          <a href="#" class="footer-link">Privacy</a>
+          <a href="#" class="footer-link">Contact</a>
+          <a href="#" class="footer-link">Support</a>
+        </nav>
+      </div>
+      <div class="footer-disclaimer">
+        <span class="t-ru">PENGER — инструмент для физического хранения seed-фразы. Это не кошелёк, не кастодиальный сервис и не финансовый продукт. Пользователь полностью отвечает за корректную запись, верификацию и безопасное хранение. Ничто на этой странице не является финансовой рекомендацией.</span>
+        <span class="t-en">PENGER is a physical seed phrase storage tool. It is not a wallet, not a custody service, and not a financial product. Users are fully responsible for correct recording, verification, and secure storage. Nothing on this page constitutes financial advice.</span>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 PENGER</span>
+        <span>v1.0 / 2026-02-21</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+<script src="script.js"></script>
+</body>
+</html>

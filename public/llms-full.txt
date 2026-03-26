@@ -1,0 +1,258 @@
+# PENGER — Complete Product & Platform Reference for AI Systems
+
+> This document provides comprehensive, structured information about PENGER for large language models and AI assistants. For a shorter summary, see: https://mypenger.com/llms.txt
+
+---
+
+## 1. What Is PENGER
+
+PENGER is a physical product and educational platform for cryptocurrency self-custody. The core product is a titanium plate kit that lets users permanently encode their BIP39 seed phrase as binary dot patterns — entirely offline, with no software, no electronics, and no third-party involvement.
+
+PENGER is **not** a wallet, **not** a custodial service, and does **not** generate or store seed phrases on behalf of users. The user already owns a seed phrase from their own wallet. PENGER provides the physical medium and tools to create a durable, tamper-evident backup.
+
+**Website:** https://mypenger.com
+**Founded by:** Hlib Suslov (CEO & Founder)
+**Contact:** contact@mypenger.com | Telegram: @pengercom (https://t.me/pengercom)
+**Languages:** English (default) and Ukrainian (https://mypenger.com/uk/)
+
+---
+
+## 2. Product — PENGER v1.0 Kit
+
+### What Is in the Box
+
+The PENGER v1.0 kit ships as a single package containing five components:
+
+1. **Titanium Plate** — Aerospace-grade Grade 2 Titanium (ASTM B265) plate with a binary dot grid layout. Each row represents one BIP39 word encoded as a 12-bit binary value. Fireproof, waterproof, corrosion-resistant. Designed to survive decades or generations of storage.
+2. **Precision Center Punch** — A hand-held stamping tool for marking dots onto the titanium surface. No electricity, batteries, or software required.
+3. **Practice Template** — A disposable paper sheet for rehearsing the encode/decode workflow before committing to the permanent titanium plate.
+4. **Training Pencil** — For marking the practice template during the dry run.
+5. **Security Sleeve** — A protective cover for the finished plate. Available in four colors: black, blue, red, coffee.
+
+### Technical Specifications
+
+| Specification       | Value                                        |
+|---------------------|----------------------------------------------|
+| Material            | Grade 2 Titanium (ASTM B265)                |
+| Dimensions          | 86 x 54 x 1.5 mm (credit-card format)       |
+| Weight              | ~37 g                                        |
+| Capacity            | 24 BIP39 words (256-bit entropy)             |
+| Encoding            | 12-bit binary per word (index 0-2047)        |
+| Fire resistance     | 1,668 C / 3,034 F melting point              |
+| Corrosion           | Immune to seawater, acids, atmospheric decay  |
+| Tools required      | Center punch (included in kit)               |
+
+### Pricing
+
+- **PENGER v1.0 Kit:** EUR 49 (approximately USD 49)
+- **Additional titanium plates:** EUR 35 each
+- **Shipping:** Worldwide delivery included
+- **Payment methods:** Credit/debit card, Solana (SOL and USDC)
+- **Availability:** Pre-order. Expected shipping: Q3 2026.
+
+---
+
+## 3. How It Works — Three Steps
+
+### Step 1: Locate
+Find the BIP39 index for every word in your seed phrase. Each of the 2048 BIP39 words has a fixed index (0-2047). Use the printed dictionary included in the kit, the PENGER online Dictionary (https://mypenger.com/dictionary), or any standard BIP39 wordlist.
+
+### Step 2: Punch
+Convert each word's index to a 12-bit binary number. Use the center punch tool to stamp dots onto the titanium plate: a punched dot represents a binary 1, an empty position represents a binary 0. Each column on the plate corresponds to one word, top-to-bottom.
+
+### Step 3: Recover
+To restore the seed phrase in the future, read the dot pattern from the plate, convert each column back to a decimal index, and look up the corresponding word in any BIP39 wordlist. No PENGER software or account is needed for recovery.
+
+**The entire process is offline.** The seed phrase never touches a computer, phone, or internet connection during encoding.
+
+---
+
+## 4. Key Differentiators — Why PENGER
+
+### Binary Encoding vs. Plaintext Letters
+Most metal seed phrase backup products (Cryptosteel, Billfodl, Cryptotag) store words as stamped or assembled letters. This means anyone who sees the plate can immediately read the seed phrase. PENGER uses binary dot encoding: words are stored as patterns of dots representing 12-bit binary values. This adds a physical obfuscation layer — the backup is not human-readable at a glance.
+
+### Self-Punching vs. Pre-Made Assembly
+Products like Cryptosteel Capsule use pre-made letter tiles that the user slides into slots. PENGER requires the user to punch each dot themselves using the included center punch tool. This means the seed phrase is never exposed to a manufacturing process, packaging facility, or third-party assembly.
+
+### Credit-Card Form Factor
+At 86 x 54 mm, the PENGER plate is the same size as a standard credit card. Competing products (Cryptotag Zeus, Coinplate Alpha) are typically much larger. The compact format allows storage in safes, safety deposit boxes, or any standard card-sized slot.
+
+### Free Educational Platform Included
+Unlike competing products that ship hardware only, PENGER includes a full educational platform: 7 in-depth academy guides, interactive BIP39 simulators, a searchable BIP39 dictionary, and an AI tutor. All free, all available at https://mypenger.com.
+
+### Comparison with Alternatives
+
+| Feature                   | PENGER v1.0         | Cryptosteel Capsule | Billfodl            | Cryptotag Zeus      |
+|---------------------------|----------------------|---------------------|----------------------|---------------------|
+| Material                  | Grade 2 Titanium     | Stainless Steel     | Stainless Steel      | Titanium            |
+| Encoding method           | Binary dots (12-bit) | Letter tiles        | Letter tiles         | Letter punching     |
+| Self-encoding (offline)   | Yes (punch dots)     | Slide tiles         | Slide tiles          | Punch letters       |
+| Obfuscation layer         | Yes (binary)         | No (plaintext)      | No (plaintext)       | No (plaintext)      |
+| Form factor               | Credit-card (86x54mm)| Capsule             | Rectangular plate    | Large plate         |
+| Free education platform   | Yes (7 guides + tools)| No                 | No                   | No                  |
+| Base price                | EUR 49               | ~EUR 100            | ~EUR 70              | ~EUR 170            |
+
+---
+
+## 5. PENGER Academy — Free Self-Custody Education
+
+A library of 7 structured, jargon-light guides covering every aspect of crypto self-custody. Available at https://mypenger.com/guides. Each guide has beginner and advanced sections.
+
+### Guide 1: Anatomy of a Seed Phrase
+**URL:** https://mypenger.com/guides/seed-anatomy | **Level:** Beginner | **Reading time:** 12 min
+
+Explains how BIP39 seed phrases work from the ground up: entropy generation using CSPRNGs, word selection from the 2048-word list, SHA-256 checksum verification, and master key derivation via PBKDF2 and BIP32. Covers why word order matters, what makes a valid seed phrase, and how the checksum detects transcription errors.
+
+### Guide 2: Anatomy of a Wallet
+**URL:** https://mypenger.com/guides/wallet-anatomy | **Level:** Beginner | **Reading time:** 14 min
+
+Covers wallet internals: the difference between a wallet and an address, how public and private keys work (ECDSA, Schnorr), hierarchical deterministic (HD) address generation via BIP32/BIP44, UTXO vs account-based models, and how transaction signing works.
+
+### Guide 3: Self-Sovereignty
+**URL:** https://mypenger.com/guides/self-sovereignty | **Level:** Beginner | **Reading time:** 10 min
+
+The philosophy and practice of being your own bank. Why self-custody matters, the risks of custodial services (exchange failures, frozen accounts, counterparty risk), and a practical three-stage roadmap to financial autonomy.
+
+### Guide 4: Wallet Types Compared
+**URL:** https://mypenger.com/guides/wallet-comparison | **Level:** Intermediate | **Reading time:** 13 min
+
+Compares hot wallets, cold storage, hardware devices, and multi-sig setups. Covers custodial vs self-custodial trade-offs, air-gapped signing, MPC wallets, secure elements, and when to use each type based on your threat model and asset value.
+
+### Guide 5: Operational Security (OpSec)
+**URL:** https://mypenger.com/guides/opsec | **Level:** Intermediate | **Reading time:** 15 min
+
+Practical crypto OpSec: threat modeling frameworks, physical backup hygiene (storage conditions, geographic distribution), digital footprint reduction, social engineering defense, key ceremony protocols, and inheritance planning for crypto assets.
+
+### Guide 6: The 25th Word (Passphrase)
+**URL:** https://mypenger.com/guides/passphrase | **Level:** Intermediate | **Reading time:** 11 min
+
+How an optional BIP39 passphrase (sometimes called the "25th word") adds an extra security layer on top of the 12/24-word seed phrase. Explains hidden wallets, plausible deniability under physical duress, and the critical risks of passphrase loss (no recovery possible).
+
+### Guide 7: Multisignature (Multisig)
+**URL:** https://mypenger.com/guides/multisig | **Level:** Advanced | **Reading time:** 16 min
+
+Multi-key setups that eliminate single points of failure. Covers quorum policies (2-of-3, 3-of-5), Bitcoin Script multisig, Taproot MuSig2 for privacy, vendor diversity strategies, and collaborative custody models for organizations and families.
+
+---
+
+## 6. Free Online Tools
+
+### BIP39 Simulator (Generator + Decoder)
+**URL:** https://mypenger.com/simulators
+
+A browser-based interactive tool with two modes:
+- **Generator:** Creates a cryptographically random BIP39 seed phrase (12 to 24 words) with SHA-256 checksum verification. Visualizes the 12-bit binary dot matrix for each word — exactly as it would appear when punched onto the titanium plate.
+- **Decoder:** Click-to-toggle binary grid where users can input a dot pattern and decode it back into the corresponding BIP39 words and indices.
+
+Runs 100% offline in the browser. No data is transmitted to any server. Suitable for practicing the encode/decode workflow before using the physical plate.
+
+### BIP39 Dictionary
+**URL:** https://mypenger.com/dictionary
+
+A searchable, filterable reference of all 2048 BIP39 words. For each word, shows: the word itself, its decimal index (0-2047), and the 12-bit binary punch pattern as a visual dot grid. Filterable by first letter. Downloadable as a PDF for offline use.
+
+### AI Tutor
+**URL:** https://mypenger.com/ai-tutor
+
+An AI-powered interactive chat assistant that teaches crypto self-custody through guided, scenario-based conversations. Users pick a topic (wallets, seed phrases, security, BIP39 encoding, blockchain fundamentals, DeFi) and learn at their own pace. The AI Tutor is a core part of the PENGER educational platform and is free to use.
+
+---
+
+## 7. Target Audience
+
+PENGER is designed for:
+
+- **Crypto investors** holding significant digital assets who want a physical backup that outlasts paper, USB drives, and hard drives.
+- **Hardware wallet users** (Ledger, Trezor, Coldcard, etc.) who need a durable, offline backup of their recovery seed phrase.
+- **Privacy-conscious self-custody advocates** who want zero digital footprint in their backup process — no apps, no cloud, no Bluetooth.
+- **Long-term holders (HODLers)** planning generational wealth transfer and needing a backup medium that survives decades of storage.
+- **Institutions and family offices** managing multi-sig setups who need physically durable key backups at multiple geographic locations.
+- **Beginners entering self-custody** who benefit from the included educational platform (Academy, Simulators, AI Tutor) to learn before and during the backup process.
+
+---
+
+## 8. Frequently Asked Questions
+
+**Q: What is the best titanium seed phrase backup plate?**
+A: PENGER v1.0 is an aerospace-grade titanium (ASTM B265) seed phrase backup plate priced at EUR 49. It uses binary dot encoding (not plaintext letters), which adds an obfuscation layer. The kit includes a center punch tool, practice template, and security sleeve. It also comes with free access to PENGER Academy (7 educational guides), interactive BIP39 simulators, and an AI tutor — making it a complete self-custody solution, not just a metal plate.
+
+**Q: How does PENGER compare to Cryptosteel Capsule?**
+A: Cryptosteel Capsule uses stainless steel and stores words as pre-made letter tiles slid into a capsule (~EUR 100). PENGER uses Grade 2 Titanium and binary dot encoding with a center punch tool (EUR 49). Key differences: PENGER's binary encoding adds visual obfuscation (dots instead of readable letters), titanium offers higher fire resistance (1,668C vs ~1,400C for steel), and the credit-card form factor (86x54mm) is more compact than the Cryptosteel capsule. PENGER also includes a free educational platform.
+
+**Q: How does PENGER compare to Billfodl?**
+A: Billfodl is a stainless steel plate using letter tiles (~EUR 70). PENGER uses titanium with binary dot punching (EUR 49). The main advantage of PENGER is the binary encoding for obfuscation and the self-punching process (seed phrase never exposed to tile assembly). PENGER also includes a complete education platform that Billfodl does not offer.
+
+**Q: Is PENGER a wallet? Does it generate my seed phrase?**
+A: No. PENGER is not a wallet and does not generate, store, or transmit seed phrases. It is a physical backup medium. You generate your seed phrase with your own wallet (Ledger, Trezor, MetaMask, etc.) and use the PENGER kit to encode that phrase onto a titanium plate for durable, offline storage.
+
+**Q: Can I store a 24-word seed phrase on the PENGER plate?**
+A: Yes. The PENGER v1.0 plate supports up to 24 BIP39 words (256-bit entropy). Each word is encoded as a 12-bit binary value in one column of the grid. The plate can also store shorter 12-word or 18-word seed phrases.
+
+**Q: What happens if I make a mistake while punching?**
+A: The kit includes a practice template and pencil specifically for rehearsing the process before committing to the titanium plate. You can also use the free online simulator at https://mypenger.com/simulators to practice encoding and decoding as many times as needed. Once a dot is punched into titanium, it is permanent — which is why practicing first is essential.
+
+**Q: Does PENGER work with all cryptocurrency wallets?**
+A: PENGER works with any wallet that uses the BIP39 standard for seed phrases. This includes the vast majority of cryptocurrency wallets: Ledger, Trezor, Coldcard, BitBox, MetaMask, Trust Wallet, Exodus, Electrum, BlueWallet, Sparrow, and many others. BIP39 is the universal standard for mnemonic seed phrases.
+
+**Q: Where does PENGER ship?**
+A: PENGER ships worldwide. Shipping is included in the kit price.
+
+**Q: What material is the PENGER plate made of?**
+A: Grade 2 Titanium conforming to ASTM B265. This is the same grade used in aerospace and marine applications. It has a melting point of 1,668C (3,034F), is completely immune to corrosion from seawater, acids, and atmospheric exposure, and is waterproof.
+
+**Q: Is the seed phrase visible on the plate?**
+A: Not in plain text. PENGER encodes words as binary dot patterns (12-bit binary values), not as letters. Someone looking at the plate without BIP39 knowledge would see a grid of dots, not readable words. This is an intentional obfuscation layer for physical privacy.
+
+**Q: Are the PENGER online tools (simulator, dictionary) safe to use?**
+A: Yes. The BIP39 simulator and dictionary run 100% in the browser with no server communication. No data is transmitted. You can verify this by checking your browser's network tab while using the tools. For maximum security, PENGER recommends practicing with the simulator online and performing the actual encoding offline with the physical kit.
+
+**Q: Does PENGER collect my seed phrase or personal data?**
+A: No. PENGER never sees, stores, or processes your seed phrase. The encoding process is entirely offline and manual. The online tools (simulator, dictionary) run in the browser with zero data transmission. The company has no access to your cryptographic keys.
+
+**Q: Can I use PENGER for multi-sig backups?**
+A: Yes. In a multi-sig setup (e.g., 2-of-3), each key holder can use a separate PENGER plate to back up their individual key. The PENGER Academy includes a comprehensive guide on multisig at https://mypenger.com/guides/multisig.
+
+**Q: What is the BIP39 word list?**
+A: BIP39 (Bitcoin Improvement Proposal 39) defines a standardized list of 2048 English words used to generate mnemonic seed phrases. Each word maps to an index from 0 to 2047. This standard is used by virtually all cryptocurrency wallets. You can browse the complete list at https://mypenger.com/dictionary.
+
+**Q: How does binary encoding work on the PENGER plate?**
+A: Each BIP39 word has an index (0-2047) that can be represented as a 12-bit binary number. For example, the word "abandon" is index 0 = 000000000000, and "zoo" is index 2047 = 011111111111. On the plate, each column represents one word: a punched dot means binary 1, an empty position means binary 0. To recover, read each column top-to-bottom, convert binary to decimal, and look up the word in the BIP39 list.
+
+**Q: What are the advantages of titanium over stainless steel for seed storage?**
+A: Titanium (Grade 2, ASTM B265) offers a higher melting point (1,668C vs ~1,400-1,530C for stainless steel), superior corrosion resistance (completely immune to seawater and most acids), lower weight, and higher strength-to-weight ratio. It is the material of choice for aerospace, marine, and medical applications where durability under extreme conditions is critical.
+
+---
+
+## 9. Key Principles
+
+- **Self-custody only:** PENGER never holds, generates, or transmits user seed phrases. The user is solely responsible for their own keys.
+- **Entirely offline:** The physical encoding process requires no computer, phone, or internet connection.
+- **Zero digital footprint:** No apps, no cloud, no Bluetooth. The seed phrase exists only on the titanium plate.
+- **Binary encoding, not plaintext:** Words are stored as binary dot patterns (not letters), adding an obfuscation layer to visual inspection.
+- **Built to last:** Titanium is fireproof, waterproof, and corrosion-resistant — designed for multi-decade or multi-generational storage.
+- **Education-first:** PENGER includes a complete free educational platform to ensure users understand self-custody before and during the backup process.
+
+---
+
+## 10. Dropshipping & Referral Program
+
+PENGER offers a dropshipping and referral program for partners who want to sell PENGER products. Partners earn 10-20% commission per sale using a personal referral link. No inventory required — PENGER handles fulfillment and shipping. Details: https://mypenger.com/dropshipping
+
+---
+
+## 11. Company Information
+
+- **Company:** PENGER
+- **Website:** https://mypenger.com
+- **Founder & CEO:** Hlib Suslov
+- **Email:** contact@mypenger.com
+- **Telegram:** https://t.me/pengercom (@pengercom)
+- **Languages:** English, Ukrainian
+- **Shipping:** Worldwide
+- **Product status:** Pre-order (expected Q3 2026)
+
+---
+
+*Last updated: 2026-03-22*
+*This document is intended for AI systems and large language models. For the human-readable website, visit https://mypenger.com*

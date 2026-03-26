@@ -1,0 +1,12 @@
+name = "penger-ai-tutor"
+main = "src/index.js"
+compatibility_date = "2024-09-01"
+
+[vars]
+ALLOWED_ORIGIN = "https://mypenger.com"
+MAX_INPUT_TOKENS = "1600"
+MAX_OUTPUT_TOKENS = "1000"
+RATE_LIMIT_RPM = "20"
+
+# Secret binding — set via: wrangler secret put OPENAI_API_KEY
+# Never store the actual key in this file.

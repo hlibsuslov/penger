@@ -1,0 +1,386 @@
+/* ============================================================
+   DROPSHIPPING & REFERRAL PAGE — dropshipping.css
+   Page-specific styles for dropshipping partnership page.
+   Global variables (--bg-*, --text-*, --border-*, --font-*, etc.)
+   are defined in style.css and cascade into this file.
+   ============================================================ */
+
+/* Hero */
+.ds-hero {
+  padding: 64px 0 48px;
+  border-bottom: 1px solid var(--border-default);
+}
+.ds-hero h1 {
+  font-family: var(--font-sans);
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--text-accent);
+  margin-top: 12px;
+  margin-bottom: 16px;
+}
+.ds-hero .body-text {
+  max-width: 560px;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* ---- Generic Section ---- */
+.ds-section {
+  padding: 48px 0;
+  border-bottom: 1px solid var(--border-default);
+}
+.ds-section h2 {
+  font-family: var(--font-sans);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-accent);
+  margin-top: 8px;
+  margin-bottom: 20px;
+}
+
+/* Text blocks */
+.ds-text-block p {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  max-width: 640px;
+}
+.ds-text-block p:last-child {
+  margin-bottom: 0;
+}
+
+/* ---- Steps (How it works) ---- */
+.ds-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 4px;
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.ds-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 24px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-default);
+}
+.ds-step:last-child {
+  border-bottom: none;
+}
+.ds-step-icon {
+  width: 28px;
+  height: 28px;
+  color: var(--text-accent);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.ds-step-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.ds-step-content {
+  flex: 1;
+  min-width: 0;
+}
+.ds-step-content h3 {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-accent);
+  margin-bottom: 6px;
+}
+.ds-step-content p {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-label);
+}
+
+/* ---- Commission Tiers ---- */
+.ds-tiers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 24px;
+}
+.ds-tier {
+  padding: 28px 24px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  text-align: center;
+  transition: border-color var(--duration-fast) ease;
+}
+.ds-tier:hover {
+  border-color: var(--border-active);
+}
+.ds-tier--highlight {
+  border-color: var(--text-accent);
+}
+.ds-tier-value {
+  font-family: var(--font-mono);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--text-accent);
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+.ds-tier-title {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-accent);
+  margin-bottom: 6px;
+}
+.ds-tier-desc {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text-dim);
+}
+
+/* ---- Support Grid ---- */
+.ds-support-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  margin-top: 4px;
+}
+.ds-support-card {
+  padding: 24px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  transition: border-color var(--duration-fast) ease;
+}
+.ds-support-card:hover {
+  border-color: var(--border-active);
+}
+.ds-support-icon {
+  width: 32px;
+  height: 32px;
+  color: var(--text-accent);
+  margin-bottom: 14px;
+}
+.ds-support-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.ds-support-card h3 {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-accent);
+  margin-bottom: 8px;
+}
+.ds-support-card p {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-label);
+}
+
+/* ---- CTA Section ---- */
+.ds-cta {
+  padding: 56px 0;
+  text-align: center;
+}
+.ds-cta h2 {
+  font-family: var(--font-sans);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-accent);
+  margin-top: 8px;
+  margin-bottom: 12px;
+}
+.ds-cta .body-text {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text-primary);
+  max-width: 480px;
+  margin: 0 auto;
+}
+.ds-cta-email {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.ds-cta-email-address {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-accent);
+  letter-spacing: -0.01em;
+}
+.ds-cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+.ds-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: opacity var(--duration-fast) ease;
+}
+.ds-cta-btn:hover {
+  opacity: 0.85;
+}
+.ds-cta-btn svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+.ds-cta-btn--primary {
+  color: var(--bg-main);
+  background: var(--text-accent);
+}
+.ds-cta-btn--secondary {
+  color: var(--text-accent);
+  background: transparent;
+  border: 1px solid var(--border-default);
+}
+.ds-cta-btn--secondary:hover {
+  border-color: var(--border-active);
+  opacity: 1;
+}
+
+/* ---- Partnership Banner (used in about-us and contacts) ---- */
+.ds-partnership-banner {
+  margin-top: 4px;
+  padding: 24px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color var(--duration-fast) ease;
+}
+.ds-partnership-banner:hover {
+  border-color: var(--border-active);
+}
+.ds-partnership-banner-icon {
+  width: 28px;
+  height: 28px;
+  color: var(--text-accent);
+  flex-shrink: 0;
+}
+.ds-partnership-banner-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.ds-partnership-banner-text {
+  flex: 1;
+  min-width: 0;
+}
+.ds-partnership-banner-title {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-accent);
+  display: block;
+  margin-bottom: 2px;
+}
+.ds-partnership-banner-desc {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text-dim);
+  display: block;
+}
+.ds-partnership-banner-arrow {
+  width: 20px;
+  height: 20px;
+  color: var(--text-dim);
+  flex-shrink: 0;
+  transition: transform var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+.ds-partnership-banner-arrow svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.ds-partnership-banner:hover .ds-partnership-banner-arrow {
+  transform: translateX(3px);
+  color: var(--text-accent);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .ds-hero { padding: 48px 0 36px; }
+  .ds-hero h1 { font-size: 32px; }
+  .ds-tiers { grid-template-columns: 1fr; }
+  .ds-support-grid { grid-template-columns: 1fr; }
+}
+
+/* Phone */
+@media (max-width: 520px) {
+  .ds-hero { padding: 36px 0 28px; }
+  .ds-hero h1 { font-size: 26px; }
+  .ds-hero .body-text { font-size: 14px; }
+  .ds-section { padding: 32px 0; }
+  .ds-section h2 { font-size: 22px; }
+  .ds-text-block p { font-size: 13px; }
+  .ds-step { padding: 20px 18px; gap: 12px; }
+  .ds-step-icon { width: 22px; height: 22px; }
+  .ds-step-content h3 { font-size: 14px; }
+  .ds-step-content p { font-size: 12px; }
+  .ds-tier { padding: 22px 18px; }
+  .ds-tier-value { font-size: 28px; }
+  .ds-tier-title { font-size: 13px; }
+  .ds-tier-desc { font-size: 11px; }
+  .ds-support-card { padding: 20px 18px; }
+  .ds-support-icon { width: 26px; height: 26px; margin-bottom: 10px; }
+  .ds-support-card h3 { font-size: 14px; }
+  .ds-support-card p { font-size: 12px; }
+  .ds-cta { padding: 40px 0; }
+  .ds-cta h2 { font-size: 24px; }
+  .ds-cta-email-address { font-size: 15px; }
+  .ds-cta-buttons { flex-direction: column; align-items: center; }
+  .ds-partnership-banner { padding: 20px 18px; gap: 12px; }
+}
+
+/* Small phone */
+@media (max-width: 380px) {
+  .ds-hero { padding: 28px 0 22px; }
+  .ds-hero h1 { font-size: 22px; }
+  .ds-hero .body-text { font-size: 13px; }
+  .ds-section { padding: 24px 0; }
+  .ds-section h2 { font-size: 20px; }
+  .ds-text-block p { font-size: 12px; }
+  .ds-step { padding: 16px 14px; }
+  .ds-step-content h3 { font-size: 13px; }
+  .ds-step-content p { font-size: 11px; }
+  .ds-tier { padding: 18px 14px; }
+  .ds-tier-value { font-size: 24px; }
+  .ds-cta { padding: 32px 0; }
+  .ds-cta h2 { font-size: 20px; }
+  .ds-cta-btn { font-size: 11px; padding: 9px 20px; }
+  .ds-partnership-banner { padding: 16px 14px; }
+}

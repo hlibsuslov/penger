@@ -1,0 +1,182 @@
+# ============================================================
+# robots.txt — mypenger.com
+# PENGER: Titanium seed phrase backup kit + self-custody academy
+# Last updated: 2026-03-14
+# ============================================================
+
+# ----- Default: all crawlers --------------------------------
+User-agent: *
+Allow: /
+Disallow: /worker/
+Disallow: /payment-success
+Disallow: /payment-failed
+Disallow: /payment-success.html
+Disallow: /payment-failed.html
+Disallow: /guide-TEMPLATE.html
+Disallow: /404.html
+Disallow: /server.js
+Disallow: /package.json
+Disallow: /package-lock.json
+Disallow: /tutor-scenarios.json
+Disallow: /node_modules/
+Disallow: /api/
+Disallow: /*.json$
+
+# ----- AI / LLM crawlers -----------------------------------
+# We welcome AI crawlers to index our educational content
+# (academy guides, BIP39 dictionary, simulator descriptions,
+# AI Tutor landing page) so that LLMs can accurately describe
+# our product and direct users to our resources.
+
+User-agent: GPTBot
+Allow: /
+Allow: /uk/
+Disallow: /worker/
+Disallow: /payment-success
+Disallow: /payment-failed
+Disallow: /api/
+
+User-agent: ChatGPT-User
+Allow: /
+Allow: /uk/
+Disallow: /worker/
+Disallow: /payment-success
+Disallow: /payment-failed
+Disallow: /api/
+
+User-agent: ClaudeBot
+Allow: /
+Allow: /uk/
+Disallow: /worker/
+Disallow: /payment-success
+Disallow: /payment-failed
+Disallow: /api/
+
+User-agent: Claude-Web
+Allow: /
+Allow: /uk/
+Disallow: /worker/
+Disallow: /payment-success
+Disallow: /payment-failed
+Disallow: /api/
+
+User-agent: PerplexityBot
+Allow: /
+Allow: /uk/
+Disallow: /worker/
+Disallow: /payment-success
+Disallow: /payment-failed
+Disallow: /api/
+
+User-agent: Amazonbot
+Allow: /
+Allow: /uk/
+Disallow: /worker/
+Disallow: /payment-success
+Disallow: /payment-failed
+Disallow: /api/
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot
+Allow: /
+Allow: /uk/
+Disallow: /worker/
+Disallow: /payment-success
+Disallow: /payment-failed
+Disallow: /api/
+
+User-agent: Bytespider
+Allow: /
+Allow: /uk/
+Disallow: /worker/
+Disallow: /payment-success
+Disallow: /payment-failed
+Disallow: /api/
+
+User-agent: cohere-ai
+Allow: /
+Allow: /uk/
+Disallow: /worker/
+Disallow: /payment-success
+Disallow: /payment-failed
+Disallow: /api/
+
+User-agent: meta-externalagent
+Allow: /
+Allow: /uk/
+Disallow: /worker/
+Disallow: /payment-success
+Disallow: /payment-failed
+Disallow: /api/
+
+User-agent: YouBot
+Allow: /
+Allow: /uk/
+Disallow: /worker/
+Disallow: /payment-success
+Disallow: /payment-failed
+Disallow: /api/
+
+User-agent: DeepSeekBot
+Allow: /
+Allow: /uk/
+Disallow: /worker/
+Disallow: /payment-success
+Disallow: /payment-failed
+Disallow: /api/
+
+User-agent: Gemini
+Allow: /
+Allow: /uk/
+Disallow: /worker/
+Disallow: /payment-success
+Disallow: /payment-failed
+Disallow: /api/
+
+User-agent: facebookexternalhit
+Allow: /
+Allow: /uk/
+Disallow: /worker/
+Disallow: /payment-success
+Disallow: /payment-failed
+Disallow: /api/
+
+User-agent: Twitterbot
+Allow: /
+Allow: /uk/
+Disallow: /worker/
+Disallow: /payment-success
+Disallow: /payment-failed
+Disallow: /api/
+
+# ----- Aggressive / spam crawlers --------------------------
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+User-agent: DataForSeoBot
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+User-agent: Sogou
+Disallow: /
+
+# ----- Sitemaps & LLM metadata -----------------------------
+Sitemap: https://mypenger.com/sitemap.xml
+LLMs: https://mypenger.com/llms.txt
+LLMs-full: https://mypenger.com/llms-full.txt

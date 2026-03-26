@@ -1,0 +1,455 @@
+    <section class="section-intro">
+      <div class="container">
+<p class="label">[ GUIDE / MULTISIG ]</p>
+        <h1 >Мультипідпис (Multisig)</h1>
+        <div class="guide-intro-meta">
+          <span class="guide-meta-item"><svg class="guide-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>16 хв читання</span>
+          <span class="guide-intro-separator">&middot;</span>
+          <span class="guide-meta-item"><svg class="guide-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>Гайд 7 з 7</span>
+          <span class="guide-intro-progress"><span class="guide-intro-progress-dot guide-intro-progress-dot--done"></span><span class="guide-intro-progress-dot guide-intro-progress-dot--done"></span><span class="guide-intro-progress-dot guide-intro-progress-dot--done"></span><span class="guide-intro-progress-dot guide-intro-progress-dot--done"></span><span class="guide-intro-progress-dot guide-intro-progress-dot--done"></span><span class="guide-intro-progress-dot guide-intro-progress-dot--done"></span><span class="guide-intro-progress-dot guide-intro-progress-dot--active"></span></span>
+        </div>
+        <p class="body-text">Як налаштування з кількома ключами усувають єдині точки відмови &mdash; від базових кворумних політик до просунутих архітектур multisig для фізичних осіб та організацій.</p>
+
+        <div class="level-toggle" id="levelToggle">
+          <div class="pill-group">
+            <button class="pill active" data-level="beginner" type="button">ПОЧАТКІВЕЦЬ</button>
+            <button class="pill" data-level="advanced" type="button">ПРОСУНУТИЙ</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== BEGINNER ===== -->
+    <div class="guide-content active" id="guide-beginner">
+      <div class="container">
+        <nav class="guide-toc">
+          <div class="guide-toc-title">У цьому розділі</div>
+          <ol>
+            <li><a href="#b-what-is">Що таке Multisig?</a></li>
+            <li><a href="#b-why">Навіщо використовувати Multisig?</a></li>
+            <li><a href="#b-configs">Поширені конфігурації</a></li>
+            <li><a href="#b-setup">Налаштування вашого першого Multisig</a></li>
+          </ol>
+        </nav>
+      </div>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">Що таке multisig і як він захищає ваш Bitcoin?</p>
+          <h2 id="b-what-is" >Що таке Multisig?</h2>
+          <div class="guide-text">
+            <p><strong>Мультипідпис</strong> (multisig) &mdash; це модель безпеки, де для авторизації транзакції потрібно <strong>кілька окремих ключів</strong>. Замість одного <a href="<%= langPrefix %>/guides/wallet-anatomy#b-keys">приватного ключа</a>, що контролює доступ до коштів, multisig-гаманець потребує визначеної кількості підтверджень від групи власників ключів.</p>
+            <p>Це виражається як <strong>M-з-N</strong>, де:</p>
+            <ul>
+              <li><strong>N</strong> &mdash; загальна кількість ключів у налаштуванні</li>
+              <li><strong>M</strong> &mdash; мінімальна кількість ключів, необхідних для підпису (<em>кворум</em>)</li>
+            </ul>
+            <blockquote><p>Уявіть multisig як банківське сховище, яке потребує, щоб два офіцери одночасно повернули свої ключі. Жодна людина не може відкрити його сама, а втрата одного ключа не блокує доступ для всіх (доки залишається достатньо інших).</p></blockquote>
+            <p>Наприклад, у multisig <strong>2-з-3</strong> існує три ключі, але будь-які два з них можуть підписати транзакцію. Це означає:</p>
+            <ul>
+              <li>Жоден окремий власник ключа не може викрасти кошти в односторонньому порядку</li>
+              <li>Втрата одного ключа все одно дозволяє відновлення за допомогою решти двох</li>
+              <li>Зловмисник повинен скомпрометувати два окремих, незалежно збережених ключі</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">Навіщо використовувати multisig-гаманець?</p>
+          <h2 id="b-why" >Навіщо використовувати Multisig?</h2>
+          <div class="guide-text">
+            <p>Multisig вирішує проблему <strong>єдиної точки відмови</strong>, яка притаманна стандартним гаманцям з одним ключем. У звичайному гаманці безпека всіх ваших активів залежить від однієї <a href="<%= langPrefix %>/guides/seed-anatomy#b-what-is">сід-фрази</a> &mdash; якщо її викрадуть, скопіюють або втратять, все під загрозою.</p>
+            <h3>Ключові переваги</h3>
+            <ul>
+              <li><strong>Стійкість до крадіжки</strong> &mdash; зловмисник повинен скомпрометувати кілька ключів, що зберігаються в різних місцях. Викрадення одного ключа є марним.</li>
+              <li><strong>Стійкість до втрати</strong> &mdash; у налаштуванні 2-з-3 втрата одного ключа не блокує доступ. Ви все ще можете отримати доступ до коштів за допомогою решти двох і перейти на нове налаштування.</li>
+              <li><strong>Зменшення вимог до довіри</strong> &mdash; жодна окрема особа (включно з вами) не потребує повної довіри. Організації можуть вимагати кілька підтверджень для витрат.</li>
+              <li><strong>Стійкість до примусу</strong> &mdash; навіть під фізичною загрозою ви не можете в односторонньому порядку перемістити кошти, оскільки потрібні додаткові підписанти.</li>
+              <li><strong>Планування спадщини</strong> &mdash; розподіліть ключі між членами сім'ї та юристом, що дозволить відновити кошти після смерті без надання повного контролю жодній окремій стороні.</li>
+            </ul>
+            <div class="callout callout-info">
+              <span class="callout-label">Компроміс</span>
+              Multisig додає складності. Налаштування, резервне копіювання та відновлення стають більш складними, ніж у стандартному гаманці з одним ключем. Підвищена безпека варта складності для значних активів, але може бути надлишковою для невеликих сум.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">Які поширені конфігурації multisig, такі як 2-з-3 та 3-з-5?</p>
+          <h2 id="b-configs" >Поширені конфігурації</h2>
+          <div class="guide-text">
+            <h3>2-з-3 &mdash; Персональний суверенітет</h3>
+            <p>Найпопулярніша конфігурація для фізичних осіб. Три ключі, кожен зберігається на іншому пристрої або носії в іншому місці:</p>
+            <ul>
+              <li><strong>Ключ 1</strong> &mdash; <a href="<%= langPrefix %>/guides/wallet-comparison#b-hardware">апаратний гаманець</a> вдома</li>
+              <li><strong>Ключ 2</strong> &mdash; апаратний гаманець (іншого виробника) в банківській комірці</li>
+              <li><strong>Ключ 3</strong> &mdash; резервна копія сіда на <a href="<%= langPrefix %>/">металевій пластині</a> у безпечному місці довіреного члена сім'ї</li>
+            </ul>
+            <p>Будь-які два можуть підписати. Втрата одного пристрою або локації не призводить до втрати коштів.</p>
+            <h3>3-з-5 &mdash; Організаційне управління</h3>
+            <p>Розроблено для бізнесу, DAO або сімейних трастів. П'ять власників ключів, три необхідні для підтвердження:</p>
+            <ul>
+              <li>Розподіляє повноваження підпису між керівництвом</li>
+              <li>Витримує одночасну компрометацію або втрату двох ключів</li>
+              <li>Можна призначити ключі окремим особам, підрозділам або юридичним представникам</li>
+            </ul>
+            <h3>2-з-2 &mdash; Спільне зберігання</h3>
+            <p>Два ключі, обидва обов'язкові. Корисно для:</p>
+            <ul>
+              <li>Спільних рахунків (обидва подружжя повинні погодитись на витрати)</li>
+              <li>Сервісів спільного зберігання (ви тримаєте один ключ, довірений сервіс &mdash; інший)</li>
+            </ul>
+            <div class="callout callout-warning">
+              <span class="callout-label">Увага</span>
+              При 2-з-2 втрата будь-якого ключа означає безповоротну втрату всіх коштів. Резервування відсутнє. Використовуйте це лише коли обидва ключі мають надійні, незалежні резервні копії.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">Як налаштувати ваш перший multisig-гаманець?</p>
+          <h2 id="b-setup" >Налаштування вашого першого Multisig</h2>
+          <div class="guide-text">
+            <p>Налаштування multisig-гаманця потребує ретельного планування. Ось загальний процес для налаштування 2-з-3:</p>
+            <ol>
+              <li><strong>Оберіть програмне забезпечення-координатор</strong> &mdash; Sparrow Wallet, Electrum або Nunchuk &mdash; популярні варіанти з вбудованою підтримкою multisig</li>
+              <li><strong>Згенеруйте три незалежні ключі</strong> &mdash; бажано на трьох різних апаратних гаманцях від різних виробників</li>
+              <li><strong>Експортуйте розширені публічні ключі</strong> (<a href="<%= langPrefix %>/guides/wallet-anatomy#a-xpub">xpub</a>) з кожного пристрою</li>
+              <li><strong>Створіть multisig-гаманець</strong> у вашому координаторі, імпортувавши всі три xpub і встановивши кворум 2-з-3</li>
+              <li><strong>Зробіть резервну копію дескриптора гаманця</strong> &mdash; цей файл містить xpub та кворумну політику і необхідний для відновлення разом із сід-фразами</li>
+              <li><strong>Протестуйте налаштування</strong> &mdash; надішліть невелику суму, потім виконайте повну витрату, використовуючи два з трьох ключів, щоб переконатися, що все працює</li>
+              <li><strong>Збережіть ключі та резервні копії</strong> в окремих, безпечних місцях</li>
+            </ol>
+            <div class="callout callout-warning">
+              <span class="callout-label">Критично</span>
+              <strong>Файл дескриптора гаманця</strong> є таким само важливим, як і сід-фрази. Без нього ви не зможете відтворити multisig-гаманець, навіть якщо маєте всі три сіди. Зробіть його резервну копію разом з кожним сідом у кожній локації.
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== ADVANCED ===== -->
+    <div class="guide-content" id="guide-advanced">
+      <div class="container">
+        <nav class="guide-toc">
+          <div class="guide-toc-title">У цьому розділі</div>
+          <ol>
+            <li><a href="#a-scripts">Bitcoin Script та транзакції Multisig</a></li>
+            <li><a href="#a-descriptors">Дескриптори виходів та відновлення гаманця</a></li>
+            <li><a href="#a-taproot">Taproot Multisig та MuSig2</a></li>
+            <li><a href="#a-key-management">Управління ключами та різноманітність вендорів</a></li>
+            <li><a href="#a-collaborative">Сервіси спільного зберігання</a></li>
+          </ol>
+        </nav>
+      </div>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">Як працюють Bitcoin Script та OP_CHECKMULTISIG?</p>
+          <h2 id="a-scripts" >Bitcoin Script та транзакції Multisig</h2>
+          <div class="guide-text">
+            <p>Multisig у Bitcoin забезпечується на рівні протоколу через <strong>Bitcoin Script</strong> &mdash; стекову мову програмування, вбудовану в кожну транзакцію. Умови витрачання контролюються не програмним забезпеченням гаманця; вони перевіряються кожним вузлом мережі.</p>
+            <h3>OP_CHECKMULTISIG</h3>
+            <p>Оригінальний механізм multisig використовує опкод <code>OP_CHECKMULTISIG</code>. Скрипт погашення 2-з-3 виглядає так:</p>
+            <div class="guide-code-block">
+              <div class="guide-code-block__label">Скрипт погашення Multisig 2-з-3</div>
+              <div class="guide-code-block__body"><span class="kw">OP_2</span>
+  <span class="st">&lt;pubkey_1&gt;</span>
+  <span class="st">&lt;pubkey_2&gt;</span>
+  <span class="st">&lt;pubkey_3&gt;</span>
+<span class="kw">OP_3</span>
+<span class="kw">OP_CHECKMULTISIG</span></div>
+            </div>
+            <p>При витрачанні witness/scriptSig повинен містити рівно M дійсних підписів, що відповідають M з N перелічених публічних ключів.</p>
+            <h3>Обгортання скриптів (P2SH, P2WSH)</h3>
+            <ul>
+              <li><strong>P2SH (Pay-to-Script-Hash)</strong> &mdash; скрипт погашення хешується; лише хеш з'являється у виході. Повний скрипт розкривається при витрачанні. Адреси починаються з <code>3</code>.</li>
+              <li><strong>P2WSH (Pay-to-Witness-Script-Hash)</strong> &mdash; версія SegWit. Переносить дані свідка за межі базової транзакції, зменшуючи ефективний розмір і комісії. Адреси починаються з <code>bc1q</code> (довші за single-sig адреси bc1q).</li>
+              <li><strong>P2SH-P2WSH</strong> &mdash; вкладений SegWit для зворотної сумісності. Зовнішній P2SH обгортає внутрішній P2WSH. Адреси починаються з <code>3</code>.</li>
+            </ul>
+            <div class="callout callout-info">
+              <span class="callout-label">Ончейн-відбиток</span>
+              Традиційний multisig розкриває кворумну політику (M-з-N) та всі публічні ключі при витрачанні <a href="<%= langPrefix %>/guides/wallet-anatomy#a-utxo">UTXO</a>. Це питання конфіденційності &mdash; спостерігач може бачити, що вихід контролювався multisig-налаштуванням, і визначити точну політику. Taproot (див. нижче) вирішує це обмеження.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">Що таке дескриптори виходів і як вони допомагають відновленню multisig?</p>
+          <h2 id="a-descriptors" >Дескриптори виходів та відновлення гаманця</h2>
+          <div class="guide-text">
+            <p><strong>Дескриптори виходів</strong> (визначені в BIP 380-386) &mdash; це стандартизований спосіб опису умов витрачання для набору адрес. Для multisig-гаманців дескриптор кодує все необхідне для відтворення гаманця:</p>
+            <div class="guide-code-block">
+              <div class="guide-code-block__label">Дескриптор виходу (2-з-3)</div>
+              <div class="guide-code-block__body"><span class="fn">wsh</span><span class="op">(</span><span class="fn">sortedmulti</span><span class="op">(</span><span class="nm">2</span>,
+  <span class="op">[</span><span class="st">fingerprint_1/48h/0h/0h/2h</span><span class="op">]</span>xpub_1<span class="op">/</span><span class="nm">0</span><span class="op">/*</span>,
+  <span class="op">[</span><span class="st">fingerprint_2/48h/0h/0h/2h</span><span class="op">]</span>xpub_2<span class="op">/</span><span class="nm">0</span><span class="op">/*</span>,
+  <span class="op">[</span><span class="st">fingerprint_3/48h/0h/0h/2h</span><span class="op">]</span>xpub_3<span class="op">/</span><span class="nm">0</span><span class="op">/*</span>
+<span class="op">))</span><span class="cm">#checksum</span></div>
+            </div>
+            <h3>Компоненти дескриптора</h3>
+            <ul>
+              <li><code>wsh()</code> &mdash; тип обгортки (Witness Script Hash = нативний SegWit)</li>
+              <li><code>sortedmulti(2, ...)</code> &mdash; кворум 2, з ключами, відсортованими лексикографічно (BIP67)</li>
+              <li><code>[fingerprint/path]xpub</code> &mdash; розширений публічний ключ кожного співпідписанта з його шляхом деривації та майстер-відбитком</li>
+              <li><code>/0/*</code> &mdash; адреси для отримання (для решти використовується <code>/1/*</code>)</li>
+              <li><code>#checksum</code> &mdash; контрольна сума дескриптора для перевірки цілісності</li>
+            </ul>
+            <h3>Вимоги до відновлення</h3>
+            <p>Для повного відновлення multisig-гаманця вам потрібно:</p>
+            <ol>
+              <li><strong>M сід-фраз</strong> (для можливості підпису)</li>
+              <li><strong>Усі N xpub</strong> (для відтворення набору адрес)</li>
+              <li><strong>Кворумна політика</strong> (M-з-N)</li>
+              <li><strong>Шляхи деривації</strong> для кожного співпідписанта</li>
+              <li><strong>Тип скрипта</strong> (P2SH, P2WSH, P2TR)</li>
+            </ol>
+            <div class="callout callout-warning">
+              <span class="callout-label">Стратегія резервного копіювання</span>
+              Зберігайте повний дескриптор гаманця разом з кожною резервною копією сід-фрази. Без дескриптора наявність M сід-фраз є недостатньою &mdash; ви не будете знати, які адреси виводити або який шаблон скрипта використовувати. Кожна локація резервного копіювання повинна містити: одну сід-фразу + повний файл дескриптора.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">Як Taproot покращує конфіденційність multisig за допомогою MuSig2?</p>
+          <h2 id="a-taproot" >Taproot Multisig та MuSig2</h2>
+          <div class="guide-text">
+            <p>Оновлення Bitcoin Taproot (активоване у листопаді 2021) ввело <strong>підписи <a href="<%= langPrefix %>/guides/wallet-anatomy#a-ecdsa">Шнорра</a></strong> та <strong>MAST (Merkelized Abstract Syntax Trees)</strong>, що фундаментально покращують конфіденційність та ефективність multisig.</p>
+            <h3>Витрачання через ключовий шлях з MuSig2</h3>
+            <p><strong>MuSig2</strong> &mdash; це схема мультипідпису на основі Шнорра, де всі N учасників спільно створюють один агрегований підпис. Ончейн це <strong>нерозрізненне</strong> від звичайної транзакції Taproot з одним підписом:</p>
+            <ul>
+              <li>Лише один 64-байтний підпис Шнорра з'являється у свідку</li>
+              <li>Вихід виглядає ідентично одноключовому виходу P2TR</li>
+              <li>Жодні публічні ключі, кворумні політики чи складність скрипта не розкриваються</li>
+              <li>Комісії за транзакції ідентичні single-sig Taproot</li>
+            </ul>
+            <h3>Резервний скриптовий шлях</h3>
+            <p>Якщо не всі N підписантів доступні (наприклад, для порогу M-з-N, де M &lt; N), транзакція може використати <strong>лист Tapscript</strong>, що кодує порогову політику. Лише конкретна використана гілка розкривається ончейн; невикористані гілки залишаються прихованими в дереві Меркла.</p>
+            <div class="guide-diagram">
+              <div class="guide-diagram__title">Структура Taproot виходу</div>
+              <div class="diagram-tree">
+                <div class="diagram-node diagram-node--root">Taproot Output</div>
+                <div class="diagram-connector"></div>
+                <div class="diagram-branch">
+                  <div class="diagram-branch-item">
+                    <div class="diagram-connector"></div>
+                    <div class="diagram-node diagram-node--highlight">Key Path</div>
+                    <div class="diagram-label">MuSig2(всі N ключів)</div>
+                    <div class="diagram-label">кооперативне &middot; найприватніше</div>
+                  </div>
+                  <div class="diagram-branch-item">
+                    <div class="diagram-connector"></div>
+                    <div class="diagram-node">Script Path (MAST)</div>
+                    <div class="diagram-connector"></div>
+                    <div class="diagram-branch">
+                      <div class="diagram-branch-item">
+                        <div class="diagram-connector"></div>
+                        <div class="diagram-node">Лист 1</div>
+                        <div class="diagram-label">поріг 2-з-3</div>
+                      </div>
+                      <div class="diagram-branch-item">
+                        <div class="diagram-connector"></div>
+                        <div class="diagram-node">Лист 2</div>
+                        <div class="diagram-label">timelock + ключ D</div>
+                      </div>
+                      <div class="diagram-branch-item">
+                        <div class="diagram-connector"></div>
+                        <div class="diagram-node">Лист 3</div>
+                        <div class="diagram-label">поріг 3-з-5</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="callout callout-tip">
+              <span class="callout-label">Перевага конфіденційності</span>
+              З Taproot + MuSig2 multisig-налаштування виглядає точно як звичайний платіж ончейн. Це значне покращення конфіденційності порівняно з P2WSH multisig, де скрипт розкриває точну політику M-з-N та всі залучені публічні ключі при витрачанні.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">Як керувати ключами та різноманітністю вендорів у multisig?</p>
+          <h2 id="a-key-management" >Управління ключами та різноманітність вендорів</h2>
+          <div class="guide-text">
+            <p>Безпека multisig-налаштування залежить не лише від кворумної політики, а й від <strong>незалежності та різноманітності</strong> ключів.</p>
+            <h3>Принцип різноманітності вендорів</h3>
+            <p>Використовуйте апаратні гаманці від <strong>різних виробників</strong> для кожного ключа у вашому multisig-налаштуванні. Це захищає від:</p>
+            <ul>
+              <li><strong>Вразливостей прошивки</strong> &mdash; zero-day експлойт у прошивці одного вендора може скомпрометувати лише один ключ</li>
+              <li><strong>Атак на ланцюг постачання</strong> &mdash; скомпрометована виробнича партія впливає лише на один пристрій</li>
+              <li><strong>Корельованих відмов</strong> &mdash; апаратний дефект, специфічний для однієї моделі, не впливає на інші бренди</li>
+            </ul>
+            <h3>Географічний розподіл</h3>
+            <p>Зберігайте ключі у <strong>фізично окремих місцях</strong> для захисту від:</p>
+            <ul>
+              <li>Стихійних лих (пожежа, повінь, землетрус), що знищують кілька ключів</li>
+              <li>Крадіжки зі зломом або фізичної атаки на одну локацію</li>
+              <li>Юридичного вилучення або державної конфіскації в одній юрисдикції</li>
+            </ul>
+            <h3>Операційна незалежність</h3>
+            <p>Для організаційного multisig кожен власник ключа повинен:</p>
+            <ul>
+              <li>Генерувати та зберігати свій ключ <strong>незалежно</strong>, не ділячись сідом з іншими</li>
+              <li>Використовувати <strong>власне обладнання</strong> та інфраструктуру безпечного зберігання</li>
+              <li>Не мати доступу до більш ніж одного ключа (порушення цього зводить нанівець мету multisig)</li>
+            </ul>
+            <div class="callout callout-warning">
+              <span class="callout-label">Антипатерн</span>
+              Генерація всіх multisig-ключів на одному пристрої, зберігання всіх сідів в одному місці або тримання всіх ключів однією особою перетворює ваш multisig на дорогий single-sig із зайвою складністю. Вся цінність multisig полягає в незалежності між підписантами.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">Що таке сервіси спільного зберігання та як вони працюють?</p>
+          <h2 id="a-collaborative" >Сервіси спільного зберігання</h2>
+          <div class="guide-text">
+            <p><strong>Спільне зберігання</strong> &mdash; це модель, де сторонній сервіс тримає один ключ у multisig-налаштуванні, забезпечуючи допомогу з відновленням та додаткову безпеку без отримання кастодіального контролю над вашими коштами.</p>
+            <h3>Типова модель спільного зберігання 2-з-3</h3>
+            <ul>
+              <li><strong>Ключ 1</strong> &mdash; утримується вами (апаратний гаманець)</li>
+              <li><strong>Ключ 2</strong> &mdash; утримується сервісом спільного зберігання</li>
+              <li><strong>Ключ 3</strong> &mdash; утримується вами в <a href="<%= langPrefix %>/guides/wallet-comparison#b-hot-cold">холодному сховищі</a> (аварійне відновлення)</li>
+            </ul>
+            <p>Звичайні транзакції потребують ваш ключ (Ключ 1) та співпідпис сервісу (Ключ 2). Якщо сервіс зникне або перестане відповідати, ви відновлюєте доступ за допомогою Ключів 1 + 3. Якщо ви втратите свій основний пристрій, ви відновлюєте доступ за допомогою Ключів 2 + 3 (після верифікації особи сервісом).</p>
+            <h3>Оцінка спільного зберігання</h3>
+            <ul>
+              <li><strong>Чи тримає сервіс меншість ключів?</strong> &mdash; він ніколи не повинен мати можливості переміщувати кошти в односторонньому порядку</li>
+              <li><strong>Чи можете ви відновити доступ без сервісу?</strong> &mdash; ви повинні мати можливість отримати доступ до коштів незалежно, використовуючи власні ключі</li>
+              <li><strong>Чи є сервіс з відкритим кодом?</strong> &mdash; чи можете ви перевірити протоколи управління ключами та підпису?</li>
+              <li><strong>Яку верифікацію особи вимагає сервіс?</strong> &mdash; зрозумійте компроміс між зручністю та конфіденційністю</li>
+            </ul>
+            <div class="callout callout-info">
+              <span class="callout-label">Самозберігання збережено</span>
+              Добре спроектоване налаштування спільного зберігання зберігає <a href="<%= langPrefix %>/guides/self-sovereignty#b-what-is">самосуверенність</a>. Ви завжди зберігаєте можливість переміщувати кошти без співпраці сервісу (використовуючи свої два ключі). Сервіс забезпечує зручність та страховочну сітку, а не контроль.
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== FAQ ===== -->
+    <section class="section-block faq-section">
+      <div class="container">
+        <p class="label">[ ЧАСТІ ЗАПИТАННЯ ]</p>
+        <h2 >FAQ</h2>
+        <div class="faq-chat">
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Multisig існує лише для Bitcoin?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Ні, але Bitcoin має найзрілішу та найбільш перевірену екосистему multisig. Ethereum підтримує multisig через смарт-контракти (наприклад, Gnosis Safe), але це принципово відрізняється від нативного multisig на рівні скрипта Bitcoin. Інші мережі мають різний рівень підтримки. Забезпечення на рівні протоколу Bitcoin вважається золотим стандартом, оскільки не залежить від коректності смарт-контрактів."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Чи є транзакції multisig дорожчими?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Традиційні транзакції multisig (P2SH, P2WSH) більші за розміром і тому дорожчі за single-sig, оскільки повинні містити кілька підписів та повний скрипт погашення. Транзакція 2-з-3 P2WSH приблизно в 2-3 рази більша за single-sig транзакцію SegWit. Однак Taproot multisig з MuSig2 (витрачання через ключовий шлях) створює транзакції того самого розміру, що й single-sig Taproot, повністю усуваючи надбавку за комісію."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Що станеться, якщо я втрачу один ключ у налаштуванні 2-з-3?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Ви все ще можете отримати доступ до своїх коштів, використовуючи решту двох ключів. Однак ви повинні негайно перейти на нове multisig-налаштування: створіть новий гаманець 2-з-3 з новим третім ключем, потім переведіть всі кошти зі старого гаманця на новий. Робота лише з двома ключами означає нульове резервування &mdash; втрата другого ключа буде катастрофічною."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Чи можу я використовувати multisig з пасфразою (25-те слово)?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Так. Сід-фраза кожного співпідписанта може незалежно мати свою власну пасфразу. Це додає ще один рівень захисту: зловмисник, який отримає резервну копію сід-фрази, все одно потребує відповідну пасфразу для виведення правильного ключа. Однак це також збільшує складність резервного копіювання &mdash; ви повинні відстежувати, яка пасфраза належить якому сіду, і забезпечити відновлюваність обох."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Чи потрібне спеціальне програмне забезпечення для multisig?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Вам потрібен гаманець, що підтримує координацію multisig. Популярні варіанти включають Sparrow Wallet (десктоп, з відкритим кодом), Nunchuk (мобільний + десктоп), Electrum (десктоп) та Caravan (веб, від Unchained). Ці інструменти обробляють робочий процес PSBT: створення непідписаних транзакцій, збір підписів з кожного пристрою-співпідписанта та трансляція повністю підписаної транзакції. Ваші апаратні гаманці виконують частину підпису."></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ARTICLE PREVIEWS ===== -->
+    <section class="article-previews">
+      <div class="container">
+        <p class="label">[ ЧИТАТИ ДАЛІ ]</p>
+        <h3>Продовжуйте навчання</h3>
+        <div class="preview-grid">
+          <a class="preview-card" href="<%= langPrefix %>/guides/wallet-comparison">
+            <h4>Порівняння типів гаманців</h4>
+            <p>Гарячі гаманці, холодні гаманці, апаратні пристрої. Порівняйте компроміси та знайдіть найкращий варіант для вашого налаштування.</p>
+          </a>
+          <a class="preview-card" href="<%= langPrefix %>/guides/passphrase">
+            <h4>25-те слово (Passphrase)</h4>
+            <p>Як додаткова пасфраза BIP39 додає ще один рівень безпеки та забезпечує приховані гаманці.</p>
+          </a>
+          <a class="preview-card" href="<%= langPrefix %>/guides/self-sovereignty">
+            <h4>Самосуверенність</h4>
+            <p>Філософія та практика бути власним банком &mdash; чому самозберігання важливе та як його досягти.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="guide-quiz-cta">
+      <div class="container">
+        <div class="quiz-cta-card">
+          <div class="quiz-cta-body">
+            <p class="quiz-cta-title">Перевірте свої знання</p>
+            <p class="quiz-cta-text">Пройдіть короткий квіз, щоб перевірити розуміння цього гайду.</p>
+          </div>
+          <a href="<%= langPrefix %>/guides/<%= pageSlug %>/quiz" class="cb-btn cb-btn--primary">Пройти квіз</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- GUIDE NAVIGATION -->
+    <nav class="guide-nav" aria-label="Guide navigation">
+      <a href="<%= langPrefix %>/guides/passphrase" class="guide-nav-link guide-nav-prev">
+        <span class="guide-nav-direction">&larr; Попередній гайд</span>
+        <span class="guide-nav-title">25-те слово (Пасфраза)</span>
+      </a>
+      <a href="<%= langPrefix %>/guides/hodl" class="guide-nav-link guide-nav-next">
+        <span class="guide-nav-direction">Наступний гайд &rarr;</span>
+        <span class="guide-nav-title">HODL: стратегія довгострокового утримання</span>
+      </a>
+    </nav>

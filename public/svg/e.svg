@@ -1,0 +1,8 @@
+<svg width="512" height="512" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+<style>.bg{fill:#fff}.fg{fill:#000}@media(prefers-color-scheme:dark){.bg{fill:#000}.fg{fill:#fff}}</style>
+<rect class="bg" width="100" height="100" rx="21"/>
+<path class="fg" d="M50 15L15 30.8065L50 46.6129L85 30.8065L50 15Z" stroke-linejoin="round"/>
+<path class="fg" d="M27.8947 43.9032L50 53.8387L72.1053 43.9032V60.1613C72.1053 75.9677 27.8947 75.9677 27.8947 60.1613V43.9032Z"/>
+<path class="fg" d="M79.1053 36.4516H76.1579V68.0645H79.1053V36.4516Z"/>
+<path class="fg" d="M79.4737 64.6774H75.7895C73.7547 64.6774 72.1053 66.6994 72.1053 69.1936V80.4839C72.1053 82.9781 73.7547 85 75.7895 85H79.4737C81.5084 85 83.1579 82.9781 83.1579 80.4839V69.1936C83.1579 66.6994 81.5084 64.6774 79.4737 64.6774Z"/>
+</svg>
