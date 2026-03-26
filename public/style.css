@@ -146,25 +146,23 @@ h3 { font-size: 15px; font-weight: 600; }
 .card-thumb {
   display: block;
   width: calc(100% + 48px);
-  margin: -24px -24px 16px;
-  height: 140px;
+  margin: -24px -24px 14px;
+  aspect-ratio: 20 / 5;
   object-fit: cover;
   object-position: center;
   border-radius: 7px 7px 0 0;
   background: var(--bg-child);
-  transition: opacity var(--duration-normal) var(--ease-default);
 }
-.card:hover .card-thumb { opacity: .92; }
 /* === GUIDE HERO (article page) === */
 .guide-hero-banner {
   width: 100%;
-  aspect-ratio: 4 / 1;
+  aspect-ratio: 20 / 5;
   object-fit: cover;
+  object-position: center;
   display: block;
-  border-radius: 10px;
-  border: 1px solid var(--border-default);
+  border-radius: 8px;
   background: var(--bg-child);
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 .section-intro h1 { margin-top: 4px; margin-bottom: 0; }
 .section-block { padding: 32px 0; border-bottom: 1px solid var(--border-default); }
@@ -865,7 +863,7 @@ h3 { font-size: 15px; font-weight: 600; }
   .body-text { font-size: 13px; line-height: 1.75; }
   .label { font-size: 11px; margin-bottom: 8px; }
   .section-intro { padding: 32px 0 28px; }
-  .guide-hero-banner { border-radius: 8px; margin-bottom: 16px; }
+  .guide-hero-banner { border-radius: 6px; margin-bottom: 14px; }
   .section-block { padding: 24px 0; }
 
   .pill { padding: 8px 12px; font-size: 12px; }
@@ -1917,7 +1915,7 @@ body.nav-open .dot-tooltip {
 
   .card-grid { grid-template-columns: 1fr; }
   .card { padding: 20px; }
-  .card-thumb { width: calc(100% + 40px); margin: -20px -20px 14px; height: 120px; }
+  .card-thumb { width: calc(100% + 40px); margin: -20px -20px 12px; }
 
   .site-nav { width: 50%; border-radius: 0 0 0 14px; }
 
