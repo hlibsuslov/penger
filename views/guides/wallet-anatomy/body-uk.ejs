@@ -1,0 +1,427 @@
+
+    <section class="section-intro">
+      <div class="container">
+        <img class="guide-hero-banner" src="/imgAca/wallet.webp" alt="Анатомія гаманця" width="3168" height="792" loading="eager">
+<p class="label">[ GUIDE / WALLETS ]</p>
+        <h1 >Анатомія гаманця</h1>
+        <div class="guide-intro-meta">
+          <span class="guide-meta-item"><svg class="guide-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>14 хв читання</span>
+          <span class="guide-intro-separator">&middot;</span>
+          <span class="guide-meta-item"><svg class="guide-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>Гайд 2 з 7</span>
+          <span class="guide-intro-progress"><span class="guide-intro-progress-dot guide-intro-progress-dot--done"></span><span class="guide-intro-progress-dot guide-intro-progress-dot--active"></span><span class="guide-intro-progress-dot"></span><span class="guide-intro-progress-dot"></span><span class="guide-intro-progress-dot"></span><span class="guide-intro-progress-dot"></span><span class="guide-intro-progress-dot"></span></span>
+        </div>
+        <p class="body-text">Як криптовалютні гаманці працюють під капотом &mdash; від деривації ключів та генерації адрес до підписання та трансляції транзакцій.</p>
+
+        <div class="level-toggle" id="levelToggle">
+          <div class="pill-group">
+            <button class="pill active" data-level="beginner" type="button">ПОЧАТКІВЕЦЬ</button>
+            <button class="pill" data-level="advanced" type="button">ПРОСУНУТИЙ</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== BEGINNER ===== -->
+    <div class="guide-content active" id="guide-beginner">
+      <div class="container">
+        <nav class="guide-toc">
+          <div class="guide-toc-title">У цьому розділі</div>
+          <ol>
+            <li><a href="#b-what-wallet">Що таке криптогаманець?</a></li>
+            <li><a href="#b-keys">Публічні ключі vs. приватні ключі</a></li>
+            <li><a href="#b-addresses">Адреси та отримання коштів</a></li>
+            <li><a href="#b-signing">Відправлення коштів &mdash; підписання транзакцій</a></li>
+            <li><a href="#b-hd-wallets">HD-гаманці &mdash; один сід, необмежена кількість ключів</a></li>
+          </ol>
+        </nav>
+      </div>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">Що таке криптогаманець і як він працює?</p>
+          <h2  id="b-what-wallet">Що таке криптогаманець?</h2>
+          <div class="guide-text">
+            <p>Криптовалютний гаманець &mdash; це інструмент, який зберігає ваші <strong>приватні ключі</strong> та дозволяє відправляти, отримувати та керувати цифровими активами. Незважаючи на назву, гаманці фактично не зберігають ваші монети чи токени &mdash; ті існують як записи в блокчейні. Ваш гаманець зберігає криптографічні ключі, які підтверджують ваше право власності та авторизують перекази.</p>
+            <blockquote><p>Гаманець більше схожий на зв'язку ключів, ніж на гаманець. Він не зберігає гроші &mdash; він зберігає ключі, що відкривають ваші гроші в блокчейні.</p></blockquote>
+            <p>Гаманці бувають різних форм, кожна розроблена для різних сценаріїв використання:</p>
+            <ul>
+              <li><strong>Мобільні додатки</strong> &mdash; зручні, завжди з вами, ідеальні для повсякденних транзакцій</li>
+              <li><strong>Десктопне програмне забезпечення</strong> &mdash; більше контролю, більший екран, підходить для управління кількома обліковими записами</li>
+              <li><strong>Розширення для браузера</strong> &mdash; безшовна взаємодія з DeFi-протоколами та dApps</li>
+              <li><a href="<%= langPrefix %>/guides/wallet-comparison#b-hardware"><strong>Апаратні пристрої</strong></a> &mdash; максимальна безпека, ключі генеруються та зберігаються на спеціалізованому чіпі, який ніколи не підключається до інтернету</li>
+              <li><strong>Паперові гаманці</strong> &mdash; надрукований приватний ключ або <a href="<%= langPrefix %>/guides/seed-anatomy#b-what-is">сід-фраза</a> для довгострокового <a href="<%= langPrefix %>/guides/wallet-comparison#b-hot-cold">холодного зберігання</a> (зараз здебільшого замінені апаратними гаманцями)</li>
+            </ul>
+            <p>Незалежно від форми, кожен гаманець виконує ті самі основні функції: зберігання ключів, генерація адрес, створення транзакцій та виробництво підписів.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">Яка різниця між публічним ключем і приватним ключем?</p>
+          <h2  id="b-keys">Публічні ключі vs. приватні ключі</h2>
+          <div class="guide-text">
+            <p>Кожен гаманець побудований на <strong>асиметричній криптографії</strong> &mdash; системі, яка використовує два математично пов'язані, але функціонально різні ключі:</p>
+            <ul>
+              <li><strong>Приватний ключ</strong> &mdash; секретне 256-бітне число, яке авторизує витрати. Його ніколи не можна нікому показувати. Хто контролює приватний ключ &mdash; той контролює кошти.</li>
+              <li><strong>Публічний ключ</strong> &mdash; математично виводиться з приватного ключа за допомогою множення на еліптичній кривій. Його можна вільно поширювати; він використовується для перевірки підписів та генерації адрес.</li>
+            </ul>
+            <blockquote><p>Приватний ключ &mdash; як печатка з підписом &mdash; він доводить, що ви є власником, та авторизує дії. Публічний ключ &mdash; як поштова адреса &mdash; будь-хто може відправити щось на неї, але тільки ви маєте доступ до вмісту.</p></blockquote>
+            <p>Математичний зв'язок між двома ключами є <strong>одностороннім</strong>: з приватного ключа завжди можна вивести публічний, але обчислити приватний ключ з публічного є обчислювально нездійсненним. Ця асиметрія є основою всієї безпеки криптовалют.</p>
+            <div class="guide-flow">
+              <div class="guide-flow__step">
+                <div class="guide-flow__num">1</div>
+                <div class="guide-flow__label">Приватний ключ</div>
+                <div class="guide-flow__desc">256-біт секрет</div>
+              </div>
+              <div class="guide-flow__arrow">→</div>
+              <div class="guide-flow__step">
+                <div class="guide-flow__num">2</div>
+                <div class="guide-flow__label">Публічний ключ</div>
+                <div class="guide-flow__desc">Еліптична крива</div>
+              </div>
+              <div class="guide-flow__arrow">→</div>
+              <div class="guide-flow__step">
+                <div class="guide-flow__num">3</div>
+                <div class="guide-flow__label">Адреса</div>
+                <div class="guide-flow__desc">Хеш + кодування</div>
+              </div>
+            </div>
+            <div class="callout callout-warning">
+              <span class="callout-label">Критично</span>
+              Якщо хтось отримає ваш приватний ключ, він зможе негайно перевести всі кошти, пов'язані з цим ключем. На блокчейні немає механізму скасування. Захищайте свої приватні ключі з тією ж ретельністю, з якою ви захищали б ключ від сейфа.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">Як генеруються криптовалютні адреси?</p>
+          <h2  id="b-addresses">Адреси та отримання коштів</h2>
+          <div class="guide-text">
+            <p>Адреса виводиться з вашого публічного ключа через послідовність кроків <strong>хешування та кодування</strong>. Це рядок, який ви надаєте іншим для отримання коштів &mdash; подібно до номера банківського рахунку, але псевдонімний і верифікований будь-ким у мережі.</p>
+            <h3>Формати адрес у Bitcoin</h3>
+            <ul>
+              <li><strong>Legacy (P2PKH)</strong> &mdash; починається з <code>1</code>, оригінальний формат</li>
+              <li><strong>Nested SegWit (P2SH)</strong> &mdash; починається з <code>3</code>, зворотно сумісний SegWit</li>
+              <li><strong>Native SegWit (Bech32)</strong> &mdash; починається з <code>bc1q</code>, нижчі комісії, краще виявлення помилок</li>
+              <li><strong>Taproot (Bech32m)</strong> &mdash; починається з <code>bc1p</code>, найновіший формат з покращеною приватністю та можливостями скриптів</li>
+            </ul>
+            <p>Для Ethereum та EVM-сумісних мереж адреси &mdash; це 40-символьні шістнадцяткові рядки з префіксом <code>0x</code>, що виводяться з останніх 20 байтів хешу Keccak-256 публічного ключа.</p>
+            <div class="callout callout-tip">
+              <span class="callout-label">Найкраща практика</span>
+              Використовуйте нову адресу для кожної транзакції для покращення приватності. HD-гаманці роблять це автоматично, генеруючи послідовні адреси з того самого сіда. Повторне використання адрес дозволяє спостерігачам блокчейну зв'язувати ваші транзакції між собою.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">Як працює підписання транзакцій у крипто?</p>
+          <h2  id="b-signing">Відправлення коштів &mdash; підписання транзакцій</h2>
+          <div class="guide-text">
+            <p>Коли ви відправляєте криптовалюту, ваш гаманець виконує точну послідовність кроків:</p>
+            <ol>
+              <li><strong>Побудова транзакції</strong> &mdash; вказується адреса отримувача, сума та комісія</li>
+              <li><strong>Створення хешу</strong> &mdash; гаманець обчислює криптографічний хеш даних транзакції</li>
+              <li><strong>Підписання хешу</strong> &mdash; ваш приватний ключ створює цифровий підпис над хешем</li>
+              <li><strong>Трансляція</strong> &mdash; підписана транзакція надсилається в мережу</li>
+              <li><strong>Верифікація</strong> &mdash; вузли мережі перевіряють підпис за вашим публічним ключем для підтвердження авторизації</li>
+            </ol>
+            <p>Краса цієї системи полягає в тому, що приватний ключ використовується для <em>створення</em> підпису, але публічного ключа достатньо для його <em>перевірки</em>. Ваш приватний ключ ніколи не покидає гаманець під час транзакції &mdash; лише підпис.</p>
+            <blockquote><p>Підписання транзакції схоже на підпис чека невидимим чорнилом, яке проявляється лише під спеціальним ультрафіолетовим світлом (вашим публічним ключем). Будь-хто може перевірити його справжність, але ніхто не може підробити ваш підпис.</p></blockquote>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">Що таке HD-гаманець і чому він використовує один сід для багатьох ключів?</p>
+          <h2  id="b-hd-wallets">HD-гаманці &mdash; один сід, необмежена кількість ключів</h2>
+          <div class="guide-text">
+            <p>Сучасні гаманці є <strong>ієрархічно детерміністичними (HD)</strong>, тобто вони виводять усі приватні ключі, публічні ключі та адреси з однієї <a href="<%= langPrefix %>/guides/seed-anatomy#b-what-is">сід-фрази</a>, використовуючи деревоподібну структуру.</p>
+            <p>Ця конструкція забезпечує потужні переваги:</p>
+            <ul>
+              <li><strong>Єдина резервна копія</strong> &mdash; одна сід-фраза захищає всі поточні та майбутні ключі</li>
+              <li><strong>Підтримка кількох монет</strong> &mdash; той самий сід може виводити ключі для Bitcoin, Ethereum та десятків інших криптовалют одночасно</li>
+              <li><strong>Автоматична генерація адрес</strong> &mdash; гаманці генерують нові адреси для отримання без втручання користувача</li>
+              <li><strong>Ізоляція облікових записів</strong> &mdash; різні шляхи деривації створюють логічно окремі облікові записи під одним сідом</li>
+            </ul>
+            <div class="callout callout-info">
+              <span class="callout-label">Ключовий висновок</span>
+              HD-гаманець може згенерувати мільярди унікальних адрес з однієї сід-фрази. Кожну з них можна відновити, імпортувавши той самий сід у будь-яке сумісне програмне забезпечення гаманця. Ваші кошти ніколи не знаходяться "в" додатку гаманця &mdash; вони в блокчейні, доступні за правильним ключем.
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== ADVANCED ===== -->
+    <div class="guide-content" id="guide-advanced">
+      <div class="container">
+        <nav class="guide-toc">
+          <div class="guide-toc-title">У цьому розділі</div>
+          <ol>
+            <li><a href="#a-bip32">Ієрархічна детерміністична деривація BIP32</a></li>
+            <li><a href="#a-ecdsa">Підписи ECDSA та Schnorr</a></li>
+            <li><a href="#a-xpub">Розширені публічні ключі (xpub) та режим спостереження</a></li>
+            <li><a href="#a-utxo">Модель UTXO vs. модель облікових записів</a></li>
+            <li><a href="#a-address-types">Типи адрес та формати скриптів</a></li>
+          </ol>
+        </nav>
+      </div>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">Як працює ієрархічна детерміністична деривація BIP32?</p>
+          <h2  id="a-bip32">Ієрархічна детерміністична деривація BIP32</h2>
+          <div class="guide-text">
+            <p>BIP32 визначає <strong>деревоподібну структуру</strong> для деривації ключів. Починаючи з майстер-ключа (виведеного з <a href="<%= langPrefix %>/guides/seed-anatomy#a-derivation">сіда BIP39</a> через <code>HMAC-SHA512</code>), дочірні ключі генеруються на кожному рівні, використовуючи батьківський ключ та 32-бітний індекс.</p>
+            <h3>Звичайна vs. посилена деривація</h3>
+            <p>Кожен рівень дерева може створити <code>2<sup>31</sup></code> звичайних дочірніх ключів (індекси від 0 до 2<sup>31</sup>-1) та <code>2<sup>31</sup></code> посилених дочірніх ключів (індекси від 2<sup>31</sup> до 2<sup>32</sup>-1, позначаються <code>'</code>).</p>
+            <ul>
+              <li><strong>Звичайна деривація</strong> &mdash; використовує батьківський <em>публічний</em> ключ + код ланцюга. Дозволяє виводити дочірні публічні ключі з xpub без приватного ключа.</li>
+              <li><strong>Посилена деривація</strong> &mdash; використовує батьківський <em>приватний</em> ключ + код ланцюга. Запобігає поширенню компрометації дочірнього ключа вгору до батьківського.</li>
+            </ul>
+            <blockquote><p>Посилена деривація (позначається апострофом, напр., <code>m/44'</code>) створює криптографічний бар'єр між рівнями дерева. Якщо дочірній приватний ключ та його код ланцюга обидва витекли, посилена деривація запобігає обчисленню зловмисником батьківського приватного ключа. Це критично для ізоляції безпеки кількох облікових записів.</p></blockquote>
+            <h3>Функція деривації</h3>
+            <div class="guide-code-block">
+              <div class="guide-code-block__label">Деривація дочірнього ключа BIP32</div>
+              <div class="guide-code-block__body"><span class="cm">// Для посиленого дочірнього ключа (index &gt;= 2^31):</span>
+<span class="kw">I</span> <span class="op">=</span> <span class="fn">HMAC-SHA512</span><span class="op">(</span><span class="kw">Key</span>=parent_chain_code,
+                <span class="kw">Data</span>=<span class="nm">0x00</span> <span class="op">||</span> parent_private_key <span class="op">||</span> index<span class="op">)</span>
+
+<span class="cm">// Для звичайного дочірнього ключа (index &lt; 2^31):</span>
+<span class="kw">I</span> <span class="op">=</span> <span class="fn">HMAC-SHA512</span><span class="op">(</span><span class="kw">Key</span>=parent_chain_code,
+                <span class="kw">Data</span>=parent_public_key <span class="op">||</span> index<span class="op">)</span>
+
+<span class="kw">child_key</span>   <span class="op">=</span> <span class="fn">parse256</span>(I_L) <span class="op">+</span> parent_key  <span class="op">(mod n)</span>
+<span class="kw">child_chain</span> <span class="op">=</span> I_R</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">Як підписи ECDSA та Schnorr захищають транзакції?</p>
+          <h2  id="a-ecdsa">Підписи ECDSA та Schnorr</h2>
+          <div class="guide-text">
+            <p>Bitcoin історично використовує еліптичну криву <strong>secp256k1</strong> з ECDSA (алгоритм цифрового підпису на еліптичних кривих) для підписання транзакцій. Оновлення <a href="<%= langPrefix %>/guides/multisig#a-taproot">Taproot</a> (BIP340) впровадило <strong>підписи Schnorr</strong> як альтернативу.</p>
+            <h3>Процес підписання ECDSA</h3>
+            <ol>
+              <li>Згенерувати випадковий nonce <code>k</code> (використовуючи детерміністичну генерацію nonce за RFC 6979)</li>
+              <li>Обчислити точку <code>R = k &times; G</code> (множення точки на еліптичній кривій)</li>
+              <li>Обчислити <code>r = R.x mod n</code></li>
+              <li>Обчислити <code>s = k<sup>-1</sup>(hash + r &times; privateKey) mod n</code></li>
+              <li>Підпис &mdash; це пара <code>(r, s)</code></li>
+            </ol>
+            <p>Фундаментальний примітив безпеки &mdash; це <strong>задача дискретного логарифму на еліптичних кривих</strong> (ECDLP) &mdash; маючи <code>P = k &times; G</code>, обчислити <code>k</code> з <code>P</code> та <code>G</code> є обчислювально нездійсненним.</p>
+            <h3>Підписи Schnorr (BIP340)</h3>
+            <p>Підписи Schnorr мають кілька переваг над ECDSA:</p>
+            <ul>
+              <li><strong>Лінійність</strong> &mdash; підписи можна агрегувати (агрегація ключів для <a href="<%= langPrefix %>/guides/multisig#b-what-is">мультипідпису</a> виглядає як єдиний підпис у блокчейні)</li>
+              <li><strong>Доведена безпека</strong> &mdash; зведення безпеки безпосередньо до задачі дискретного логарифму</li>
+              <li><strong>Менший розмір і швидші</strong> &mdash; 64-байтні підписи vs. підписи ECDSA змінної довжини в DER-кодуванні</li>
+              <li><strong>Пакетна верифікація</strong> &mdash; кілька підписів можуть бути перевірені швидше, ніж окремо</li>
+            </ul>
+            <div class="callout callout-info">
+              <span class="callout-label">Безпека nonce</span>
+              Повторно використаний або передбачуваний nonce <code>k</code> в ECDSA негайно розкриває приватний ключ. RFC 6979 усуває цей ризик, детерміністично виводячи <code>k</code> з приватного ключа та хешу повідомлення, гарантуючи, що однакові вхідні дані завжди дають однаковий (безпечний) nonce.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">Що таке розширені публічні ключі (xpub) та гаманці в режимі спостереження?</p>
+          <h2  id="a-xpub">Розширені публічні ключі (xpub) та режим спостереження</h2>
+          <div class="guide-text">
+            <p><strong>Розширений публічний ключ</strong> (<code>xpub</code>) кодує публічний ключ разом із його кодом ланцюга, уможливлюючи деривацію всіх звичайних дочірніх публічних ключів без доступу до будь-якого приватного ключа. Це дає потужні можливості:</p>
+            <ul>
+              <li><strong>Гаманці в режимі спостереження</strong> &mdash; моніторинг балансів та генерація адрес для отримання без можливості витрат</li>
+              <li><strong>Платіжні сервери</strong> &mdash; бекенд інтернет-магазину може генерувати унікальну адресу для кожного клієнта, використовуючи xpub, тоді як приватний ключ залишається офлайн на апаратному гаманці</li>
+              <li><strong>Аудит</strong> &mdash; надайте свій xpub бухгалтеру для податкової звітності без надання доступу до витрат</li>
+              <li><strong>Багатопристрійні схеми</strong> &mdash; телефон спостерігає за балансами, тоді як апаратний гаманець виконує підписання</li>
+            </ul>
+            <h3>Префікси версій</h3>
+            <p>Різні стандарти BIP використовують різні префікси версій для розширених ключів:</p>
+            <div class="guide-table-wrap">
+              <table class="guide-table guide-table--compact">
+                <thead><tr><th>Публічний</th><th>Приватний</th><th>Стандарт</th><th>Тип адреси</th></tr></thead>
+                <tbody>
+                  <tr><td class="mono">xpub</td><td class="mono">xprv</td><td>BIP44</td><td>Legacy P2PKH</td></tr>
+                  <tr><td class="mono">ypub</td><td class="mono">yprv</td><td>BIP49</td><td>Nested SegWit P2SH-P2WPKH</td></tr>
+                  <tr><td class="mono">zpub</td><td class="mono">zprv</td><td>BIP84</td><td>Native SegWit P2WPKH</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="callout callout-warning">
+              <span class="callout-label">Попередження про приватність</span>
+              Ніколи не публікуйте свій xpub. Хоча він не може витрачати кошти, він розкриває <strong>всю історію транзакцій</strong>, усі минулі та майбутні адреси, а також загальний баланс для цієї гілки облікового запису. Витік xpub &mdash; це повна компрометація приватності.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">Яка різниця між моделлю UTXO та моделлю облікових записів?</p>
+          <h2  id="a-utxo">Модель UTXO vs. модель облікових записів</h2>
+          <div class="guide-text">
+            <p>Те, як гаманець відстежує та витрачає кошти, залежить від базової моделі блокчейну. Дві домінуючі моделі принципово відрізняються за конструкцією:</p>
+            <h3>Модель UTXO (Bitcoin, Litecoin, Cardano)</h3>
+            <p>У моделі <strong>невитрачених виходів транзакцій</strong> (UTXO) немає поняття "балансу." Замість цього ваш гаманець сканує блокчейн у пошуках невитрачених виходів, призначених вашим адресам. Щоб витратити кошти, ви <em>споживаєте</em> один або кілька UTXO як входи та створюєте нові виходи:</p>
+            <ul>
+              <li>Кожен UTXO може бути витрачений <strong>лише один раз і повністю</strong></li>
+              <li>Якщо UTXO перевищує суму платежу, гаманець створює <strong>вихід решти</strong> назад на себе</li>
+              <li>Комісії за транзакції є неявними: <code>комісія = сума(входи) - сума(виходи)</code></li>
+            </ul>
+            <h3>Модель облікових записів (Ethereum, Solana, BNB Chain)</h3>
+            <p>Модель облікових записів працює більш подібно до традиційного банківського рахунку &mdash; кожна адреса має <strong>баланс</strong> та <strong>nonce</strong> (лічильник транзакцій). Транзакції дебетують з одного рахунку та кредитують інший:</p>
+            <ul>
+              <li>Простіша ментальна модель &mdash; просто "баланс мінус сума"</li>
+              <li>Не потрібні виходи решти</li>
+              <li>Nonce запобігає атакам повторного відтворення (кожна транзакція повинна мати унікальний, послідовний nonce)</li>
+            </ul>
+            <div class="callout callout-info">
+              <span class="callout-label">Наслідки для гаманця</span>
+              UTXO-гаманці повинні виконувати вибір монет (обирати, які UTXO витрачати) та управляти адресами решти. Гаманці на основі облікових записів просто зменшують баланс. Саме тому реалізації Bitcoin-гаманців є значно складнішими, ніж реалізації Ethereum-гаманців.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">Які існують типи адрес Bitcoin та формати скриптів?</p>
+          <h2  id="a-address-types">Типи адрес та формати скриптів</h2>
+          <div class="guide-text">
+            <p>Bitcoin підтримує кілька типів адрес, кожен з яких відповідає різному <strong>шаблону скрипта</strong>, що визначає умови витрат:</p>
+            <h3>P2PKH (Pay-to-Public-Key-Hash)</h3>
+            <p>Оригінальний формат адрес Bitcoin. Скрипт блокування вимагає підпис та публічний ключ, хеш якого відповідає вказаному значенню. Адреси починаються з <code>1</code>.</p>
+            <h3>P2SH (Pay-to-Script-Hash)</h3>
+            <p>Дозволяє довільні умови витрат, закодовані у скрипті. Відправнику потрібен лише хеш скрипта &mdash; повний скрипт розкривається при витрачанні. Це дозволяє реалізувати <a href="<%= langPrefix %>/guides/multisig#b-what-is">мультипідпис</a>, часові блокування та інші складні умови. Адреси починаються з <code>3</code>.</p>
+            <h3>P2WPKH (Native SegWit)</h3>
+            <p>Segregated Witness версії 0. Переміщує дані підпису в окрему структуру "свідка" за межами базової транзакції, зменшуючи ефективний розмір і, відповідно, комісію. Адреси використовують кодування <strong>Bech32</strong> і починаються з <code>bc1q</code>.</p>
+            <h3>P2TR (Taproot)</h3>
+            <p>Найновіший тип адрес (SegWit v1), що поєднує підписи Schnorr з MAST (Merkelized Abstract Syntax Trees). Вихід P2TR може бути витрачений або через key path (простий підпис Schnorr), або через script path (розкриває лише виконану гілку дерева скриптів). Адреси використовують кодування <strong>Bech32m</strong> і починаються з <code>bc1p</code>.</p>
+            <div class="callout callout-tip">
+              <span class="callout-label">Рекомендація</span>
+              Для нових гаманців використовуйте адреси Native SegWit (bc1q) або Taproot (bc1p). Вони пропонують найнижчі комісії, найкраще виявлення помилок і підтримуються всіма сучасними програмами гаманців та біржами.
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== FAQ ===== -->
+    <section class="section-block faq-section">
+      <div class="container">
+        <p class="label">[ ЧАСТІ ЗАПИТАННЯ ]</p>
+        <h2 >FAQ</h2>
+        <div class="faq-chat">
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Чи потрібен окремий гаманець для кожної криптовалюти?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Не обов'язково. HD-гаманці з підтримкою BIP44 можуть виводити ключі для різних типів монет з однієї сід-фрази. Кожна криптовалюта використовує свій шлях деривації (напр., m/44'/0' для Bitcoin, m/44'/60' для Ethereum). Однак не все програмне забезпечення гаманців підтримує всі монети &mdash; вам можуть знадобитися різні додатки для доступу до різних мереж, навіть якщо всі вони виводяться з одного сіда."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Що буде, якщо мій додаток гаманця перестане підтримуватися?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Поки у вас є сід-фраза, ви можете імпортувати її в будь-який інший BIP39-сумісний гаманець і відновити всі ваші ключі та адреси. Ваші кошти виводяться з сіда, а не прив'язані до конкретного програмного забезпечення. Ось чому відкриті стандарти, такі як BIP39/BIP32/BIP44, настільки важливі &mdash; вони забезпечують інтероперабельність між гаманцями від різних виробників."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Чи безпечно ділитися розширеним публічним ключем (xpub)?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Поширення вашого xpub дозволяє отримувачу бачити всі минулі та майбутні адреси та баланси цього облікового запису. Хоча вони не зможуть витратити ваші кошти, це є значним витоком приватності &mdash; вони зможуть відстежувати всю вашу фінансову активність для цього облікового запису. Діліться xpub лише з довіреними сторонами, такими як ваш бухгалтер, і розгляньте використання окремої гілки облікового запису для спільного доступу."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Чи може гаманець мати кілька сід-фраз?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Деяке програмне забезпечення гаманців дозволяє керувати кількома обліковими записами, кожен з яких виведений з іншого сіда. Однак кожен сід незалежно генерує своє власне дерево ключів. Ви повинні зберігати резервні копії кожного сіда окремо. Для більшості користувачів один сід із кількома обліковими записами (різні шляхи деривації або приховані гаманці на основі пасфрази) є більш зручним варіантом, ніж кілька сідів."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Чому я отримую іншу адресу щоразу, коли приймаю крипту?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="HD-гаманці автоматично генерують нову адресу для отримання після кожного використання для покращення вашої приватності. Якщо ви повторно використовуєте одну адресу, будь-хто, хто її знає, зможе відстежити всі ваші транзакції. З новими адресами кожен платіж складніше пов'язати з вашою особою. Усі ці адреси все одно виводяться з вашої єдиної сід-фрази і будуть відновлені при відновленні гаманця."></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ARTICLE PREVIEWS ===== -->
+    <section class="article-previews">
+      <div class="container">
+        <p class="label">[ ЧИТАТИ ДАЛІ ]</p>
+        <h3>Продовжити навчання</h3>
+        <div class="preview-grid">
+          <a class="preview-card" href="<%= langPrefix %>/guides/seed-anatomy">
+            <h4>Анатомія сід-фрази</h4>
+            <p>З чого складається мнемоніка BIP39, як працюють ентропія та контрольні суми, і чому ваші 12-24 слова мають значення.</p>
+          </a>
+          <a class="preview-card" href="<%= langPrefix %>/guides/passphrase">
+            <h4>25-те слово (пасфраза)</h4>
+            <p>Як необов'язкова пасфраза BIP39 додає додатковий рівень безпеки та дозволяє створювати приховані гаманці.</p>
+          </a>
+          <a class="preview-card" href="<%= langPrefix %>/guides/wallet-comparison">
+            <h4>Порівняння типів гаманців</h4>
+            <p>Гарячі гаманці, холодні гаманці, апаратні пристрої, мультипідписні схеми. Порівняйте компроміси та знайдіть оптимальне рішення.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="guide-quiz-cta">
+      <div class="container">
+        <div class="quiz-cta-card">
+          <div class="quiz-cta-body">
+            <p class="quiz-cta-title">Перевірте свої знання</p>
+            <p class="quiz-cta-text">Пройдіть короткий квіз, щоб перевірити розуміння цього гайду.</p>
+          </div>
+          <a href="<%= langPrefix %>/guides/<%= pageSlug %>/quiz" class="cb-btn cb-btn--primary">Пройти квіз</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- GUIDE NAVIGATION -->
+    <nav class="guide-nav" aria-label="Guide navigation">
+      <a href="<%= langPrefix %>/guides/seed-anatomy" class="guide-nav-link guide-nav-prev">
+        <span class="guide-nav-direction">&larr; Попередній гайд</span>
+        <span class="guide-nav-title">Анатомія сід-фрази</span>
+      </a>
+      <a href="<%= langPrefix %>/guides/self-sovereignty" class="guide-nav-link guide-nav-next">
+        <span class="guide-nav-direction">Наступний гайд &rarr;</span>
+        <span class="guide-nav-title">Самосуверенітет</span>
+      </a>
+    </nav>

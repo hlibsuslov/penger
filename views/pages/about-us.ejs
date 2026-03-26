@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>">
+<head>
+  <%- include('../partials/head') %>
+  <% if (typeof extraCss !== 'undefined') { extraCss.forEach(function(css) { %>
+  <link rel="stylesheet" href="/<%= css %>">
+  <% }); } %>
+  <title><%= pageTitle %></title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "name": "<%= pageTitle %>",
+    "url": "<%= canonicalBase %><%= langPrefix %>/about-us",
+    "description": "<%= t.aboutUs.metaDescription %>"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "PENGER",
+    "url": "<%= canonicalBase %>",
+    "logo": "<%= canonicalBase %>/PENGER.svg",
+    "email": "contact@mypenger.com",
+    "description": "<%= t.aboutUs.metaDescription %>",
+    "founder": {
+      "@type": "Person",
+      "name": "<%= t.aboutUs.leaderName %>",
+      "jobTitle": "Chief Executive Officer"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "<%= lang === 'uk' ? 'Головна' : 'Home' %>", "item": "<%= canonicalBase %><%= langPrefix %>/" },
+      { "@type": "ListItem", "position": 2, "name": "<%= lang === 'uk' ? 'Про нас' : 'About Us' %>" }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <%- include('../partials/gtm-body') %>
+
+  <noscript><p style="padding:40px;text-align:center;font-size:16px;">JavaScript is required.</p></noscript>
+
+  <%- include('../partials/header') %>
+
+  <main>
+
+    <!-- ===== HERO ===== -->
+    <section class="about-hero">
+      <div class="container">
+        <p class="label"><%= t.aboutUs.heroLabel %></p>
+        <h1><%- t.aboutUs.heroH1 %></h1>
+        <p class="body-text"><%- t.aboutUs.heroDesc %></p>
+      </div>
+    </section>
+
+    <!-- ===== ORIGIN STORY ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.aboutUs.originLabel %></p>
+        <h2><%= t.aboutUs.originH2 %></h2>
+        <div class="about-text-block">
+
+          <p><%- t.aboutUs.originP1 %></p>
+
+          <div class="about-divider-icon" aria-hidden="true">
+            <picture>
+              <img src="/photo/matB.png" alt="">
+            </picture>
+          </div>
+
+          <p><%- t.aboutUs.originP2 %></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== MISSION ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.aboutUs.missionLabel %></p>
+        <h2><%= t.aboutUs.missionH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.aboutUs.missionText %></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PRINCIPLES ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.aboutUs.principlesLabel %></p>
+        <h2><%= t.aboutUs.principlesH2 %></h2>
+        <div class="principles-grid">
+          <div class="principle-card">
+            <div class="principle-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <h3 class="principle-title"><%= t.aboutUs.principle1Title %></h3>
+            <p class="principle-desc"><%= t.aboutUs.principle1Desc %></p>
+          </div>
+          <div class="principle-card">
+            <div class="principle-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h3 class="principle-title"><%= t.aboutUs.principle2Title %></h3>
+            <p class="principle-desc"><%= t.aboutUs.principle2Desc %></p>
+          </div>
+          <div class="principle-card">
+            <div class="principle-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <h3 class="principle-title"><%= t.aboutUs.principle3Title %></h3>
+            <p class="principle-desc"><%= t.aboutUs.principle3Desc %></p>
+          </div>
+          <div class="principle-card">
+            <div class="principle-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <h3 class="principle-title"><%= t.aboutUs.principle4Title %></h3>
+            <p class="principle-desc"><%= t.aboutUs.principle4Desc %></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PRODUCT ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.aboutUs.productLabel %></p>
+        <h2><%= t.aboutUs.productH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.aboutUs.productP1 %></p>
+          <p><%- t.aboutUs.productP2 %></p>
+        </div>
+        <div class="specs-grid">
+          <div class="spec-item">
+            <span class="spec-value"></span>
+            <span class="spec-label"></span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-value"></span>
+            <span class="spec-label"></span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-value"></span>
+            <span class="spec-label"></span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-value"></span>
+            <span class="spec-label"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== EDUCATION ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.aboutUs.educationLabel %></p>
+        <h2><%= t.aboutUs.educationH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.aboutUs.educationP1 %></p>
+          <p><%- t.aboutUs.educationP2 %></p>
+        </div>
+        <div class="edu-links">
+          <a href="<%= langPrefix %>/guides" class="edu-link">
+            <span class="edu-link-icon" aria-hidden="true">
+              <svg viewBox="0 0 512 512" width="18" height="18" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M256 130L66 200l190 70 190-70z" stroke="currentColor" stroke-width="24" stroke-linejoin="round"/><path d="M136 258l120 44 120-44v72c0 70-240 70-240 0z"/><rect x="398" y="225" width="16" height="140"/><rect x="376" y="350" width="60" height="90" rx="20"/></svg>
+            </span>
+            <span class="edu-link-text">
+              <span class="edu-link-title"><%= t.nav.academy %></span>
+              <span class="edu-link-desc"><%= t.aboutUs.educationAcademy %></span>
+            </span>
+            <span class="edu-link-arrow" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </span>
+          </a>
+          <a href="<%= langPrefix %>/simulators" class="edu-link">
+            <span class="edu-link-icon" aria-hidden="true">
+              <svg viewBox="0 0 491 531" width="18" height="18" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M35 78h83v21H56v62H35z"/><path d="M335 78h83v83h-21V99h-62z"/><path d="M35 378h21v62h62v21H35z"/><path d="M335 461h83V378h-21v62h-62z"/><path d="M112 188l115-66 115 66-115 66z"/><path d="M99 209l115 66v135L99 344z"/><path d="M239 275l115-66v135L239 410z"/></svg>
+            </span>
+            <span class="edu-link-text">
+              <span class="edu-link-title"><%= t.nav.simulators %></span>
+              <span class="edu-link-desc"><%= t.aboutUs.educationSimulators %></span>
+            </span>
+            <span class="edu-link-arrow" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </span>
+          </a>
+          <a href="<%= langPrefix %>/ai-tutor" class="edu-link">
+            <span class="edu-link-icon" aria-hidden="true">
+              <svg class="icon-ai-tutor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1001 1002" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M512 38 L506 42 462 167 435 226 392 292 356 333 308 376 247 416 197 440 57 491 54 500 58 507 180 550 241 577 294 610 342 650 386 697 432 765 462 830 505 952 510 958 520 958 526 951 573 817 596 768 633 711 666 672 719 623 784 580 850 550 965 510 974 504 975 496 973 491 841 443 796 423 737 387 684 343 632 284 596 228 566 162 526 46 520 39 Z"/></svg>
+            </span>
+            <span class="edu-link-text">
+              <span class="edu-link-title"><%= t.nav.aiTutor %></span>
+              <span class="edu-link-desc"><%= t.aboutUs.educationTutor %></span>
+            </span>
+            <span class="edu-link-arrow" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FOUNDER ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.aboutUs.leaderLabel %></p>
+        <h2><%= t.aboutUs.leaderH2 %></h2>
+        <div class="founder-card">
+          <div class="founder-avatar">
+            <img src="/photo/main.png" alt="<%= t.aboutUs.leaderName %> — CEO of PENGER" loading="lazy">
+          </div>
+          <div class="founder-body">
+            <h3 class="founder-name"><%= t.aboutUs.leaderName %></h3>
+            <div class="founder-role"><%= t.aboutUs.leaderRole %></div>
+            <p class="founder-bio"><%- t.aboutUs.leaderBio %></p>
+            <div class="founder-links">
+              <a href="https://t.me/pengercom" target="_blank" rel="noopener" class="founder-link" aria-label="<%= t.aboutUs.leaderTelegram %>">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0h-.056zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+              </a>
+              <a href="mailto:contact@mypenger.com" class="founder-link" aria-label="<%= t.aboutUs.leaderEmail %>">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PARTNERSHIP ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.aboutUs.partnershipLabel %></p>
+        <h2><%= t.aboutUs.partnershipH2 %></h2>
+        <div class="about-text-block">
+          <p><%= t.aboutUs.partnershipDesc %></p>
+        </div>
+        <a href="<%= langPrefix %>/dropshipping" class="ds-partnership-banner" style="margin-top:20px">
+          <span class="ds-partnership-banner-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/></svg>
+          </span>
+          <span class="ds-partnership-banner-text">
+            <span class="ds-partnership-banner-title"><%= t.aboutUs.partnershipCta %></span>
+            <span class="ds-partnership-banner-desc"><%= t.aboutUs.partnershipDesc %></span>
+          </span>
+          <span class="ds-partnership-banner-arrow" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="about-cta">
+      <div class="container">
+        <h2><%= t.aboutUs.ctaH2 %></h2>
+        <p class="body-text"><%= t.aboutUs.ctaDesc %></p>
+        <div class="cta-buttons">
+          <a href="<%= langPrefix %>/" class="cta-btn cta-btn--primary"><%= t.aboutUs.ctaExplore %></a>
+          <a href="<%= langPrefix %>/contacts" class="cta-btn cta-btn--secondary"><%= t.aboutUs.ctaContact %></a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <%- include('../partials/footer') %>
+
+  <script src="/analytics.js"></script>
+  <script src="/shared.js?v=3"></script>
+</body>
+</html>

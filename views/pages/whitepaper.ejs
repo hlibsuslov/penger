@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>">
+<head>
+  <%- include('../partials/head') %>
+  <% if (typeof extraCss !== 'undefined') { extraCss.forEach(function(css) { %>
+  <link rel="stylesheet" href="/<%= css %>">
+  <% }); } %>
+  <title><%= pageTitle %></title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "name": "<%= pageTitle %>",
+    "url": "<%= canonicalBase %><%= langPrefix %>/whitepaper",
+    "description": "<%= pageDescription %>",
+    "author": { "@type": "Organization", "name": "PENGER" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "PENGER",
+      "logo": { "@type": "ImageObject", "url": "<%= canonicalBase %>/PENGER.svg" }
+    },
+    "datePublished": "2026-01-15",
+    "inLanguage": "<%= lang %>"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "<%= lang === 'uk' ? 'Головна' : 'Home' %>", "item": "<%= canonicalBase %><%= langPrefix %>/" },
+      { "@type": "ListItem", "position": 2, "name": "Whitepaper" }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <%- include('../partials/gtm-body') %>
+  <noscript><p style="padding:40px;text-align:center;font-size:16px;">JavaScript is required.</p></noscript>
+  <%- include('../partials/header') %>
+
+  <main>
+
+    <!-- ===== HERO ===== -->
+    <section class="about-hero">
+      <div class="container">
+        <p class="label"><%= t.whitepaper.heroLabel %></p>
+        <h1><%- t.whitepaper.heroH1 %></h1>
+        <p class="body-text"><%- t.whitepaper.heroDesc %></p>
+        <p class="cp-meta"><%= t.whitepaper.version %></p>
+      </div>
+    </section>
+
+    <!-- ===== ABSTRACT ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.whitepaper.abstractLabel %></p>
+        <h2><%= t.whitepaper.abstractH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.whitepaper.abstractP1 %></p>
+          <p><%- t.whitepaper.abstractP2 %></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PROBLEM ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.whitepaper.problemLabel %></p>
+        <h2><%= t.whitepaper.problemH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.whitepaper.problemP1 %></p>
+          <p><%- t.whitepaper.problemP2 %></p>
+          <ul class="cp-list">
+            <li><%- t.whitepaper.problemItem1 %></li>
+            <li><%- t.whitepaper.problemItem2 %></li>
+            <li><%- t.whitepaper.problemItem3 %></li>
+            <li><%- t.whitepaper.problemItem4 %></li>
+            <li><%- t.whitepaper.problemItem5 %></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SOLUTION ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.whitepaper.solutionLabel %></p>
+        <h2><%= t.whitepaper.solutionH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.whitepaper.solutionP1 %></p>
+          <p><%- t.whitepaper.solutionP2 %></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ENCODING SYSTEM ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.whitepaper.encodingLabel %></p>
+        <h2><%= t.whitepaper.encodingH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.whitepaper.encodingP1 %></p>
+          <p><%- t.whitepaper.encodingP2 %></p>
+          <ul class="cp-list">
+            <li><%- t.whitepaper.encodingItem1 %></li>
+            <li><%- t.whitepaper.encodingItem2 %></li>
+            <li><%- t.whitepaper.encodingItem3 %></li>
+            <li><%- t.whitepaper.encodingItem4 %></li>
+          </ul>
+          <p><%- t.whitepaper.encodingP3 %></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== MATERIAL SCIENCE ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.whitepaper.materialLabel %></p>
+        <h2><%= t.whitepaper.materialH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.whitepaper.materialP1 %></p>
+          <div class="principles-grid">
+            <div class="principle-card">
+              <div class="principle-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+              </div>
+              <h3 class="principle-title"><%= t.whitepaper.matSpec1Title %></h3>
+              <p class="principle-desc"><%= t.whitepaper.matSpec1Desc %></p>
+            </div>
+            <div class="principle-card">
+              <div class="principle-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v8l4-2"/><circle cx="12" cy="14" r="8"/></svg>
+              </div>
+              <h3 class="principle-title"><%= t.whitepaper.matSpec2Title %></h3>
+              <p class="principle-desc"><%= t.whitepaper.matSpec2Desc %></p>
+            </div>
+            <div class="principle-card">
+              <div class="principle-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <h3 class="principle-title"><%= t.whitepaper.matSpec3Title %></h3>
+              <p class="principle-desc"><%= t.whitepaper.matSpec3Desc %></p>
+            </div>
+            <div class="principle-card">
+              <div class="principle-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 7V5a4 4 0 0 0-8 0v2"/></svg>
+              </div>
+              <h3 class="principle-title"><%= t.whitepaper.matSpec4Title %></h3>
+              <p class="principle-desc"><%= t.whitepaper.matSpec4Desc %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== THREAT MODEL ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.whitepaper.threatLabel %></p>
+        <h2><%= t.whitepaper.threatH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.whitepaper.threatP1 %></p>
+          <div class="cp-table-wrap">
+            <table class="cp-table">
+              <thead>
+                <tr>
+                  <th><%= t.whitepaper.threatColThreat %></th>
+                  <th><%= t.whitepaper.threatColPaper %></th>
+                  <th><%= t.whitepaper.threatColHardware %></th>
+                  <th><%= t.whitepaper.threatColPenger %></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% ['fire','water','corrosion','physical','digital','time'].forEach(function(threat) { %>
+                <tr>
+                  <td><strong><%= t.whitepaper['threat_' + threat] %></strong></td>
+                  <td><%= t.whitepaper['threat_' + threat + '_paper'] %></td>
+                  <td><%= t.whitepaper['threat_' + threat + '_hw'] %></td>
+                  <td><strong><%= t.whitepaper['threat_' + threat + '_penger'] %></strong></td>
+                </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SECURITY MODEL ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.whitepaper.securityLabel %></p>
+        <h2><%= t.whitepaper.securityH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.whitepaper.securityP1 %></p>
+          <ul class="cp-list">
+            <li><%- t.whitepaper.securityItem1 %></li>
+            <li><%- t.whitepaper.securityItem2 %></li>
+            <li><%- t.whitepaper.securityItem3 %></li>
+            <li><%- t.whitepaper.securityItem4 %></li>
+            <li><%- t.whitepaper.securityItem5 %></li>
+          </ul>
+          <p><%- t.whitepaper.securityP2 %></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PRODUCT SPEC ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.whitepaper.specLabel %></p>
+        <h2><%= t.whitepaper.specH2 %></h2>
+        <div class="about-text-block">
+          <div class="cp-table-wrap">
+            <table class="cp-table">
+              <tbody>
+                <% ['specDimensions','specWeight','specMaterial','specGrade','specMelting','specGrid','specCapacity','specEncoding','specCompatibility'].forEach(function(key) { %>
+                <tr>
+                  <td><strong><%= t.whitepaper[key + 'Label'] %></strong></td>
+                  <td><%= t.whitepaper[key + 'Value'] %></td>
+                </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PHILOSOPHY ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.whitepaper.philosophyLabel %></p>
+        <h2><%= t.whitepaper.philosophyH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.whitepaper.philosophyP1 %></p>
+          <p><%- t.whitepaper.philosophyP2 %></p>
+          <p><%- t.whitepaper.philosophyP3 %></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ROADMAP ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.whitepaper.roadmapLabel %></p>
+        <h2><%= t.whitepaper.roadmapH2 %></h2>
+        <div class="about-text-block">
+          <ul class="cp-list">
+            <li><%- t.whitepaper.roadmapItem1 %></li>
+            <li><%- t.whitepaper.roadmapItem2 %></li>
+            <li><%- t.whitepaper.roadmapItem3 %></li>
+            <li><%- t.whitepaper.roadmapItem4 %></li>
+            <li><%- t.whitepaper.roadmapItem5 %></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CONCLUSION ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.whitepaper.conclusionLabel %></p>
+        <h2><%= t.whitepaper.conclusionH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.whitepaper.conclusionP1 %></p>
+          <p><%- t.whitepaper.conclusionP2 %></p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <%- include('../partials/footer') %>
+
+  <script src="/analytics.js"></script>
+  <script src="/shared.js?v=3"></script>
+</body>
+</html>

@@ -1,0 +1,486 @@
+    <section class="section-intro">
+      <div class="container">
+        <img class="guide-hero-banner" src="/imgAca/25th.webp" alt="25-те слово (Passphrase)" width="2890" height="722" loading="eager">
+<p class="label">[ GUIDE / PASSPHRASE ]</p>
+        <h1 >25-те слово (Passphrase)</h1>
+        <div class="guide-intro-meta">
+          <span class="guide-meta-item"><svg class="guide-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>11 хв читання</span>
+          <span class="guide-intro-separator">&middot;</span>
+          <span class="guide-meta-item"><svg class="guide-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>Гайд 6 з 7</span>
+          <span class="guide-intro-progress"><span class="guide-intro-progress-dot guide-intro-progress-dot--done"></span><span class="guide-intro-progress-dot guide-intro-progress-dot--done"></span><span class="guide-intro-progress-dot guide-intro-progress-dot--done"></span><span class="guide-intro-progress-dot guide-intro-progress-dot--done"></span><span class="guide-intro-progress-dot guide-intro-progress-dot--done"></span><span class="guide-intro-progress-dot guide-intro-progress-dot--active"></span><span class="guide-intro-progress-dot"></span></span>
+        </div>
+        <p class="body-text">Як додаткова пасфраза BIP39 створює ще один рівень захисту поверх вашої сід-фрази &mdash; забезпечуючи приховані гаманці, правдоподібне заперечення та захист від фізичної компрометації сіда.</p>
+
+        <div class="level-toggle" id="levelToggle">
+          <div class="pill-group">
+            <button class="pill active" data-level="beginner" type="button">ПОЧАТКІВЕЦЬ</button>
+            <button class="pill" data-level="advanced" type="button">ПРОСУНУТИЙ</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== BEGINNER ===== -->
+    <div class="guide-content active" id="guide-beginner">
+      <div class="container">
+        <nav class="guide-toc">
+          <div class="guide-toc-title">У цьому розділі</div>
+          <ol>
+            <li><a href="#b-what-is">Що таке 25-те слово?</a></li>
+            <li><a href="#b-how-works">Як це працює?</a></li>
+            <li><a href="#b-hidden-wallets">Приховані гаманці та правдоподібне заперечення</a></li>
+            <li><a href="#b-risks">Ризики та відповідальність</a></li>
+          </ol>
+        </nav>
+      </div>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">Що таке 25-те слово (пасфраза BIP39) і як воно працює?</p>
+          <h2 id="b-what-is" >Що таке 25-те слово?</h2>
+          <div class="guide-text">
+            <p>«25-те слово» &mdash; це <strong>додаткова пасфраза</strong>, яку ви можете додати до вашої стандартної <a href="<%= langPrefix %>/guides/seed-anatomy#b-what-is">сід-фрази</a> з 12 або 24 слів. Вона визначена в специфікації BIP39 і підтримується більшістю сучасних гаманців.</p>
+            <p>На відміну від самих сід-слів (які беруться з фіксованого <a href="<%= langPrefix %>/guides/seed-anatomy#a-wordlist">списку з 2048 слів</a>), пасфраза є <strong>повністю довільною</strong> &mdash; це може бути будь-який рядок символів: літери, цифри, спеціальні символи, пробіли, навіть символи Unicode. Обмежень на довжину чи вміст немає.</p>
+            <blockquote><p>Уявіть це так: сід-фраза &mdash; це ключ від вашого сховища, а пасфраза &mdash; це комбінація на додатковому замку сховища. Навіть якщо хтось знайде ключ, без комбінації він не зможе відкрити сховище.</p></blockquote>
+            <p>Ключова властивість пасфрази полягає в тому, що <strong>кожна інша пасфраза генерує абсолютно інший гаманець</strong>. Ваші 24 слова без пасфрази ведуть до гаманця A. Ті самі 24 слова з пасфразою «apple» ведуть до зовсім іншого гаманця B. Пасфраза «Apple» (з великої літери) веде до ще одного гаманця C. Кожен з них незалежний, зі своїми власними ключами та адресами.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">Як пасфраза BIP39 змінює ваш гаманець?</p>
+          <h2 id="b-how-works" >Як це працює?</h2>
+          <div class="guide-text">
+            <p>Коли ваш гаманець перетворює сід-слова на криптографічні ключі, він використовує процес під назвою <strong>розтягування ключа PBKDF2</strong>. Пасфраза безпосередньо інтегрується в цей процес як частина солі:</p>
+            <ol>
+              <li>Ви вводите свої 12 або 24 сід-слова</li>
+              <li>Ви вводите пасфразу (або залишаєте порожньою, якщо не використовуєте її)</li>
+              <li>Гаманець комбінує їх: сід-слова як пароль, а <code>"mnemonic" + пасфраза</code> як сіль</li>
+              <li>Ця комбінація проходить через 2048 раундів PBKDF2-HMAC-SHA512</li>
+              <li>Результат &mdash; унікальний 512-бітний майстер-сід, з якого виводяться всі ключі</li>
+            </ol>
+            <p>Оскільки пасфраза змінює сіль, навіть різниця в одному символі створює <strong>абсолютно інший майстер-сід</strong> і, відповідно, абсолютно інший набір ключів та адрес.</p>
+            <div class="guide-flow">
+              <div class="guide-flow__step">
+                <div class="guide-flow__num">1</div>
+                <div class="guide-flow__label">Сід-фраза</div>
+                <div class="guide-flow__desc">12–24 слова</div>
+              </div>
+              <div class="guide-flow__arrow">+</div>
+              <div class="guide-flow__step">
+                <div class="guide-flow__num">2</div>
+                <div class="guide-flow__label">Пасфраза</div>
+                <div class="guide-flow__desc">Ваш секретний текст</div>
+              </div>
+              <div class="guide-flow__arrow">→</div>
+              <div class="guide-flow__step">
+                <div class="guide-flow__num">3</div>
+                <div class="guide-flow__label">PBKDF2</div>
+                <div class="guide-flow__desc">2048 ітерацій</div>
+              </div>
+              <div class="guide-flow__arrow">→</div>
+              <div class="guide-flow__step">
+                <div class="guide-flow__num">4</div>
+                <div class="guide-flow__label">Унікальний сід</div>
+                <div class="guide-flow__desc">512-біт майстер-ключ</div>
+              </div>
+            </div>
+            <div class="callout callout-info">
+              <span class="callout-label">Ключовий момент</span>
+              Пасфраза чутлива до регістру та пробілів. «MyPassphrase», «mypassphrase» та «MyPassphrase » (з пробілом у кінці) створюють різні гаманці. Будьте максимально точними при встановленні та введенні пасфрази.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">Як працюють приховані гаманці та правдоподібне заперечення?</p>
+          <h2 id="b-hidden-wallets" >Приховані гаманці та правдоподібне заперечення</h2>
+          <div class="guide-text">
+            <p>Одна з найпотужніших можливостей пасфрази &mdash; створення <strong>прихованих гаманців</strong>, що забезпечують правдоподібне заперечення під примусом.</p>
+            <h3>Як це працює на практиці</h3>
+            <p>Ви налаштовуєте гаманець із сід-фразою та двома різними пасфразами:</p>
+            <ul>
+              <li><strong>Без пасфрази</strong> (або з простою пасфразою) &mdash; веде до «гаманця-приманки» з невеликим, правдоподібним балансом</li>
+              <li><strong>Ваша справжня пасфраза</strong> &mdash; веде до вашого основного гаманця з більшістю ваших коштів</li>
+            </ul>
+            <p>Якщо хтось примушує вас розкрити сід-фразу (фізичний примус, юридичний тиск тощо), ви віддаєте сід-слова. Це ключова частина вашої <a href="<%= langPrefix %>/guides/opsec#b-threats">моделі загроз</a>. Вони отримують доступ до гаманця-приманки і бачать баланс, який виглядає правдоподібно. <strong>Немає способу довести</strong>, що існують додаткові гаманці, захищені пасфразою &mdash; зловмисник навіть не може визначити, чи використовувалась пасфраза взагалі.</p>
+            <blockquote><p>Оскільки кожна пасфраза (включно з порожньою) створює дійсний гаманець, немає жодного технічного індикатора, який би розкрив, чи використовуєте ви пасфразу або скільки гаманців із пасфразами ви маєте. Це криптографічне правдоподібне заперечення.</p></blockquote>
+            <div class="callout callout-warning">
+              <span class="callout-label">Важливо</span>
+              Щоб гаманець-приманка виглядав переконливо, він повинен містити розумний баланс і показувати нормальну історію транзакцій. Порожній гаманець-приманка не є правдоподібним і може загострити загрозу.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">Які ризики використання пасфрази з вашою сід-фразою?</p>
+          <h2 id="b-risks" >Ризики та відповідальність</h2>
+          <div class="guide-text">
+            <p>Пасфраза &mdash; потужний інструмент, але вона додає <strong>складність і ризик</strong>, якими потрібно ретельно керувати.</p>
+            <h3>Якщо ви втратите пасфразу</h3>
+            <p>На відміну від пароля на вебсайті, <strong>механізму відновлення</strong> забутої пасфрази не існує. Якщо ви її забудете, ви назавжди втратите доступ до всіх активів, що зберігаються в гаманці, похідному від цієї пасфрази. Сама по собі сід-фраза відновить лише базовий гаманець (без пасфрази).</p>
+            <h3>Рекомендації зі зберігання</h3>
+            <ul>
+              <li><strong>Зберігайте пасфразу окремо</strong> від сід-фрази &mdash; якщо вони зберігаються разом, пасфраза не забезпечує додаткового захисту</li>
+              <li>Використовуйте <strong>довговічний носій</strong> для пасфрази &mdash; так само як і сід, вона повинна витримати вогонь, воду та час</li>
+              <li>Розгляньте можливість зберігання в <strong>іншому географічному місці</strong>, ніж резервна копія сіда</li>
+              <li><strong>Не робіть пасфразу надто складною</strong> для запам'ятовування &mdash; ризик втрати доступу через забуту пасфразу є реальним і трапляється частіше, ніж крадіжка</li>
+            </ul>
+            <div class="callout callout-warning">
+              <span class="callout-label">Критичний баланс</span>
+              Пасфраза захищає від крадіжки, але наражає на ризик втрати через забудькуватість. Ви повинні збалансувати ці ризики: проста, запам'ятовувана пасфраза, яку ви також записуєте на фізичному носії, що зберігається окремо від сіда. Надто складні пасфрази збільшують ризик постійного самоблокування.
+            </div>
+            <h3>Кому варто використовувати пасфразу?</h3>
+            <ul>
+              <li><strong>Так</strong> &mdash; користувачам зі значними активами, які мають зрілу практику резервного копіювання та відновлення</li>
+              <li><strong>Так</strong> &mdash; користувачам, які стикаються з загрозами фізичної безпеки та потребують правдоподібного заперечення</li>
+              <li><strong>Можливо, ні</strong> &mdash; початківцям, які ще вивчають основи керування сід-фразою</li>
+              <li><strong>Можливо, ні</strong> &mdash; користувачам, які не мають надійної системи для окремого зберігання додаткового секрету</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== ADVANCED ===== -->
+    <div class="guide-content" id="guide-advanced">
+      <div class="container">
+        <nav class="guide-toc">
+          <div class="guide-toc-title">У цьому розділі</div>
+          <ol>
+            <li><a href="#a-cryptographic">Криптографічний механізм</a></li>
+            <li><a href="#a-entropy-analysis">Аналіз ентропії пасфрази</a></li>
+            <li><a href="#a-implementation">Реалізація в різних гаманцях</a></li>
+            <li><a href="#a-advanced-strategies">Просунуті стратегії пасфраз</a></li>
+            <li><a href="#a-threat-model">Інтеграція в модель загроз</a></li>
+          </ol>
+        </nav>
+      </div>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">Як працює криптографічний механізм пасфрази?</p>
+          <h2 id="a-cryptographic" >Криптографічний механізм</h2>
+          <div class="guide-text">
+            <p>Пасфраза BIP39 інтегрується в процес виведення ключів на рівні PBKDF2. Розуміння точного механізму пояснює, чому він такий ефективний:</p>
+            <div class="guide-code-block">
+              <div class="guide-code-block__label">Деривація сіда PBKDF2</div>
+              <div class="guide-code-block__body"><span class="kw">seed</span> <span class="op">=</span> <span class="fn">PBKDF2</span><span class="op">(</span>
+  <span class="kw">PRF</span><span class="op">:</span>        <span class="fn">HMAC-SHA512</span>,
+  <span class="kw">Password</span><span class="op">:</span>   mnemonic_sentence,        <span class="cm">// слова через пробіл, NFKD-нормалізовані</span>
+  <span class="kw">Salt</span><span class="op">:</span>       <span class="st">"mnemonic"</span> + passphrase,   <span class="cm">// літеральний "mnemonic" + пасфраза</span>
+  <span class="kw">Iterations</span><span class="op">:</span> <span class="nm">2048</span>,
+  <span class="kw">dkLen</span><span class="op">:</span>      <span class="nm">64 bytes</span>                   <span class="cm">// 512-бітний вихід</span>
+<span class="op">)</span></div>
+            </div>
+            <h3>Ключові властивості</h3>
+            <ul>
+              <li><strong>Без валідації</strong> &mdash; будь-яка пасфраза створює дійсний сід. Контрольної суми чи виявлення помилок для самої пасфрази не існує. Помилка при введенні не створює повідомлення про помилку &mdash; вона створює інший (порожній) гаманець.</li>
+              <li><strong>Детерміністичність</strong> &mdash; та сама мнемоніка + пасфраза завжди створює той самий сід, на будь-якому пристрої, з будь-яким сумісним програмним забезпеченням.</li>
+              <li><strong>На основі солі</strong> &mdash; пасфраза модифікує сіль, а не пароль. Це означає, що попередньо обчислені райдужні таблиці для поширених мнемонік непридатні, оскільки простір солі фактично нескінченний.</li>
+              <li><strong>NFKD-нормалізація</strong> &mdash; згідно з BIP39, і мнемоніка, і пасфраза проходять Unicode NFKD-нормалізацію перед обробкою. Це забезпечує однакову поведінку на різних платформах для символів, відмінних від ASCII.</li>
+            </ul>
+            <div class="callout callout-warning">
+              <span class="callout-label">Без захисту від помилок</span>
+              На відміну від мнемонічних слів (які мають контрольну суму), пасфраза не має жодного виявлення помилок. Якщо ви введете «MyPassphras» замість «MyPassphrase», ви отримаєте дійсний, але абсолютно інший (і порожній) гаманець без жодного попередження. Це зроблено навмисно &mdash; це забезпечує правдоподібне заперечення &mdash; але це означає, що ви повинні бути абсолютно точними.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">Скільки ентропії додає пасфраза до безпеки сід-фрази?</p>
+          <h2 id="a-entropy-analysis" >Аналіз ентропії пасфрази</h2>
+          <div class="guide-text">
+            <p>Рівень безпеки, який забезпечує пасфраза, залежить від її ентропії. Слабку пасфразу може підібрати зловмисник, який вже має сід-фразу.</p>
+            <h3>Сценарій атаки</h3>
+            <p>Якщо зловмисник отримає ваші 24 сід-слова, але не пасфразу, йому потрібно підібрати пасфразу для доступу до ваших коштів. Вартість цієї атаки залежить від:</p>
+            <ol>
+              <li><strong>Ентропії пасфрази</strong> (простір пошуку)</li>
+              <li><strong>Вартості кожної спроби</strong> (PBKDF2 з 2048 ітераціями HMAC-SHA512, потім виведення <a href="<%= langPrefix %>/guides/wallet-anatomy#a-bip32">BIP32</a> та перевірка адрес)</li>
+            </ol>
+            <h3>Рекомендації щодо ентропії пасфрази</h3>
+            <ul>
+              <li><strong>4-символьний PIN</strong> &mdash; ~13 біт ентропії. Зламується за секунди. Не рекомендується.</li>
+              <li><strong>Звичайне англійське слово</strong> &mdash; ~11 біт. Атака за словником тривіальна.</li>
+              <li><strong>3-словна пасфраза Diceware</strong> &mdash; ~39 біт. Стійка до звичайних зловмисників, але вразлива до рішучих, добре забезпечених ресурсами противників.</li>
+              <li><strong>5-словна пасфраза Diceware</strong> &mdash; ~65 біт. Забезпечує надійний захист навіть від зловмисників зі значними ресурсами.</li>
+              <li><strong>8+ випадкових буквено-цифрових символів</strong> &mdash; ~48 біт. Достатньо для більшості моделей загроз.</li>
+            </ul>
+            <h3>Вартість перебору PBKDF2</h3>
+            <p>2048 ітерацій PBKDF2 забезпечують помірний обчислювальний бар'єр. На сучасному GPU-обладнанні зловмисник може перевірити приблизно <strong>100 000-500 000 пасфраз на секунду</strong> на один GPU. З кластером із 10 GPU:</p>
+            <div class="guide-table-wrap">
+              <table class="guide-table">
+                <thead><tr><th>Ентропія пасфрази</th><th>Час на вичерпання (10 GPU @ 500k/с)</th></tr></thead>
+                <tbody>
+                  <tr><td class="mono">20 біт</td><td class="severity-instant">~0,2 секунди</td></tr>
+                  <tr><td class="mono">30 біт</td><td class="severity-instant">~3,5 хвилини</td></tr>
+                  <tr><td class="mono">40 біт</td><td class="severity-fast">~2,5 дні</td></tr>
+                  <tr><td class="mono">50 біт</td><td class="severity-slow">~7 років</td></tr>
+                  <tr><td class="mono">60 біт</td><td class="severity-safe">~7 300 років</td></tr>
+                  <tr><td class="mono">80 біт</td><td class="severity-safe">~7,7 мільярда років</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="callout callout-tip">
+              <span class="callout-label">Рекомендація</span>
+              Прагніть до щонайменше 40-50 біт ентропії пасфрази для значущого захисту. 4-5-словна пасфраза Diceware або 10+ символьний випадковий рядок легко досягають цього. Уникайте поширених фраз, словникових слів, текстів пісень або передбачуваних шаблонів.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">Як різне програмне забезпечення гаманців реалізує пасфрази BIP39?</p>
+          <h2 id="a-implementation" >Реалізація в різних гаманцях</h2>
+          <div class="guide-text">
+            <p>Хоча пасфраза BIP39 є стандартом, її реалізація відрізняється в різних програмних гаманцях та апаратних пристроях:</p>
+            <h3>Апаратні гаманці</h3>
+            <ul>
+              <li><strong>Ledger</strong> &mdash; підтримує введення пасфрази безпосередньо на пристрої (тимчасова або прив'язана до PIN-коду). Тимчасові пасфрази потрібно вводити повторно кожну сесію. Пасфрази, прив'язані до PIN-коду, створюють постійний другий «прихований» обліковий запис.</li>
+              <li><strong>Trezor</strong> &mdash; пасфраза вводиться на комп'ютері або на сенсорному екрані Trezor (Model T / Safe 3). Введення на комп'ютері менш безпечне (ризик кейлогера); введення на пристрої є переважним.</li>
+              <li><strong>Coldcard</strong> &mdash; підтримує введення пасфрази на пристрої з можливістю зберігання зашифрованої версії на пристрої. Також підтримує кілька слотів для пасфраз.</li>
+              <li><strong>Keystone</strong> &mdash; пасфраза вводиться через сенсорний екран пристрою, повністю ізольовано від комп'ютера.</li>
+            </ul>
+            <h3>Програмні гаманці</h3>
+            <ul>
+              <li><strong>Sparrow</strong> &mdash; підтримує пасфразу під час створення та відновлення гаманця. Відображає відбиток, похідний від пасфрази, щоб ви могли перевірити правильність введення.</li>
+              <li><strong>Electrum</strong> &mdash; підтримує пасфразу BIP39 під час імпорту сіда (потрібно увімкнути режим BIP39).</li>
+              <li><strong>BlueWallet</strong> &mdash; підтримує пасфразу для гаманців BIP39 під час створення.</li>
+            </ul>
+            <div class="callout callout-info">
+              <span class="callout-label">Перевірка відбитка</span>
+              Багато гаманців відображають «майстер-відбиток» (перші 4 байти хешу майстер-публічного ключа BIP32) після введення пасфрази. Запишіть цей відбиток при першому налаштуванні гаманця. При відновленні порівняйте відбиток, щоб переконатися, що ви ввели правильну пасфразу &mdash; інший відбиток означає іншу пасфразу (або помилку при введенні).
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">Які існують просунуті стратегії пасфраз для максимальної безпеки?</p>
+          <h2 id="a-advanced-strategies" >Просунуті стратегії пасфраз</h2>
+          <div class="guide-text">
+            <p>Окрім базового сценарію з прихованим гаманцем, пасфраза дає змогу реалізувати кілька просунутих конфігурацій безпеки:</p>
+            <h3>Багаторівнева архітектура гаманців</h3>
+            <p>Використовуйте кілька пасфраз з одним сідом для створення багаторівневої структури:</p>
+            <ul>
+              <li><strong>Без пасфрази</strong> &mdash; гаманець-приманка з мінімальними коштами</li>
+              <li><strong>Пасфраза A</strong> &mdash; гаманець середнього рівня безпеки для регулярних транзакцій</li>
+              <li><strong>Пасфраза B</strong> &mdash; <a href="<%= langPrefix %>/guides/wallet-comparison#b-hot-cold">холодне сховище</a> високого рівня безпеки для довгострокових активів</li>
+            </ul>
+            <p>Кожен рівень має свої власні адреси, ключі та баланси. Компрометація однієї пасфрази не впливає на інші.</p>
+            <h3>Пасфраза + Multi-Sig</h3>
+            <p>Для максимальної безпеки поєднайте пасфразу з налаштуванням <a href="<%= langPrefix %>/guides/multisig#b-what-is">multisig</a>. Ключ кожного співпідписанта може бути захищений пасфразою незалежно, створюючи багаторівневий захист: зловмисник повинен отримати M сід-фраз <em>та</em> відповідні пасфрази, щоб підписати транзакцію.</p>
+            <h3>Модель географічного розділення</h3>
+            <ul>
+              <li><strong>Локація A</strong> (домашній сейф) &mdash; резервна копія сід-фрази на <a href="<%= langPrefix %>/">металевій пластині</a></li>
+              <li><strong>Локація B</strong> (банківська комірка) &mdash; резервна копія пасфрази на металевій пластині</li>
+              <li><strong>Локація C</strong> (довірений член сім'ї) &mdash; друга копія сід-фрази (для відновлення після катастрофи)</li>
+            </ul>
+            <p>Зловмисник повинен скомпрометувати дві окремі захищені локації для доступу до коштів. Стихійне лихо, що знищить Локацію A, все одно дозволяє відновлення за допомогою Локацій B + C.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">Як пасфраза інтегрується у вашу модель загроз?</p>
+          <h2 id="a-threat-model" >Інтеграція в модель загроз</h2>
+          <div class="guide-text">
+            <p>Пасфраза захищає від конкретних сценаріїв загроз і є неефективною проти інших. Розуміння її місця у вашій моделі загроз є важливим:</p>
+            <h3>Ефективна проти</h3>
+            <ul>
+              <li><strong>Фізичної компрометації сіда</strong> &mdash; якщо хтось знайде або сфотографує вашу сід-фразу, він все одно не зможе отримати доступ до коштів, захищених пасфразою</li>
+              <li><strong>Примусу (з приманкою)</strong> &mdash; ви можете передати сід-фразу та продемонструвати правдоподібний гаманець-приманку</li>
+              <li><strong>Внутрішніх загроз</strong> &mdash; член сім'ї або співмешканець, який виявить вашу резервну копію сіда, не зможе отримати доступ до гаманця з пасфразою</li>
+              <li><strong>Атак на ланцюг постачання</strong> &mdash; навіть якщо апаратний гаманець поставлений із заздалегідь скомпрометованою прошивкою, пасфраза вводиться окремо, і зловмисник не може її передбачити</li>
+            </ul>
+            <h3>Неефективна проти</h3>
+            <ul>
+              <li><strong>Шкідливого ПЗ на пристрої для введення пасфрази</strong> &mdash; кейлогер перехоплює пасфразу під час введення</li>
+              <li><strong>Скомпрометованого програмного забезпечення гаманця</strong> &mdash; шкідливе ПЗ може вивести і сід, і пасфразу під час введення</li>
+              <li><strong>Відеоспостереження</strong> &mdash; якщо пасфраза зафіксована на відео під час введення</li>
+              <li><strong>Повторного примусу</strong> &mdash; зловмисник, який підозрює існування прихованого гаманця, може не прийняти приманку та посилити загрози</li>
+            </ul>
+            <div class="callout callout-tip">
+              <span class="callout-label">Глибокий захист</span>
+              Пасфраза &mdash; це один рівень у багаторівневому захисті. Вона повинна доповнювати (а не замінювати) належне зберігання сіда, використання <a href="<%= langPrefix %>/guides/wallet-comparison#b-hardware">апаратного гаманця</a> та практики <a href="<%= langPrefix %>/guides/opsec#b-what-opsec">операційної безпеки</a>. Жоден окремий захід не є достатнім сам по собі.
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== FAQ ===== -->
+    <section class="section-block faq-section">
+      <div class="container">
+        <p class="label">[ ЧАСТІ ЗАПИТАННЯ ]</p>
+        <h2 >FAQ</h2>
+        <div class="faq-chat">
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Чи є 25-те слово насправді словом зі списку BIP39?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Ні. Термін &quot;25-те слово&quot; &mdash; це розмовна назва. Пасфраза &mdash; це повністю довільний рядок &mdash; вона може бути будь-якою комбінацією літер, цифр, символів і пробілів. Вона не обирається зі списку слів BIP39 і не має обмежень на довжину чи формат. Ви можете використовувати один символ, речення або складний випадковий рядок."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Що станеться, якщо я введу неправильну пасфразу?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Ви не побачите повідомлення про помилку. Натомість гаманець мовчки згенерує абсолютно інший (і, ймовірно, порожній) гаманець із неправильно введеної пасфрази. Кожна пасфраза є &quot;дійсною&quot; в тому сенсі, що створює детерміністичний гаманець &mdash; контрольної суми для виявлення помилок немає. Тому запис точної пасфрази на фізичному носії та перевірка майстер-відбитка під час налаштування є критично важливими."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Чи можу я змінити пасфразу пізніше?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Ви не можете &quot;змінити&quot; пасфразу на місці &mdash; це змінить усі ваші ключі та адреси. Натомість вам потрібно створити новий гаманець з іншою пасфразою та перевести кошти зі старого гаманця на новий. Це передбачає ончейн-транзакції та відповідні комісії. Тому обирайте пасфразу ретельно з самого початку."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Чи варто використовувати пасфразу з 24-словним сідом?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="24-словний сід вже забезпечує 256 біт ентропії, що більш ніж достатньо проти атак перебору на саму мнемоніку. Пасфраза не додає ентропії до мнемоніки &mdash; вона додає окремий фактор автентифікації. Її цінність полягає в захисті від фізичної компрометації сіда та забезпеченні правдоподібного заперечення. Якщо ці сценарії загроз актуальні для вас, пасфраза є корисною незалежно від довжини сіда."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Чи можу я використовувати одну пасфразу з різними сід-фразами?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Так, але кожна комбінація сід + пасфраза створює унікальний гаманець. Використання пасфрази &quot;X&quot; з сідом A створює абсолютно інший гаманець, ніж пасфраза &quot;X&quot; з сідом B. Ризику безпеки від повторного використання пасфрази з різними сідами немає, але й переваг також &mdash; кожен сід є незалежно випадковим."></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PASSPHRASE SIMULATOR ===== -->
+    <section class="section-block" id="passphrase-simulator">
+      <div class="container">
+        <p class="label">[ ІНТЕРАКТИВНИЙ СИМУЛЯТОР ]</p>
+        <h2 >Симулятор ефекту пасфрази</h2>
+        <p class="body-text">Введіть будь-яку пасфразу та спостерігайте, як BIP39-сід і Bitcoin-адреси змінюються в реальному часі &mdash; символ за символом. Сід-фраза нижче &mdash; це відомий тестовий вектор BIP39, безпечний лише для демонстрації. Ніколи не вводьте свою справжню сід-фразу на жодному вебсайті.</p>
+
+        <div class="sim-card">
+          <div class="sim-field">
+            <div class="sim-field-label">Сід-фраза &nbsp;&mdash;&nbsp; фіксований 12-словний тестовий вектор BIP39</div>
+            <div class="sim-seed-display" id="simSeedDisplay" translate="no"></div>
+          </div>
+          <div class="sim-field">
+            <div class="sim-field-label">Пасфраза BIP39 &nbsp;&mdash;&nbsp; &ldquo;25-те слово&rdquo;</div>
+            <div class="sim-input-wrap">
+              <input type="text" id="simPassInput" class="sim-input"
+                placeholder="Введіть будь-яку пасфразу (або залиште порожнім)&hellip;"
+                autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false">
+              <button type="button" id="simClearBtn" class="sim-clear-btn" aria-label="Очистити пасфразу">&times;</button>
+            </div>
+            <div class="sim-hint">Порожня пасфраза &rarr; стандартний гаманець &nbsp;&middot;&nbsp; Кожен символ створює повністю інший сід та адреси &nbsp;&middot;&nbsp; Чутлива до регістру</div>
+          </div>
+        </div>
+
+        <div id="simOutput" class="sim-output">
+
+          <div id="simSpinner" class="sim-spinner" hidden>
+            <span class="sim-spinner-dot"></span>
+            <span class="sim-spinner-dot"></span>
+            <span class="sim-spinner-dot"></span>
+            <span>Обчислення&hellip;</span>
+          </div>
+
+          <div class="sim-result-block">
+            <div class="sim-result-label">
+              BIP39 Seed &nbsp;<span class="sim-tag">PBKDF2-HMAC-SHA512</span><span class="sim-tag">2048 iterations</span><span class="sim-tag">512 bit</span>
+            </div>
+            <div id="simSeedOut" class="sim-hex-val">
+              <span class="sim-placeholder-text">&mdash;</span>
+            </div>
+            <div class="sim-seed-note">
+              seed = PBKDF2(HMAC-SHA512, password=<em>mnemonic</em>, salt=<em>&ldquo;mnemonic&rdquo; + passphrase</em>, iter=2048, dkLen=64)
+            </div>
+          </div>
+
+          <div class="sim-result-block">
+            <div class="sim-result-label">
+              Похідні адреси &nbsp;<span class="sim-tag">m/44&rsquo;/0&rsquo;/0&rsquo;/0/x</span><span class="sim-tag">P2PKH</span><span class="sim-tag">Bitcoin mainnet</span>
+            </div>
+            <div id="simAddrOut" class="sim-addr-list">
+              <div class="sim-placeholder-text">&mdash;</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ARTICLE PREVIEWS ===== -->
+    <section class="article-previews">
+      <div class="container">
+        <p class="label">[ ЧИТАТИ ДАЛІ ]</p>
+        <h3>Продовжуйте навчання</h3>
+        <div class="preview-grid">
+          <a class="preview-card" href="<%= langPrefix %>/guides/seed-anatomy">
+            <h4>Анатомія сід-фрази</h4>
+            <p>З чого складається мнемоніка BIP39, як працюють ентропія та контрольні суми, і чому ваші 12-24 слова такі важливі.</p>
+          </a>
+          <a class="preview-card" href="<%= langPrefix %>/guides/opsec">
+            <h4>Операційна безпека (OpSec)</h4>
+            <p>Захистіть себе від фішингу, соціальної інженерії та фізичних загроз. Практичні звички безпеки.</p>
+          </a>
+          <a class="preview-card" href="<%= langPrefix %>/guides/multisig">
+            <h4>Мультипідпис (Multisig)</h4>
+            <p>Усуньте єдині точки відмови за допомогою налаштувань із кількома ключами та моделей розподіленої довіри.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="guide-quiz-cta">
+      <div class="container">
+        <div class="quiz-cta-card">
+          <div class="quiz-cta-body">
+            <p class="quiz-cta-title">Перевірте свої знання</p>
+            <p class="quiz-cta-text">Пройдіть короткий квіз, щоб перевірити розуміння цього гайду.</p>
+          </div>
+          <a href="<%= langPrefix %>/guides/<%= pageSlug %>/quiz" class="cb-btn cb-btn--primary">Пройти квіз</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- GUIDE NAVIGATION -->
+    <nav class="guide-nav" aria-label="Guide navigation">
+      <a href="<%= langPrefix %>/guides/opsec" class="guide-nav-link guide-nav-prev">
+        <span class="guide-nav-direction">&larr; Попередній гайд</span>
+        <span class="guide-nav-title">Операційна безпека (OpSec)</span>
+      </a>
+      <a href="<%= langPrefix %>/guides/multisig" class="guide-nav-link guide-nav-next">
+        <span class="guide-nav-direction">Наступний гайд &rarr;</span>
+        <span class="guide-nav-title">Мультипідпис (Multisig)</span>
+      </a>
+    </nav>
