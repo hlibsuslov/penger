@@ -198,7 +198,7 @@ h3 { font-size: 15px; font-weight: 600; }
   padding: 5px 14px; font-size: 11px;
   width: auto; display: inline-flex;
 }
-.section-intro h1 { margin-top: 4px; margin-bottom: 0; }
+.section-intro h1 { margin-top: 4px; margin-bottom: 16px; }
 .section-block { padding: 32px 0; border-bottom: 1px solid var(--border-default); }
 
 /* === PILL SELECTOR === */
