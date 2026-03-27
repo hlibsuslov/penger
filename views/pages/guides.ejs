@@ -82,7 +82,7 @@
     <!-- FOUNDATIONS SECTION -->
     <section class="academy-section">
       <div class="container">
-        <div class="academy-section-title"><%= t.index.foundationsLabel %> <span class="academy-section-count">3 <%= t.index.guideCountSuffix %></span></div>
+        <div class="academy-section-title"><%= t.index.foundationsLabel %> <span class="academy-section-count"></span></div>
         <div class="card-grid">
 
           <a class="card" href="<%= langPrefix %>/guides/seed-anatomy">
@@ -153,7 +153,7 @@
     <!-- SECURITY SECTION -->
     <section class="academy-section">
       <div class="container">
-        <div class="academy-section-title"><%= t.index.securityLabel %> <span class="academy-section-count">4 <%= t.index.guideCountSuffix %></span></div>
+        <div class="academy-section-title"><%= t.index.securityLabel %> <span class="academy-section-count"></span></div>
         <div class="card-grid">
 
           <a class="card" href="<%= langPrefix %>/guides/wallet-comparison">
@@ -207,7 +207,7 @@
     <!-- STRATEGY SECTION -->
     <section class="academy-section">
       <div class="container">
-        <div class="academy-section-title"><%= t.index.strategyLabel %> <span class="academy-section-count">1 <%= t.index.guideCountSuffix %></span></div>
+        <div class="academy-section-title"><%= t.index.strategyLabel %> <span class="academy-section-count"></span></div>
         <div class="card-grid">
 
           <a class="card" href="<%= langPrefix %>/guides/hodl">
@@ -225,58 +225,39 @@
       </div>
     </section>
 
+    <!-- QUIZ SECTION (inline) -->
+    <section class="academy-quiz-section">
+      <div class="container">
+        <div class="academy-quiz-card">
+          <div class="academy-quiz-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div class="academy-quiz-body">
+            <h3 class="academy-quiz-title"><%= lang === 'uk' ? 'Перевірте свої знання' : 'Test Your Knowledge' %></h3>
+            <p class="academy-quiz-desc"><%= lang === 'uk' ? 'Пройдіть швидкий тест з 8 запитань, щоб визначити прогалини та отримати персоналізовані рекомендації.' : 'Take a quick 8-question quiz to identify knowledge gaps and get personalized recommendations.' %></p>
+          </div>
+          <a href="<%= langPrefix %>/quiz" class="cb-btn cb-btn--primary academy-quiz-btn"><%= lang === 'uk' ? 'Пройти тест' : 'Take the Quiz' %></a>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <%- include('../partials/footer') %>
 
-  <!-- QUIZ SUGGESTION BANNER -->
-  <div id="quiz-banner" class="quiz-banner" style="display:none;" role="dialog" aria-label="<%= lang === 'uk' ? 'Перевірка знань' : 'Knowledge Check' %>">
-    <div class="quiz-banner-inner">
-      <div class="quiz-banner-body">
-        <p class="quiz-banner-title"><%= lang === 'uk' ? 'Наскільки добре ви знаєте крипто-безпеку?' : 'How well do you know crypto security?' %></p>
-        <p class="quiz-banner-text"><%= lang === 'uk' ? 'Пройдіть швидкий тест з 8 запитань, щоб визначити прогалини та отримати персоналізовані рекомендації.' : 'Take a quick 8-question quiz to identify knowledge gaps and get personalized recommendations.' %></p>
-      </div>
-      <div class="quiz-banner-actions">
-        <a href="<%= langPrefix %>/quiz" class="cb-btn cb-btn--primary" id="quiz-banner-cta"><%= lang === 'uk' ? 'Пройти тест' : 'Take the Quiz' %></a>
-        <button class="cb-btn cb-btn--secondary" id="quiz-banner-dismiss"><%= lang === 'uk' ? 'Не зараз' : 'Not now' %></button>
-      </div>
-    </div>
-  </div>
-
   <script>
+  /* Dynamic guide count per section */
   (function() {
-    var STORAGE_KEY = 'penger_quiz_banner_dismissed';
-    var banner = document.getElementById('quiz-banner');
-    if (!banner) return;
-
-    // Don't show if already dismissed
-    try { if (localStorage.getItem(STORAGE_KEY)) return; } catch(e) {}
-
-    // Wait for cookie banner to be dismissed first, then show quiz banner
-    function tryShow() {
-      var cb = document.getElementById('cb-banner');
-      if (cb && cb.style.display !== 'none') {
-        // Cookie banner is visible — wait and check again
-        setTimeout(tryShow, 1500);
-        return;
-      }
-      // Show quiz banner with a short delay
-      setTimeout(function() { banner.style.display = ''; }, 800);
-    }
-    tryShow();
-
-    document.getElementById('quiz-banner-dismiss').addEventListener('click', function() {
-      banner.style.display = 'none';
-      try { localStorage.setItem(STORAGE_KEY, Date.now()); } catch(e) {}
-    });
-
-    document.getElementById('quiz-banner-cta').addEventListener('click', function() {
-      try { localStorage.setItem(STORAGE_KEY, Date.now()); } catch(e) {}
+    var suffix = '<%= t.index.guideCountSuffix %>';
+    document.querySelectorAll('.academy-section').forEach(function(sec) {
+      var count = sec.querySelectorAll('.card-grid .card').length;
+      var span = sec.querySelector('.academy-section-count');
+      if (span) span.textContent = count + ' ' + suffix;
     });
   })();
   </script>
 
   <script src="/analytics.js"></script>
-  <script src="/shared.js?v=3"></script>
+  <script src="/shared.js?v=4"></script>
 </body>
 </html>

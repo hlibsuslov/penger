@@ -177,6 +177,15 @@
     }, 3000);
   })();
 
+  /* ===== QUIZ CTA AT TOP OF ARTICLE ===== */
+  var bottomQuizCta = document.querySelector('.guide-quiz-cta');
+  var levelToggleForQuiz = document.getElementById('levelToggle');
+  if (bottomQuizCta && levelToggleForQuiz) {
+    var topQuiz = bottomQuizCta.cloneNode(true);
+    topQuiz.classList.add('guide-quiz-cta--top');
+    levelToggleForQuiz.parentNode.insertBefore(topQuiz, levelToggleForQuiz);
+  }
+
   /* ===== GUIDE LEVEL TOGGLE (Beginner / Advanced) ===== */
   var levelToggle = document.getElementById('levelToggle');
   if (levelToggle) {
