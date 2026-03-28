@@ -56,6 +56,7 @@
   var appliedPromo = null;
   var promoIsReferral = false;
   var isSubmitting = false;
+  var orderPlaced = false;
 
   /* ===== PHONE CODES MAP ===== */
   var phoneCodes = {
@@ -878,8 +879,26 @@
     });
   }
 
+  function disablePromoForm() {
+    orderPlaced = true;
+    if (promoInput) promoInput.disabled = true;
+    if (promoApply) { promoApply.disabled = true; promoApply.style.display = 'none'; }
+    if (promoRemove) promoRemove.style.display = 'none';
+  }
+
+  function restorePromoForm() {
+    orderPlaced = false;
+    if (appliedPromo) {
+      if (promoInput) promoInput.disabled = true;
+      if (promoRemove) promoRemove.style.display = '';
+    } else {
+      if (promoInput) promoInput.disabled = false;
+      if (promoApply) { promoApply.disabled = false; promoApply.style.display = ''; promoApply.textContent = t.promoApply || 'Apply'; }
+    }
+  }
+
   function applyPromo() {
-    if (!promoInput) return;
+    if (!promoInput || orderPlaced) return;
     var code = promoInput.value.trim().toUpperCase();
     if (promoMsg) { promoMsg.className = 'promo-msg'; promoMsg.textContent = ''; }
     if (!code) return;
@@ -952,6 +971,7 @@
 
   /* ===== REMOVE PROMO CODE ===== */
   function removePromo() {
+    if (orderPlaced) return;
     appliedPromo = null;
     promoType = null;
     promoValue = null;
@@ -1743,6 +1763,7 @@
       if (checkboxesArea) checkboxesArea.style.display = 'none';
       var trustBadges = stepPayment.querySelector('.trust-badges');
       if (trustBadges) trustBadges.style.display = 'none';
+      disablePromoForm();
       renderSolanaCheckout();
       return;
     }
@@ -1768,6 +1789,7 @@
 
     isSubmitting = true;
     checkoutBtn.disabled = true;
+    disablePromoForm();
     if (checkoutBtnText) checkoutBtnText.innerHTML = '<span class="btn-spinner"></span> ' + escapeHtml(t.processing || 'Processing...');
 
     var orderId = generateOrderId();
@@ -1883,6 +1905,7 @@
         console.error('[checkout] UA order submission error:', err);
         isSubmitting = false;
         checkoutBtn.disabled = false;
+        restorePromoForm();
         if (checkoutBtnText) checkoutBtnText.textContent = t.uaOrderBtn || 'Place order';
         showOrderError(t.orderSubmitError || 'Could not place order. Please check your connection and try again.');
       });
