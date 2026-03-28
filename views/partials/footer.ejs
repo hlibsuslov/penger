@@ -1,0 +1,28 @@
+  <footer class="site-footer" id="footer" data-section="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand"><img src="/PENGER.svg" alt="PENGER" height="16"></div>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="<%= langPrefix %>/" class="footer-link" data-track="cta_click" data-cta-id="footer_home" data-section="footer"><%= t.nav.home %></a>
+          <a href="<%= langPrefix %>/simulators" class="footer-link" data-track="cta_click" data-cta-id="footer_simulators" data-section="footer"><%= t.nav.simulators %></a>
+          <a href="<%= langPrefix %>/dictionary" class="footer-link" data-track="cta_click" data-cta-id="footer_dictionary" data-section="footer"><%= t.nav.dictionary %></a>
+          <a href="<%= langPrefix %>/guides" class="footer-link" data-track="cta_click" data-cta-id="footer_academy" data-section="footer"><%= t.nav.academy %></a>
+          <a href="<%= langPrefix %>/ai-tutor" class="footer-link" data-track="cta_click" data-cta-id="footer_ai_tutor" data-section="footer"><%= t.nav.aiTutor %></a>
+          <a href="<%= langPrefix %>/contacts" class="footer-link" data-track="cta_click" data-cta-id="footer_contacts" data-section="footer"><%= t.nav.contacts %></a>
+          <a href="<%= langPrefix %>/about-us" class="footer-link" data-track="cta_click" data-cta-id="footer_about_us" data-section="footer"><%= t.nav.aboutUs %></a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; <%= t.footer.copyright %></span>
+        <span class="footer-cookie-links">
+          <a href="<%= langPrefix %>/dropshipping" class="footer-cookie-link"><%= t.footer.dropshipping %></a>
+          <span class="footer-cookie-sep">&middot;</span>
+          <a href="<%= langPrefix %>/cookie-policy" class="footer-cookie-link"><%= t.footer.cookiePolicy %></a>
+          <span class="footer-cookie-sep">&middot;</span>
+          <button type="button" class="footer-cookie-link" id="footerCookieSettingsBtn"><%= t.footer.cookieSettings %></button>
+        </span>
+        <span><%= t.footer.tagline %></span>
+      </div>
+    </div>
+  </footer>
+  <%- include('cookie-banner') %>

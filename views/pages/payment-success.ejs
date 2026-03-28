@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>">
+<head>
+  <%- include('../partials/head') %>
+  <% if (typeof extraCss !== 'undefined') { extraCss.forEach(function(css) { %>
+  <link rel="stylesheet" href="/<%= css %>">
+  <% }); } %>
+  <title><%= pageTitle %></title>
+  <style>
+    .status-page {
+      display: flex; flex-direction: column; align-items: center;
+      min-height: calc(100vh - var(--header-h) - 140px);
+      padding: 48px 24px;
+    }
+
+    /* Receipt card */
+    .receipt {
+      width: 100%; max-width: 420px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    /* Header area inside receipt */
+    .receipt-header {
+      text-align: center;
+      padding: 32px 24px 24px;
+      border-bottom: 1px solid var(--border-default);
+    }
+    .receipt-label {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--text-dim); margin-bottom: 16px;
+    }
+    .receipt-icon {
+      width: 48px; height: 48px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+      border: 2px solid var(--border-default);
+      color: var(--text-accent);
+    }
+    .receipt-icon svg { width: 22px; height: 22px; }
+    .receipt-title {
+      font-family: var(--font-sans); font-size: 20px; font-weight: 700;
+      color: var(--text-accent); letter-spacing: -0.01em;
+      margin-bottom: 8px; line-height: 1.3;
+    }
+    .receipt-desc {
+      font-family: var(--font-sans); font-size: 13px; line-height: 1.6;
+      color: var(--text-label); max-width: 340px; margin: 0 auto;
+    }
+
+    /* Section inside receipt */
+    .receipt-section {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border-default);
+    }
+    .receipt-section:last-child { border-bottom: none; }
+
+    .receipt-section-title {
+      font-family: var(--font-sans); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.05em;
+      color: var(--text-dim); margin-bottom: 10px;
+    }
+
+    /* Key-value rows */
+    .receipt-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 4px 0;
+      font-family: var(--font-sans); font-size: 12px;
+    }
+    .receipt-key {
+      color: var(--text-dim); font-weight: 500;
+    }
+    .receipt-val {
+      color: var(--text-primary); font-weight: 600;
+      text-align: right;
+    }
+
+    /* Total row */
+    .receipt-row.total {
+      margin-top: 8px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-default);
+    }
+    .receipt-row.total .receipt-key {
+      font-weight: 700; color: var(--text-primary);
+    }
+    .receipt-row.total .receipt-val {
+      font-size: 13px; font-weight: 700; color: var(--text-accent);
+    }
+
+    /* Product name */
+    .receipt-product-name {
+      font-family: var(--font-sans); font-size: 14px; font-weight: 600;
+      color: var(--text-accent); margin-bottom: 6px;
+    }
+
+    /* Shipping address block */
+    .receipt-address {
+      font-family: var(--font-sans); font-size: 12px;
+      color: var(--text-primary); line-height: 1.7;
+    }
+    .receipt-address .dim { color: var(--text-dim); }
+
+    /* TX link */
+    .receipt-tx-link {
+      color: var(--text-accent); text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .receipt-tx-link:hover { color: var(--text-accent-hover); }
+
+    /* Discount value */
+    .receipt-val.discount { color: #2ecc71; }
+
+    /* Footer inside receipt */
+    .receipt-footer {
+      padding: 20px 24px;
+      text-align: center;
+    }
+    .receipt-actions {
+      display: flex; gap: 8px; justify-content: center; margin-bottom: 12px;
+    }
+    .receipt-actions .btn { font-size: 11px; padding: 10px 20px; min-height: 38px; }
+    .receipt-note {
+      font-family: var(--font-sans); font-size: 11px;
+      color: var(--text-dim); letter-spacing: 0.01em;
+    }
+
+    @media (max-width: 520px) {
+      .status-page { padding: 24px 16px; }
+      .receipt-header { padding: 24px 20px 20px; }
+      .receipt-section { padding: 14px 20px; }
+      .receipt-footer { padding: 16px 20px; }
+      .receipt-title { font-size: 18px; }
+      .receipt-icon { width: 42px; height: 42px; }
+      .receipt-icon svg { width: 20px; height: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <%- include('../partials/gtm-body') %>
+
+  <noscript><p style="padding:40px;text-align:center;font-size:16px;">JavaScript is required.</p></noscript>
+
+  <%- include('../partials/header') %>
+
+  <main class="status-page" role="main">
+    <div class="receipt">
+
+      <!-- Header -->
+      <div class="receipt-header">
+        <p class="receipt-label" id="receiptLabel"><%= t.paymentSuccess.label %></p>
+        <div class="receipt-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <h1 class="receipt-title" id="receiptH1"><%= t.paymentSuccess.h1 %></h1>
+        <p class="receipt-desc" id="receiptDesc"><%= t.paymentSuccess.desc %></p>
+      </div>
+
+      <!-- Order info -->
+      <div class="receipt-section">
+        <div class="receipt-section-title"><%= t.paymentSuccess.receiptTitle %></div>
+        <div class="receipt-row">
+          <span class="receipt-key"><%= t.paymentSuccess.orderIdLabel %></span>
+          <span class="receipt-val" id="orderId">&mdash;</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-key"><%= t.paymentSuccess.dateLabel %></span>
+          <span class="receipt-val" id="orderDate">&mdash;</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-key"><%= t.paymentSuccess.statusLabel %></span>
+          <span class="receipt-val" id="statusVal"><%= t.paymentSuccess.statusValue %></span>
+        </div>
+        <div class="receipt-row" id="payMethodRow">
+          <span class="receipt-key"><%= t.paymentSuccess.paymentLabel %></span>
+          <span class="receipt-val" id="payMethod">&mdash;</span>
+        </div>
+        <div class="receipt-row" id="txRow" style="display:none;">
+          <span class="receipt-key">TX</span>
+          <span class="receipt-val"><a id="txLink" class="receipt-tx-link" href="#" target="_blank" rel="noopener">&mdash;</a></span>
+        </div>
+      </div>
+
+      <!-- Product details -->
+      <div class="receipt-section" id="productSection">
+        <div class="receipt-section-title"><%= t.paymentSuccess.productSection %></div>
+        <div class="receipt-product-name"><%= t.paymentSuccess.productValue %></div>
+        <div class="receipt-row">
+          <span class="receipt-key"><%= t.paymentSuccess.platesLabel %></span>
+          <span class="receipt-val" id="platesCount">&mdash;</span>
+        </div>
+        <div class="receipt-row" id="sleeveRow">
+          <span class="receipt-key"><%= t.paymentSuccess.sleeveLabel %></span>
+          <span class="receipt-val" id="sleeveVal">&mdash;</span>
+        </div>
+        <div class="receipt-row" id="punchRow">
+          <span class="receipt-key"><%= t.paymentSuccess.punchLabel %></span>
+          <span class="receipt-val" id="punchVal">&mdash;</span>
+        </div>
+      </div>
+
+      <!-- Price breakdown -->
+      <div class="receipt-section" id="priceSection">
+        <div class="receipt-section-title"><%= t.paymentSuccess.priceSection %></div>
+        <div class="receipt-row">
+          <span class="receipt-key"><%= t.paymentSuccess.basePrice %></span>
+          <span class="receipt-val">&euro;49</span>
+        </div>
+        <div class="receipt-row" id="extraPlatesRow" style="display:none;">
+          <span class="receipt-key" id="extraPlatesLabel"><%= t.paymentSuccess.extraPlates %></span>
+          <span class="receipt-val" id="extraPlatesVal"></span>
+        </div>
+        <div class="receipt-row" id="sleeveRowPrice">
+          <span class="receipt-key"><%= t.paymentSuccess.sleeveLabel %></span>
+          <span class="receipt-val" id="sleevePrice">+&euro;10</span>
+        </div>
+        <div class="receipt-row" id="punchRowPrice" style="display:none;">
+          <span class="receipt-key"><%= t.paymentSuccess.punchLabel %></span>
+          <span class="receipt-val" id="punchPrice">+&euro;10</span>
+        </div>
+        <div class="receipt-row" id="shippingRow">
+          <span class="receipt-key"><%= t.paymentSuccess.shippingLabel %></span>
+          <span class="receipt-val" id="shippingVal"><%= t.order.shippingValue %></span>
+        </div>
+        <div class="receipt-row" id="discountRow" style="display:none;">
+          <span class="receipt-key" id="discountLabel"><%= t.paymentSuccess.discountLabel %></span>
+          <span class="receipt-val discount" id="discountVal"></span>
+        </div>
+        <div class="receipt-row total">
+          <span class="receipt-key"><%= t.order.totalLabel %></span>
+          <span class="receipt-val" id="orderTotal">&mdash;</span>
+        </div>
+      </div>
+
+      <!-- Shipping address -->
+      <div class="receipt-section" id="addressSection" style="display:none;">
+        <div class="receipt-section-title"><%= t.paymentSuccess.shippingTo %></div>
+        <div class="receipt-address" id="addressBlock"></div>
+      </div>
+
+      <!-- Footer -->
+      <div class="receipt-footer">
+        <div class="receipt-actions">
+          <a href="<%= langPrefix %>/" class="btn btn-primary"><%= t.paymentSuccess.backHome %></a>
+          <a href="<%= langPrefix %>/guides" class="btn btn-secondary"><%= t.paymentSuccess.startLearning %></a>
+        </div>
+        <p class="receipt-note"><%= t.paymentSuccess.emailNote %></p>
+      </div>
+
+    </div>
+  </main>
+
+  <%- include('../partials/footer') %>
+
+  <script>
+  (function () {
+    var labels = {
+      labelPayment: '<%= t.paymentSuccess.label %>',
+      labelOrder: '<%= t.paymentSuccess.labelOrder %>',
+      h1Payment: '<%= t.paymentSuccess.h1 %>',
+      h1Order: '<%= t.paymentSuccess.h1Order %>',
+      descPayment: '<%= t.paymentSuccess.desc %>',
+      descOrder: '<%= t.paymentSuccess.descOrder %>',
+      statusPayment: '<%= t.paymentSuccess.statusValue %>',
+      statusOrder: '<%= t.paymentSuccess.statusValueOrder %>',
+      payMethodCod: '<%= t.paymentSuccess.payMethodCod %>',
+      payMethodInvoice: '<%= t.paymentSuccess.payMethodInvoice %>',
+      payMethodUaCard: '<%= t.paymentSuccess.payMethodUaCard %>',
+      payMethodCrypto: '<%= t.paymentSuccess.payMethodCrypto %>'
+    };
+
+    var payMethodNames = {
+      'ua-cod': labels.payMethodCod,
+      'ua-invoice': labels.payMethodInvoice,
+      'ua-card': labels.payMethodUaCard,
+      'crypto': labels.payMethodCrypto
+    };
+
+    var params = new URLSearchParams(window.location.search);
+    var orderId = params.get('order_id');
+    var orderEl = document.getElementById('orderId');
+    var dateEl = document.getElementById('orderDate');
+    if (orderEl && orderId) orderEl.textContent = orderId;
+
+    /* Try sessionStorage first, then fetch from server */
+    var order = null;
+    try {
+      var raw = sessionStorage.getItem('penger_order');
+      if (raw) order = JSON.parse(raw);
+    } catch (e) {}
+
+    if (order) {
+      renderReceipt(order);
+    } else if (orderId) {
+      fetch('/api/order/' + encodeURIComponent(orderId))
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (data) {
+          if (data) renderReceipt(data);
+          else if (dateEl) dateEl.textContent = new Date().toLocaleDateString('<%= lang === "uk" ? "uk-UA" : "en-US" %>', { year: 'numeric', month: 'long', day: 'numeric' });
+        })
+        .catch(function () {
+          if (dateEl) dateEl.textContent = new Date().toLocaleDateString('<%= lang === "uk" ? "uk-UA" : "en-US" %>', { year: 'numeric', month: 'long', day: 'numeric' });
+        });
+    } else {
+      if (dateEl) dateEl.textContent = new Date().toLocaleDateString('<%= lang === "uk" ? "uk-UA" : "en-US" %>', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    function renderReceipt(order) {
+      /* Date - use order timestamp if available */
+      if (dateEl) {
+        var orderDate = order.ts ? new Date(order.ts) : new Date();
+        dateEl.textContent = orderDate.toLocaleDateString('<%= lang === "uk" ? "uk-UA" : "en-US" %>', { year: 'numeric', month: 'long', day: 'numeric' });
+      }
+
+      /* Swap header for non-payment methods (COD, invoice) */
+      var pm = order.pay_method || '';
+      if (pm === 'ua-cod' || pm === 'ua-invoice') {
+        var labelEl = document.getElementById('receiptLabel');
+        var h1El = document.getElementById('receiptH1');
+        var descEl = document.getElementById('receiptDesc');
+        var statusEl = document.getElementById('statusVal');
+        if (labelEl) labelEl.textContent = labels.labelOrder;
+        if (h1El) h1El.textContent = labels.h1Order;
+        if (descEl) descEl.textContent = labels.descOrder;
+        if (statusEl) statusEl.textContent = labels.statusOrder;
+      }
+
+      /* Total */
+      var totalEl = document.getElementById('orderTotal');
+      if (totalEl && order.value) totalEl.textContent = '\u20AC' + order.value;
+
+      /* Payment method */
+      var payEl = document.getElementById('payMethod');
+      if (payEl && pm) {
+        payEl.textContent = payMethodNames[pm] || pm;
+      }
+
+      /* Solana TX link */
+      if (order.solana_tx) {
+        var txRow = document.getElementById('txRow');
+        var txLink = document.getElementById('txLink');
+        if (txRow && txLink) {
+          txRow.style.display = '';
+          var shortSig = order.solana_tx.slice(0, 8) + '\u2026' + order.solana_tx.slice(-8);
+          txLink.textContent = shortSig;
+          txLink.href = 'https://solscan.io/tx/' + encodeURIComponent(order.solana_tx);
+        }
+      }
+
+      /* Product config */
+      var platesEl = document.getElementById('platesCount');
+      if (platesEl && order.plates) platesEl.textContent = order.plates;
+
+      var sleeveEl = document.getElementById('sleeveVal');
+      if (sleeveEl) {
+        var sc = order.sleeveColors || (order.sleeveColor ? [order.sleeveColor] : ['black']);
+        sleeveEl.textContent = sc.map(function (c) { return c.charAt(0).toUpperCase() + c.slice(1); }).join(', ');
+      }
+
+      var punchEl = document.getElementById('punchVal');
+      if (punchEl) {
+        var yes = '<%= t.paymentSuccess.yes %>';
+        var no = '<%= t.paymentSuccess.no %>';
+        punchEl.textContent = order.punchTool ? yes : no;
+      }
+
+      /* Price breakdown */
+      if (order.plates && order.plates > 3) {
+        var extraRow = document.getElementById('extraPlatesRow');
+        var extraVal = document.getElementById('extraPlatesVal');
+        if (extraRow && extraVal) {
+          extraRow.style.display = '';
+          var extraCount = order.plates - 3;
+          extraVal.textContent = '+\u20AC' + (extraCount * 35);
+        }
+      }
+
+      /* Punch tool price row */
+      var punchRowPrice = document.getElementById('punchRowPrice');
+      if (punchRowPrice) {
+        punchRowPrice.style.display = order.punchTool ? '' : 'none';
+      }
+
+      /* Shipping */
+      var shippingVal = document.getElementById('shippingVal');
+      if (shippingVal && order.shipping) {
+        shippingVal.textContent = order.shipping > 0 ? '+\u20AC' + order.shipping : '<%= t.order.shippingValue %>';
+      }
+
+      /* Discount */
+      if (order.discount && order.discount > 0) {
+        var discountRow = document.getElementById('discountRow');
+        var discountVal = document.getElementById('discountVal');
+        if (discountRow && discountVal) {
+          discountRow.style.display = '';
+          discountVal.textContent = '\u2212\u20AC' + order.discount;
+          if (order.promo) {
+            var discountLabel = document.getElementById('discountLabel');
+            if (discountLabel) discountLabel.textContent = '<%= t.paymentSuccess.discountLabel %>' + ' (' + order.promo + ')';
+          }
+        }
+      }
+
+      /* Shipping address */
+      if (order.contact || order.address) {
+        var addrSection = document.getElementById('addressSection');
+        var addrBlock = document.getElementById('addressBlock');
+        if (addrSection && addrBlock) {
+          var lines = [];
+          if (order.contact) {
+            var name = ((order.contact.firstName || '') + ' ' + (order.contact.lastName || '')).trim();
+            if (name) lines.push(name);
+          }
+          if (order.address) {
+            var street = order.address.street || '';
+            if (order.address.apt) street += ', ' + order.address.apt;
+            if (street) lines.push(street);
+            var cityLine = (order.address.city || '') + (order.address.zip ? ', ' + order.address.zip : '');
+            if (cityLine) lines.push(cityLine);
+            if (order.address.country) lines.push(order.address.country);
+          }
+          if (order.contact && order.contact.email) {
+            lines.push('<span class="dim">' + order.contact.email + '</span>');
+          }
+          if (lines.length) {
+            addrSection.style.display = '';
+            addrBlock.innerHTML = lines.join('<br>');
+          }
+        }
+      }
+    }
+  })();
+  </script>
+  <script src="/analytics.js"></script>
+  <script src="/shared.js?v=3"></script>
+</body>
+</html>

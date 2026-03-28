@@ -1,0 +1,263 @@
+<!DOCTYPE html><html lang="<%= lang %>">
+<head>
+  <%- include('../partials/head') %>
+  <% if (typeof extraCss !== 'undefined') { extraCss.forEach(function(css) { %>
+  <link rel="stylesheet" href="/<%= css %>">
+  <% }); } %>
+  <title><%= pageTitle %></title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "<%= pageTitle %>",
+    "url": "<%= canonicalBase %><%= langPrefix %>/guides",
+    "description": "<%= pageDescription %>",
+    "publisher": {
+      "@type": "Organization",
+      "name": "PENGER",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "<%= canonicalBase %>/PENGER.svg"
+      }
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "<%= lang === 'uk' ? 'Головна' : 'Home' %>", "item": "<%= canonicalBase %><%= langPrefix %>/" },
+      { "@type": "ListItem", "position": 2, "name": "<%= lang === 'uk' ? 'Академія' : 'Academy' %>" }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <%- include('../partials/gtm-body') %>
+  <noscript><p style="padding:40px;text-align:center;font-size:16px;">JavaScript is required.</p></noscript>
+  <%- include('../partials/header') %>
+
+  <main>
+
+    <!-- ACADEMY HERO -->
+    <section class="academy-hero" data-section="academy-hero">
+      <div class="academy-hero-grid"></div>
+      <div class="container academy-hero-inner">
+        <p class="label"><%= t.index.academyLabel %></p>
+        <h1 class="academy-hero-title"><%= t.index.academyH2 %></h1>
+        <p class="academy-hero-tagline"><%= t.index.academyTagline %></p>
+        <p class="academy-hero-desc"><%= t.index.academyDesc %></p>
+        <div class="academy-stats">
+          <div class="academy-stat">
+            <span class="academy-stat-num">8</span>
+            <span class="academy-stat-label"><%= t.guides.statGuides %></span>
+          </div>
+          <div class="academy-stat">
+            <span class="academy-stat-num">~1.5</span>
+            <span class="academy-stat-label"><%= t.guides.statHours %></span>
+          </div>
+          <div class="academy-stat">
+            <span class="academy-stat-num">100%</span>
+            <span class="academy-stat-label"><%= t.guides.statFree %></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- START HERE -->
+    <section class="academy-start-here" data-section="academy-start-here">
+      <div class="container">
+        <a href="<%= langPrefix %>/guides/seed-anatomy" class="start-here-card" data-track="cta_click" data-cta-id="academy_start_here" data-section="academy-start-here">
+          <div class="start-here-content">
+            <div class="start-here-label"><%= t.index.startHereLabel %></div>
+            <div class="start-here-title"><%= t.index.guideSeedTitle %></div>
+            <p class="start-here-desc"><%= t.index.startHereDesc %></p>
+          </div>
+          <span class="start-here-arrow"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M12 5l5 5-5 5"/></svg></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- FOUNDATIONS SECTION -->
+    <section class="academy-section" data-section="academy-foundations">
+      <div class="container">
+        <div class="academy-section-title"><%= t.index.foundationsLabel %> <span class="academy-section-count"></span></div>
+        <div class="card-grid">
+
+          <a class="card" href="<%= langPrefix %>/guides/seed-anatomy" data-track="cta_click" data-cta-id="guide_card_seed_anatomy">
+            <img class="card-thumb" src="/imgAca/Anatomy.webp" alt="" width="2333" height="584" loading="lazy">
+            <div class="card-meta">
+              <span class="card-difficulty card-difficulty--beginner"><%= t.index.difficultyBeginner %></span>
+              <span class="card-reading-time">12 <%= t.index.minRead %></span>
+            </div>
+            <div class="card-title"><%= t.index.guideSeedTitle %></div>
+            <p class="card-desc"><%= t.index.guideSeedDesc %></p>
+            <span class="card-link"><%= t.index.readGuide %> <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M12 5l5 5-5 5"/></svg></span>
+          </a>
+
+          <a class="card" href="<%= langPrefix %>/guides/wallet-anatomy" data-track="cta_click" data-cta-id="guide_card_wallet_anatomy">
+            <img class="card-thumb" src="/imgAca/wallet.webp" alt="" width="3168" height="792" loading="lazy">
+            <div class="card-meta">
+              <span class="card-difficulty card-difficulty--beginner"><%= t.index.difficultyBeginner %></span>
+              <span class="card-reading-time">14 <%= t.index.minRead %></span>
+            </div>
+            <div class="card-title"><%= t.index.guideWalletTitle %></div>
+            <p class="card-desc"><%= t.index.guideWalletDesc %></p>
+            <span class="card-link"><%= t.index.readGuide %> <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M12 5l5 5-5 5"/></svg></span>
+          </a>
+
+          <a class="card" href="<%= langPrefix %>/guides/self-sovereignty" data-track="cta_click" data-cta-id="guide_card_self_sovereignty">
+            <img class="card-thumb" src="/imgAca/self.webp" alt="" width="3168" height="792" loading="lazy">
+            <div class="card-meta">
+              <span class="card-difficulty card-difficulty--beginner"><%= t.index.difficultyBeginner %></span>
+              <span class="card-reading-time">10 <%= t.index.minRead %></span>
+            </div>
+            <div class="card-title"><%= t.index.guideSovereigntyTitle %></div>
+            <p class="card-desc"><%= t.index.guideSovereigntyDesc %></p>
+            <span class="card-link"><%= t.index.readGuide %> <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M12 5l5 5-5 5"/></svg></span>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- LEARNING PATH -->
+    <section class="academy-learning-path" data-section="academy-learning-path">
+      <div class="container">
+        <div class="learning-path-label"><%= t.index.learningPathLabel %></div>
+        <div class="learning-path-track">
+          <% var allGuides = [
+            { slug: 'seed-anatomy', title: t.index.guideSeedTitle, num: '01' },
+            { slug: 'wallet-anatomy', title: t.index.guideWalletTitle, num: '02' },
+            { slug: 'self-sovereignty', title: t.index.guideSovereigntyTitle, num: '03' },
+            { slug: 'wallet-comparison', title: t.index.guideComparisonTitle, num: '04' },
+            { slug: 'opsec', title: t.index.guideOpsecTitle, num: '05' },
+            { slug: 'passphrase', title: t.index.guidePassphraseTitle, num: '06' },
+            { slug: 'multisig', title: t.index.guideMultisigTitle, num: '07' },
+            { slug: 'hodl', title: t.index.guideHodlTitle, num: '08' }
+          ]; %>
+          <% allGuides.forEach(function(g, i) { %>
+            <a href="<%= langPrefix %>/guides/<%= g.slug %>" class="learning-path-node" data-track="cta_click" data-cta-id="learning_path_<%= g.slug %>">
+              <span class="learning-path-num"><%= g.num %></span>
+              <span class="learning-path-title"><%= g.title %></span>
+            </a>
+            <% if (i < allGuides.length - 1) { %>
+              <div class="learning-path-connector"></div>
+            <% } %>
+          <% }); %>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECURITY SECTION -->
+    <section class="academy-section" data-section="academy-security">
+      <div class="container">
+        <div class="academy-section-title"><%= t.index.securityLabel %> <span class="academy-section-count"></span></div>
+        <div class="card-grid">
+
+          <a class="card" href="<%= langPrefix %>/guides/wallet-comparison" data-track="cta_click" data-cta-id="guide_card_wallet_comparison">
+            <img class="card-thumb" src="/imgAca/types.webp" alt="" width="2752" height="688" loading="lazy">
+            <div class="card-meta">
+              <span class="card-difficulty card-difficulty--intermediate"><%= t.index.difficultyIntermediate %></span>
+              <span class="card-reading-time">13 <%= t.index.minRead %></span>
+            </div>
+            <div class="card-title"><%= t.index.guideComparisonTitle %></div>
+            <p class="card-desc"><%= t.index.guideComparisonDesc %></p>
+            <span class="card-link"><%= t.index.readGuide %> <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M12 5l5 5-5 5"/></svg></span>
+          </a>
+
+          <a class="card" href="<%= langPrefix %>/guides/opsec" data-track="cta_click" data-cta-id="guide_card_opsec">
+            <img class="card-thumb" src="/imgAca/OpSec.webp" alt="" width="3168" height="792" loading="lazy">
+            <div class="card-meta">
+              <span class="card-difficulty card-difficulty--intermediate"><%= t.index.difficultyIntermediate %></span>
+              <span class="card-reading-time">15 <%= t.index.minRead %></span>
+            </div>
+            <div class="card-title"><%= t.index.guideOpsecTitle %></div>
+            <p class="card-desc"><%= t.index.guideOpsecDesc %></p>
+            <span class="card-link"><%= t.index.readGuide %> <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M12 5l5 5-5 5"/></svg></span>
+          </a>
+
+          <a class="card" href="<%= langPrefix %>/guides/passphrase" data-track="cta_click" data-cta-id="guide_card_passphrase">
+            <img class="card-thumb" src="/imgAca/25th.webp" alt="" width="2890" height="722" loading="lazy">
+            <div class="card-meta">
+              <span class="card-difficulty card-difficulty--intermediate"><%= t.index.difficultyIntermediate %></span>
+              <span class="card-reading-time">11 <%= t.index.minRead %></span>
+            </div>
+            <div class="card-title"><%= t.index.guidePassphraseTitle %></div>
+            <p class="card-desc"><%= t.index.guidePassphraseDesc %></p>
+            <span class="card-link"><%= t.index.readGuide %> <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M12 5l5 5-5 5"/></svg></span>
+          </a>
+
+          <a class="card" href="<%= langPrefix %>/guides/multisig" data-track="cta_click" data-cta-id="guide_card_multisig">
+            <img class="card-thumb" src="/imgAca/Multisig.webp" alt="" width="2752" height="688" loading="lazy">
+            <div class="card-meta">
+              <span class="card-difficulty card-difficulty--advanced"><%= t.index.difficultyAdvanced %></span>
+              <span class="card-reading-time">16 <%= t.index.minRead %></span>
+            </div>
+            <div class="card-title"><%= t.index.guideMultisigTitle %></div>
+            <p class="card-desc"><%= t.index.guideMultisigDesc %></p>
+            <span class="card-link"><%= t.index.readGuide %> <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M12 5l5 5-5 5"/></svg></span>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- STRATEGY SECTION -->
+    <section class="academy-section" data-section="academy-strategy">
+      <div class="container">
+        <div class="academy-section-title"><%= t.index.strategyLabel %> <span class="academy-section-count"></span></div>
+        <div class="card-grid">
+
+          <a class="card" href="<%= langPrefix %>/guides/hodl" data-track="cta_click" data-cta-id="guide_card_hodl">
+            <img class="card-thumb" src="/imgAca/HODL.webp" alt="" width="3168" height="792" loading="lazy">
+            <div class="card-meta">
+              <span class="card-difficulty card-difficulty--intermediate"><%= t.index.difficultyIntermediate %></span>
+              <span class="card-reading-time">13 <%= t.index.minRead %></span>
+            </div>
+            <div class="card-title"><%= t.index.guideHodlTitle %></div>
+            <p class="card-desc"><%= t.index.guideHodlDesc %></p>
+            <span class="card-link"><%= t.index.readGuide %> <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M12 5l5 5-5 5"/></svg></span>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- QUIZ SECTION (inline) -->
+    <section class="academy-quiz-section" data-section="academy-quiz-cta">
+      <div class="container">
+        <div class="academy-quiz-card">
+          <div class="academy-quiz-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div class="academy-quiz-body">
+            <h3 class="academy-quiz-title"><%= lang === 'uk' ? 'Перевірте свої знання' : 'Test Your Knowledge' %></h3>
+            <p class="academy-quiz-desc"><%= lang === 'uk' ? 'Пройдіть швидкий тест з 8 запитань, щоб визначити прогалини та отримати персоналізовані рекомендації.' : 'Take a quick 8-question quiz to identify knowledge gaps and get personalized recommendations.' %></p>
+          </div>
+          <a href="<%= langPrefix %>/quiz" class="cb-btn cb-btn--primary academy-quiz-btn" data-track="cta_click" data-cta-id="academy_take_quiz" data-section="academy-quiz-cta"><%= lang === 'uk' ? 'Пройти тест' : 'Take the Quiz' %></a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <%- include('../partials/footer') %>
+
+  <script>
+  /* Dynamic guide count per section */
+  (function() {
+    var suffix = '<%= t.index.guideCountSuffix %>';
+    document.querySelectorAll('.academy-section').forEach(function(sec) {
+      var count = sec.querySelectorAll('.card-grid .card').length;
+      var span = sec.querySelector('.academy-section-count');
+      if (span) span.textContent = count + ' ' + suffix;
+    });
+  })();
+  </script>
+
+  <script src="/analytics.js"></script>
+  <script src="/shared.js?v=4"></script>
+</body>
+</html>

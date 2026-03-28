@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>">
+<head>
+  <%- include('../partials/head') %>
+  <% if (typeof extraCss !== 'undefined') { extraCss.forEach(function(css) { %>
+  <link rel="stylesheet" href="/<%= css %>">
+  <% }); } %>
+  <title><%= pageTitle %></title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "<%= pageTitle %>",
+    "url": "<%= canonicalBase %><%= langPrefix %>/cookie-policy",
+    "description": "<%= pageDescription %>"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "<%= lang === 'uk' ? 'Головна' : 'Home' %>", "item": "<%= canonicalBase %><%= langPrefix %>/" },
+      { "@type": "ListItem", "position": 2, "name": "<%= lang === 'uk' ? 'Політика cookies' : 'Cookie Policy' %>" }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <%- include('../partials/gtm-body') %>
+
+  <noscript><p style="padding:40px;text-align:center;font-size:16px;">JavaScript is required.</p></noscript>
+
+  <%- include('../partials/header') %>
+
+  <main>
+
+    <!-- ===== HERO / INTRO ===== -->
+    <section class="about-hero" data-section="cookie-hero">
+      <div class="container">
+        <p class="label"><%= t.cookiePolicy.heroLabel %></p>
+        <h1><%- t.cookiePolicy.heroH1 %></h1>
+        <p class="body-text"><%- t.cookiePolicy.heroDesc %></p>
+        <p class="cp-meta"><%- t.cookiePolicy.heroVersion.replace('%VERSION%', t.cookiePolicy.policyVersion).replace('%DATE%', t.cookiePolicy.lastUpdated) %></p>
+      </div>
+    </section>
+
+    <!-- ===== WHAT ARE COOKIES & SIMILAR TECHNOLOGIES ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.cookiePolicy.whatLabel %></p>
+        <h2><%= t.cookiePolicy.whatH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.cookiePolicy.whatCookies %></p>
+          <p><%- t.cookiePolicy.whatLocalStorage %></p>
+          <p><%- t.cookiePolicy.whatPurpose %></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CATEGORIES ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.cookiePolicy.categoriesLabel %></p>
+        <h2><%= t.cookiePolicy.categoriesH2 %></h2>
+        <div class="about-text-block">
+          <h3 class="cp-subhead"><%= t.cookiePolicy.cat1Title %></h3>
+          <p><%- t.cookiePolicy.cat1Desc %></p>
+          <h3 class="cp-subhead"><%= t.cookiePolicy.cat2Title %></h3>
+          <p><%- t.cookiePolicy.cat2Desc %></p>
+          <h3 class="cp-subhead"><%= t.cookiePolicy.cat3Title %></h3>
+          <p><%- t.cookiePolicy.cat3Desc %></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SERVICES TABLE ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.cookiePolicy.servicesLabel %></p>
+        <h2><%= t.cookiePolicy.servicesH2 %></h2>
+        <div class="about-text-block">
+          <div class="cp-table-wrap">
+            <table class="cp-table">
+              <thead>
+                <tr>
+                  <th><%= t.cookiePolicy.svcColService %></th>
+                  <th><%= t.cookiePolicy.svcColProvider %></th>
+                  <th><%= t.cookiePolicy.svcColCategory %></th>
+                  <th><%= t.cookiePolicy.svcColPurpose %></th>
+                  <th><%= t.cookiePolicy.svcColData %></th>
+                  <th><%= t.cookiePolicy.svcColStorage %></th>
+                  <th><%= t.cookiePolicy.svcColLoaded %></th>
+                  <th><%= t.cookiePolicy.svcColPolicy %></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% [1,2,3,4].forEach(function(i) { %>
+                <tr>
+                  <td><strong><%= t.cookiePolicy['svc'+i+'Name'] %></strong></td>
+                  <td><%= t.cookiePolicy['svc'+i+'Provider'] %></td>
+                  <td><%= t.cookiePolicy['svc'+i+'Category'] %></td>
+                  <td><span class="cp-svc-desc"><%- t.cookiePolicy['svc'+i+'Purpose'] %></span></td>
+                  <td><span class="cp-svc-desc"><%- t.cookiePolicy['svc'+i+'Data'] %></span></td>
+                  <td><span class="cp-svc-desc"><%- t.cookiePolicy['svc'+i+'Storage'] %></span></td>
+                  <td><%= t.cookiePolicy['svc'+i+'Loaded'] %></td>
+                  <td><a href="<%= t.cookiePolicy['svc'+i+'Policy'] %>" target="_blank" rel="noopener noreferrer" class="cp-link">Link</a></td>
+                </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== DATA & SIGNALS ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.cookiePolicy.dataLabel %></p>
+        <h2><%= t.cookiePolicy.dataH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.cookiePolicy.dataText %></p>
+
+          <h3 class="cp-subhead"><%- t.cookiePolicy.dataSubhead1 %></h3>
+          <ul class="cp-list">
+            <li><%- t.cookiePolicy.data1 %></li>
+            <li><%- t.cookiePolicy.data2 %></li>
+            <li><%- t.cookiePolicy.data3 %></li>
+          </ul>
+
+          <h3 class="cp-subhead"><%- t.cookiePolicy.dataSubhead2 %></h3>
+          <ul class="cp-list">
+            <li><%- t.cookiePolicy.data4 %></li>
+            <li><%- t.cookiePolicy.data5 %></li>
+            <li><%- t.cookiePolicy.data6 %></li>
+            <li><%- t.cookiePolicy.data7 %></li>
+            <li><%- t.cookiePolicy.data8 %></li>
+            <li><%- t.cookiePolicy.data9 %></li>
+            <li><%- t.cookiePolicy.data10 %></li>
+            <li><%- t.cookiePolicy.data11 %></li>
+            <li><%- t.cookiePolicy.data12 %></li>
+            <li><%- t.cookiePolicy.data13 %></li>
+            <li><%- t.cookiePolicy.data14 %></li>
+            <li><%- t.cookiePolicy.data15 %></li>
+          </ul>
+
+          <h3 class="cp-subhead"><%- t.cookiePolicy.dataSubhead3 %></h3>
+          <ul class="cp-list">
+            <li><%- t.cookiePolicy.data16 %></li>
+            <li><%- t.cookiePolicy.data17 %></li>
+            <li><%- t.cookiePolicy.data18 %></li>
+            <li><%- t.cookiePolicy.data19 %></li>
+            <li><%- t.cookiePolicy.data20 %></li>
+          </ul>
+
+          <p class="cp-note"><%- t.cookiePolicy.dataNote %></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== WHEN TECHNOLOGIES LOAD ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.cookiePolicy.loadingLabel %></p>
+        <h2><%= t.cookiePolicy.loadingH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.cookiePolicy.loadingText1 %></p>
+          <p><%- t.cookiePolicy.loadingText2 %></p>
+          <p><%- t.cookiePolicy.loadingText3 %></p>
+          <ul class="cp-list">
+            <li><%- t.cookiePolicy.loadingScenario1 %></li>
+            <li><%- t.cookiePolicy.loadingScenario2 %></li>
+            <li><%- t.cookiePolicy.loadingScenario3 %></li>
+            <li><%- t.cookiePolicy.loadingScenario4 %></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== MANAGE CONSENT ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.cookiePolicy.manageLabel %></p>
+        <h2><%= t.cookiePolicy.manageH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.cookiePolicy.manageText1 %></p>
+          <p><%- t.cookiePolicy.manageText2 %></p>
+          <p><%- t.cookiePolicy.manageText3 %></p>
+          <h3 class="cp-subhead"><%= t.cookiePolicy.browserTitle %></h3>
+          <p><%- t.cookiePolicy.browserText %></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CONSENT STORAGE & RETENTION ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.cookiePolicy.retentionLabel %></p>
+        <h2><%= t.cookiePolicy.retentionH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.cookiePolicy.retentionText1 %></p>
+          <p><%- t.cookiePolicy.retentionText2 %></p>
+          <p><%- t.cookiePolicy.retentionText3 %></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== THIRD PARTIES ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.cookiePolicy.thirdPartyLabel %></p>
+        <h2><%= t.cookiePolicy.thirdPartyH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.cookiePolicy.thirdPartyText %></p>
+          <ul class="cp-list">
+            <li><%- t.cookiePolicy.thirdParty1 %></li>
+            <li><%- t.cookiePolicy.thirdParty2 %></li>
+            <li><%- t.cookiePolicy.thirdParty3 %></li>
+          </ul>
+          <p style="margin-top:12px;"><%- t.cookiePolicy.thirdPartyNote %></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== INTERNATIONAL DATA TRANSFERS ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.cookiePolicy.transferLabel %></p>
+        <h2><%= t.cookiePolicy.transferH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.cookiePolicy.transferText1 %></p>
+          <p><%- t.cookiePolicy.transferText2 %></p>
+          <p><%- t.cookiePolicy.transferText3 %></p>
+          <p><%- t.cookiePolicy.transferText4 %></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== YOUR RIGHTS ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.cookiePolicy.rightsLabel %></p>
+        <h2><%= t.cookiePolicy.rightsH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.cookiePolicy.rightsText %></p>
+          <ul class="cp-list">
+            <li><%- t.cookiePolicy.rights1 %></li>
+            <li><%- t.cookiePolicy.rights2 %></li>
+            <li><%- t.cookiePolicy.rights3 %></li>
+            <li><%- t.cookiePolicy.rights4 %></li>
+          </ul>
+          <p style="margin-top:12px;"><%- t.cookiePolicy.rightsNote %></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== UPDATES ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.cookiePolicy.updatesLabel %></p>
+        <h2><%= t.cookiePolicy.updatesH2 %></h2>
+        <div class="about-text-block">
+          <p><%- t.cookiePolicy.updatesText1 %></p>
+          <p><%- t.cookiePolicy.updatesText2 %></p>
+          <p><%- t.cookiePolicy.updatesText3 %></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section class="about-section">
+      <div class="container">
+        <p class="label"><%= t.cookiePolicy.contactLabel %></p>
+        <h2><%= t.cookiePolicy.contactH2 %></h2>
+        <div class="about-text-block">
+          <p><strong><%= t.cookiePolicy.contactCompany %></strong></p>
+          <p><%- t.cookiePolicy.contactText %></p>
+          <p><a href="mailto:<%= t.cookiePolicy.contactEmail %>" class="cp-link"><%= t.cookiePolicy.contactEmail %></a></p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <%- include('../partials/footer') %>
+
+  <script src="/analytics.js"></script>
+  <script src="/shared.js?v=3"></script>
+</body>
+</html>

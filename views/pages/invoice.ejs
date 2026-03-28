@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>">
+<head>
+  <%- include('../partials/head') %>
+  <title><%= pageTitle %></title>
+  <style>
+    .invoice-page {
+      display: flex; flex-direction: column; align-items: center;
+      min-height: calc(100vh - var(--header-h) - 140px);
+      padding: 32px 16px 48px;
+      background: var(--bg-base, #f5f5f5);
+    }
+
+    /* Action bar */
+    .invoice-actions {
+      display: flex; gap: 10px; justify-content: center;
+      margin-bottom: 24px; width: 100%; max-width: 820px;
+    }
+    .invoice-actions .btn { font-size: 12px; padding: 10px 28px; min-height: 40px; }
+
+    /* The A4-like document */
+    .invoice-doc {
+      width: 100%; max-width: 820px;
+      background: #fff; color: #1a1a1a;
+      border: 1px solid #d4d4d4;
+      border-radius: 6px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      padding: 48px 44px;
+      font-family: 'Inter', var(--font-sans), sans-serif;
+      font-size: 11px; line-height: 1.5;
+    }
+
+    /* ---- Header: logo + invoice info ---- */
+    .inv-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 12px; gap: 20px;
+    }
+    .inv-logo { height: 28px; opacity: 0.85; }
+    .inv-header-right { text-align: right; }
+    .inv-doc-title {
+      font-size: 22px; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 0.03em; color: #111; line-height: 1.2;
+    }
+    .inv-doc-meta {
+      font-size: 12px; color: #666; margin-top: 4px;
+      font-family: var(--font-mono), sans-serif;
+    }
+    .inv-divider {
+      border: none; border-top: 2.5px solid #111;
+      margin: 16px 0 28px;
+    }
+
+    /* ---- Parties ---- */
+    .inv-parties {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+      margin-bottom: 28px;
+    }
+    .inv-party {
+      background: #fff; border: 1px solid #ccc;
+      border-radius: 6px; padding: 16px 18px;
+    }
+    .inv-party-title {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: #999; margin-bottom: 10px;
+      padding-bottom: 6px; border-bottom: 1px solid #ccc;
+    }
+    .inv-party-row {
+      display: flex; gap: 8px; padding: 3px 0;
+      font-size: 11px; line-height: 1.45;
+    }
+    .inv-party-label {
+      color: #888; font-weight: 500; min-width: 65px; flex-shrink: 0;
+    }
+    .inv-party-val {
+      color: #1a1a1a; font-weight: 600; word-break: break-word;
+      min-width: 0; flex: 1;
+    }
+    .inv-party-val-dim {
+      font-weight: 500; color: #666; font-size: 10px;
+    }
+
+    /* ---- Exchange rate badge ---- */
+    .inv-rate-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #fff; border: 1px solid #111;
+      border-radius: 4px; padding: 6px 14px;
+      font-size: 10px; font-weight: 600; color: #111;
+      margin-bottom: 16px;
+      font-family: var(--font-mono), sans-serif;
+    }
+    .inv-rate-badge .rate-label {
+      font-family: 'Inter', var(--font-sans), sans-serif;
+      font-weight: 500; color: #555;
+    }
+
+    /* ---- Product table ---- */
+    .inv-table-wrap { overflow-x: auto; margin-bottom: 0; }
+    .inv-table {
+      width: 100%; border-collapse: collapse;
+      font-size: 11px; margin-bottom: 0;
+    }
+    .inv-table th {
+      background: #111; color: #fff; border: 1px solid #111;
+      padding: 9px 10px; text-align: left;
+      font-weight: 600; font-size: 10px; text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .inv-table td {
+      border: 1px solid #d4d4d4; padding: 9px 10px;
+      vertical-align: top;
+    }
+    .inv-table tbody tr:nth-child(even) td { }
+    .inv-table .num { text-align: center; }
+    .inv-table .money {
+      text-align: right; font-family: var(--font-mono), sans-serif;
+      font-size: 11px; white-space: nowrap;
+    }
+    .inv-table .money-uah {
+      text-align: right; font-family: var(--font-mono), sans-serif;
+      font-size: 11px; white-space: nowrap; color: #1a1a1a;
+    }
+    .inv-table tfoot td {
+      font-weight: 700; background: #f5f5f5; border-color: #d4d4d4;
+    }
+
+    /* ---- Total line ---- */
+    .inv-totals {
+      text-align: right;
+      margin: 12px 0 20px;
+    }
+    .inv-total-box {
+      font-size: 11px; font-weight: 400; color: #1a1a1a;
+      line-height: 1.4;
+    }
+
+    /* ---- Payment purpose ---- */
+    .inv-purpose {
+      background: #fff; border: 1px solid #999;
+      border-left: 4px solid #111;
+      border-radius: 4px; padding: 14px 18px;
+      margin-bottom: 32px; font-size: 11px;
+    }
+    .inv-purpose-label {
+      font-weight: 700; color: #111; margin-bottom: 4px;
+      font-size: 10px; text-transform: uppercase; letter-spacing: 0.03em;
+    }
+    .inv-purpose-text { color: #1a1a1a; font-weight: 500; }
+
+    /* ---- Signatures ---- */
+    .inv-signatures {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-top: 48px; padding-top: 16px;
+    }
+    .inv-sig-block { text-align: center; min-width: 220px; }
+    .inv-sig-line {
+      border: none; border-top: 1px solid #999;
+      margin-bottom: 6px; width: 220px;
+    }
+    .inv-sig-label { font-size: 11px; color: #888; font-weight: 500; }
+    .inv-sig-name { font-size: 11px; color: #555; font-weight: 600; margin-top: 2px; }
+
+    /* ---- Footer stamp area ---- */
+    .inv-footer-note {
+      text-align: center; margin-top: 24px;
+      font-size: 10px; color: #bbb; letter-spacing: 0.02em;
+    }
+
+    /* ---- No-data fallback ---- */
+    .inv-no-data {
+      text-align: center; padding: 60px 24px;
+      color: var(--text-dim); font-size: 14px;
+    }
+    .inv-no-data a { color: var(--text-accent); text-decoration: underline; }
+
+    /* Print */
+    @media print {
+      .invoice-actions, .site-header, .site-footer, header, footer { display: none !important; }
+      .invoice-page { padding: 0; min-height: auto; background: #fff; }
+      .invoice-doc { border: none; box-shadow: none; padding: 20px; max-width: none; }
+    }
+
+    @media (max-width: 600px) {
+      .invoice-doc { padding: 24px 16px; }
+      .inv-header { flex-direction: column; align-items: flex-start; }
+      .inv-header-right { text-align: left; }
+      .inv-doc-title { font-size: 17px; }
+      .inv-parties { grid-template-columns: 1fr; gap: 12px; }
+      .inv-table { font-size: 11px; }
+      .inv-table th, .inv-table td { padding: 6px 6px; }
+      .inv-sig-block { min-width: 160px; }
+      .inv-sig-line { width: 160px; }
+    }
+  </style>
+</head>
+<body>
+  <%- include('../partials/gtm-body') %>
+  <noscript><p style="padding:40px;text-align:center;font-size:16px;">JavaScript is required.</p></noscript>
+  <%- include('../partials/header') %>
+
+  <main class="invoice-page" role="main" data-section="invoice">
+
+    <!-- Action bar -->
+    <div class="invoice-actions" id="invoiceActions" style="display:none;">
+      <button id="downloadPdf" class="btn btn-primary" data-track="cta_click" data-cta-id="invoice_download_pdf" data-section="invoice"><%= t.invoice.downloadPdf %></button>
+      <a id="continueBtn" href="<%= langPrefix %>/payment-success" class="btn btn-secondary" data-track="cta_click" data-cta-id="invoice_continue" data-section="invoice"><%= t.invoice.continueOrder %></a>
+    </div>
+
+    <!-- Fallback if no data -->
+    <div class="inv-no-data" id="noDataMsg" style="display:none;">
+      <p><%= t.invoice.noData %></p>
+      <a href="<%= langPrefix %>/checkout"><%= t.invoice.backToOrder %></a>
+    </div>
+
+    <!-- The invoice document -->
+    <div id="invoice-doc" class="invoice-doc" style="display:none;">
+
+      <!-- Header: logo + invoice number -->
+      <div class="inv-header">
+        <img src="/PENGER.svg" alt="PENGER" class="inv-logo">
+        <div class="inv-header-right">
+          <div class="inv-doc-title" id="invTitle"></div>
+          <div class="inv-doc-meta" id="invMeta"></div>
+        </div>
+      </div>
+      <hr class="inv-divider">
+
+      <!-- Seller / Buyer -->
+      <div class="inv-parties">
+        <div class="inv-party">
+          <div class="inv-party-title"><%= t.invoice.sellerTitle %></div>
+          <div class="inv-party-row">
+            <span class="inv-party-label"><%= t.invoice.sellerName %>:</span>
+            <span class="inv-party-val" id="sellerName"></span>
+          </div>
+          <div class="inv-party-row">
+            <span class="inv-party-label"><%= t.invoice.sellerCode %>:</span>
+            <span class="inv-party-val" id="sellerCode"></span>
+          </div>
+          <div class="inv-party-row">
+            <span class="inv-party-label"><%= t.invoice.sellerIban %>:</span>
+            <span class="inv-party-val" id="sellerIban"></span>
+          </div>
+          <div class="inv-party-row">
+            <span class="inv-party-label"><%= t.invoice.sellerBank %>:</span>
+            <span class="inv-party-val" id="sellerBank"></span>
+          </div>
+          <div class="inv-party-row">
+            <span class="inv-party-label"><%= t.invoice.sellerBankCode || 'MFO' %>:</span>
+            <span class="inv-party-val inv-party-val-dim" id="sellerBankCode"></span>
+          </div>
+          <div class="inv-party-row">
+            <span class="inv-party-label"><%= t.invoice.sellerAddress %>:</span>
+            <span class="inv-party-val" id="sellerAddr"></span>
+          </div>
+        </div>
+        <div class="inv-party">
+          <div class="inv-party-title"><%= t.invoice.buyerTitle %></div>
+          <div class="inv-party-row">
+            <span class="inv-party-label"><%= t.invoice.buyerName %>:</span>
+            <span class="inv-party-val" id="buyerName"></span>
+          </div>
+          <div class="inv-party-row">
+            <span class="inv-party-label"><%= t.invoice.buyerEmail %>:</span>
+            <span class="inv-party-val" id="buyerEmail"></span>
+          </div>
+          <div class="inv-party-row">
+            <span class="inv-party-label"><%= t.invoice.buyerPhone %>:</span>
+            <span class="inv-party-val" id="buyerPhone"></span>
+          </div>
+          <div class="inv-party-row">
+            <span class="inv-party-label"><%= t.invoice.buyerAddress %>:</span>
+            <span class="inv-party-val" id="buyerAddr"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exchange rate badge -->
+      <div class="inv-rate-badge">
+        <span class="rate-label"><%= t.invoice.exchangeRate %> <span id="rateDate"></span>:</span>
+        <span>1 EUR = <span id="rateVal"></span> UAH</span>
+      </div>
+
+      <!-- Product table -->
+      <div class="inv-table-wrap">
+      <table class="inv-table">
+        <thead>
+          <tr>
+            <th class="num" style="width:32px;"><%= t.invoice.tableNum %></th>
+            <th><%= t.invoice.tableDescription %></th>
+            <th class="num" style="width:44px;"><%= t.invoice.tableQty %></th>
+            <th class="num" style="width:36px;"><%= t.invoice.tableUnit %></th>
+            <th class="money" style="width:86px;"><%= t.invoice.tablePrice %></th>
+            <th class="money" style="width:86px;"><%= t.invoice.tableAmount %></th>
+            <th class="money-uah" style="width:96px;"><%= t.invoice.tableAmountUah %></th>
+          </tr>
+        </thead>
+        <tbody id="invBody"></tbody>
+        <tfoot>
+          <tr>
+            <td colspan="5" style="text-align:right;"><%= t.invoice.totalLabel %></td>
+            <td class="money" id="invTotal"></td>
+            <td class="money-uah" id="invTotalUah"></td>
+          </tr>
+        </tfoot>
+      </table>
+      </div>
+
+      <!-- Total box -->
+      <div class="inv-totals">
+        <div class="inv-total-box">
+          <%= t.invoice.totalWords %> <span id="invTotalBox"></span> EUR &nbsp;·&nbsp; <%= t.invoice.totalUah %> <span id="invTotalBoxUah"></span> UAH
+        </div>
+      </div>
+
+      <!-- Payment purpose -->
+      <div class="inv-purpose">
+        <div class="inv-purpose-label"><%= t.invoice.paymentPurpose %></div>
+        <div class="inv-purpose-text" id="invPurpose"></div>
+      </div>
+
+      <!-- Signatures -->
+      <div class="inv-signatures">
+        <div class="inv-sig-block">
+          <hr class="inv-sig-line">
+          <div class="inv-sig-label"><%= t.invoice.sellerSignature %></div>
+          <div class="inv-sig-name" id="sigName"></div>
+        </div>
+      </div>
+
+      <div class="inv-footer-note">PENGER &mdash; BIP39 SELF-CUSTODY TOOLS</div>
+    </div>
+  </main>
+
+  <%- include('../partials/footer') %>
+
+  <!-- PDF generated server-side via pdfkit -->
+  <script>
+  (function () {
+    var t = {
+      invoiceNumber: '<%= t.invoice.invoiceNumber %>',
+      invoiceDate: '<%= t.invoice.invoiceDate %>',
+      paymentPurposeText: '<%= t.invoice.paymentPurposeText %>',
+      noVat: '<%= t.invoice.noVat %>',
+      productName: '<%= t.invoice.productName %>',
+      extraPlatesName: '<%= t.invoice.extraPlatesName %>',
+      sleeveName: '<%= t.invoice.sleeveName %>',
+      punchToolName: '<%= t.invoice.punchToolName %>',
+      shippingName: '<%= t.invoice.shippingName %>',
+      discountName: '<%= t.invoice.discountName %>',
+      unitPcs: '<%= t.invoice.unitPcs %>',
+      unitService: '<%= t.invoice.unitService %>'
+    };
+
+    /* NBU EUR/UAH rate from server */
+    var EUR_UAH = <%= eurUahRate %>;
+    var EUR_UAH_DATE = '<%= eurUahDate %>';
+
+    /* Seller details (FOP) */
+    var seller = {
+      name: 'Суслов Гліб Максимович',
+      code: '3924501311',
+      iban: 'UA103220010000026206345975321',
+      bank: 'АТ "Універсал Банк"',
+      bankCode: 'ЄДРПОУ: 21133352, МФО: 322001',
+      address: '04080, м. Київ, вул. Кирилівська, 13-А'
+    };
+
+    /* Pricing constants (EUR) */
+    var BASE_PRICE = 49;
+    var EXTRA_PLATE = 35;
+    var SLEEVE_PRICE = 10;
+    var PUNCH_PRICE = 10;
+
+    var params = new URLSearchParams(window.location.search);
+    var orderId = params.get('order_id') || '\u2014';
+
+    /* Try to read order data from sessionStorage first, then fetch from server */
+    var order = null;
+    try {
+      var raw = sessionStorage.getItem('penger_order');
+      if (raw) order = JSON.parse(raw);
+    } catch (e) {}
+
+    if (order) {
+      renderInvoice(order);
+    } else if (orderId && orderId !== '\u2014') {
+      fetch('/api/order/' + encodeURIComponent(orderId))
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (data) {
+          if (data) renderInvoice(data);
+          else document.getElementById('noDataMsg').style.display = '';
+        })
+        .catch(function () {
+          document.getElementById('noDataMsg').style.display = '';
+        });
+    } else {
+      document.getElementById('noDataMsg').style.display = '';
+    }
+
+    function renderInvoice(order) {
+      /* Show the invoice */
+      document.getElementById('invoice-doc').style.display = '';
+      document.getElementById('invoiceActions').style.display = '';
+
+      /* Date */
+      var now = order.ts ? new Date(order.ts) : new Date();
+      var dateStr = now.toLocaleDateString('<%= lang === "uk" ? "uk-UA" : "en-US" %>', {
+        year: 'numeric', month: 'long', day: 'numeric'
+      });
+
+      /* Header */
+      document.getElementById('invTitle').textContent = t.invoiceNumber + orderId;
+      document.getElementById('invMeta').textContent = t.invoiceDate + ' ' + dateStr;
+
+      /* Exchange rate */
+      document.getElementById('rateDate').textContent = EUR_UAH_DATE;
+      document.getElementById('rateVal').textContent = EUR_UAH.toFixed(4);
+
+      /* Seller info */
+      document.getElementById('sellerName').textContent = seller.name;
+      document.getElementById('sellerCode').textContent = seller.code;
+      document.getElementById('sellerIban').textContent = seller.iban;
+      document.getElementById('sellerBank').textContent = seller.bank;
+      document.getElementById('sellerBankCode').textContent = seller.bankCode;
+      document.getElementById('sellerAddr').textContent = seller.address;
+      document.getElementById('sigName').textContent = seller.name;
+
+      /* Buyer info */
+      var c = order.contact || {};
+      var a = order.address || {};
+      document.getElementById('buyerName').textContent = ((c.firstName || '') + ' ' + (c.lastName || '')).trim() || '\u2014';
+      document.getElementById('buyerEmail').textContent = c.email || '\u2014';
+      document.getElementById('buyerPhone').textContent = c.phone || '\u2014';
+
+      var addrParts = [];
+      if (a.street) addrParts.push(a.street);
+      if (a.apt) addrParts.push(a.apt);
+      if (a.city) addrParts.push(a.city);
+      if (a.zip) addrParts.push(a.zip);
+      if (a.country) addrParts.push(a.country);
+      document.getElementById('buyerAddr').textContent = addrParts.join(', ') || '\u2014';
+
+      /* Build table rows */
+      var tbody = document.getElementById('invBody');
+      var items = [];
+      var rowNum = 0;
+
+      rowNum++;
+      items.push({ n: rowNum, desc: t.productName, qty: 1, unit: t.unitPcs, price: BASE_PRICE, amount: BASE_PRICE });
+
+      var plates = parseInt(order.plates, 10) || 3;
+      if (plates > 3) {
+        var extra = plates - 3;
+        rowNum++;
+        items.push({ n: rowNum, desc: t.extraPlatesName + ' (\u00D7' + extra + ')', qty: extra, unit: t.unitPcs, price: EXTRA_PLATE, amount: extra * EXTRA_PLATE });
+      }
+
+      rowNum++;
+      items.push({ n: rowNum, desc: t.sleeveName, qty: 1, unit: t.unitPcs, price: SLEEVE_PRICE, amount: SLEEVE_PRICE });
+
+      if (order.punchTool) {
+        rowNum++;
+        items.push({ n: rowNum, desc: t.punchToolName, qty: 1, unit: t.unitPcs, price: PUNCH_PRICE, amount: PUNCH_PRICE });
+      }
+
+      var shipping = parseFloat(order.shipping) || 0;
+      if (shipping > 0) {
+        rowNum++;
+        items.push({ n: rowNum, desc: t.shippingName, qty: 1, unit: t.unitService, price: shipping, amount: shipping });
+      }
+
+      var discount = parseFloat(order.discount) || 0;
+      if (discount > 0) {
+        rowNum++;
+        var discDesc = t.discountName;
+        if (order.promo) discDesc += ' (' + order.promo + ')';
+        items.push({ n: rowNum, desc: discDesc, qty: 1, unit: '\u2014', price: -discount, amount: -discount });
+      }
+
+      /* Render rows */
+      var total = 0;
+      items.forEach(function (item) {
+        total += item.amount;
+        var uahAmount = item.amount * EUR_UAH;
+        var tr = document.createElement('tr');
+        tr.innerHTML =
+          '<td class="num">' + item.n + '</td>' +
+          '<td>' + esc(item.desc) + '</td>' +
+          '<td class="num">' + item.qty + '</td>' +
+          '<td class="num">' + esc(item.unit) + '</td>' +
+          '<td class="money">' + fmtEur(item.price) + '</td>' +
+          '<td class="money">' + fmtEur(item.amount) + '</td>' +
+          '<td class="money-uah">' + fmtUah(uahAmount) + '</td>';
+        tbody.appendChild(tr);
+      });
+
+      /* Totals */
+      var orderTotal = parseFloat(order.value) || total;
+      var orderTotalUah = orderTotal * EUR_UAH;
+
+      document.getElementById('invTotal').textContent = fmtEur(orderTotal);
+      document.getElementById('invTotalUah').textContent = fmtUah(orderTotalUah);
+      document.getElementById('invTotalBox').textContent = fmtEur(orderTotal);
+      document.getElementById('invTotalBoxUah').textContent = fmtUah(orderTotalUah);
+
+      /* Payment purpose */
+      var purposeDate = now.toLocaleDateString('<%= lang === "uk" ? "uk-UA" : "en-US" %>', {
+        year: 'numeric', month: '2-digit', day: '2-digit'
+      });
+      document.getElementById('invPurpose').textContent =
+        t.paymentPurposeText + ' \u2116' + orderId + ' \u0432\u0456\u0434 ' + purposeDate +
+        '. \u0421\u0443\u043C\u0430: ' + fmtEur(orderTotal) + ' EUR (' + fmtUah(orderTotalUah) + ' UAH). ' + t.noVat + '.';
+
+      /* Continue button href */
+      var continueBtn = document.getElementById('continueBtn');
+      if (continueBtn) {
+        var langPrefix = '<%= langPrefix %>';
+        continueBtn.href = langPrefix + '/payment-success?order_id=' + encodeURIComponent(orderId);
+      }
+
+      /* PDF download (server-side via pdfkit) */
+      document.getElementById('downloadPdf').addEventListener('click', function () {
+        var btn = this;
+        btn.disabled = true;
+        btn.textContent = '...';
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/api/invoice-pdf', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.responseType = 'blob';
+
+        xhr.onload = function () {
+          if (xhr.status === 200) {
+            var blob = xhr.response;
+            var url = window.URL.createObjectURL(blob);
+            var link = document.createElement('a');
+            link.href = url;
+            link.download = 'rahunok-' + orderId + '.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+          }
+          btn.disabled = false;
+          btn.textContent = '<%= t.invoice.downloadPdf %>';
+        };
+        xhr.onerror = function () {
+          btn.disabled = false;
+          btn.textContent = '<%= t.invoice.downloadPdf %>';
+        };
+
+        xhr.send(JSON.stringify(order));
+      });
+    }
+
+    function fmtEur(v) {
+      var n = parseFloat(v);
+      if (isNaN(n)) return '0.00';
+      var prefix = n < 0 ? '\u2212' : '';
+      return prefix + '\u20AC' + Math.abs(n).toFixed(2);
+    }
+
+    function fmtUah(v) {
+      var n = parseFloat(v);
+      if (isNaN(n)) return '0.00';
+      var prefix = n < 0 ? '\u2212' : '';
+      return prefix + Math.abs(n).toFixed(2) + ' \u20B4';
+    }
+
+    function esc(s) {
+      var d = document.createElement('div');
+      d.textContent = s;
+      return d.innerHTML;
+    }
+  })();
+  </script>
+  <script src="/analytics.js"></script>
+  <script src="/shared.js?v=3"></script>
+</body>
+</html>

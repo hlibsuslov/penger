@@ -1,0 +1,328 @@
+<!DOCTYPE html><html lang="<%= lang %>">
+<head>
+  <%- include('../partials/head') %>
+  <% if (typeof extraCss !== 'undefined') { extraCss.forEach(function(css) { %>
+  <link rel="stylesheet" href="/<%= css %>">
+  <% }); } %>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Quiz",
+    "name": "<%= pageTitle %>",
+    "url": "<%= canonicalBase %><%= langPrefix %>/guides/<%= pageSlug %>/quiz",
+    "description": "<%= pageDescription %>",
+    "isPartOf": { "@type": "TechArticle", "name": "<%= pageTitle %>", "url": "<%= canonicalBase %><%= langPrefix %>/guides/<%= pageSlug %>" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "PENGER",
+      "logo": { "@type": "ImageObject", "url": "<%= canonicalBase %>/PENGER.svg" }
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "<%= lang === 'uk' ? 'Головна' : 'Home' %>", "item": "<%= canonicalBase %><%= langPrefix %>/" },
+      { "@type": "ListItem", "position": 2, "name": "<%= lang === 'uk' ? 'Академія' : 'Academy' %>", "item": "<%= canonicalBase %><%= langPrefix %>/guides" },
+      { "@type": "ListItem", "position": 3, "name": "<%= pageTitle.replace(' Quiz — PENGER Academy', '').replace(' — Академія PENGER', '').replace('Квіз: ', '') %>", "item": "<%= canonicalBase %><%= langPrefix %>/guides/<%= pageSlug %>" },
+      { "@type": "ListItem", "position": 4, "name": "<%= lang === 'uk' ? 'Квіз' : 'Quiz' %>" }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <%- include('../partials/gtm-body') %>
+  <noscript><p style="padding:40px;text-align:center;font-size:16px;">JavaScript is required.</p></noscript>
+  <%- include('../partials/header') %>
+
+  <main>
+    <% var gq = (typeof t !== 'undefined' && t.guideQuiz) ? t.guideQuiz : {}; %>
+    <section class="quiz-hero" data-section="guide-quiz-hero">
+      <div class="container">
+        <a href="<%= langPrefix %>/guides/<%= pageSlug %>" class="quiz-back-link" data-track="cta_click" data-cta-id="guide_quiz_back_to_guide">
+          <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 10H4M8 5l-5 5 5 5"/></svg>
+          <%= gq.backToGuide || 'Back to Guide' %>
+        </a>
+        <p class="label"><%= gq.heroLabel || '[ QUIZ ]' %></p>
+        <h1 class="quiz-hero-title"><%= gq.heroTitle || 'Test Your Knowledge' %></h1>
+        <p class="quiz-hero-desc"><%= gq.heroDesc || '5 questions to check your understanding.' %></p>
+
+        <div class="level-toggle" id="levelToggle" style="margin-top:20px;">
+          <div class="pill-group">
+            <button class="pill active" data-level="beginner" type="button"><%= gq.levelBeginner || 'BEGINNER' %></button>
+            <button class="pill" data-level="advanced" type="button"><%= gq.levelAdvanced || 'ADVANCED' %></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="quiz-container" data-section="guide-quiz-container">
+      <div class="container">
+        <!-- QUIZ BODY -->
+        <div class="quiz-card" id="quiz-card">
+          <div class="quiz-progress-bar">
+            <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
+          </div>
+          <div class="quiz-question-area" id="quiz-question-area">
+            <div class="quiz-question-header">
+              <span class="quiz-question-counter" id="quiz-counter"></span>
+            </div>
+            <p class="quiz-question-text" id="quiz-question-text"></p>
+            <div class="quiz-options" id="quiz-options"></div>
+          </div>
+          <div class="quiz-nav" id="quiz-nav">
+            <button class="cb-btn cb-btn--secondary" id="quiz-prev" disabled>
+              <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 10H4M8 5l-5 5 5 5"/></svg>
+              <%= gq.back || 'Back' %>
+            </button>
+            <button class="cb-btn cb-btn--primary" id="quiz-next" disabled>
+              <%= gq.next || 'Next' %>
+              <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M12 5l5 5-5 5"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- RESULTS -->
+        <div class="quiz-results" id="quiz-results" style="display:none;">
+          <div class="quiz-results-header">
+            <div class="quiz-score-circle" id="quiz-score-circle">
+              <span class="quiz-score-num" id="quiz-score-num"></span>
+              <span class="quiz-score-label" id="quiz-score-label"></span>
+            </div>
+            <div>
+              <h2 class="quiz-results-title" id="quiz-results-title"></h2>
+              <p class="quiz-results-desc" id="quiz-results-desc"></p>
+            </div>
+          </div>
+          <div class="quiz-results-guides" id="quiz-results-guides"></div>
+          <div class="quiz-results-actions">
+            <button class="cb-btn cb-btn--secondary" id="quiz-restart"><%= gq.retake || 'Retake Quiz' %></button>
+            <button class="cb-btn cb-btn--secondary" id="quiz-switch-level" style="display:none;"></button>
+            <a href="<%= langPrefix %>/guides/<%= pageSlug %>" class="cb-btn cb-btn--secondary"><%= gq.backToGuide || 'Back to Guide' %></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <%- include('../partials/footer') %>
+
+  <script src="/analytics.js"></script>
+  <script src="/shared.js?v=3"></script>
+  <% if (typeof extraJs !== 'undefined') { extraJs.forEach(function(js) { %>
+  <script src="/<%= js %>"></script>
+  <% }); } %>
+  <script>
+  (function() {
+    var isUk = '<%= lang %>' === 'uk';
+    var LP = '<%= langPrefix %>';
+    var SLUG = '<%= pageSlug %>';
+    var ARROW_SVG = '<svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M12 5l5 5-5 5"/></svg>';
+    var L = {
+      back: isUk ? '<%= gq.back || "Назад" %>' : 'Back',
+      next: isUk ? '<%= gq.next || "Далі" %>' : 'Next',
+      seeResults: isUk ? '<%= gq.seeResults || "Результати" %>' : 'See Results',
+      of: isUk ? '<%= gq.of || "з" %>' : 'of',
+      recommended: isUk ? '<%= gq.recommendedSections || "Рекомендовані розділи:" %>' : 'Recommended sections:',
+      rereadSection: isUk ? 'Перечитати розділ' : 'Re-read this section',
+      excellentTitle: isUk ? '<%= gq.excellentTitle || "Чудовий результат!" %>' : 'Excellent Result!',
+      excellentDesc: isUk ? '<%= gq.excellentDesc || "Ви відповіли правильно на всі запитання. Ви добре розумієте цю тему!" %>' : 'You answered all questions correctly. You have a solid understanding of this topic!',
+      excellentAdvice: isUk ? '<%= gq.excellentAdvice || "Продовжуйте поглиблювати знання з контентом просунутого рівня." %>' : 'Continue deepening your knowledge with the advanced-level content.',
+      goodTitle: isUk ? '<%= gq.goodTitle || "Хороший результат!" %>' : 'Good Result!',
+      goodDesc: isUk ? '<%= gq.goodDesc || "У вас міцна база, але кілька розділів варто повторити." %>' : 'You have a strong foundation, but a few sections are worth revisiting.',
+      improvementTitle: isUk ? '<%= gq.improvementTitle || "Є над чим попрацювати" %>' : 'Room for Improvement',
+      improvementDesc: isUk ? '<%= gq.improvementDesc || "Деякі концепції потребують уваги. Рекомендуємо переглянути розділи нижче." %>' : 'Some concepts need attention. We recommend revisiting the sections below.',
+      learnTitle: isUk ? '<%= gq.learnTitle || "Саме час навчатись!" %>' : 'Time to Learn!',
+      learnDesc: isUk ? '<%= gq.learnDesc || "Не хвилюйтесь — перегляньте розділи нижче, щоб зміцнити своє розуміння." %>' : 'Don\'t worry \u2014 review the sections below to strengthen your understanding.',
+      tryAdvanced: isUk ? '<%= gq.tryAdvanced || "Спробувати просунутий рівень" %>' : 'Try Advanced Level',
+      tryBeginner: isUk ? '<%= gq.tryBeginner || "Спробувати рівень початківця" %>' : 'Try Beginner Level',
+      confirmSwitch: isUk ? 'Перемикання рівня скине ваш прогрес. Продовжити?' : 'Switching levels will reset your progress. Continue?'
+    };
+    var lk = isUk ? 'uk' : 'en';
+
+    var ALL = window.GUIDE_QUIZ_DATA || {};
+    var guideQuiz = ALL[SLUG] || { beginner: [], advanced: [] };
+
+    /* --- State --- */
+    var currentLevel = 'beginner';
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('level') === 'advanced') currentLevel = 'advanced';
+
+    var QUESTIONS = guideQuiz[currentLevel] || [];
+    var currentQ = 0;
+    var answers = new Array(QUESTIONS.length).fill(-1);
+
+    /* --- DOM refs --- */
+    var counterEl = document.getElementById('quiz-counter');
+    var questionEl = document.getElementById('quiz-question-text');
+    var optionsEl = document.getElementById('quiz-options');
+    var progressEl = document.getElementById('quiz-progress-fill');
+    var prevBtn = document.getElementById('quiz-prev');
+    var nextBtn = document.getElementById('quiz-next');
+    var cardEl = document.getElementById('quiz-card');
+    var resultsEl = document.getElementById('quiz-results');
+    var switchBtn = document.getElementById('quiz-switch-level');
+    var questionArea = document.getElementById('quiz-question-area');
+    var pills = document.querySelectorAll('#levelToggle .pill');
+
+    /* --- Level toggle (confirm before destroying state) --- */
+    function setLevel(lvl) {
+      currentLevel = lvl;
+      QUESTIONS = guideQuiz[currentLevel] || [];
+      currentQ = 0;
+      answers = new Array(QUESTIONS.length).fill(-1);
+      pills.forEach(function(p) {
+        p.classList.toggle('active', p.getAttribute('data-level') === lvl);
+      });
+      cardEl.style.display = '';
+      resultsEl.style.display = 'none';
+      if (QUESTIONS.length) render();
+    }
+
+    pills.forEach(function(p) {
+      p.addEventListener('click', function() {
+        var newLevel = p.getAttribute('data-level');
+        if (newLevel === currentLevel) return;
+        var hasAnswers = answers.some(function(a) { return a !== -1; });
+        if (hasAnswers && !confirm(L.confirmSwitch)) return;
+        setLevel(newLevel);
+      });
+    });
+
+    /* --- Transition between questions --- */
+    function transitionTo(fn) {
+      questionArea.classList.add('transitioning');
+      setTimeout(function() { fn(); questionArea.classList.remove('transitioning'); }, 150);
+    }
+
+    /* --- ARIA-compliant render --- */
+    function render() {
+      var q = QUESTIONS[currentQ];
+      counterEl.textContent = (currentQ + 1) + ' / ' + QUESTIONS.length;
+      questionEl.textContent = q.question[lk] || q.question.en;
+      questionEl.setAttribute('aria-live', 'polite');
+      progressEl.style.width = ((currentQ + 1) / QUESTIONS.length * 100) + '%';
+
+      var opts = q.options[lk] || q.options.en;
+      optionsEl.innerHTML = '';
+      optionsEl.setAttribute('role', 'radiogroup');
+      optionsEl.setAttribute('aria-label', q.question[lk] || q.question.en);
+      opts.forEach(function(opt, i) {
+        var btn = document.createElement('button');
+        btn.className = 'quiz-option' + (answers[currentQ] === i ? ' selected' : '');
+        btn.textContent = opt;
+        btn.setAttribute('role', 'radio');
+        btn.setAttribute('aria-checked', answers[currentQ] === i ? 'true' : 'false');
+        btn.addEventListener('click', function() {
+          answers[currentQ] = i;
+          var dl = window.dataLayer = window.dataLayer || [];
+          dl.push({ event: 'quiz_answer', quiz_type: 'guide', guide_slug: SLUG, level: currentLevel, question_index: currentQ, page_section: 'guide-quiz-container' });
+          render();
+        });
+        optionsEl.appendChild(btn);
+      });
+
+      prevBtn.disabled = currentQ === 0;
+      var isLast = currentQ === QUESTIONS.length - 1;
+      nextBtn.disabled = answers[currentQ] === -1;
+      nextBtn.innerHTML = isLast
+        ? L.seeResults + ' ' + ARROW_SVG
+        : L.next + ' ' + ARROW_SVG;
+    }
+
+    prevBtn.addEventListener('click', function() {
+      if (currentQ > 0) { currentQ--; transitionTo(render); }
+    });
+
+    nextBtn.addEventListener('click', function() {
+      if (answers[currentQ] === -1) return;
+      if (currentQ < QUESTIONS.length - 1) {
+        currentQ++;
+        transitionTo(render);
+      } else {
+        showResults();
+      }
+    });
+
+    function showResults() {
+      cardEl.style.display = 'none';
+      resultsEl.style.display = '';
+
+      var score = 0;
+      var weak = [];
+      QUESTIONS.forEach(function(q, i) {
+        if (answers[i] === q.correct) score++;
+        else weak.push(q);
+      });
+
+      document.getElementById('quiz-score-num').textContent = score;
+      document.getElementById('quiz-score-label').textContent = L.of + ' ' + QUESTIONS.length;
+      var dl = window.dataLayer = window.dataLayer || [];
+      dl.push({ event: 'quiz_complete', quiz_type: 'guide', guide_slug: SLUG, level: currentLevel, score: score, total: QUESTIONS.length, page_section: 'guide-quiz-container' });
+
+      var titleEl = document.getElementById('quiz-results-title');
+      var descEl = document.getElementById('quiz-results-desc');
+      var guidesEl = document.getElementById('quiz-results-guides');
+
+      if (score === QUESTIONS.length) {
+        titleEl.textContent = L.excellentTitle;
+        descEl.textContent = L.excellentDesc;
+        guidesEl.innerHTML = '<p class="quiz-results-all-good">' + L.excellentAdvice + '</p>';
+      } else if (score >= Math.ceil(QUESTIONS.length * 0.8)) {
+        titleEl.textContent = L.goodTitle;
+        descEl.textContent = L.goodDesc;
+      } else if (score >= Math.ceil(QUESTIONS.length * 0.5)) {
+        titleEl.textContent = L.improvementTitle;
+        descEl.textContent = L.improvementDesc;
+      } else {
+        titleEl.textContent = L.learnTitle;
+        descEl.textContent = L.learnDesc;
+      }
+
+      if (weak.length > 0) {
+        var heading = document.createElement('p');
+        heading.className = 'quiz-results-heading';
+        heading.textContent = L.recommended;
+        guidesEl.innerHTML = '';
+        guidesEl.appendChild(heading);
+
+        weak.forEach(function(q) {
+          var a = document.createElement('a');
+          a.href = LP + '/guides/' + SLUG + '#' + q.sectionId;
+          a.className = 'quiz-results-guide';
+          a.innerHTML = '<div class="quiz-results-guide-body">' +
+            '<span class="quiz-results-guide-title">' + (q.sectionTitle[lk] || q.sectionTitle.en) + '</span>' +
+            '<span class="quiz-results-guide-subtitle">' + L.rereadSection + '</span>' +
+            '</div>' + ARROW_SVG;
+          guidesEl.appendChild(a);
+        });
+      }
+
+      /* Switch-level button */
+      var otherLevel = currentLevel === 'beginner' ? 'advanced' : 'beginner';
+      if (guideQuiz[otherLevel] && guideQuiz[otherLevel].length > 0) {
+        switchBtn.style.display = '';
+        switchBtn.textContent = currentLevel === 'beginner' ? L.tryAdvanced : L.tryBeginner;
+        switchBtn.className = score === QUESTIONS.length ? 'cb-btn cb-btn--primary' : 'cb-btn cb-btn--secondary';
+        switchBtn.onclick = function() { setLevel(otherLevel); };
+      }
+
+      resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    document.getElementById('quiz-restart').addEventListener('click', function() {
+      currentQ = 0;
+      answers = new Array(QUESTIONS.length).fill(-1);
+      cardEl.style.display = '';
+      resultsEl.style.display = 'none';
+      render();
+      cardEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    if (QUESTIONS.length) render();
+  })();
+  </script>
+</body>
+</html>

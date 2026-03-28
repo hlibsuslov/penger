@@ -1,0 +1,566 @@
+
+    <section class="section-intro" data-section="guide-intro">
+      <div class="container">
+        <img class="guide-hero-banner" src="/imgAca/OpSec.webp" alt="Operational Security (OpSec)" width="3168" height="792" loading="eager">
+<p class="label">[ GUIDE / OPERATIONAL SECURITY ]</p>
+        <h1 >Operational Security (OpSec)</h1>
+        <div class="guide-intro-meta">
+          <span class="guide-meta-item"><svg class="guide-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>15 min read</span>
+          <span class="guide-intro-separator">&middot;</span>
+          <span class="guide-meta-item"><svg class="guide-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>Guide 5 of 7</span>
+          <span class="guide-intro-progress"><span class="guide-intro-progress-dot guide-intro-progress-dot--done"></span><span class="guide-intro-progress-dot guide-intro-progress-dot--done"></span><span class="guide-intro-progress-dot guide-intro-progress-dot--done"></span><span class="guide-intro-progress-dot guide-intro-progress-dot--done"></span><span class="guide-intro-progress-dot guide-intro-progress-dot--active"></span><span class="guide-intro-progress-dot"></span><span class="guide-intro-progress-dot"></span></span>
+        </div>
+        <p class="body-text">Practical steps to protect your crypto holdings from phishing, social engineering, and physical threats. Your keys are only as safe as your habits.</p>
+
+        <div class="level-toggle" id="levelToggle">
+          <div class="pill-group">
+            <button class="pill active" data-level="beginner" type="button">BEGINNER</button>
+            <button class="pill" data-level="advanced" type="button">ADVANCED</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== BEGINNER ===== -->
+    <div class="guide-content active" id="guide-beginner">
+      <div class="container">
+        <nav class="guide-toc">
+          <div class="guide-toc-title">In This Section</div>
+          <ol>
+            <li><a href="#b-what-opsec">What Is OpSec?</a></li>
+            <li><a href="#b-threats">Threat Modeling Basics</a></li>
+            <li><a href="#b-digital">Digital Security Habits</a></li>
+            <li><a href="#b-physical">Physical Security Fundamentals</a></li>
+            <li><a href="#b-social">Social Engineering Defense</a></li>
+            <li><a href="#b-software-checklist">Software Verification &amp; Phishing Defense</a></li>
+            <li><a href="#b-setup-checklist">Hardware Wallet Setup Checklist</a></li>
+            <li><a href="#b-storage-checklist">Seed Phrase Storage &amp; Fund Management Checklist</a></li>
+          </ol>
+        </nav>
+      </div>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">What is operational security (OpSec) in cryptocurrency?</p>
+          <h2 id="b-what-opsec" >What Is OpSec?</h2>
+          <div class="guide-text">
+            <p><strong>Operational security</strong> (OpSec) is the practice of protecting sensitive information by identifying vulnerabilities and eliminating them before an adversary can exploit them. Originally a military concept, OpSec has become essential for anyone holding significant value in cryptocurrency.</p>
+            <p>In crypto, OpSec spans three interconnected domains:</p>
+            <ul>
+              <li><strong>Digital security</strong> &mdash; protecting your devices, accounts, and online identity from hacking, malware, and phishing</li>
+              <li><strong>Physical security</strong> &mdash; protecting your <a href="<%= langPrefix %>/guides/seed-anatomy#b-what-is">seed phrase</a> backup, <a href="<%= langPrefix %>/guides/wallet-comparison#b-hardware">hardware wallet</a>, and physical environment from theft, fire, and natural disaster</li>
+              <li><strong>Social security</strong> &mdash; controlling what information you reveal about your holdings, habits, and identity to prevent targeted attacks</li>
+            </ul>
+            <blockquote><p>The question is not just "is my wallet secure?" but "who might want my keys, how might they attempt to get them, and what am I doing to make their job harder?"</p></blockquote>
+            <p>Good OpSec is not about being paranoid &mdash; it is about being <strong>methodical</strong>. You systematically identify what you're protecting, who you're protecting it from, and what practical steps reduce your risk surface.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">How do you build a threat model for crypto security?</p>
+          <h2 id="b-threats" >Threat Modeling Basics</h2>
+          <div class="guide-text">
+            <p>Before implementing security measures, you need to understand <strong>what you're protecting against</strong>. A threat model is a structured way of thinking about risk. Ask yourself:</p>
+            <ol>
+              <li><strong>What am I protecting?</strong> &mdash; seed phrases, <a href="<%= langPrefix %>/guides/wallet-anatomy#b-keys">private keys</a>, hardware wallets, account access</li>
+              <li><strong>Who might want to steal it?</strong> &mdash; hackers, scammers, criminals, insiders</li>
+              <li><strong>What methods would they use?</strong> &mdash; phishing, malware, physical theft, coercion</li>
+              <li><strong>What is the impact if they succeed?</strong> &mdash; total loss, partial loss, privacy breach</li>
+              <li><strong>What am I willing to invest in prevention?</strong> &mdash; time, money, convenience trade-offs</li>
+            </ol>
+            <h3>Common Threat Actors</h3>
+            <ul>
+              <li><strong>Opportunistic hackers</strong> &mdash; automated scanning for weak passwords, exposed keys, and phishing victims. They cast a wide net and rely on volume.</li>
+              <li><strong>Targeted attackers</strong> &mdash; individuals or groups who know (or suspect) you hold significant crypto. They invest time in reconnaissance and custom attacks.</li>
+              <li><strong>Phishers and scammers</strong> &mdash; impersonating exchanges, wallet providers, or support staff to trick you into revealing credentials or seed phrases.</li>
+              <li><strong>Physical attackers</strong> &mdash; may resort to coercion, extortion, or the "$5 wrench attack" (physical violence to force compliance). This is why you should never publicly disclose your holdings.</li>
+              <li><strong>Insiders</strong> &mdash; family members, roommates, or colleagues who may have physical access to your backup material.</li>
+            </ul>
+            <div class="callout callout-tip">
+              <span class="callout-label">Practical Tip</span>
+              Your threat model should be proportional to your holdings. Someone holding $500 in crypto faces different threats than someone holding $500,000. Scale your security measures accordingly &mdash; but build good habits from the start.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">What digital security habits protect your cryptocurrency?</p>
+          <h2 id="b-digital" >Digital Security Habits</h2>
+          <div class="guide-text">
+            <p>Most crypto theft happens through digital attack vectors. Building strong habits here provides the highest return on security investment.</p>
+            <h3>Authentication</h3>
+            <ul>
+              <li>Use a <strong>password manager</strong> to generate and store unique, random passwords for every account</li>
+              <li>Enable <strong>two-factor authentication</strong> (2FA) on every crypto-related account &mdash; exchange, email, cloud storage</li>
+              <li>Use <strong>hardware security keys</strong> (FIDO2/WebAuthn) instead of SMS or TOTP codes whenever possible &mdash; hardware keys are phishing-resistant</li>
+              <li>Never use SMS-based 2FA for high-value accounts &mdash; SIM-swap attacks can bypass it trivially</li>
+            </ul>
+            <h3>Device Security</h3>
+            <ul>
+              <li>Keep operating systems and wallet software <strong>up to date</strong> &mdash; security patches are released for a reason</li>
+              <li>Use <strong>full-disk encryption</strong> on all devices (FileVault on macOS, BitLocker on Windows, LUKS on Linux)</li>
+              <li>Avoid installing unnecessary software, browser extensions, or mobile apps &mdash; each is a potential attack surface</li>
+              <li>Use a dedicated browser profile (or separate browser) for crypto activities &mdash; isolated from your general browsing</li>
+            </ul>
+            <div class="callout callout-warning">
+              <span class="callout-label">Phishing Alert</span>
+              No legitimate wallet, exchange, or support team will ever ask for your seed phrase, private key, or password. Anyone who asks for these is attempting to steal your funds. This rule has zero exceptions.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">How do you physically secure your crypto assets and backups?</p>
+          <h2 id="b-physical" >Physical Security Fundamentals</h2>
+          <div class="guide-text">
+            <p>Your seed phrase backup is the <strong>most critical physical item</strong> in your crypto setup. If it is lost, stolen, or destroyed, your funds may be permanently inaccessible.</p>
+            <h3>Storage Best Practices</h3>
+            <ul>
+              <li>Record your seed on a <strong>durable medium</strong> &mdash; stamped or engraved <a href="<%= langPrefix %>/">metal plates</a> resist fire (up to 1,500&deg;C), water, and corrosion far better than paper</li>
+              <li>Store in a <strong>fireproof, waterproof safe</strong> that you control</li>
+              <li>Maintain <strong>geographically separated copies</strong> to protect against localized disasters (fire, flood, earthquake)</li>
+              <li>Consider a <strong>safety deposit box</strong> or trusted second location for one backup copy</li>
+              <li>If using a <a href="<%= langPrefix %>/guides/passphrase#b-what-is">BIP39 passphrase</a>, store it <strong>separately</strong> from the seed phrase &mdash; an attacker who finds both can access your funds</li>
+            </ul>
+            <div class="callout callout-warning">
+              <span class="callout-label">Never Do This</span>
+              Never store a photo of your seed phrase on your phone. Never put it in cloud storage (iCloud, Google Drive, Dropbox). Never type it into any website. Never email or message it to anyone. Every digital copy is a permanent liability.
+            </div>
+            <h3>Hardware Wallet Physical Security</h3>
+            <ul>
+              <li>Store your hardware wallet in a location <strong>separate</strong> from your seed backup (so a single burglary doesn't compromise both)</li>
+              <li>Use the device PIN to protect against casual physical access</li>
+              <li>Enable the <strong>auto-wipe feature</strong> (if available) that erases the device after a set number of incorrect PIN attempts</li>
+              <li>Check packaging integrity when receiving a new device &mdash; look for signs of tampering, broken seals, or pre-initialized state</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">How do you defend against social engineering and phishing attacks?</p>
+          <h2 id="b-social" >Social Engineering Defense</h2>
+          <div class="guide-text">
+            <p><strong>Social engineering</strong> is the manipulation of people to divulge confidential information or perform actions that compromise security. In crypto, it is one of the most effective and common attack vectors.</p>
+            <h3>Key Rules</h3>
+            <ul>
+              <li><strong>Never disclose your holdings</strong> publicly &mdash; on social media, forums, in-person conversations, or anywhere that could reach an attacker. You become a target the moment someone knows you have significant crypto.</li>
+              <li><strong>Verify before trusting</strong> &mdash; always independently verify the identity of anyone requesting sensitive information. Don't trust caller ID, email addresses, or display names.</li>
+              <li><strong>Be skeptical of urgency</strong> &mdash; scammers create artificial time pressure ("your account is compromised, act now!") to bypass your critical thinking.</li>
+              <li><strong>Never share your screen</strong> during wallet operations, and never allow "remote support" to access your device.</li>
+            </ul>
+            <h3>Common Social Engineering Tactics</h3>
+            <ul>
+              <li><strong>Impersonation</strong> &mdash; pretending to be exchange support, wallet developers, or government officials</li>
+              <li><strong>Fake giveaways</strong> &mdash; "send 0.1 BTC, receive 1.0 BTC back" scams are ubiquitous and always fraudulent</li>
+              <li><strong>Compromised accounts</strong> &mdash; a friend's hacked social media sends you a malicious link or seed phrase request</li>
+              <li><strong>Fake wallet apps</strong> &mdash; cloned apps in app stores that look identical to legitimate wallets but steal your keys</li>
+            </ul>
+            <blockquote><p>The best defense against social engineering is a simple rule: if anyone asks for your seed phrase, private key, or password for any reason whatsoever, the answer is always "no."</p></blockquote>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">How do you verify wallet software and defend against phishing?</p>
+          <h2 id="b-software-checklist" >Software Verification &amp; Phishing Defense</h2>
+          <div class="guide-text">
+            <p>Before you even plug in your hardware wallet, the software you use to interact with it must be <strong>authentic and uncompromised</strong>. Fake wallet software is one of the most common and effective attack vectors in crypto theft.</p>
+
+            <h3>Download Only From Verified Official Sources</h3>
+            <p>Applications like Trezor Suite, Ledger Live, Sparrow Wallet, or Electrum must only be downloaded from the manufacturer's or developer's <strong>official website</strong>. Verify the source every time:</p>
+            <ul>
+              <li><strong>Type the URL manually</strong> or use a bookmarked link &mdash; never click download links from emails, social media, search ads, or messaging apps</li>
+              <li><strong>Check the domain carefully</strong> &mdash; attackers register lookalike domains (e.g., <code>trezor.io</code> vs. <code>trez0r.io</code>, <code>ledger.com</code> vs. <code>1edger.com</code>)</li>
+              <li><strong>Look for HTTPS</strong> and verify the certificate &mdash; though note that attackers can also obtain valid HTTPS certificates for fraudulent domains</li>
+              <li><strong>Cross-reference</strong> the download URL against multiple independent sources (GitHub repository, official documentation, manufacturer's social media)</li>
+            </ul>
+
+            <h3>Verify Checksums and Digital Signatures</h3>
+            <p>After downloading, verify that the file has not been tampered with:</p>
+            <ul>
+              <li><strong>SHA-256 checksum</strong> &mdash; compute the hash of the downloaded file and compare it character-by-character against the checksum published on the developer's signed release page</li>
+              <li><strong>GPG signature verification</strong> &mdash; import the developer's public GPG key and verify the release signature. This proves the file was produced by someone who holds the corresponding private key.</li>
+              <li><strong>Do not skip this step</strong> &mdash; a compromised download mirror could serve a modified binary that looks identical but contains a backdoor</li>
+            </ul>
+            <div class="callout callout-tip">
+              <span class="callout-label">Verification Commands</span>
+              On most systems: <code>sha256sum filename</code> (Linux), <code>shasum -a 256 filename</code> (macOS), or <code>Get-FileHash filename</code> (Windows PowerShell). Compare the output against the official checksum.
+            </div>
+
+            <h3>Phishing, Fake Sites, and Interface Spoofing</h3>
+            <p><strong>Phishing</strong> is the most common method of stealing crypto. Attackers create pixel-perfect replicas of wallet interfaces, exchange login pages, and support portals to trick users into entering their credentials or seed phrases.</p>
+            <p>Common attack vectors:</p>
+            <ul>
+              <li><strong>Search engine ads</strong> &mdash; paid ads for "Trezor Suite download" or "MetaMask extension" that link to malicious clones</li>
+              <li><strong>Homograph attacks</strong> &mdash; domains using Unicode characters that visually resemble legitimate URLs (e.g., using Cyrillic "a" instead of Latin "a")</li>
+              <li><strong>Browser extension impersonation</strong> &mdash; fake wallet extensions in app stores that mimic the real extension's name, icon, and interface</li>
+              <li><strong>Fake firmware update prompts</strong> &mdash; emails or pop-ups claiming your device needs an urgent update, directing you to a malicious download</li>
+              <li><strong>Social media impersonation</strong> &mdash; fake accounts posing as official support, directing users to phishing sites in DMs</li>
+            </ul>
+
+            <h3>Why an Infected Computer Makes Even Hardware Wallets Dangerous</h3>
+            <p>A hardware wallet protects your private keys &mdash; but it does not protect against <strong>manipulation of what you see on your computer screen</strong>. On a compromised computer:</p>
+            <ul>
+              <li><strong>Address replacement</strong> &mdash; malware can silently swap the recipient address displayed in your wallet software. You think you're sending to your exchange, but the address has been replaced with the attacker's.</li>
+              <li><strong>Amount manipulation</strong> &mdash; the displayed amount and the actual transaction amount could differ</li>
+              <li><strong>Fake confirmation screens</strong> &mdash; malware can overlay a fake "transaction confirmed" message while the real transaction failed or went elsewhere</li>
+            </ul>
+            <p>This is why you must <strong>always verify the recipient address and amount on your hardware wallet's trusted display</strong> before confirming. The hardware wallet's screen is the only display you can trust.</p>
+            <div class="callout callout-warning">
+              <span class="callout-label">Critical Habit</span>
+              Always compare the address shown on your computer with the address shown on your hardware wallet's screen. Check at least the first 6 and last 6 characters. If they differ, your computer is compromised &mdash; do not confirm the transaction.
+            </div>
+
+            <h3>Behavioral Errors: Laziness, Haste, and Misplaced Trust</h3>
+            <p>Most security breaches are not caused by sophisticated attacks but by <strong>human behavior</strong>:</p>
+            <ul>
+              <li><strong>Laziness</strong> &mdash; skipping checksum verification, reusing passwords, not updating firmware because "it still works"</li>
+              <li><strong>Haste</strong> &mdash; confirming transactions without verifying addresses, rushing through wallet setup, skipping backup verification</li>
+              <li><strong>Misplaced trust</strong> &mdash; trusting a link from a "friend" without verification, trusting a website because it looks professional, trusting someone who claims to be support staff</li>
+              <li><strong>Ignoring warning signs</strong> &mdash; dismissing unexpected prompts, ignoring browser security warnings, overlooking unusual behavior from your device or software</li>
+              <li><strong>Normalization of risk</strong> &mdash; "I've done it this way for years and nothing happened" &mdash; past luck does not guarantee future safety</li>
+            </ul>
+            <blockquote><p>Security is a habit, not an event. The moment you start cutting corners because nothing bad has happened yet is the moment you become most vulnerable.</p></blockquote>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">What is the correct process for setting up a hardware wallet?</p>
+          <h2 id="b-setup-checklist" >Hardware Wallet Setup Checklist</h2>
+          <div class="guide-text">
+            <p>Use this checklist every time you set up a new hardware wallet. Each step exists for a specific security reason &mdash; skipping any of them creates a gap that an attacker can exploit.</p>
+            <ol>
+              <li><strong>Purchase directly from the manufacturer's official website</strong> &mdash; never from Amazon, eBay, or any third-party seller</li>
+              <li><strong>Inspect the packaging upon arrival</strong> &mdash; check for signs of tampering: broken seals, replaced shrink wrap, re-glued stickers, scratches on the device</li>
+              <li><strong>Verify the device initializes as new</strong> &mdash; the device should have no pre-configured PIN, no existing seed phrase, and no pre-installed accounts. If it arrives pre-initialized, it has been tampered with.</li>
+              <li><strong>Download the companion software from the official source</strong> &mdash; type the URL manually, verify the download checksum</li>
+              <li><strong>Update firmware before generating a seed</strong> &mdash; install the latest firmware to ensure all known vulnerabilities are patched</li>
+              <li><strong>Run the manufacturer's authenticity check</strong> &mdash; most modern hardware wallets include a cryptographic attestation that verifies the device is genuine</li>
+              <li><strong>Generate the seed phrase in a private environment</strong> &mdash; no cameras, no other people watching, no screen recording or screen sharing active</li>
+              <li><strong>Write down the seed phrase on paper or stamp it on metal immediately</strong> &mdash; never type it into any device, never take a photo</li>
+              <li><strong>Verify the seed backup</strong> &mdash; most devices offer a "check recovery phrase" feature. Use it to confirm every word was recorded correctly.</li>
+              <li><strong>Set a strong PIN</strong> &mdash; at least 6 digits, not a common pattern (not 123456, not your birthday)</li>
+              <li><strong>Send a small test transaction</strong> &mdash; send a tiny amount to the wallet, then send it back. Confirm the full round trip works before loading significant funds.</li>
+              <li><strong>Perform a full recovery test on a separate device</strong> (optional but recommended) &mdash; reset a second device or use a software wallet to restore from the seed phrase and verify the same addresses appear</li>
+              <li><strong>Store the seed backup in a secure, separate location</strong> &mdash; not in the same room as the hardware wallet</li>
+            </ol>
+            <div class="callout callout-warning">
+              <span class="callout-label">If Anything Seems Wrong</span>
+              If the device arrives pre-initialized, if the packaging looks tampered with, or if the firmware version is unexpectedly old &mdash; do not use it. Contact the manufacturer and request a replacement. A compromised device is worse than no device.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">How should you store seed phrases and manage crypto funds securely?</p>
+          <h2 id="b-storage-checklist" >Seed Phrase Storage &amp; Fund Management Checklist</h2>
+          <div class="guide-text">
+            <p>This checklist covers the ongoing security practices for managing your seed phrase backup and your crypto funds. These are not one-time actions &mdash; they are habits to maintain as long as you hold crypto.</p>
+
+            <h3>Seed Phrase Storage</h3>
+            <ol>
+              <li><strong>Store on durable physical media only</strong> &mdash; stamped or engraved <a href="<%= langPrefix %>/">metal plates (steel, titanium)</a> are the gold standard. Paper degrades from water, fire, humidity, and time.</li>
+              <li><strong>Zero digital copies</strong> &mdash; no photos, no screenshots, no text files, no notes apps, no password managers, no cloud storage. No exceptions.</li>
+              <li><strong>Geographically separate backups</strong> &mdash; maintain at least two physical copies in different secure locations (home safe + safety deposit box, or two different trusted locations)</li>
+              <li><strong>Store the seed separately from the hardware wallet</strong> &mdash; if both are in the same place, a single theft or disaster compromises everything</li>
+              <li><strong>If using a BIP39 passphrase, store it separately from the seed</strong> &mdash; an attacker who finds both can access your hidden wallets</li>
+              <li><strong>Test your backup at least once a year</strong> &mdash; restore the seed on a separate device and verify the derived addresses match your known addresses</li>
+              <li><strong>Create inheritance documentation</strong> &mdash; a sealed letter of instruction stored with your will, explaining where backups are and how to use them</li>
+            </ol>
+
+            <h3>Fund Management</h3>
+            <ol>
+              <li><strong>Never keep all assets in a single wallet</strong> &mdash; distribute across multiple seeds and storage schemes proportional to your holdings</li>
+              <li><strong>Always verify the recipient address on the hardware wallet's screen</strong> before confirming &mdash; check first 6 and last 6 characters at minimum</li>
+              <li><strong>Send a small test transaction before large transfers</strong> &mdash; confirm receipt before sending the full amount</li>
+              <li><strong>Keep firmware up to date</strong> &mdash; install updates promptly, but only from the official manufacturer's source</li>
+              <li><strong>Use a fresh receiving address for every transaction</strong> &mdash; address reuse degrades privacy and enables tracking</li>
+              <li><strong>Never share your screen during wallet operations</strong> &mdash; not with "support," not with friends, not on a video call</li>
+              <li><strong>Be suspicious of urgency</strong> &mdash; any message pressuring you to act immediately on your crypto is almost certainly a scam</li>
+              <li><strong>Review your security setup periodically</strong> &mdash; as your holdings grow, your security should scale. What was sufficient for $1,000 may not be sufficient for $100,000.</li>
+            </ol>
+            <div class="callout callout-tip">
+              <span class="callout-label">Security Scales With Value</span>
+              A $500 portfolio can be reasonably secured with a single hardware wallet and a paper seed backup. A $50,000+ portfolio should have metal backups, geographic distribution, and ideally a <a href="<%= langPrefix %>/guides/multisig#b-what-is">multi-sig</a> or passphrase setup. A $500,000+ portfolio warrants multi-sig, multi-vendor hardware, distributed geographic custody, and formal inheritance planning.
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== ADVANCED ===== -->
+    <div class="guide-content" id="guide-advanced">
+      <div class="container">
+        <nav class="guide-toc">
+          <div class="guide-toc-title">In This Section</div>
+          <ol>
+            <li><a href="#a-footprint">Digital Footprint Minimization</a></li>
+            <li><a href="#a-ceremony">Key Ceremony Procedures</a></li>
+            <li><a href="#a-defense">Multi-Layer Defense Strategy</a></li>
+            <li><a href="#a-inheritance">Inheritance and Dead Man's Switch</a></li>
+            <li><a href="#a-verification">Verification and Trust Minimization</a></li>
+          </ol>
+        </nav>
+      </div>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">How do you minimize your digital footprint for crypto privacy?</p>
+          <h2 id="a-footprint" >Digital Footprint Minimization</h2>
+          <div class="guide-text">
+            <p>Every piece of public information about your crypto holdings <strong>increases your attack surface</strong>. Advanced OpSec involves systematically reducing the data trail that connects your identity to your funds.</p>
+            <h3>Identity Segregation</h3>
+            <ul>
+              <li>Use <strong>separate email addresses</strong> for crypto accounts, never linked to your real name or primary email</li>
+              <li>Use <strong>unique usernames</strong> for crypto-related forums and social media &mdash; never reuse identifiers from your personal accounts</li>
+              <li>Consider <strong>privacy-focused email providers</strong> that don't require phone verification or personal information</li>
+              <li>Use a <strong>VPN or Tor</strong> for crypto-related browsing to prevent IP-based correlation</li>
+            </ul>
+            <h3>Transaction Privacy</h3>
+            <ul>
+              <li>Never reuse Bitcoin addresses &mdash; use a fresh address for each receive</li>
+              <li>Be aware of <strong>chain analysis</strong> &mdash; blockchain transactions are public, and companies specialize in linking addresses to identities</li>
+              <li>Use <strong>CoinJoin</strong> or similar privacy-enhancing techniques for Bitcoin transactions when privacy is critical</li>
+              <li>Avoid moving funds between KYC-linked exchange addresses and privacy-focused wallets in easily traceable patterns</li>
+            </ul>
+            <div class="callout callout-tip">
+              <span class="callout-label">Pro Tip</span>
+              For high-value setups, use a <strong>dedicated device</strong> (phone or laptop) exclusively for crypto operations. This device should never browse the general web, access social media, or install non-essential software. Treat it as a purpose-built secure terminal.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">What is a key ceremony and how do you perform one?</p>
+          <h2 id="a-ceremony" >Key Ceremony Procedures</h2>
+          <div class="guide-text">
+            <p>A <strong>key ceremony</strong> is a deliberate, documented process for generating and storing cryptographic keys. For high-value setups, this should be treated as a formal procedure with defined steps and verification checkpoints.</p>
+            <h3>Single-Sig Key Ceremony</h3>
+            <ol>
+              <li>Prepare a <strong>dedicated offline device</strong> (freshly installed OS or verified hardware wallet firmware)</li>
+              <li><strong>Verify wallet software integrity</strong> &mdash; check the binary hash against the developer's signed release, verify GPG signatures</li>
+              <li>Conduct generation in a <strong>private, camera-free location</strong></li>
+              <li>Generate the seed phrase and <strong>immediately create physical backups</strong> on durable media (<a href="<%= langPrefix %>/">metal plates</a>)</li>
+              <li><strong>Verify the backup</strong> &mdash; restore from the written seed on a separate device and confirm the first few addresses match</li>
+              <li>Store backups in <strong>separate secure locations</strong> before bringing any device online</li>
+              <li><strong>Document the procedure</strong> (without recording the seed) for future reference and inheritance planning</li>
+            </ol>
+            <h3>Multi-Sig Key Ceremony</h3>
+            <p>Multi-sig ceremonies are more complex because each key must be generated independently:</p>
+            <ul>
+              <li>Each key should be generated on a <strong>different device</strong>, ideally from a <strong>different manufacturer</strong></li>
+              <li>Key generation should happen in <strong>different physical locations</strong> and ideally by <strong>different individuals</strong></li>
+              <li>The <strong>wallet descriptor file</strong> (containing all xpubs and the quorum policy) must be backed up alongside each seed</li>
+              <li>Test the multi-sig setup by sending a small amount and <strong>completing a full spend</strong> before committing significant funds</li>
+            </ul>
+            <blockquote><p>A key ceremony is an investment of time that pays dividends in security confidence. Rushing the process or cutting corners during key generation is where most catastrophic errors originate.</p></blockquote>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">How do you build a multi-layer defense strategy for crypto?</p>
+          <h2 id="a-defense" >Multi-Layer Defense Strategy</h2>
+          <div class="guide-text">
+            <p><strong>Defense in depth</strong> applies multiple independent security layers so an attacker must compromise all of them &mdash; and failure of any single layer does not result in total loss.</p>
+            <h3>Security Layer Stack</h3>
+            <ul>
+              <li><strong>Layer 1 &mdash; Device security</strong>: Full-disk encryption, biometric unlock, locked BIOS/firmware, secure boot chain</li>
+              <li><strong>Layer 2 &mdash; Authentication</strong>: Strong unique passwords, FIDO2 hardware keys, app-specific 2FA</li>
+              <li><strong>Layer 3 &mdash; Isolated signing</strong>: Hardware wallet or air-gapped device &mdash; private keys never on a networked machine</li>
+              <li><strong>Layer 4 &mdash; Backup security</strong>: Metal seed plates in geographically separated, access-controlled locations</li>
+              <li><strong>Layer 5 &mdash; Passphrase layer</strong>: A BIP39 passphrase (25th word) means the seed alone is insufficient to access funds</li>
+              <li><strong>Layer 6 &mdash; Social layer</strong>: Minimizing knowledge of your holdings, using decoy wallets, maintaining a low profile</li>
+            </ul>
+            <h3>Plausible Deniability</h3>
+            <p>A BIP39 passphrase enables the creation of <strong>decoy wallets</strong> through <a href="<%= langPrefix %>/guides/passphrase#b-hidden-wallets">plausible deniability</a>. Your base seed phrase (without passphrase) can lead to a wallet with a small, plausible balance. Your actual holdings exist on a different derivation created by the passphrase. Under coercion, you can reveal the base seed phrase while keeping the passphrase-protected wallet hidden.</p>
+            <div class="callout callout-info">
+              <span class="callout-label">Duress Planning</span>
+              For high-value holders, having a convincing decoy wallet with a moderate balance is a practical countermeasure against physical coercion. The attacker sees a legitimate wallet and has no way to prove additional funds exist elsewhere.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">How do you set up crypto inheritance and dead man's switches?</p>
+          <h2 id="a-inheritance" >Inheritance and Dead Man's Switch</h2>
+          <div class="guide-text">
+            <p><a href="<%= langPrefix %>/guides/self-sovereignty#b-what-is">Self-custody</a> means your heirs cannot simply call a bank or exchange to claim assets. Without explicit planning, your crypto holdings could be <strong>permanently lost</strong> upon your incapacitation or death.</p>
+            <h3>Inheritance Planning Approaches</h3>
+            <ul>
+              <li><strong>Letter of instruction</strong> &mdash; a sealed document stored with your will that explains your setup, the location of seed backups, and step-by-step recovery instructions. Written for a technically competent executor.</li>
+              <li><strong>Multi-sig inheritance</strong> &mdash; in a 2-of-3 setup, one key is held by a trusted family member, one by a lawyer, and one by yourself. Upon your death, the family member and lawyer can cooperate to access funds.</li>
+              <li><strong>Shamir's Secret Sharing</strong> &mdash; SLIP39 shares distributed to multiple heirs/trustees. A threshold of shares can reconstruct the seed after a documented triggering event.</li>
+              <li><strong>Timelock contracts</strong> &mdash; on-chain contracts that release funds to a specified address after a certain block height or time, unless periodically "refreshed" by the owner (a dead man's switch).</li>
+            </ul>
+            <div class="callout callout-warning">
+              <span class="callout-label">Critical</span>
+              Test your inheritance plan. Have your designated executor (or a trusted proxy) perform a complete mock recovery using your documentation. If they cannot follow the instructions successfully, your heirs will not be able to access the funds when it matters.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <p class="section-question">How do you verify wallet software and minimize trust?</p>
+          <h2 id="a-verification" >Verification and Trust Minimization</h2>
+          <div class="guide-text">
+            <p>A core principle of crypto security: <strong>don't trust, verify</strong>. Every piece of software, hardware, and information should be independently verified before you trust it with your keys.</p>
+            <h3>Software Verification</h3>
+            <ul>
+              <li><strong>Download from official sources only</strong> &mdash; use the project's official website or verified GitHub repository, never third-party mirrors or app store clones</li>
+              <li><strong>Verify checksums</strong> &mdash; compare the SHA-256 hash of downloaded files against the publisher's signed release notes</li>
+              <li><strong>Verify GPG signatures</strong> &mdash; confirm the release was signed by the expected developer key</li>
+              <li><strong>Reproducible builds</strong> &mdash; for critical software, check if the project supports reproducible builds, allowing you to compile from source and verify it matches the distributed binary</li>
+            </ul>
+            <h3>Address Verification</h3>
+            <ul>
+              <li>Always verify the <strong>full address</strong> before sending &mdash; clipboard malware can silently replace the copied address with an attacker's address</li>
+              <li>Use your hardware wallet's <strong>trusted display</strong> to confirm the address, not just the computer screen</li>
+              <li>For large transfers, <strong>send a small test amount first</strong> and confirm receipt before sending the full amount</li>
+            </ul>
+            <div class="callout callout-tip">
+              <span class="callout-label">Verification Habit</span>
+              Make address verification a non-negotiable step in every transaction. Check at least the first 6 and last 6 characters of the address on both your computer screen and your hardware wallet display. This catches both clipboard malware and display-level attacks.
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== FAQ ===== -->
+    <section class="section-block faq-section" data-section="guide-faq">
+      <div class="container">
+        <p class="label">[ FREQUENTLY ASKED QUESTIONS ]</p>
+        <h2 >FAQ</h2>
+        <div class="faq-chat">
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Should I tell people how much crypto I own?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="No. Public disclosure of holdings makes you a target for social engineering, phishing, SIM-swap attacks, and even physical coercion. The crypto community principle is: never reveal your portfolio size. Keep holdings private and only discuss specifics with trusted advisors (lawyer, accountant) under appropriate legal confidentiality."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Is a password manager safe for storing seed phrases?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Password managers are excellent for account passwords and 2FA backup codes, but storing your seed phrase there is risky. If your master password is phished or your device is compromised, the attacker gains access to the seed. Seed phrases should exist only on physical media (stamped metal, hand-written paper) stored in secure offline locations. The principle is clear: seed phrases belong in the physical world, not the digital one."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>What is a &ldquo;$5 wrench attack&rdquo;?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="A $5 wrench attack (also called a rubber hose attack) refers to physical coercion &mdash; an attacker uses threats or violence to force you to hand over your keys. No amount of encryption protects against someone who can compel you to reveal your password. Countermeasures include: multi-sig (no single person holds all keys), decoy wallets (reveal a plausible small-balance wallet under duress), geographic distribution of keys, and most importantly &mdash; not advertising your holdings."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>How often should I test my backups?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Test your seed phrase recovery at least once per year and after any major wallet software update or hardware change. Use a separate device, enter the seed phrase, and verify that the first several derived addresses match your known addresses. Never test on a device that holds live funds with significant value. An untested backup is not a backup &mdash; it is a hope."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>Is it safe to buy a hardware wallet from Amazon or eBay?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Buying from third-party sellers introduces supply chain risk. Devices could be intercepted, opened, pre-loaded with a seed phrase the attacker knows, and repackaged convincingly. Multiple documented cases exist of this exact attack. Always purchase directly from the manufacturer's official website. When the device arrives, verify packaging integrity, check that the device initializes as new (not pre-configured), and run the manufacturer's authenticity verification."></div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q-btn" type="button">
+              <span>What happens to my crypto if I die?</span>
+              <span class="faq-arrow">&rsaquo;</span>
+            </button>
+            <div class="faq-bubble-wrap">
+              <div class="faq-bubble" data-text="Without an inheritance plan, your crypto is likely lost forever. Unlike bank accounts, there is no institution that can grant your heirs access. You need to create a documented recovery plan: a sealed letter of instruction stored with your will, explaining where your seed backups are located and how to use them. For advanced setups, consider multi-sig with a trusted family member or lawyer as cosigner, or Shamir's Secret Sharing (SLIP39) with shares distributed among trusted parties."></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ARTICLE PREVIEWS ===== -->
+    <section class="article-previews" data-section="guide-previews">
+      <div class="container">
+        <p class="label">[ READ NEXT ]</p>
+        <h3>Continue Learning</h3>
+        <div class="preview-grid">
+          <a class="preview-card" data-track="cta_click" data-cta-id="guide_preview_card" data-section="guide-previews" href="<%= langPrefix %>/guides/passphrase">
+            <h4>The 25th Word (Passphrase)</h4>
+            <p>How an optional BIP39 passphrase adds an extra security layer and enables hidden wallets.</p>
+          </a>
+          <a class="preview-card" data-track="cta_click" data-cta-id="guide_preview_card" data-section="guide-previews" href="<%= langPrefix %>/guides/multisig">
+            <h4>Multisignature (Multisig)</h4>
+            <p>Eliminate single points of failure with multi-key setups, quorum policies, and distributed trust.</p>
+          </a>
+          <a class="preview-card" data-track="cta_click" data-cta-id="guide_preview_card" data-section="guide-previews" href="<%= langPrefix %>/guides/self-sovereignty">
+            <h4>Self-Sovereignty</h4>
+            <p>The philosophy and practice of being your own bank &mdash; why self-custody matters and how to achieve it.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="guide-quiz-cta" data-section="guide-quiz-cta">
+      <div class="container">
+        <div class="quiz-cta-card">
+          <div class="quiz-cta-body">
+            <p class="quiz-cta-title">Test Your Knowledge</p>
+            <p class="quiz-cta-text">Take a quick quiz to check your understanding of this guide.</p>
+          </div>
+          <a href="<%= langPrefix %>/guides/<%= pageSlug %>/quiz" class="cb-btn cb-btn--primary" data-track="cta_click" data-cta-id="guide_take_quiz" data-section="guide-quiz-cta">Take the Quiz</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- GUIDE NAVIGATION -->
+    <nav class="guide-nav" aria-label="Guide navigation">
+      <a href="<%= langPrefix %>/guides/wallet-comparison" class="guide-nav-link guide-nav-prev" data-track="cta_click" data-cta-id="guide_nav_prev">
+        <span class="guide-nav-direction">&larr; Previous Guide</span>
+        <span class="guide-nav-title">Wallet Types Compared</span>
+      </a>
+      <a href="<%= langPrefix %>/guides/passphrase" class="guide-nav-link guide-nav-next" data-track="cta_click" data-cta-id="guide_nav_next">
+        <span class="guide-nav-direction">Next Guide &rarr;</span>
+        <span class="guide-nav-title">The 25th Word (Passphrase)</span>
+      </a>
+    </nav>

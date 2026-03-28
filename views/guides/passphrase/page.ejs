@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>">
+<head>
+  <%- include('../../partials/head') %>
+  <title><%= pageTitle %></title>
+  <meta property="article:author" content="PENGER">
+  <meta property="article:section" content="Crypto Self-Custody Education">
+  <% if (typeof guideData !== 'undefined' && guideData.datePublished) { %>
+  <meta property="article:published_time" content="<%= guideData.datePublished %>">
+  <% } %>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "<%= pageTitle %>",
+    "description": "<%= pageDescription %>",
+    "url": "<%= canonicalBase %><%= langPrefix %>/guides/<%= pageSlug %>",
+    "inLanguage": "<%= lang %>",
+    "author": { "@type": "Organization", "name": "PENGER", "url": "<%= canonicalBase %>" },
+    "publisher": { "@type": "Organization", "name": "PENGER", "logo": { "@type": "ImageObject", "url": "<%= canonicalBase %>/PENGER.svg" } },
+    "mainEntityOfPage": "<%= canonicalBase %><%= langPrefix %>/guides/<%= pageSlug %>",
+    "isPartOf": { "@type": "CollectionPage", "name": "<%= lang === 'uk' ? 'Академія — PENGER' : 'Academy — PENGER' %>", "url": "<%= canonicalBase %><%= langPrefix %>/guides" },
+    "articleSection": "Crypto Self-Custody Education",
+    "image": "<%= canonicalBase %>/og-image.png"
+    <% if (typeof guideData !== 'undefined' && guideData.datePublished) { %>,"datePublished": "<%= guideData.datePublished %>"<% } %>
+    <% if (typeof guideData !== 'undefined' && guideData.dateModified) { %>,"dateModified": "<%= guideData.dateModified %>"<% } %>
+    <% if (typeof guideMeta !== 'undefined' && guideMeta.readingTime) { %>,"timeRequired": "PT<%= guideMeta.readingTime %>M"<% } %>
+    <% if (typeof guideMeta !== 'undefined' && guideMeta.difficulty) { %>,"proficiencyLevel": "<%= guideMeta.difficulty === 'beginner' ? 'Beginner' : guideMeta.difficulty === 'intermediate' ? 'Expert' : 'Expert' %>"<% } %>
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "<%= lang === 'uk' ? 'Головна' : 'Home' %>", "item": "<%= canonicalBase %><%= langPrefix %>/" },
+      { "@type": "ListItem", "position": 2, "name": "<%= lang === 'uk' ? 'Академія' : 'Academy' %>", "item": "<%= canonicalBase %><%= langPrefix %>/guides" },
+      { "@type": "ListItem", "position": 3, "name": "<%= pageTitle.replace(' — PENGER Academy', '').replace(' — Академія PENGER', '') %>" }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="reading-progress-bar" id="readingProgress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+  <%- include("../../partials/gtm-body") %>
+  <noscript><p style="padding:40px;text-align:center;font-size:16px;">JavaScript is required.</p></noscript>
+  <%- include('../../partials/header') %>
+  <main data-section="guide-content" data-guide-slug="<%= pageSlug %>">
+    <%- include('./body-' + lang + '.ejs') %>
+  </main>
+  <%- include('../../partials/footer') %>
+  <script src="/analytics.js"></script>
+  <script src="/shared.js?v=4"></script>
+  <script src="/passphrase-sim.js?v=2" defer></script>
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>">
+<head>
+  <%- include('../partials/head') %>
+  <% if (typeof extraCss !== 'undefined') { extraCss.forEach(function(css) { %>
+  <link rel="stylesheet" href="/<%= css %>">
+  <% }); } %>
+  <title><%= pageTitle %></title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "<%= pageTitle %>",
+    "url": "<%= canonicalBase %><%= langPrefix %>/contacts",
+    "description": "<%= t.contacts.metaDescription %>"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "PENGER",
+    "url": "<%= canonicalBase %>",
+    "logo": "<%= canonicalBase %>/PENGER.svg",
+    "email": "contact@mypenger.com",
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "email": "contact@mypenger.com",
+        "contactType": "customer support"
+      }
+    ],
+    "founder": {
+      "@type": "Person",
+      "name": "Hlib Suslov",
+      "jobTitle": "Chief Executive Officer"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "<%= lang === 'uk' ? 'Головна' : 'Home' %>", "item": "<%= canonicalBase %><%= langPrefix %>/" },
+      { "@type": "ListItem", "position": 2, "name": "<%= lang === 'uk' ? 'Контакти' : 'Contacts' %>" }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <%- include('../partials/gtm-body') %>
+
+  <noscript><p style="padding:40px;text-align:center;font-size:16px;">JavaScript is required.</p></noscript>
+
+  <%- include('../partials/header') %>
+
+  <main>
+
+    <!-- ===== HERO ===== -->
+    <section class="contacts-hero" data-section="contacts-hero">
+      <div class="container">
+        <p class="label"><%= t.contacts.heroLabel %></p>
+        <h1><%= t.contacts.heroH1 %></h1>
+        <p class="body-text"><%= t.contacts.heroDesc %></p>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT CARDS ===== -->
+    <section class="contacts-cards-section" data-section="contacts-direct">
+      <div class="container">
+        <p class="label"><%= t.contacts.directLabel %></p>
+        <div class="contacts-grid">
+          <!-- Email card -->
+          <div class="contact-card">
+            <div class="contact-card-header">
+              <span class="contact-card-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              </span>
+              <span class="contact-card-label"><%= t.contacts.emailLabel %></span>
+            </div>
+            <div class="contact-card-value">contact@mypenger.com</div>
+            <p class="contact-card-desc"><%= t.contacts.emailDesc %></p>
+            <div class="contact-card-cta">
+              <a class="contact-card-btn" href="mailto:contact@mypenger.com?subject=Inquiry%20%E2%80%94%20PENGER&body=Hello%20PENGER%20team%2C%0A%0A" data-track="cta_click" data-cta-id="contacts_email" data-section="contacts">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg>
+                <%= t.contacts.sendEmail %>
+              </a>
+              <button class="copy-email-btn" type="button" data-copy-email="contact@mypenger.com">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span><%= t.contacts.copy %></span>
+              </button>
+            </div>
+          </div>
+          <!-- Telegram card -->
+          <a class="contact-card" href="https://t.me/pengercom" target="_blank" rel="noopener" data-track="messenger_click" data-cta-id="contacts_telegram" data-section="contacts" data-track-messenger>
+            <div class="contact-card-header">
+              <span class="contact-card-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0h-.056zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+              </span>
+              <span class="contact-card-label"><%= t.contacts.telegramLabel %></span>
+            </div>
+            <div class="contact-card-value">@pengercom</div>
+            <p class="contact-card-desc"><%= t.contacts.telegramDesc %></p>
+            <div class="contact-card-cta">
+              <span class="contact-card-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <%= t.contacts.openChat %>
+              </span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== EMAIL SCENARIOS ===== -->
+    <section class="scenarios-section" data-section="contacts-scenarios">
+      <div class="container">
+        <p class="label"><%= t.contacts.scenariosLabel %></p>
+        <h2><%= t.contacts.scenariosH2 %></h2>
+        <p class="body-text scenarios-desc"><%= t.contacts.scenariosDesc %></p>
+        <div class="scenarios-grid">
+
+          <a class="scenario-card" href="mailto:contact@mypenger.com?subject=<%= encodeURIComponent(t.contacts.scenarioOrdersSubject) %>&body=<%= encodeURIComponent(t.contacts.scenarioOrdersBody) %>" data-track="cta_click" data-cta-id="contacts_scenario_orders" data-section="contacts-scenarios">
+            <span class="scenario-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+            </span>
+            <div class="scenario-text">
+              <span class="scenario-title"><%= t.contacts.scenarioOrdersTitle %></span>
+              <span class="scenario-desc"><%= t.contacts.scenarioOrdersDesc %></span>
+            </div>
+            <span class="scenario-arrow" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </span>
+          </a>
+
+          <a class="scenario-card" href="mailto:contact@mypenger.com?subject=<%= encodeURIComponent(t.contacts.scenarioQuestionsSubject) %>&body=<%= encodeURIComponent(t.contacts.scenarioQuestionsBody) %>" data-track="cta_click" data-cta-id="contacts_scenario_questions" data-section="contacts-scenarios">
+            <span class="scenario-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+            </span>
+            <div class="scenario-text">
+              <span class="scenario-title"><%= t.contacts.scenarioQuestionsTitle %></span>
+              <span class="scenario-desc"><%= t.contacts.scenarioQuestionsDesc %></span>
+            </div>
+            <span class="scenario-arrow" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </span>
+          </a>
+
+          <a class="scenario-card" href="mailto:contact@mypenger.com?subject=<%= encodeURIComponent(t.contacts.scenarioCollaborationsSubject) %>&body=<%= encodeURIComponent(t.contacts.scenarioCollaborationsBody) %>" data-track="cta_click" data-cta-id="contacts_scenario_collaborations" data-section="contacts-scenarios">
+            <span class="scenario-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/></svg>
+            </span>
+            <div class="scenario-text">
+              <span class="scenario-title"><%= t.contacts.scenarioCollaborationsTitle %></span>
+              <span class="scenario-desc"><%= t.contacts.scenarioCollaborationsDesc %></span>
+            </div>
+            <span class="scenario-arrow" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </span>
+          </a>
+
+          <a class="scenario-card" href="mailto:contact@mypenger.com?subject=<%= encodeURIComponent(t.contacts.scenarioSuggestionsSubject) %>&body=<%= encodeURIComponent(t.contacts.scenarioSuggestionsBody) %>" data-track="cta_click" data-cta-id="contacts_scenario_suggestions" data-section="contacts-scenarios">
+            <span class="scenario-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </span>
+            <div class="scenario-text">
+              <span class="scenario-title"><%= t.contacts.scenarioSuggestionsTitle %></span>
+              <span class="scenario-desc"><%= t.contacts.scenarioSuggestionsDesc %></span>
+            </div>
+            <span class="scenario-arrow" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </span>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ALL CHANNELS ===== -->
+    <section class="channels-section" data-section="contacts-channels">
+      <div class="container">
+        <p class="label"><%= t.contacts.channelsLabel %></p>
+        <h2><%= t.contacts.channelsH2 %></h2>
+        <div class="channels-list">
+          <a class="channel-row" href="mailto:contact@mypenger.com?subject=Inquiry%20%E2%80%94%20PENGER&body=Hello%20PENGER%20team%2C%0A%0A" data-track="cta_click" data-cta-id="contacts_channel_email" data-section="contacts-channels">
+            <span class="channel-platform">
+              <span class="channel-platform-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              </span>
+              <%= t.contacts.emailLabel %>
+            </span>
+            <span class="channel-handle">contact@mypenger.com</span>
+
+          </a>
+          <a class="channel-row" href="https://t.me/pengercom" target="_blank" rel="noopener" data-track="messenger_click" data-cta-id="contacts_channel_telegram" data-section="contacts-channels" data-track-messenger>
+            <span class="channel-platform">
+              <span class="channel-platform-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0h-.056zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+              </span>
+              <%= t.contacts.telegramLabel %>
+            </span>
+            <span class="channel-handle">@pengercom</span>
+
+          </a>
+          <div class="channel-row">
+            <span class="channel-platform">
+              <span class="channel-platform-icon" aria-hidden="true">
+                <svg width="24" height="24" fill="none" viewBox="0 0 112 112" xmlns="http://www.w3.org/2000/svg"><g clip-rule="evenodd" fill-rule="evenodd"><circle cx="56" cy="56" r="56" fill="currentColor"/><g class="element-inner"><path d="m45.762 26.093c0-2.2605 1.8362-4.0929 4.1014-4.0929 15.352 0 27.798 12.42 27.798 27.74 0 2.2604-1.8363 4.0929-4.1014 4.0929s-4.1014-1.8325-4.1014-4.0929c0-10.8-8.7732-19.555-19.595-19.555-2.2652 0-4.1014-1.8325-4.1014-4.0929z"/><path d="m85.899 45.648c2.2651 0 4.1014 1.8324 4.1014 4.0929 0 15.321-12.446 27.74-27.798 27.74-2.2651 0-4.1014-1.8325-4.1014-4.0929 0-2.2605 1.8363-4.0929 4.1014-4.0929 10.822 0 19.596-8.755 19.596-19.555 0-2.2605 1.8362-4.0929 4.1014-4.0929z"/><path d="m66.303 85.907c0 2.2604-1.8363 4.0929-4.1014 4.0929-15.353 0-27.798-12.42-27.798-27.74 0-2.2604 1.8363-4.0929 4.1014-4.0929 2.2652 0 4.1014 1.8325 4.1014 4.0929 0 10.8 8.7732 19.555 19.596 19.555 2.2651 0 4.1014 1.8325 4.1014 4.0929z"/><path d="m26.101 66.352c-2.2651 0-4.1014-1.8324-4.1014-4.0928 0-15.321 12.446-27.741 27.798-27.741 2.2651 0 4.1013 1.8325 4.1013 4.0929 0 2.2605-1.8362 4.0929-4.1013 4.0929-10.822 0-19.596 8.755-19.596 19.555 0 2.2605-1.8362 4.0929-4.1014 4.0929z"/></g></g></svg>
+              </span>
+              <%= t.contacts.elementLabel %>
+            </span>
+            <span class="channel-handle">@hlibsuslov</span>
+            <button class="channel-copy-btn" type="button" data-copy-handle="@hlibsuslov">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span><%= t.contacts.copy %></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PARTNERSHIP BANNER ===== -->
+    <section class="contacts-cards-section" data-section="contacts-partnership" style="border-bottom:none">
+      <div class="container">
+        <p class="label">[ PARTNERSHIP ]</p>
+        <h2 style="font-family:var(--font-sans);font-size:26px;font-weight:700;letter-spacing:-0.02em;color:var(--text-accent);margin-top:8px;margin-bottom:20px"><%= t.contacts.partnershipBanner %></h2>
+        <a href="<%= langPrefix %>/dropshipping" class="ds-partnership-banner" data-track="cta_click" data-cta-id="contacts_partnership_cta" data-section="contacts-partnership">
+          <span class="ds-partnership-banner-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/></svg>
+          </span>
+          <span class="ds-partnership-banner-text">
+            <span class="ds-partnership-banner-title"><%= t.contacts.partnershipBannerCta %></span>
+            <span class="ds-partnership-banner-desc"><%= t.contacts.partnershipBannerDesc %></span>
+          </span>
+          <span class="ds-partnership-banner-arrow" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </span>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <%- include('../partials/footer') %>
+
+  <script>
+  window.CONTACTS_I18N = {
+    copied: '<%= t.contacts.copied %>',
+    copy: '<%= t.contacts.copy %>'
+  };
+  </script>
+  <script src="/analytics.js"></script>
+  <script src="/shared.js?v=3"></script>
+  <% if (typeof extraJs !== 'undefined') { extraJs.forEach(function(js) { %>
+  <script src="/<%= js %>"></script>
+  <% }); } %>
+</body>
+</html>
