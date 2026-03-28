@@ -1806,7 +1806,6 @@
 
     try {
       sessionStorage.setItem('penger_order', JSON.stringify(orderData));
-      sessionStorage.removeItem(STORAGE_KEY);
     } catch (e) {}
 
     var dl = window.dataLayer = window.dataLayer || [];
@@ -1877,6 +1876,7 @@
       })
       .then(function (data) {
         if (!data.ok) throw new Error(data.error || 'Order failed');
+        try { sessionStorage.removeItem(STORAGE_KEY); } catch (e) {}
         window.location.href = _uaLangPrefix + _uaSuccessPage + '?order_id=' + encodeURIComponent(orderId);
       })
       .catch(function (err) {
@@ -1884,6 +1884,7 @@
         isSubmitting = false;
         checkoutBtn.disabled = false;
         if (checkoutBtnText) checkoutBtnText.textContent = t.uaOrderBtn || 'Place order';
+        saveFormData();
         showOrderError(t.orderSubmitError || 'Could not place order. Please check your connection and try again.');
       });
       return;
@@ -1893,6 +1894,7 @@
     isSubmitting = false;
     checkoutBtn.disabled = false;
     if (checkoutBtnText) checkoutBtnText.textContent = t.payNow || 'Pay Now';
+    saveFormData();
     showOrderError(t.payMethodUnavailable || 'This payment method is coming soon. Please use Crypto (SOL/USDC) to complete your order.');
   });
 
