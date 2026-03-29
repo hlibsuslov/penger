@@ -111,7 +111,7 @@
       for (var f = 0; f < BIT_COUNT; f++) {
         if (bin[f] === '1') parts.push('<strong>' + BIT_POSITIONS[f] + '</strong>');
       }
-      formulaEl.innerHTML = parts.join(' + ') + ' = <strong>' + exampleIdx + '</strong>';
+      formulaEl.innerHTML = parts.join(' + ') + ' = <strong>' + String(exampleIdx).padStart(4, '0') + '</strong>';
     }
   }
 

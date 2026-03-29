@@ -862,7 +862,7 @@
       for (var f = 0; f < bin.length; f++) {
         if (bin[f] === '1') parts.push('<strong>' + BIT_POSITIONS[f] + '</strong>');
       }
-      formula.innerHTML = parts.join(' + ') + ' = <strong>' + exampleIdx + '</strong>';
+      formula.innerHTML = parts.join(' + ') + ' = <strong>' + String(exampleIdx).padStart(4, '0') + '</strong>';
     }
   }
   // Example grids for generate/decode tabs (shown on mobile)
