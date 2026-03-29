@@ -2086,11 +2086,24 @@ body.nav-open .dot-tooltip {
 
 /* --- Mobile responsive --- */
 @media (max-width: 520px) {
-  .ex-mock-row { grid-template-columns: 40px 1fr 20px; gap: 6px; padding: 8px; }
-  .ex-mock-dots { display: none; }
+  .ex-mock-row { grid-template-columns: 40px 1fr auto 20px; gap: 6px; padding: 8px; }
+  .ex-mock-dots .dict-example-dot { width: 5px; height: 5px; }
   .ex-anno-item[data-for="dots"] { display: none; }
   .ex-detail-block { padding: 10px 8px 8px; }
   .ex-connector { padding-left: 12px; }
+  .ex-detail-block .detail-binary-cells { gap: 2px; overflow: hidden; }
+  .ex-detail-block .detail-binary-col { gap: 2px; }
+  .ex-detail-block .detail-binary-cell { width: 18px; height: 18px; border-radius: 3px; }
+  .ex-detail-block .detail-binary-digit { font-size: 8px; }
+  .ex-detail-block .detail-binary-weight { font-size: 5px; }
+  .dict-example-formula { font-size: 10px; margin-top: 8px; }
+}
+@media (max-width: 374px) {
+  .ex-detail-block .detail-binary-cell { width: 15px; height: 15px; }
+  .ex-detail-block .detail-binary-digit { font-size: 7px; }
+  .ex-detail-block .detail-binary-weight { font-size: 4.5px; }
+  .ex-detail-block .detail-binary-cells { gap: 1px; }
+  .ex-detail-block .detail-binary-col { gap: 1px; }
 }
 
 /* FAQ embedded examples */
