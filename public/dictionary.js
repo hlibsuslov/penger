@@ -74,9 +74,9 @@
 
   /* ===== EXAMPLE ANIMATION INIT ===== */
   function initDictExample() {
-    var exampleIdx = 1060;
-    var bin = toBinary(exampleIdx); // "010000100100"
-    var word = getWordByIndex(exampleIdx); // "love"
+    var exampleIdx = 628;
+    var bin = toBinary(exampleIdx); // "001001110100"
+    var word = getWordByIndex(exampleIdx); // "example"
 
     var dotsContainer = document.getElementById('dictExampleDots');
     var gridContainer = document.getElementById('dictExampleGrid');

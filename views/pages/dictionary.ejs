@@ -84,21 +84,46 @@
         <!-- EXAMPLE ANIMATION -->
         <div class="dict-example-bar" style="margin-top: 20px;">
           <div class="dict-example-label"><%= t.dictionary.howToRead %></div>
-          <div class="dict-example-row">
-            <span class="dict-example-idx">1060</span>
-            <span class="dict-example-eq">=</span>
-            <span class="dict-example-word" id="dictExampleWord">LOVE</span>
-          </div>
-          <div class="dict-example-visual sim-example-dots">
-            <div class="dict-example-dots-wrap">
-              <div class="dict-example-dots" id="dictExampleDots"></div>
+
+          <!-- Step 1: mock compact dict-row -->
+          <div class="ex-step">
+            <div class="ex-anno-tag"><%= t.dictionary.exAnnoRow %></div>
+            <div class="ex-mock-row">
+              <span class="ex-mock-idx" translate="no">0628</span>
+              <span class="ex-mock-word" translate="no" id="dictExampleWord">EXAMPLE</span>
+              <span class="ex-mock-dots" id="dictExampleDots"></span>
+              <span class="ex-mock-expand">+</span>
+            </div>
+            <!-- Annotation arrows for row parts -->
+            <div class="ex-anno-row">
+              <span class="ex-anno-item" data-for="idx"><span class="ex-anno-arrow"></span><%= t.dictionary.exAnnoIndex %></span>
+              <span class="ex-anno-item" data-for="word"><span class="ex-anno-arrow"></span><%= t.dictionary.exAnnoWord %></span>
+              <span class="ex-anno-item" data-for="dots"><span class="ex-anno-arrow"></span><%= t.dictionary.exAnnoBinary %></span>
             </div>
           </div>
-          <div class="sim-example-grid">
-            <div class="dict-example-grid-wrap">
-              <div class="detail-binary-cells" id="dictExampleGrid"></div>
+
+          <!-- Connector arrow -->
+          <div class="ex-connector">
+            <svg width="24" height="32" viewBox="0 0 24 32" fill="none">
+              <path d="M12 0 L12 24 M5 18 L12 26 L19 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="ex-connector-label"><%= t.dictionary.exAnnoDetail %></span>
+          </div>
+
+          <!-- Step 2: expanded detail view -->
+          <div class="ex-step">
+            <div class="ex-detail-block">
+              <div class="ex-detail-header">
+                <span class="ex-detail-word" translate="no">example</span>
+                <span class="ex-detail-index">0628</span>
+              </div>
+              <div class="ex-detail-grid-section">
+                <div class="dict-example-grid-wrap">
+                  <div class="detail-binary-cells" id="dictExampleGrid"></div>
+                </div>
+                <div class="dict-example-formula" id="dictExampleFormula"></div>
+              </div>
             </div>
-            <div class="dict-example-formula" id="dictExampleFormula"></div>
           </div>
         </div>
 

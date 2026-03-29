@@ -1980,24 +1980,90 @@ body.nav-open .dot-tooltip {
 .dict-example-label {
   font-family: var(--font-mono); font-size: 11px; font-weight: 600;
   text-transform: uppercase; letter-spacing: 0.06em;
-  color: var(--text-dim); margin-bottom: 12px;
+  color: var(--text-dim); margin-bottom: 16px;
 }
-.dict-example-row {
-  display: flex; align-items: baseline; gap: 8px;
-  margin-bottom: 14px; flex-wrap: wrap;
+
+/* --- Example step wrapper --- */
+.ex-step { position: relative; }
+
+/* --- Annotation tag above mock row --- */
+.ex-anno-tag {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 500;
+  color: var(--text-dim); letter-spacing: 0.02em;
+  margin-bottom: 6px;
 }
-.dict-example-idx {
-  font-family: var(--font-mono); font-size: 22px; font-weight: 700;
-  color: var(--text-accent); letter-spacing: 0.04em;
+
+/* --- Mock compact dict-row --- */
+.ex-mock-row {
+  display: grid; grid-template-columns: 46px 1fr auto 20px;
+  gap: 8px; padding: 9px 10px;
+  font-family: var(--font-mono);
+  background: var(--bg-main);
+  border: 1px solid var(--border-default);
+  border-radius: 5px;
+  align-items: center;
 }
-.dict-example-eq {
-  font-family: var(--font-mono); font-size: 16px; font-weight: 600;
+.ex-mock-idx {
+  font-size: 13px; font-weight: 600; color: var(--text-dim); text-align: right;
+}
+.ex-mock-word {
+  font-size: 15px; font-weight: 600; color: var(--text-accent);
+}
+.ex-mock-dots {
+  display: flex; gap: 3px; align-items: center;
+}
+.ex-mock-expand {
+  font-size: 16px; color: var(--text-dim); text-align: center; user-select: none;
+}
+
+/* --- Annotation arrows below mock row --- */
+.ex-anno-row {
+  display: flex; gap: 0; margin-top: 2px; padding: 0 10px;
+}
+.ex-anno-item {
+  display: flex; flex-direction: column; align-items: center;
+  font-family: var(--font-mono); font-size: 9px; font-weight: 500;
+  color: var(--text-dim); letter-spacing: 0.03em;
+}
+.ex-anno-item[data-for="idx"] { width: 46px; flex-shrink: 0; }
+.ex-anno-item[data-for="word"] { width: 80px; flex-shrink: 0; margin-left: 8px; }
+.ex-anno-item[data-for="dots"] { flex: 1; margin-left: 8px; }
+.ex-anno-arrow {
+  display: block; width: 1px; height: 10px;
+  background: var(--border-active); margin-bottom: 2px;
+}
+
+/* --- Connector arrow between row and detail --- */
+.ex-connector {
+  display: flex; align-items: center; gap: 10px;
+  padding: 4px 0 4px 18px;
   color: var(--text-dim);
 }
-.dict-example-word {
-  font-family: var(--font-mono); font-size: 18px; font-weight: 700;
-  color: var(--text-accent); text-transform: uppercase;
+.ex-connector svg { flex-shrink: 0; }
+.ex-connector-label {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 500;
+  color: var(--text-dim); letter-spacing: 0.02em;
 }
+
+/* --- Expanded detail block --- */
+.ex-detail-block {
+  background: var(--bg-main);
+  border: 1px solid var(--border-default);
+  border-radius: 5px;
+  padding: 12px 12px 10px;
+}
+.ex-detail-header {
+  display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px;
+}
+.ex-detail-word {
+  font-family: var(--font-mono); font-size: 17px; font-weight: 700;
+  color: var(--text-accent);
+}
+.ex-detail-index {
+  font-family: var(--font-mono); font-size: 12px; color: var(--text-label);
+}
+.ex-detail-grid-section { /* no extra spacing needed */ }
+
 .dict-example-grid-wrap {
   margin: 4px 0;
 }
@@ -2010,19 +2076,22 @@ body.nav-open .dot-tooltip {
 }
 
 /* ====================================================================
-   SIMULATOR EXAMPLE: DOTS (desktop) vs GRID (mobile)
+   SIMULATOR EXAMPLE: DOTS
    ==================================================================== */
-.dict-example-dots {
-  display: flex; gap: 4px; align-items: center;
-}
 .dict-example-dot {
-  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
   background: var(--punch-empty); border: 1px solid var(--border-hover);
 }
 .dict-example-dot.on { background: var(--punch-fill); border-color: var(--punch-fill); }
 
-.sim-example-grid { display: block; }
-.sim-example-dots { display: none; }
+/* --- Mobile responsive --- */
+@media (max-width: 520px) {
+  .ex-mock-row { grid-template-columns: 40px 1fr 20px; gap: 6px; padding: 8px; }
+  .ex-mock-dots { display: none; }
+  .ex-anno-item[data-for="dots"] { display: none; }
+  .ex-detail-block { padding: 10px 8px 8px; }
+  .ex-connector { padding-left: 12px; }
+}
 
 /* FAQ embedded examples */
 .faq-example { margin-top: 14px; }

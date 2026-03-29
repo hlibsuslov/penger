@@ -839,8 +839,8 @@
     }
     container.innerHTML = html;
   }
-  initExampleDots('genExampleDots', 1060);  // index 1060 = love
-  initExampleDots('decExampleDots', 1060);  // index 1060 = love
+  initExampleDots('genExampleDots', 628);  // index 628 = example
+  initExampleDots('decExampleDots', 628);  // index 628 = example
 
   /* ===== DICTIONARY-STYLE EXAMPLE GRIDS (mobile view + FAQ) ===== */
   function initExampleGrid(gridId, formulaId, exampleIdx) {
@@ -866,8 +866,8 @@
     }
   }
   // Example grids for generate/decode tabs (shown on mobile)
-  initExampleGrid('genExampleGrid', 'genExampleFormula', 1060);
-  initExampleGrid('decExampleGrid', 'decExampleFormula', 1060);
+  initExampleGrid('genExampleGrid', 'genExampleFormula', 628);
+  initExampleGrid('decExampleGrid', 'decExampleFormula', 628);
 
   /* Theme toggle is handled by shared.js */
 
